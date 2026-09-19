@@ -10,7 +10,6 @@ import {
   type ProviderRoute,
 } from "@/doctor/lib/providers/routes";
 import {
-  buildHandoffQuestions,
   handoffReasonLabel,
   normaliseQuestion,
   type UnresolvedQuestion,
@@ -21,12 +20,11 @@ import {
  *
  * First it asks WHO the person actually wants, because "connect me with a
  * provider" means four different things. Then it offers the strongest real
- * route for that choice — and says plainly when there is none.
+ * route for that choice, and says plainly when there is none.
  *
- * The question-summary builder is entirely local. Nothing is transmitted, so
- * there is no recipient to confirm and no personal information to handle. When
- * a referral integration is configured, that is where a confirm-before-send
- * step belongs — see docs/INTEGRATIONS.md.
+ * Nothing here is transmitted, so there is no recipient to confirm and no
+ * personal information to handle. When a referral integration is configured,
+ * that is where a confirm-before-send step belongs. See docs/INTEGRATIONS.md.
  */
 export function ProviderSheet({
   open,
@@ -66,19 +64,23 @@ export function ProviderSheet({
                   &ldquo;{normaliseQuestion(unresolved.question)}&rdquo;
                 </p>
                 <p className="tiny" style={{ marginTop: 8 }}>
-                  {handoffReasonLabel(unresolved.reason)} It stays on your device — this site does
+                  {handoffReasonLabel(unresolved.reason)} It stays on your device. This site does
                   not send it to anyone.
                 </p>
               </div>
             ) : null}
 
-            <div className="card card--flat">
-              <p style={{ fontSize: 15 }}>Who would you like to talk to?</p>
-              <p className="tiny" style={{ marginTop: 8 }}>
-                Different questions need different people. A pharmacist can usually answer a
-                medication question today, for free.
-              </p>
-            </div>
+            {/*
+              A banner, not a card. As a bordered box above a list of boxes it
+              read as one more option to choose, which is exactly the wrong
+              thing for the line that explains the choice.
+            */}
+            <p className="choose-banner">
+              Who would you like to talk to? A pharmacist can usually answer a medication question
+              today, for free.
+            </p>
+
+            <AccountBlock />
 
             <div className="route-list">
               {PROVIDER_ROUTES.map((r) => (
@@ -102,7 +104,6 @@ export function ProviderSheet({
         ) : (
           <RouteView
             route={route}
-            productName={productName}
             unresolved={unresolved}
             onBack={() => setIntent(null)}
           />
@@ -112,14 +113,41 @@ export function ProviderSheet({
   );
 }
 
+/**
+ * Account entry point.
+ *
+ * A signed-in account is what would eventually make a real connection
+ * possible: a verified identity to attach a message to. Nothing behind it is
+ * built, so both buttons are disabled and labelled as coming later rather
+ * than opening a form that cannot do anything with what it collects.
+ */
+function AccountBlock() {
+  return (
+    <div className="card card--flat account-block">
+      <p className="card-label" style={{ color: "var(--text-muted)" }}>
+        Your account
+      </p>
+      <p className="tiny" style={{ marginBottom: 12 }}>
+        Signing in will let you message your own care team from here. Not available yet.
+      </p>
+      <div className="btn-row">
+        <button type="button" className="btn btn--small" disabled>
+          Sign in
+        </button>
+        <button type="button" className="btn btn--small" disabled>
+          Create an account
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function RouteView({
   route,
-  productName,
   unresolved,
   onBack,
 }: {
   route: ProviderRoute;
-  productName: string;
   unresolved: UnresolvedQuestion | null;
   onBack: () => void;
 }) {
@@ -128,6 +156,22 @@ function RouteView({
       <button type="button" className="btn btn--small" onClick={onBack} style={{ alignSelf: "flex-start" }}>
         ← Choose someone else
       </button>
+
+      {/*
+        The question follows the person through the whole handoff, not just
+        the chooser. Picking a route is exactly when it is about to be useful,
+        so dropping it here would undo the point of carrying it.
+      */}
+      {unresolved && normaliseQuestion(unresolved.question) ? (
+        <div className="card card--info" role="note">
+          <p className="card-label" style={{ color: "var(--info-text)" }}>
+            What to ask
+          </p>
+          <p style={{ fontSize: 16, fontWeight: 550 }}>
+            &ldquo;{normaliseQuestion(unresolved.question)}&rdquo;
+          </p>
+        </div>
+      ) : null}
 
       <div className="card">
         <span className="availability-tag" data-a={route.availability}>
@@ -171,10 +215,6 @@ function RouteView({
         )}
       </div>
 
-      {route.intent === "existing-clinician" || route.intent === "pharmacist" ? (
-        <QuestionBuilder productName={productName} unresolved={unresolved} />
-      ) : null}
-
       <div className="card card--warning">
         <p className="card-label">What this cannot do</p>
         <ul className="checklist">
@@ -202,98 +242,6 @@ function RouteView({
         </details>
       ) : null}
     </>
-  );
-}
-
-/**
- * Local-only question list.
- *
- * The user edits it, then copies or prints it. It never leaves the device, so
- * the page can say so without qualification.
- */
-function QuestionBuilder({
-  productName,
-  unresolved,
-}: {
-  productName: string;
-  unresolved: UnresolvedQuestion | null;
-}) {
-  // The carried question is first in the list — it is why they are here.
-  const [questions, setQuestions] = useState<string[]>(() =>
-    buildHandoffQuestions(productName, unresolved)
-  );
-  const [copied, setCopied] = useState(false);
-  const carriedFirst = Boolean(unresolved && normaliseQuestion(unresolved.question));
-
-  const text = questions.filter((q) => q.trim()).join("\n\n");
-
-  return (
-    <div className="card">
-      <p className="card-label" style={{ color: "var(--text-muted)" }}>
-        Questions to bring with you
-      </p>
-      <p className="tiny" style={{ marginBottom: 12 }}>
-        Edit or delete anything. This list stays on your device — it is not sent anywhere, and this
-        site does not contact anyone on your behalf.
-      </p>
-
-      {questions.map((q, i) => (
-        <div className="question-item" key={i}>
-          {carriedFirst && i === 0 ? (
-            <span className="cite-ref" style={{ alignSelf: "center" }}>
-              YOURS
-            </span>
-          ) : null}
-          <textarea
-            value={q}
-            rows={2}
-            aria-label={`Question ${i + 1}`}
-            onChange={(e) => {
-              const next = [...questions];
-              next[i] = e.target.value;
-              setQuestions(next);
-              setCopied(false);
-            }}
-          />
-          <button
-            type="button"
-            className="icon-btn"
-            style={{ minWidth: 36, minHeight: 36 }}
-            aria-label={`Remove question ${i + 1}`}
-            onClick={() => setQuestions(questions.filter((_, j) => j !== i))}
-          >
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-      ))}
-
-      <div className="btn-row" style={{ marginTop: 14 }}>
-        <button
-          type="button"
-          className="btn btn--small"
-          onClick={() => setQuestions([...questions, ""])}
-        >
-          Add a question
-        </button>
-        <button
-          type="button"
-          className="btn btn--small btn--primary"
-          onClick={async () => {
-            try {
-              await navigator.clipboard.writeText(text);
-              setCopied(true);
-            } catch {
-              setCopied(false);
-            }
-          }}
-        >
-          Copy list
-        </button>
-      </div>
-      <p className="share-status" role="status" aria-live="polite">
-        {copied ? "Copied to your clipboard." : " "}
-      </p>
-    </div>
   );
 }
 

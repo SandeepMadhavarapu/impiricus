@@ -20,10 +20,35 @@ export const singulair10mgTablet: MedicationRecord = {
   sourceRecordId: "singulair-montelukast-10mg-tablet",
 
   headline:
-    "A once-daily tablet used to help prevent asthma symptoms, prevent exercise-triggered breathing problems, and relieve allergy symptoms — carrying an FDA boxed warning about serious mental-health side effects.",
+    "A once-daily tablet used to help prevent asthma symptoms, prevent exercise-triggered breathing problems, and relieve allergy symptoms.",
+
+  // Fair balance: the risk that must travel with the indication above, stated
+  // first and marked critical so no layout can drop it or rank it below a
+  // benefit. See findPromotionalLanguage() in sources/lib/content/types.ts.
+  keyPoints: [
+    {
+      text: "This medication has an FDA boxed warning, the FDA's most serious warning. It is about serious changes in mood, thinking, or behavior.",
+      emphasis: "critical",
+      seeSectionId: "boxed-warning",
+    },
+    {
+      text: "It is taken to prevent symptoms over time. It is not a rescue inhaler and does not work quickly to open the airways during an attack.",
+      emphasis: "normal",
+      seeSectionId: "what-it-is",
+    },
+    {
+      text: "For allergy symptoms, the label says to use it only when other treatments have not worked or cannot be taken.",
+      emphasis: "warning",
+      seeSectionId: "limitations",
+    },
+  ],
 
   scopeNote:
     "This page covers the 10 mg film-coated tablet only (the adult and 15-and-older strength). The same FDA label also covers 4 mg and 5 mg chewable tablets and 4 mg oral granules, which are different products with different dosing. Information here should not be applied to those forms.",
+
+  // Same limit, written to be understood on one pass.
+  plainScopeNote:
+    "This page is only about the 10 mg tablet. That is the strength for adults and for people aged 15 and older. This medicine also comes in other forms, such as chewable tablets and granules. Those are different and are taken differently. Do not use this page for those.",
 
   sections: [
     {
@@ -31,9 +56,9 @@ export const singulair10mgTablet: MedicationRecord = {
       title: "FDA Boxed Warning: serious mental-health and behavior changes",
       emphasis: "critical",
       plain: [
-        "This medication carries a boxed warning — the FDA's most serious type of warning — about serious neuropsychiatric events, meaning changes in mood, thinking, or behavior.",
+        "This medication carries a boxed warning, the FDA's most serious type of warning, about serious neuropsychiatric events, meaning changes in mood, thinking, or behavior.",
         "The label lists reported events including agitation, aggression, depression, sleep disturbances, and suicidal thoughts and behavior, including suicide.",
-        "The FDA label states that because of this risk, the benefits may not outweigh the risks for some people — particularly when symptoms are mild and could be treated with other options.",
+        "The FDA label states that because of this risk, the benefits may not outweigh the risks for some people, particularly when symptoms are mild and could be treated with other options.",
         "If you or someone taking this medication notices changes in behavior, new mental-health symptoms, or suicidal thoughts, the label directs patients to stop the medication and contact a healthcare provider immediately.",
       ],
       detail: [
@@ -99,9 +124,9 @@ export const singulair10mgTablet: MedicationRecord = {
       title: "What is it approved to treat?",
       emphasis: "normal",
       plain: [
-        "Asthma — to help prevent and manage asthma over time, in people 12 months of age and older.",
-        "Exercise-induced bronchoconstriction (EIB) — to help prevent breathing problems brought on by exercise, in people 6 years of age and older.",
-        "Allergic rhinitis — to relieve symptoms of seasonal allergies (age 2 and older) and year-round allergies (age 6 months and older).",
+        "Asthma: to help prevent and manage asthma over time, in people 12 months of age and older.",
+        "Exercise-induced bronchoconstriction (EIB): to help prevent breathing problems brought on by exercise, in people 6 years of age and older.",
+        "Allergic rhinitis: to relieve symptoms of seasonal allergies (age 2 and older) and year-round allergies (age 6 months and older).",
         "For allergy symptoms, the label says to reserve this medication for people who have an inadequate response to, or cannot tolerate, other treatments.",
       ],
       detail: [
@@ -137,7 +162,7 @@ export const singulair10mgTablet: MedicationRecord = {
 
     {
       id: "limitations",
-      title: "Important limitations — what it does not do",
+      title: "Important limitations: what it does not do",
       emphasis: "warning",
       plain: [
         "This medication is not indicated to treat an acute asthma attack. It is not a substitute for a rescue inhaler.",
@@ -176,7 +201,7 @@ export const singulair10mgTablet: MedicationRecord = {
         "An important caveat from the label itself: rates seen in clinical trials cannot be directly compared with rates from other drugs' trials, and may not reflect what happens in everyday practice.",
       ],
       detail: [
-        "Being listed as an adverse reaction does not by itself establish that the medication caused it. For example, in the adult and adolescent asthma trials the label reports headache in 18.4% of people taking the medication and 18.1% of people taking placebo — a difference far smaller than the raw number alone suggests.",
+        "Being listed as an adverse reaction does not by itself establish that the medication caused it. For example, in the adult and adolescent asthma trials the label reports headache in 18.4% of people taking the medication and 18.1% of people taking placebo: a difference far smaller than the raw number alone suggests.",
         "This page does not list every reported side effect. The full label and Medication Guide, linked below, contain the complete list.",
       ],
       citations: [
@@ -202,7 +227,7 @@ export const singulair10mgTablet: MedicationRecord = {
       title: "Serious risks to understand",
       emphasis: "warning",
       plain: [
-        "Mental-health and behavior changes. See the boxed warning above — this is the most serious identified risk. The label reports these events in adults, adolescents, and children, both in people who had a previous psychiatric history and people who did not.",
+        "Mental-health and behavior changes. See the boxed warning above. This is the most serious identified risk. The label reports these events in adults, adolescents, and children, both in people who had a previous psychiatric history and people who did not.",
         "The label states it is difficult to identify who is at risk, or to quantify how large the risk is.",
         "Systemic eosinophilia, sometimes with features of vasculitis consistent with Churg-Strauss syndrome, has been reported. The label notes these events have sometimes been associated with reducing oral corticosteroid therapy.",
       ],
@@ -300,10 +325,10 @@ export const singulair10mgTablet: MedicationRecord = {
         "For asthma, the label describes once-daily dosing in the evening, with or without food.",
         "For preventing exercise-induced breathing problems, the label describes one tablet at least 2 hours before exercise.",
         "People who have both asthma and allergic rhinitis are directed to take only one dose daily, in the evening.",
-        "This is what the label says in general. It is not a dosing instruction for you — follow the directions on your own prescription and ask your prescriber or pharmacist about your situation.",
+        "This is what the label says in general. It is not a dosing instruction for you. Follow the directions on your own prescription and ask your prescriber or pharmacist about your situation.",
       ],
       detail: [
-        "Which product a person takes depends on age, and the label maps them explicitly: 15 years and older take one 10 mg tablet — the product this page describes. People aged 6 to 14 take one 5 mg chewable tablet. Ages 2 to 5 take one 4 mg chewable tablet or a packet of 4 mg oral granules. Ages 6 to 23 months take a packet of 4 mg oral granules.",
+        "Which product a person takes depends on age, and the label maps them explicitly: 15 years and older take one 10 mg tablet, the product this page describes. People aged 6 to 14 take one 5 mg chewable tablet. Ages 2 to 5 take one 4 mg chewable tablet or a packet of 4 mg oral granules. Ages 6 to 23 months take a packet of 4 mg oral granules.",
         "This matters because the strengths are not interchangeable. A 10 mg tablet is not a child's dose, and the chewable tablets and granules are separate products with their own packaging and instructions.",
       ],
       citations: [

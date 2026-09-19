@@ -93,20 +93,57 @@ export const PlainSectionSchema = z.object({
 });
 export type PlainSection = z.infer<typeof PlainSectionSchema>;
 
+/**
+ * A short fact shown directly under the headline.
+ *
+ * Fair balance lives here. The headline says what the product is for; these
+ * carry the qualifiers that must travel with it, including the boxed warning.
+ * `emphasis: "critical"` marks a bullet that must never be dropped, reordered
+ * below a benefit, or rendered smaller than one.
+ */
+export const KeyPointSchema = z.object({
+  text: z.string().min(1),
+  emphasis: z.enum(["normal", "warning", "critical"]).default("normal"),
+  /** Optional anchor id of the section that covers this in full. */
+  seeSectionId: z.string().min(1).optional(),
+});
+export type KeyPoint = z.infer<typeof KeyPointSchema>;
+
 export const MedicationRecordSchema = z.object({
   slug: z
     .string()
     .min(1)
     .regex(/^[a-z0-9-]+$/, "slug must be lowercase alphanumeric with hyphens"),
   sourceRecordId: z.string().min(1),
-  /** One-sentence answer to "what is this?", shown above the fold. */
+  /**
+   * One-sentence answer to "what is this?", shown above the fold.
+   *
+   * Indications only. Risks belong in keyPoints and in the sections, so that
+   * the headline cannot be written to sell and cannot be written to alarm.
+   */
   headline: z.string().min(1),
+  /**
+   * Balancing facts shown as bullets under the headline. A product carrying a
+   * boxed warning must have a "critical" key point naming it.
+   */
+  keyPoints: z.array(KeyPointSchema).default([]),
   /**
    * Scope note. This record describes ONE strength/form. The underlying SPL may
    * cover more; saying so prevents a reader generalising to the chewable or
    * granule product.
+   *
+   * This is the precise version, kept for the clinician-facing screen.
    */
   scopeNote: z.string().min(1),
+  /**
+   * The same scope limit in short, everyday words, for the patient guide.
+   *
+   * The audience includes people reading in a second language and people
+   * reading while unwell, so this is written to be understood on one pass:
+   * short sentences, no clause stacking, no bracketed asides. Falls back to
+   * scopeNote when a record has not supplied one yet.
+   */
+  plainScopeNote: z.string().min(1).optional(),
   sections: z.array(PlainSectionSchema).min(1),
 });
 export type MedicationRecord = z.infer<typeof MedicationRecordSchema>;
@@ -115,6 +152,61 @@ export type MedicationRecord = z.infer<typeof MedicationRecordSchema>;
 export interface ResolvedMedication {
   record: MedicationRecord;
   source: SourceRecord;
+}
+
+/** The scope limit to show a patient: the plain version when one exists. */
+export function patientScopeNote(record: MedicationRecord): string {
+  return record.plainScopeNote ?? record.scopeNote;
+}
+
+/** Key points that must stay visible and above any benefit framing. */
+export function criticalKeyPoints(record: MedicationRecord): KeyPoint[] {
+  return record.keyPoints.filter((p) => p.emphasis === "critical");
+}
+
+/**
+ * Wording that promotes rather than informs.
+ *
+ * Fair balance is mostly a review discipline, not something code can decide.
+ * What code CAN do is refuse the small set of words that have no business in
+ * a restatement of an FDA label: superlatives, efficacy claims the label does
+ * not make, and comparative marketing language. tests/content.test.ts runs
+ * this over every authored string, so a promotional edit fails the build
+ * rather than reaching a patient.
+ *
+ * Quoted label text is exempt and is never passed through here: the label
+ * says what it says, and altering a quote would break its citation.
+ */
+const PROMOTIONAL_PATTERNS: { pattern: RegExp; why: string }[] = [
+  { pattern: /\b(best|safest|strongest|most effective|number one|#1)\b/i, why: "superlative" },
+  { pattern: /\b(breakthrough|revolutionary|miracle|game[- ]chang)/i, why: "hype" },
+  { pattern: /\b(proven to|guaranteed|guarantees|cures?)\b/i, why: "unsupported claim" },
+  { pattern: /\b(better than|outperforms|superior to)\b/i, why: "comparative claim" },
+  { pattern: /\b(ask your doctor (about|for)|talk to your doctor about) [A-Z]/, why: "product prompt" },
+  { pattern: /\b(well[- ]tolerated|minimal side effects|few side effects)\b/i, why: "risk minimisation" },
+];
+
+export interface BalanceProblem {
+  text: string;
+  why: string;
+}
+
+/** Returns every promotional phrase found in the record's authored text. */
+export function findPromotionalLanguage(record: MedicationRecord): BalanceProblem[] {
+  const authored = [
+    record.headline,
+    record.scopeNote,
+    ...(record.plainScopeNote ? [record.plainScopeNote] : []),
+    ...record.keyPoints.map((p) => p.text),
+    ...record.sections.flatMap((s) => [s.title, ...s.plain, ...(s.detail ?? [])]),
+  ];
+  const problems: BalanceProblem[] = [];
+  for (const text of authored) {
+    for (const { pattern, why } of PROMOTIONAL_PATTERNS) {
+      if (pattern.test(text)) problems.push({ text, why });
+    }
+  }
+  return problems;
 }
 
 /** Collapse whitespace so quote matching is not defeated by formatting. */

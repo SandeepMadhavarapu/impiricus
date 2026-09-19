@@ -54,7 +54,7 @@ export function buildShareUrl(origin: string, slug: string): string {
 export function buildShareTarget(origin: string, slug: string, productName: string): ShareTarget {
   return {
     url: buildShareUrl(origin, slug),
-    title: `${productName} — what it is, benefits and risks`,
+    title: `${productName}: what it is, benefits and risks`,
     text: `Plain-language information about ${productName}, sourced from the FDA-approved label.`,
   };
 }

@@ -68,7 +68,7 @@ const baseScope = (req: CoverageRequest, productLabel: string) => ({
   dosageForm: req.dosageForm,
   quantity: req.quantity,
   daysSupply: req.daysSupply,
-  plan: `${req.insurer} — ${req.planName}`,
+  plan: `${req.insurer}: ${req.planName}`,
   planYear: req.planYear,
 });
 
@@ -124,7 +124,7 @@ export const sampleAdapter: CoverageAdapter = {
   async check(req, productLabel) {
     const scope = baseScope(req, productLabel);
     const steps = universalNextSteps(req);
-    const stamp = "Sample dataset — not derived from any real plan document";
+    const stamp = "Sample dataset, not derived from any real plan document";
 
     // Deterministic scenario selection so demos and tests are reproducible.
     const scenario = pickScenario(req);
@@ -389,7 +389,7 @@ export async function checkCoverageSafely(
     const fallback = await unconfiguredAdapter.check(req, productLabel);
     return {
       ...fallback,
-      headline: "Unable to verify — the coverage lookup " + reason,
+      headline: "Unable to verify: the coverage lookup " + reason,
       caveats: [
         `The coverage lookup ${reason}. No coverage information was retrieved.`,
         "This is not a statement that the medication is uncovered, and it is not a statement that it is covered.",

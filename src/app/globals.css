@@ -232,6 +232,64 @@ a:hover {
   color: var(--text);
 }
 
+/*
+ * Fair balance, above the fold.
+ *
+ * The headline states what the product is for; these carry what must travel
+ * with it. A critical point is never smaller, never lighter and never below a
+ * benefit point: the content schema orders them and this styling refuses to
+ * de-emphasise them.
+ */
+.key-points {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 9px;
+}
+
+.key-points li {
+  position: relative;
+  padding-left: 26px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #dedcf0;
+}
+
+.key-points li::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--du-mint);
+}
+
+/*
+ * Each point jumps to the section that covers it in full. Underlining every
+ * one turns the block into a wall of rules, so the link is marked by a dotted
+ * underline that firms up on hover rather than by the default solid one.
+ */
+.key-points li a {
+  color: inherit;
+  text-decoration: underline dotted rgb(255 255 255 / 0.3);
+  text-underline-offset: 4px;
+}
+
+.key-points li a:hover {
+  color: inherit;
+  text-decoration: underline solid currentColor;
+}
+
+.key-points li[data-emphasis="critical"] {
+  color: #ffd9d4;
+  font-weight: 600;
+}
+.key-points li[data-emphasis="critical"]::before { background: #ff8a7d; }
+.key-points li[data-emphasis="warning"]::before { background: #f0c069; }
+
 .identity-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
@@ -675,6 +733,28 @@ a:hover {
   max-width: 100%;
 }
 
+/*
+ * The opening turns, shaped as messages.
+ *
+ * An answer carries citations, a mode badge and provenance, so it needs the
+ * full width. The opening greeting and the provider note do not, and drawing
+ * them as bubbles is what makes the panel read as a conversation rather than
+ * a notice board with a text box under it.
+ */
+.msg--greeting {
+  align-self: flex-start;
+  max-width: 88%;
+  background: var(--surface-sunken);
+  border: 1px solid var(--border);
+  border-radius: 16px 16px 16px 4px;
+  padding: 12px 14px;
+}
+
+.msg-greeting-line {
+  font-size: 16.5px;
+  font-weight: 600;
+}
+
 .answer-prose p + p {
   margin-top: 11px;
 }
@@ -723,6 +803,32 @@ a:hover {
   background: var(--critical-soft);
   color: var(--critical);
 }
+
+/*
+ * Suggestions live with the composer, not in the transcript.
+ *
+ * In the transcript they read as a menu, as though typing something else were
+ * not allowed. Sitting above the input and labelled as examples, they read as
+ * what they are: a starting point next to a box you can type anything into.
+ * The row scrolls sideways so it never pushes the input off a small screen.
+ */
+.suggestion-bar {
+  flex-shrink: 0;
+  padding: 10px 16px 0;
+  background: var(--surface);
+}
+
+.suggestion-bar .tiny { margin-bottom: 8px; }
+
+.suggestion-bar .suggestions {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+
+.suggestion-bar .suggestions::-webkit-scrollbar { display: none; }
+.suggestion-bar .chip { flex: 0 0 auto; white-space: nowrap; }
 
 .suggestions {
   display: flex;
@@ -956,6 +1062,23 @@ a:hover {
 }
 
 /* ============================================================ provider ==== */
+
+/*
+ * The line that explains the choice, as a banner rather than a card.
+ *
+ * As a bordered box sitting above a list of bordered boxes, it read as one
+ * more option to pick, which is the opposite of what it is.
+ */
+.choose-banner {
+  margin: 0;
+  padding: 0 2px 2px;
+  font-size: 16px;
+  font-weight: 550;
+  color: var(--text);
+  line-height: 1.45;
+}
+
+.account-block .btn-row > .btn { flex: 1 1 0; }
 
 .route-list {
   display: grid;
@@ -1266,52 +1389,31 @@ a:hover {
 
 .du-tab svg { width: 23px; height: 23px; }
 
-/* --- hero ---------------------------------------------------------------- */
+/* --- minimal bar and title ----------------------------------------------- */
 
-.doctor-hero {
+/* A clinician opening this mid-consult needs the app name and then the task. */
+.du-appbar--minimal { padding-block: 16px; }
+.du-appbar--minimal .du-appbar-brand strong { font-size: 18px; letter-spacing: -0.02em; }
+
+.doctor-intro {
   margin-inline: -16px;
-  padding: 24px 16px 28px;
+  padding: 4px 16px 30px;
   background: var(--du-navy);
   color: #fff;
   border-radius: 0 0 22px 22px;
 }
 
-.doctor-hero .eyebrow { color: var(--du-mint); }
-.doctor-hero h1 { font-size: clamp(25px, 7vw, 31px); letter-spacing: -0.035em; }
-.doctor-hero > p { margin-top: 12px; color: #c8c6e6; font-size: 15.5px; }
-.doctor-hero > p.doctor-hero-note { font-size: 12.5px; color: #918fc0; }
+.doctor-intro h1 { font-size: clamp(28px, 8vw, 36px); letter-spacing: -0.035em; }
+.doctor-intro > p { margin-top: 10px; color: #c8c6e6; font-size: 15.5px; }
 
-/* --- steps --------------------------------------------------------------- */
-
-.doctor-steps {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  list-style: none;
-  margin: 0 0 20px;
-  padding: 16px 0;
-}
-
-.doctor-steps li {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-size: 13.5px;
-  font-weight: 600;
-  color: var(--text-muted);
-}
-
-.doctor-steps span {
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--accent-soft);
+/* Step markers, in place of the old "01 / SELECT" label. */
+.step-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--accent-text);
-  font-size: 12.5px;
+  margin-bottom: 8px;
 }
 
 /* --- medication picker: DocUpdate's patient-row pattern ------------------ */
@@ -1340,13 +1442,75 @@ a:hover {
 /* --- share + preview ----------------------------------------------------- */
 
 .doctor-share .share-section { margin-top: 0; }
-.doctor-share .btn-row { flex-direction: column; }
 .doctor-share > .btn { margin-top: 20px; }
 .doctor-share .btn--primary { border-radius: 999px; }
 
-.doctor-preview-heading { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+/* One primary action, with the two fallbacks sharing a row beneath it. */
+.share-actions { display: grid; gap: 10px; }
+.share-actions .btn--primary { border-radius: 999px; }
+.share-fallbacks { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.share-fallbacks .btn { border-radius: 999px; }
+
 .doctor-preview-heading h2 { font-size: 21px; }
-.doctor-preview-heading .btn { align-self: stretch; text-align: center; border-radius: 999px; }
+
+/* Preview and send sit together: check it, then hand it over. */
+.doctor-preview-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.doctor-preview-actions .btn { border-radius: 999px; text-align: center; }
+
+/*
+ * The guide collapsed to headings.
+ *
+ * The clinician already knows the drug; they are checking what the patient
+ * will be shown. Headings scan in a consult, and anything questionable is one
+ * tap away. The patient's own page never collapses this content.
+ */
+.doctor-section { border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
+.doctor-section + .doctor-section { margin-top: 8px; }
+
+.doctor-section > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 13px 14px;
+  min-height: var(--tap);
+  font-size: 15.5px;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+.doctor-section > summary::-webkit-details-marker { display: none; }
+.doctor-section > summary::after {
+  content: "›";
+  flex-shrink: 0;
+  color: var(--text-faint);
+  font-size: 20px;
+  transform: rotate(90deg);
+  transition: transform 0.15s ease;
+}
+.doctor-section[open] > summary::after { transform: rotate(-90deg); }
+
+.doctor-section[data-emphasis="critical"] > summary { color: var(--critical); }
+.doctor-section[data-emphasis="critical"] { border-color: var(--critical-border); background: var(--critical-soft); }
+.doctor-section[data-emphasis="warning"] { border-color: var(--warning-border); background: var(--warning-soft); }
+
+.doctor-section-flag {
+  flex-shrink: 0;
+  margin-left: auto;
+  border-radius: 999px;
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.doctor-section-flag[data-emphasis="critical"] { background: var(--critical); color: #fff; }
+.doctor-section-flag[data-emphasis="warning"] { background: var(--warning-border); color: var(--warning-text); }
+
+.doctor-section-body { padding: 0 14px 14px; font-size: 15px; }
+.doctor-section-body > p + p { margin-top: 10px; }
+.doctor-section-body .tiny { margin-top: 12px; }
 
 .doctor-empty {
   min-height: 240px;

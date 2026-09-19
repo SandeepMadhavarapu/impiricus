@@ -1,67 +1,36 @@
 import { describe, it, expect } from "vitest";
 import {
-  buildHandoffQuestions,
-  baselineQuestions,
   normaliseQuestion,
   reasonForAnswerMode,
   handoffReasonLabel,
   type UnresolvedQuestion,
 } from "@/doctor/lib/handoff";
 
-const PRODUCT = "Singulair (montelukast sodium) 10 mg tablet, film coated";
-
 /**
  * Regression tests for a confirmed defect: the chat -> provider handoff
  * discarded the user's unresolved question entirely. onOpenProvider took no
- * arguments and the provider step only ever showed six generic prompts.
+ * arguments, so what the person actually asked never reached the next step.
+ *
+ * The generic prompt list that once accompanied it has been removed from the
+ * product, so what is asserted here is the part that matters: the person's
+ * own question survives the handoff, verbatim.
  */
 describe("the unresolved question survives the handoff", () => {
-  const unresolved: UnresolvedQuestion = {
-    question: "Are any of those side effects permanent?",
-    reason: "not-covered",
-  };
-
-  it("carries the user's own question into the provider step", () => {
-    const questions = buildHandoffQuestions(PRODUCT, unresolved);
-    expect(questions.join(" ")).toContain("Are any of those side effects permanent?");
-  });
-
-  it("puts it first — it is the reason they are here", () => {
-    const questions = buildHandoffQuestions(PRODUCT, unresolved);
-    expect(questions[0]).toBe("Are any of those side effects permanent?");
-  });
-
-  it("keeps the baseline prompts after it", () => {
-    const questions = buildHandoffQuestions(PRODUCT, unresolved);
-    expect(questions.length).toBe(baselineQuestions(PRODUCT).length + 1);
-    expect(questions.slice(1)).toEqual(baselineQuestions(PRODUCT));
-  });
-
-  it("falls back to baseline prompts when nothing is pending", () => {
-    expect(buildHandoffQuestions(PRODUCT, null)).toEqual(baselineQuestions(PRODUCT));
-  });
-
-  it("does not reword what the patient asked", () => {
-    const odd: UnresolvedQuestion = {
-      question: "can i drink alcohol on this stuff",
+  it("carries the question through without rewording it", () => {
+    const unresolved: UnresolvedQuestion = {
+      question: "Are any of those side effects permanent?",
       reason: "not-covered",
     };
-    // Punctuation is added; wording is untouched. Putting words in the
-    // patient's mouth would defeat the purpose of carrying it.
-    expect(buildHandoffQuestions(PRODUCT, odd)[0]).toBe("can i drink alcohol on this stuff?");
+    expect(normaliseQuestion(unresolved.question)).toBe(
+      "Are any of those side effects permanent?"
+    );
   });
 
-  it("drops a baseline prompt that duplicates the carried question", () => {
-    const dupe: UnresolvedQuestion = {
-      question: "Are there alternatives I should consider first?",
-      reason: "answered-but-escalated",
-    };
-    const questions = buildHandoffQuestions(PRODUCT, dupe);
-    const occurrences = questions.filter(
-      (q) => q === "Are there alternatives I should consider first?"
-    ).length;
-    expect(occurrences).toBe(1);
-    expect(questions[0]).toBe("Are there alternatives I should consider first?");
+  it("does not put words in the patient's mouth", () => {
+    // Punctuation is added; wording is untouched.
+    expect(normaliseQuestion("can i drink alcohol on this stuff")).toBe(
+      "can i drink alcohol on this stuff?"
+    );
   });
 });
 
@@ -84,9 +53,7 @@ describe("question normalisation", () => {
 
   it("returns empty for blank input, so nothing is carried", () => {
     expect(normaliseQuestion("   ")).toBe("");
-    expect(buildHandoffQuestions(PRODUCT, { question: "   ", reason: "not-covered" })).toEqual(
-      baselineQuestions(PRODUCT)
-    );
+    expect(normaliseQuestion("\n\t  \n")).toBe("");
   });
 });
 

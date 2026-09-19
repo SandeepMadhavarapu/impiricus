@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Sheet } from "./Sheet";
 import { track } from "@/shared/lib/analytics/client";
 import {
@@ -10,6 +10,91 @@ import {
   type CoverageField,
   type TriState,
 } from "@/patient/lib/coverage/types";
+
+interface DirectoryPayer { id: string; name: string }
+interface DirectoryPlan { id: string; name: string }
+interface DirectoryPharmacy {
+  id: string;
+  name: string;
+  address: string;
+  kind: string;
+  distanceMiles?: number;
+}
+
+/**
+ * Loads the insurer, plan and pharmacy pickers from /api/directory.
+ *
+ * Every list starts empty and stays empty until a directory is licensed and
+ * connected, which is a supported state: the form falls back to free text and
+ * says so. Nothing here invents a plan name or a pharmacy.
+ *
+ * The ZIP is sent only to run the lookup. It is not stored by the client, not
+ * put in the URL, and not included in anything shared.
+ */
+function useDirectory(insurer: string, zip: string) {
+  const [payers, setPayers] = useState<DirectoryPayer[]>([]);
+  const [plans, setPlans] = useState<DirectoryPlan[]>([]);
+  const [pharmacies, setPharmacies] = useState<DirectoryPharmacy[]>([]);
+  const [pharmacyError, setPharmacyError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/directory?kind=payers")
+      .then((r) => (r.ok ? r.json() : { payers: [] }))
+      .then((d) => {
+        if (!cancelled) setPayers(d.payers ?? []);
+      })
+      .catch(() => {
+        // An unreachable directory is not an error the person needs to see:
+        // the field still works as free text.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    const match = payers.find((p) => p.name.toLowerCase() === insurer.trim().toLowerCase());
+    if (!match) {
+      setPlans([]);
+      return;
+    }
+    let cancelled = false;
+    fetch(`/api/directory?kind=plans&payerId=${encodeURIComponent(match.id)}`)
+      .then((r) => (r.ok ? r.json() : { plans: [] }))
+      .then((d) => {
+        if (!cancelled) setPlans(d.plans ?? []);
+      })
+      .catch(() => setPlans([]));
+    return () => {
+      cancelled = true;
+    };
+  }, [insurer, payers]);
+
+  useEffect(() => {
+    if (zip.length !== 5) {
+      setPharmacies([]);
+      setPharmacyError(null);
+      return;
+    }
+    let cancelled = false;
+    fetch(`/api/directory?kind=pharmacies&zip=${encodeURIComponent(zip)}`)
+      .then(async (r) => ({ ok: r.ok, body: await r.json() }))
+      .then(({ ok, body }) => {
+        if (cancelled) return;
+        setPharmacies(body.pharmacies ?? []);
+        setPharmacyError(ok ? null : (body.error ?? null));
+      })
+      .catch(() => {
+        if (!cancelled) setPharmacies([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [zip]);
+
+  return { payers, plans, pharmacies, pharmacyError };
+}
 
 /**
  * Coverage check.
@@ -45,6 +130,9 @@ export function CoverageSheet({
   const [quantity, setQuantity] = useState("30");
   const [daysSupply, setDaysSupply] = useState("30");
   const [pharmacyType, setPharmacyType] = useState("retail");
+
+  const [zip, setZip] = useState("");
+  const directory = useDirectory(insurer, zip);
 
   const [result, setResult] = useState<CoverageResult | null>(null);
   const [busy, setBusy] = useState(false);
@@ -104,7 +192,7 @@ export function CoverageSheet({
       track("coverage_flow_completed", { evidence_state: data.state });
     } catch {
       setFailure(
-        "Network problem — the coverage check did not run. This does not tell us anything about whether the medication is covered."
+        "Network problem. The coverage check did not run. This does not tell us anything about whether the medication is covered."
       );
     } finally {
       setBusy(false);
@@ -126,7 +214,7 @@ export function CoverageSheet({
           <>
             <div className="card card--flat">
               <p style={{ fontSize: 15 }}>
-                Coverage depends on the exact strength, form, quantity and days&rsquo; supply — not
+                Coverage depends on the exact strength, form, quantity and days&rsquo; supply, not
                 just the drug name. We ask for those so the answer is about your actual
                 prescription.
               </p>
@@ -142,10 +230,19 @@ export function CoverageSheet({
                   Your plan
                 </p>
 
+                {/*
+                  Insurer and plan are type-ahead pickers backed by a licensed
+                  directory. Until one is connected they stay free-text rather
+                  than offering a made-up list of plan names to someone working
+                  out whether they can afford a medication. A native datalist
+                  does both jobs: suggestions when there is data, a plain text
+                  field when there is not.
+                */}
                 <div className="field">
                   <label htmlFor="cov-insurer">Insurance company</label>
                   <input
                     id="cov-insurer"
+                    list={directory.payers.length > 0 ? "cov-payer-options" : undefined}
                     value={insurer}
                     onChange={(e) => setInsurer(e.target.value)}
                     autoComplete="off"
@@ -153,6 +250,13 @@ export function CoverageSheet({
                     aria-describedby={errors.insurer ? "err-insurer" : undefined}
                     placeholder="e.g. Blue Cross Blue Shield"
                   />
+                  {directory.payers.length > 0 ? (
+                    <datalist id="cov-payer-options">
+                      {directory.payers.map((p) => (
+                        <option key={p.id} value={p.name} />
+                      ))}
+                    </datalist>
+                  ) : null}
                   {errors.insurer ? (
                     <p className="field-error" id="err-insurer">
                       {errors.insurer}
@@ -168,6 +272,7 @@ export function CoverageSheet({
                   </p>
                   <input
                     id="cov-plan"
+                    list={directory.plans.length > 0 ? "cov-plan-options" : undefined}
                     value={planName}
                     onChange={(e) => setPlanName(e.target.value)}
                     autoComplete="off"
@@ -175,6 +280,13 @@ export function CoverageSheet({
                     aria-describedby={errors.planName ? "err-plan" : undefined}
                     placeholder="e.g. Blue Advantage PPO Gold"
                   />
+                  {directory.plans.length > 0 ? (
+                    <datalist id="cov-plan-options">
+                      {directory.plans.map((p) => (
+                        <option key={p.id} value={p.name} />
+                      ))}
+                    </datalist>
+                  ) : null}
                   {errors.planName ? (
                     <p className="field-error" id="err-plan">
                       {errors.planName}
@@ -215,7 +327,7 @@ export function CoverageSheet({
                 <div className="field">
                   <label>Medication</label>
                   <p className="hint" style={{ marginBottom: 0 }}>
-                    {productName} — {defaultStrength}, {defaultForm.toLowerCase()}
+                    {productName}: {defaultStrength}, {defaultForm.toLowerCase()}
                   </p>
                 </div>
 
@@ -244,19 +356,68 @@ export function CoverageSheet({
                   </div>
                 </div>
 
+                {/*
+                  Pharmacy by ZIP, so someone can pick the one they actually
+                  use rather than answer a question about pharmacy categories.
+                  Costs differ between pharmacies, so which one matters.
+                  Falls back to the category picker until a dataset is
+                  connected. The ZIP runs the lookup and is not stored.
+                */}
                 <div className="field">
-                  <label htmlFor="cov-pharm">Pharmacy type</label>
-                  <select
-                    id="cov-pharm"
-                    value={pharmacyType}
-                    onChange={(e) => setPharmacyType(e.target.value)}
-                  >
-                    <option value="retail">Retail pharmacy</option>
-                    <option value="mail-order">Mail order</option>
-                    <option value="specialty">Specialty pharmacy</option>
-                    <option value="unspecified">Not sure</option>
-                  </select>
+                  <label htmlFor="cov-zip">Your ZIP code</label>
+                  <p className="hint">
+                    Used to find pharmacies near you. It is not saved.
+                  </p>
+                  <input
+                    id="cov-zip"
+                    inputMode="numeric"
+                    maxLength={5}
+                    value={zip}
+                    onChange={(e) => setZip(e.target.value.replace(/\D/g, ""))}
+                    placeholder="e.g. 22030"
+                  />
+                  {directory.pharmacyError ? (
+                    <p className="field-error">{directory.pharmacyError}</p>
+                  ) : null}
                 </div>
+
+                {directory.pharmacies.length > 0 ? (
+                  <div className="field">
+                    <label htmlFor="cov-pharmacy">Pharmacy near you</label>
+                    <select
+                      id="cov-pharmacy"
+                      value={pharmacyType}
+                      onChange={(e) => setPharmacyType(e.target.value)}
+                    >
+                      {directory.pharmacies.map((p) => (
+                        <option key={p.id} value={p.kind}>
+                          {p.name}
+                          {typeof p.distanceMiles === "number" ? ` (${p.distanceMiles} mi)` : ""}
+                          {`, ${p.address}`}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                ) : (
+                  <div className="field">
+                    <label htmlFor="cov-pharm">Pharmacy type</label>
+                    {zip.length === 5 ? (
+                      <p className="hint">
+                        Pharmacy search is not connected yet, so pick a type for now.
+                      </p>
+                    ) : null}
+                    <select
+                      id="cov-pharm"
+                      value={pharmacyType}
+                      onChange={(e) => setPharmacyType(e.target.value)}
+                    >
+                      <option value="retail">Retail pharmacy</option>
+                      <option value="mail-order">Mail order</option>
+                      <option value="specialty">Specialty pharmacy</option>
+                      <option value="unspecified">Not sure</option>
+                    </select>
+                  </div>
+                )}
               </div>
 
               {failure ? (
@@ -292,7 +453,7 @@ function ResultView({ result, onReset }: { result: CoverageResult; onReset: () =
     <>
       {result.isSample ? (
         <p className="sample-banner" role="note">
-          ⚠ SAMPLE MODE — the result below is fictional demonstration data. It is not from any real
+          ⚠ SAMPLE MODE. The result below is fictional demonstration data. It is not from any real
           insurer and must not be used to make decisions.
         </p>
       ) : null}
@@ -414,7 +575,7 @@ function Row<T>({
   return (
     <div className="result-row">
       <dt>{label}</dt>
-      {/* A missing value renders as "Not available" — never blank, never zero. */}
+      {/* A missing value renders as "Not available": never blank, never zero. */}
       <dd data-missing={missing ? "true" : "false"}>
         {missing ? "Not available" : render(field.value as T)}
       </dd>

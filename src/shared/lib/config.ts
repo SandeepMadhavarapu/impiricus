@@ -219,7 +219,7 @@ export function getIntegrationStates(): IntegrationState[] {
       capability:
         coverage.provider === "none"
           ? "Full input and result-state flow, returning 'unable to verify'. No payer connection exists."
-          : "Sample mode — clearly labelled fictional scenarios for demonstration only.",
+          : "Sample mode: clearly labelled fictional scenarios for demonstration only.",
       requires: ["A real payer/formulary API credential (none available)"],
     },
     {

@@ -12,37 +12,66 @@ async function render(medication?: string | string[]) {
 describe("doctor workflow", () => {
   it("starts with the supported product and no active share action", async () => {
     const html = await render();
-    expect(html).toContain("DocUpdate Integration Preview");
-    expect(html).toContain("Create a patient medication guide");
+    expect(html).toContain("Patient Medication Guide");
+    expect(html).toContain("Send prescription data safely and securely");
     expect(html).toContain("Singulair (montelukast sodium) 10 mg tablet, film coated");
     expect(html).toContain("Start with a medication");
     expect(html).toMatch(/disabled="">Share with Patient/);
-    expect(html).not.toContain('id="sec-boxed-warning"');
   });
 
-  it("previews the existing content verbatim, with safety first and provenance", async () => {
+  it("walks the three steps in order", async () => {
+    const html = await render(slug);
+    expect(html.indexOf("Step 1")).toBeLessThan(html.indexOf("Step 2"));
+    expect(html.indexOf("Step 2")).toBeLessThan(html.indexOf("Step 3"));
+  });
+
+  /**
+   * The clinician screen collapses the guide to headings so it can be scanned
+   * mid-consult. The content must still be THERE and still be verbatim: a
+   * preview that paraphrases is not a preview of what the patient gets.
+   */
+  it("previews every section the patient will see, verbatim", async () => {
     const html = await render(slug);
     const { record } = getMedication(slug)!;
     for (const section of record.sections) {
-      expect(html).toContain(`id="sec-${section.id}"`);
-      // Render the text through React to account for HTML escaping.
+      expect(html).toContain(renderToStaticMarkup(section.title));
       for (const paragraph of section.plain) {
         expect(html).toContain(renderToStaticMarkup(paragraph));
       }
     }
-    expect(html.indexOf('id="sec-boxed-warning"')).toBeLessThan(html.indexOf('id="sec-what-it-is"'));
-    expect(html).toContain("No clinical review has been performed.");
-    expect(html).toContain("Retrieved on");
+  });
+
+  it("shows the boxed warning first and flags it", async () => {
+    const html = await render(slug);
+    const { record } = getMedication(slug)!;
+    const boxed = record.sections.find((s) => s.id === "boxed-warning")!;
+    const other = record.sections.find((s) => s.id === "what-it-is")!;
+    expect(html.indexOf(boxed.title)).toBeLessThan(html.indexOf(other.title));
+    expect(html).toContain("Boxed warning");
+  });
+
+  it("offers both a patient preview and a send action once a drug is chosen", async () => {
+    const html = await render(slug);
     expect(html).toContain(`href="/medications/${slug}"`);
+    expect(html).toContain("Send to patient");
     expect(html).toContain('aria-current="true"');
   });
 
-  it.each(["unknown-drug", "singulair-montelukast-5mg-chewable", [slug, "other"]])("never substitutes a drug for invalid selection %j", async (selection) => {
-    const html = await render(selection);
-    expect(html).toContain("Medication unavailable");
-    expect(html).not.toContain('id="sec-boxed-warning"');
-    expect(html).toMatch(/disabled="">Share with Patient/);
+  it("keeps provenance and refuses to claim a clinical review", async () => {
+    const html = await render(slug);
+    expect(html).toContain("No clinical review has been performed.");
+    expect(html).toContain("Retrieved on");
   });
+
+  it.each(["unknown-drug", "singulair-montelukast-5mg-chewable", [slug, "other"]])(
+    "never substitutes a drug for invalid selection %j",
+    async (selection) => {
+      const html = await render(selection);
+      expect(html).toContain("Medication unavailable");
+      expect(html).not.toContain("Send to patient");
+      expect(html).toMatch(/disabled="">Share with Patient/);
+    }
+  );
 
   it("uses only the configured public medication URL", async () => {
     vi.stubEnv("PUBLIC_ORIGIN", "https://medbridge.example/doctor?session=private#patient");
@@ -53,11 +82,14 @@ describe("doctor workflow", () => {
     expect(html).not.toMatch(/disabled="">Share with Patient/);
   });
 
-  it.each(["", "http://localhost:3000", "https://localhost", "http://unsafe.example"])("blocks off-device sharing for unavailable public origin %j", async (origin) => {
-    vi.stubEnv("PUBLIC_ORIGIN", origin);
-    vi.stubEnv("NEXT_PUBLIC_SITE_ORIGIN", "");
-    const html = await render(slug);
-    expect(html).toContain("Sharing needs a public HTTPS deployment");
-    expect(html).toMatch(/disabled="">Share with Patient/);
-  });
+  it.each(["", "http://localhost:3000", "https://localhost", "http://unsafe.example"])(
+    "blocks off-device sharing for unavailable public origin %j",
+    async (origin) => {
+      vi.stubEnv("PUBLIC_ORIGIN", origin);
+      vi.stubEnv("NEXT_PUBLIC_SITE_ORIGIN", "");
+      const html = await render(slug);
+      expect(html).toContain("Sharing needs a public HTTPS deployment");
+      expect(html).toMatch(/disabled="">Share with Patient/);
+    }
+  );
 });

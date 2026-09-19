@@ -45,7 +45,7 @@ export function ActionBar({
             setOpenSheet("chat");
           }}
         >
-          Learn more — ask about this medication
+          Learn more: ask about this medication
         </button>
         <div className="btn-row">
           <button

@@ -9,6 +9,7 @@ import {
   isStale,
   evidenceAgeDays,
 } from "@/sources/lib/content/registry";
+import { patientScopeNote } from "@/sources/lib/content/types";
 import { getPublicOrigin, getIntegrationStates } from "@/shared/lib/config";
 import { buildShareUrl } from "@/doctor/lib/share";
 import { MedicationSection } from "@/patient/components/MedicationSection";
@@ -36,7 +37,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
   const name = productLabel(resolved.source);
   return {
-    title: `${name} — what it is, benefits and risks`,
+    title: `${name}: what it is, benefits and risks`,
     // Share previews carry product information only. Never a session, a
     // referrer, an identifier, or anything about the person sharing.
     description: resolved.record.headline,
@@ -75,13 +76,32 @@ export default async function MedicationPage({ params }: Params) {
       <main className="page" id="main">
         <AppBar subtitle="Your medication guide" />
         <header className="med-header">
-          <p className="eyebrow">FDA-approved label · plain language</p>
+          <p className="eyebrow">From the FDA-approved label</p>
           <h1 className="med-title">{brand}</h1>
           <p className="med-generic">
             {source.product.genericName.toLowerCase()} · {displayStrength(source)}{" "}
             {displayDosageForm(source)} · {source.product.route.join(", ").toLowerCase()}
           </p>
           <p className="med-headline">{record.headline}</p>
+
+          {/*
+            Fair balance. The headline states what the product is for; these
+            carry what must travel with it. Critical points are listed first
+            by the content schema and are never rendered smaller than the rest.
+          */}
+          {record.keyPoints.length > 0 ? (
+            <ul className="key-points">
+              {record.keyPoints.map((point, i) => (
+                <li key={i} data-emphasis={point.emphasis}>
+                  {point.seeSectionId ? (
+                    <a href={`#sec-${point.seeSectionId}`}>{point.text}</a>
+                  ) : (
+                    point.text
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </header>
 
         <dl className="identity-grid">
@@ -105,12 +125,16 @@ export default async function MedicationPage({ params }: Params) {
           </div>
         </dl>
 
-        {/* Scope note sits above everything: this page is about ONE product. */}
+        {/*
+          Scope note sits above everything: this page is about ONE product.
+          Patients get the plain version, written for someone reading in a
+          second language or reading while unwell. See patientScopeNote().
+        */}
         <section className="card card--info" style={{ marginTop: 18 }} aria-label="What this page covers">
           <p className="card-label" style={{ color: "var(--info-text)" }}>
             What this page covers
           </p>
-          <p style={{ fontSize: 15 }}>{record.scopeNote}</p>
+          <p style={{ fontSize: 15 }}>{patientScopeNote(record)}</p>
         </section>
 
         {stale ? (

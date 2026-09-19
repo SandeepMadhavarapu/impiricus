@@ -12,11 +12,39 @@ import {
  * The content registry. Both the fetched source record and the authored
  * plain-language record are parsed through their schemas at module load, so a
  * bad content change fails immediately rather than rendering a broken page.
+ *
+ * ---------------------------------------------------------------------------
+ * ADDING A MEDICATION
+ * ---------------------------------------------------------------------------
+ * Every product needs two files, and both are joined by id here:
+ *
+ *   1. The SOURCE record: fetched, not written by hand.
+ *        npm run content:fetch -- <setid>
+ *      writes src/sources/content/sources/<slug>.json with the label text,
+ *      the SPL version, and a retrieval timestamp.
+ *
+ *   2. The AUTHORED record: the plain-language layer, written by a person,
+ *      at src/sources/content/medications/<slug>.ts. Every claim in it cites
+ *      an exact quote from (1). See the authoring rules at the top of the
+ *      Singulair file, which apply to every product.
+ *
+ * Then add the import and the array entry below. Nothing else needs changing:
+ * routes, static generation, retrieval, the doctor's library and the share
+ * links all read from these arrays.
+ *
+ * The schema parse is the gate. A record missing a boxed-warning key point,
+ * carrying a quote that is not in the source, or using promotional wording
+ * fails here or in tests/content.test.ts rather than reaching a patient.
  */
 
-const sourceRecords: SourceRecord[] = [SourceRecordSchema.parse(rawSingulair)];
+const sourceRecords: SourceRecord[] = [
+  SourceRecordSchema.parse(rawSingulair),
+  // Add fetched source records here.
+];
+
 const medicationRecords: MedicationRecord[] = [
   MedicationRecordSchema.parse(singulair10mgTablet),
+  // Add authored medication records here.
 ];
 
 const sourceById = new Map(sourceRecords.map((s) => [s.recordId, s]));

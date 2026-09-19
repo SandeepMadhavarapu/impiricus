@@ -107,7 +107,7 @@ export function ChatSheet({
         },
       ]);
     } catch {
-      setError("Network problem — your question was not sent. Please try again.");
+      setError("Network problem. Your question was not sent. Please try again.");
     } finally {
       setBusy(false);
       inputRef.current?.focus();
@@ -123,26 +123,33 @@ export function ChatSheet({
       labelledBy="chat-title"
     >
       <div className="chat-log" ref={logRef}>
-        <div className="card card--flat">
-          <p style={{ fontSize: 15 }}>
+        {/*
+          The opening turns are written as messages, not as a notice panel, so
+          the panel reads as a conversation from the first glance. The limits
+          ride along underneath the greeting rather than gating it: someone
+          should not have to read a disclaimer block before seeing a greeting.
+        */}
+        <div className="msg--assistant msg--greeting">
+          <p className="msg-greeting-line">Hi! How can I assist you?</p>
+          <p className="tiny" style={{ marginTop: 8 }}>
             I answer only from the FDA-approved label for this exact product. If the label does not
             cover something, I will say so rather than guess.
           </p>
-          <p className="tiny" style={{ marginTop: 8 }}>
+          <p className="tiny" style={{ marginTop: 6 }}>
             I cannot give medical advice about your situation, and I do not know your history. For
             anything urgent, call 911 (US).
           </p>
         </div>
 
-        {turns.length === 0 ? (
-          <div className="suggestions">
-            {SUGGESTIONS.map((s) => (
-              <button key={s} type="button" className="chip" onClick={() => void send(s)}>
-                {s}
-              </button>
-            ))}
-          </div>
-        ) : null}
+        {/*
+          Said up front, before the first question, so nobody spends the
+          conversation wondering whether a dead end is the end of the road.
+        */}
+        <div className="msg--assistant msg--greeting">
+          <p style={{ fontSize: 15 }}>
+            Any questions I cannot answer, you can be directly linked to your provider.
+          </p>
+        </div>
 
         <div aria-live="polite" aria-atomic="false" style={{ display: "contents" }}>
           {turns.map((turn, i) =>
@@ -176,6 +183,23 @@ export function ChatSheet({
         ) : null}
       </div>
 
+      {/*
+        Suggestions sit with the input, not in the transcript, and they are
+        labelled as examples. In the transcript they read as a menu, as though
+        typing something else were not allowed. They stay available after the
+        first question rather than disappearing once the conversation starts.
+      */}
+      <div className="suggestion-bar">
+        <p className="tiny">Examples. You can ask anything about this medication:</p>
+        <div className="suggestions">
+          {SUGGESTIONS.map((s) => (
+            <button key={s} type="button" className="chip" disabled={busy} onClick={() => void send(s)}>
+              {s}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <form
         className="composer"
         onSubmit={(e) => {
@@ -192,7 +216,7 @@ export function ChatSheet({
           rows={1}
           value={input}
           disabled={busy}
-          placeholder="Ask a question…"
+          placeholder="Type your question…"
           maxLength={2000}
           onChange={(e) => {
             setInput(e.target.value);

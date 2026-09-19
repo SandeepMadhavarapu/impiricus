@@ -66,7 +66,7 @@ describe("no model configured", () => {
   });
 });
 
-describe("model path — citation validation", () => {
+describe("model path: citation validation", () => {
   it("keeps citations that point at supplied passages", async () => {
     const passages = searchPassages(source, "What are the common side effects?", { limit: 6 });
     const realId = passages[0]!.id;
@@ -126,7 +126,7 @@ describe("model path — citation validation", () => {
   });
 });
 
-describe("model path — failure handling", () => {
+describe("model path: failure handling", () => {
   it.each(["timeout", "rate-limited", "upstream-error"] as const)(
     "reports %s honestly and still shows the label text",
     async (reason) => {

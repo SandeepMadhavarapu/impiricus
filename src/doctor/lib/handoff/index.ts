@@ -62,45 +62,6 @@ export function normaliseQuestion(raw: string): string {
   return /[.?!…]$/.test(capped) ? capped : capped + "?";
 }
 
-/** The generic prompts offered alongside whatever the user actually asked. */
-export function baselineQuestions(productName: string): string[] {
-  return [
-    `Is ${productName} a good fit for my situation, given my history?`,
-    "This medication has a boxed warning about mood and behaviour changes. What should I watch for?",
-    "Are there alternatives I should consider first?",
-    "How will we know whether it is working?",
-    "What should I do if I notice side effects?",
-    "How does this interact with the other medicines I take?",
-  ];
-}
-
-/**
- * Builds the question list for the handoff.
- *
- * The carried question always comes FIRST — it is the reason the person is
- * here. Baseline prompts follow, with any near-duplicate of the carried
- * question removed so the list does not read as repetitive.
- */
-export function buildHandoffQuestions(
-  productName: string,
-  unresolved: UnresolvedQuestion | null
-): string[] {
-  const baseline = baselineQuestions(productName);
-  if (!unresolved) return baseline;
-
-  const carried = normaliseQuestion(unresolved.question);
-  if (carried.length === 0) return baseline;
-
-  const key = comparisonKey(carried);
-  const deduped = baseline.filter((q) => comparisonKey(q) !== key);
-  return [carried, ...deduped];
-}
-
-/** Loose key for duplicate detection: letters and digits only, lowercased. */
-function comparisonKey(s: string): string {
-  return s.toLowerCase().replace(/[^a-z0-9]/g, "");
-}
-
 /**
  * Maps an answer mode to a handoff reason.
  *

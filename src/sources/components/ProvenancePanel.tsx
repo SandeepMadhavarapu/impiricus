@@ -60,7 +60,7 @@ export function ProvenancePanel({
             <dt>Clinically reviewed</dt>
             <dd>
               <strong>No clinical review has been performed.</strong> &ldquo;Retrieved&rdquo; means
-              downloaded from a public FDA source — it does not mean a clinician checked it.
+              downloaded from a public FDA source. It does not mean a clinician checked it.
             </dd>
           </div>
         </dl>

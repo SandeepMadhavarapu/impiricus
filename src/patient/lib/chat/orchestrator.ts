@@ -85,7 +85,7 @@ export async function answerQuestion(
       crisisFooter: shouldOfferCrisisFooter(req.message) ? crisisFooterBlock() : undefined,
       offerProviderConnection: false,
       scopeNote: record.scopeNote,
-      provenanceNote: "No answer attempted — the question depends on context I do not have.",
+      provenanceNote: "No answer attempted. The question depends on context I do not have.",
     };
   }
 
@@ -207,7 +207,7 @@ export function buildSystemPrompt(
     "RULES",
     "1. Answer only from the <passage> blocks below. If they do not contain the answer, say plainly that the label section you have does not cover it, and suggest asking a pharmacist. Never use outside knowledge about this or any other drug.",
     "2. Cite every substantive claim by appending the passage id in double brackets, e.g. [[adverse_reactions#0]]. Only ever use ids that appear below. Never invent an id, a URL, a statistic, or a study.",
-    "3. Do not tell the person to start, stop, switch or change the dose of any medication. Do not tell them the medication is safe or unsafe for them personally — you do not know their history.",
+    "3. Do not tell the person to start, stop, switch or change the dose of any medication. Do not tell them the medication is safe or unsafe for them personally, because you do not know their history.",
     "4. Preserve the label's own qualifications. If the label says something is 'not well understood' or that trial rates 'cannot be directly compared', keep that.",
     "5. If the question is about a different strength or dosage form than the product above, say that this page covers only the product named, and do not generalise.",
     "6. Write plainly, for someone with no medical training. Short paragraphs. No markdown headings, no bullet characters, no bold.",
@@ -251,7 +251,7 @@ function labelExcerptAnswer(
     offerProviderConnection: true,
     scopeNote,
     provenanceNote:
-      "Label excerpt search — matched directly from the FDA label. This is not an AI-generated answer and nothing has been reworded.",
+      "Label excerpt search: matched directly from the FDA label. This is not an AI-generated answer and nothing has been reworded.",
     validationNote: opts.validationNote,
   };
 }

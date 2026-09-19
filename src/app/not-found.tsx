@@ -26,7 +26,7 @@ export default function NotFound() {
         <p className="card-label">Why we are not guessing</p>
         <p className="body-text">
           Rather than show you the closest match, we show nothing. Medication information is only
-          useful if it is about the right product — the right drug, at the right strength, in the
+          useful if it is about the right product: the right drug, at the right strength, in the
           right form.
         </p>
       </div>

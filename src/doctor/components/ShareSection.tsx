@@ -52,7 +52,7 @@ export function ShareSection({
   const onShare = useCallback(async () => {
     if (blocked) return;
     const payload = {
-      title: `${productName} — what it is, benefits and risks`,
+      title: `${productName}: what it is, benefits and risks`,
       text: `Plain-language information about ${productName}, sourced from the FDA-approved label.`,
       url: shareUrl,
     };
@@ -88,10 +88,10 @@ export function ShareSection({
       try {
         await navigator.clipboard.writeText(shareUrl);
         track("share_initiated", { method: "clipboard" });
-        say(doctor ? "Patient guide ready to share. Link copied — paste it in a message to your patient." : "Link copied. Paste it anywhere to share.", "ok");
+        say(doctor ? "Patient guide ready to share. Link copied. Paste it in a message to your patient." : "Link copied. Paste it anywhere to share.", "ok");
       } catch {
         track("share_fallback_used", { method: "manual" });
-        say("Could not copy automatically — select the link below and copy it manually.");
+        say("Could not copy automatically. Select the link below and copy it manually.");
       }
     },
     [shareUrl, blocked, doctor]
@@ -106,36 +106,49 @@ export function ShareSection({
         {doctor ? "Share the public medication guide using your device’s sharing options, or copy the link. No patient or prescription details are included." : "Shares the public page only. Your conversation, coverage details and anything you typed stay on this device and are never included."}
       </p>
 
-      <div className="btn-row" style={{ marginTop: 14 }}>
-        <button type="button" className="btn btn--primary" onClick={onShare} disabled={blocked}>
-          {doctor ? "Share with Patient" : canWebShare ? "Share medication information" : "Copy link to share"}
-        </button>
-        <button type="button" className="btn" onClick={() => copyLink("button")} disabled={blocked}>
-          {doctor ? "Copy Link" : "Copy link"}
-        </button>
+      {/*
+        One primary action, then the fallbacks.
+        Copying a link and scanning a code are what you reach for when the
+        share sheet is not available, so they sit below the main action and
+        share a row: present, clearly secondary, not competing with it.
+      */}
+      <div className="share-actions" style={{ marginTop: 14 }}>
         <button
           type="button"
-          className="btn"
+          className="btn btn--primary btn--block"
+          onClick={onShare}
           disabled={blocked}
-          onClick={() => {
-            setShowQr((v) => !v);
-            if (!showQr) track("qr_shown");
-          }}
-          aria-expanded={showQr}
-          aria-controls="qr-panel"
         >
-          {showQr ? "Hide QR code" : "Show QR code"}
+          {doctor ? "Share with Patient" : canWebShare ? "Share medication information" : "Copy link to share"}
         </button>
+        <div className="share-fallbacks">
+          <button type="button" className="btn" onClick={() => copyLink("button")} disabled={blocked}>
+            {doctor ? "Copy Link" : "Copy link"}
+          </button>
+          <button
+            type="button"
+            className="btn"
+            disabled={blocked}
+            onClick={() => {
+              setShowQr((v) => !v);
+              if (!showQr) track("qr_shown");
+            }}
+            aria-expanded={showQr}
+            aria-controls="qr-panel"
+          >
+            {showQr ? "Hide QR code" : "QR code"}
+          </button>
+        </div>
       </div>
 
-      {/* Status is announced politely rather than as an alert — sharing is not an error path. */}
+      {/* Status is announced politely rather than as an alert: sharing is not an error path. */}
       <p className="share-status" data-tone={tone} role="status" aria-live="polite">
         {status ?? " "}
       </p>
 
       {canWebShare ? (
         <p className="tiny">
-          Your device decides which options appear — that can include AirDrop on iPhone or Quick
+          Your device decides which options appear, and that can include AirDrop on iPhone or Quick
           Share on Android. This page cannot choose the method for you, and it cannot tell whether
           anything was actually sent or opened.
         </p>

@@ -83,13 +83,6 @@ export const PROVIDER_ROUTES: ProviderRoute[] = [
     availability: "guidance-only",
     actions: [
       {
-        label: "Prepare a summary to bring with you",
-        detail:
-          "Build a short, editable list of what you want to ask. It stays on your device — nothing is sent anywhere, and this site never contacts your clinician.",
-        href: null,
-        external: false,
-      },
-      {
         label: "Call the number on your appointment card or member portal",
         detail:
           "Most practices will take a medication question by phone or secure message without needing a visit.",
@@ -121,7 +114,7 @@ export const PROVIDER_ROUTES: ProviderRoute[] = [
       {
         label: "Ask them to run a test claim while you are there",
         detail:
-          "A pharmacy can submit a trial claim to your plan and tell you the actual amount you would pay — which no formulary document can tell you.",
+          "A pharmacy can submit a trial claim to your plan and tell you the actual amount you would pay, which no formulary document can tell you.",
         href: null,
         external: false,
       },
@@ -137,7 +130,7 @@ export const PROVIDER_ROUTES: ProviderRoute[] = [
     title: "Find a new provider",
     chooseLabel: "I need to find a provider",
     description:
-      "These are official government directories. They list registered providers and facilities — which is not the same as knowing who is accepting new patients or who takes your insurance.",
+      "These are official government directories. They list registered providers and facilities, which is not the same as knowing who is accepting new patients or who takes your insurance.",
     availability: "verified-destination",
     actions: [
       {

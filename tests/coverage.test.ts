@@ -67,7 +67,7 @@ describe("coverage request validation", () => {
     expect(parsed.state).toBe("CA");
   });
 
-  it("does not accept member identifiers — they are never collected here", () => {
+  it("does not accept member identifiers: they are never collected here", () => {
     const parsed = CoverageRequestSchema.parse({
       ...baseReq,
       memberId: "123456789",

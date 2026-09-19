@@ -33,7 +33,7 @@ describe("shared native share controls", () => {
     vi.stubGlobal("navigator", { share, clipboard: { writeText: copy } });
     const pending = controls()[0]!.props.onClick();
     expect(share).toHaveBeenCalledExactlyOnceWith({ url,
-      title: "Singulair (montelukast) 10 mg tablet — what it is, benefits and risks",
+      title: "Singulair (montelukast) 10 mg tablet: what it is, benefits and risks",
       text: "Plain-language information about Singulair (montelukast) 10 mg tablet, sourced from the FDA-approved label.",
     });
     await pending;

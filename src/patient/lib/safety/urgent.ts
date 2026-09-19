@@ -149,7 +149,7 @@ export const US_RESOURCES = {
   poison: {
     label: "Poison Help: 1-800-222-1222",
     detail:
-      "Free, confidential, 24/7 guidance from the U.S. Poison Control Centers — including for a medication taken in excess.",
+      "Free, confidential, 24/7 guidance from the U.S. Poison Control Centers, including for a medication taken in excess.",
     href: "tel:18002221222",
     emphasis: "critical" as const,
   },
@@ -184,7 +184,7 @@ export function urgentGuidance(assessment: UrgencyAssessment): UrgentGuidance | 
       return {
         heading: "Please get support right now",
         body: [
-          "If you are thinking about harming yourself, you deserve immediate support from a real person — not a web page.",
+          "If you are thinking about harming yourself, you deserve immediate support from a real person, not a web page.",
           "If you are in immediate danger, call 911.",
         ],
         resources: [US_RESOURCES.crisisCall, US_RESOURCES.crisisText, US_RESOURCES.emergency],

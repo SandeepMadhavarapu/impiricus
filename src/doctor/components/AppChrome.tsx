@@ -1,6 +1,26 @@
 import { GuideIcon } from "@/shared/components/AppBar";
 
 /**
+ * The clinician screen's top bar: the host app's name and mark, nothing else.
+ *
+ * Deliberately minimal. A clinician opening this mid-consult needs to know
+ * which app they are in and then get to the task, so the bar carries no
+ * title, no status and no controls. The page heading below it does that work.
+ */
+export function DoctorBar() {
+  return (
+    <header className="du-appbar du-appbar--minimal">
+      <div className="du-appbar-brand">
+        <span className="du-appbar-mark" aria-hidden="true">
+          <GuideIcon />
+        </span>
+        <strong>DocUpdate</strong>
+      </div>
+    </header>
+  );
+}
+
+/**
  * The bottom tab bar for the HCP screen.
  *
  * This screen is pitched as a module that would live inside DocUpdate's app,
@@ -23,7 +43,7 @@ const CONTEXT_TABS = [
 
 export function TabBar() {
   return (
-    <nav className="du-tabbar" aria-label="App navigation (visual preview — surrounding tabs are not implemented)">
+    <nav className="du-tabbar" aria-label="App navigation (visual preview; surrounding tabs are not implemented)">
       <span className="du-tab du-tab--active" aria-current="page">
         <GuideIcon />
         Guide
