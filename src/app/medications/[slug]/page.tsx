@@ -16,6 +16,7 @@ import { ActionBar } from "@/patient/components/ActionBar";
 import { ShareSection } from "@/doctor/components/ShareSection";
 import { ProvenancePanel } from "@/sources/components/ProvenancePanel";
 import { PageOpenBeacon } from "@/patient/components/PageOpenBeacon";
+import { AppBar } from "@/shared/components/AppBar";
 
 export const dynamic = "force-static";
 export const revalidate = 3600;
@@ -72,6 +73,7 @@ export default async function MedicationPage({ params }: Params) {
     <>
       <PageOpenBeacon />
       <main className="page" id="main">
+        <AppBar subtitle="Your medication guide" />
         <header className="med-header">
           <p className="eyebrow">FDA-approved label · plain language</p>
           <h1 className="med-title">{brand}</h1>
@@ -80,28 +82,28 @@ export default async function MedicationPage({ params }: Params) {
             {displayDosageForm(source)} · {source.product.route.join(", ").toLowerCase()}
           </p>
           <p className="med-headline">{record.headline}</p>
-
-          <dl className="identity-grid">
-            <div className="identity-cell">
-              <dt>Strength</dt>
-              <dd>{displayStrength(source)}</dd>
-            </div>
-            <div className="identity-cell">
-              <dt>Form</dt>
-              <dd style={{ textTransform: "capitalize" }}>{displayDosageForm(source)}</dd>
-            </div>
-            <div className="identity-cell">
-              <dt>Route</dt>
-              <dd style={{ textTransform: "capitalize" }}>
-                {source.product.route.join(", ").toLowerCase()}
-              </dd>
-            </div>
-            <div className="identity-cell">
-              <dt>FDA application</dt>
-              <dd>{source.product.applicationNumber}</dd>
-            </div>
-          </dl>
         </header>
+
+        <dl className="identity-grid">
+          <div className="identity-cell">
+            <dt>Strength</dt>
+            <dd>{displayStrength(source)}</dd>
+          </div>
+          <div className="identity-cell">
+            <dt>Form</dt>
+            <dd style={{ textTransform: "capitalize" }}>{displayDosageForm(source)}</dd>
+          </div>
+          <div className="identity-cell">
+            <dt>Route</dt>
+            <dd style={{ textTransform: "capitalize" }}>
+              {source.product.route.join(", ").toLowerCase()}
+            </dd>
+          </div>
+          <div className="identity-cell">
+            <dt>FDA application</dt>
+            <dd>{source.product.applicationNumber}</dd>
+          </div>
+        </dl>
 
         {/* Scope note sits above everything: this page is about ONE product. */}
         <section className="card card--info" style={{ marginTop: 18 }} aria-label="What this page covers">

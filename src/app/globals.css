@@ -1,21 +1,31 @@
 /* ============================================================== tokens ==== */
 
+/*
+ * One palette, one look.
+ *
+ * Both screens are presented as part of DocUpdate's app — the HCP screen sits
+ * inside it, the patient guide is what that app hands a patient — so they use
+ * a single light theme the way a native app does, rather than following the
+ * OS between light and dark. There is deliberately no dark-mode block below:
+ * a second palette is a second set of contrast guarantees to keep correct on
+ * a page that carries a boxed warning.
+ */
 :root {
   color-scheme: light;
 
-  --bg: #fbfaf8;
+  --bg: #f3f3f9;
   --surface: #ffffff;
-  --surface-sunken: #f4f2ee;
-  --text: #17212e;
-  --text-muted: #57636f;
-  --text-faint: #7b8794;
-  --border: #e5e2dc;
-  --border-strong: #cfcbc2;
+  --surface-sunken: #f1f0f8;
+  --text: #191838;
+  --text-muted: #63628a;
+  --text-faint: #8a89ab;
+  --border: #e6e5f1;
+  --border-strong: #d3d2e6;
 
-  --accent: #0d6a61;
-  --accent-hover: #0a544d;
-  --accent-soft: #e6f2f0;
-  --accent-text: #08433d;
+  --accent: #6d4ce8;
+  --accent-hover: #5b3ad6;
+  --accent-soft: #efebfe;
+  --accent-text: #4f31c0;
 
   --critical: #a3231c;
   --critical-soft: #fdeeec;
@@ -29,11 +39,16 @@
   --info-border: #cfdcef;
   --info-text: #274a7a;
 
-  --radius: 14px;
-  --radius-sm: 9px;
-  --shadow-sm: 0 1px 2px rgb(23 33 46 / 0.06), 0 1px 3px rgb(23 33 46 / 0.04);
-  --shadow-md: 0 4px 16px rgb(23 33 46 / 0.08), 0 1px 3px rgb(23 33 46 / 0.05);
-  --shadow-lg: 0 -8px 40px rgb(23 33 46 / 0.16);
+  /* App chrome. */
+  --du-navy: #171640;
+  --du-navy-soft: #262457;
+  --du-mint: #9bd8ce;
+
+  --radius: 16px;
+  --radius-sm: 12px;
+  --shadow-sm: 0 1px 2px rgb(23 22 64 / 0.05), 0 1px 3px rgb(23 22 64 / 0.04);
+  --shadow-md: 0 4px 16px rgb(23 22 64 / 0.08), 0 1px 3px rgb(23 22 64 / 0.05);
+  --shadow-lg: 0 -8px 40px rgb(23 22 64 / 0.16);
 
   --reading-width: 36rem;
   --tap: 44px;
@@ -41,42 +56,6 @@
   --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
     Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-
-    --bg: #12161b;
-    --surface: #1a2027;
-    --surface-sunken: #141920;
-    --text: #e9edf1;
-    --text-muted: #a7b2bd;
-    --text-faint: #8b96a2;
-    --border: #2b333d;
-    --border-strong: #3d4854;
-
-    --accent: #4fbdb0;
-    --accent-hover: #6bcdc1;
-    --accent-soft: #14312e;
-    --accent-text: #8fd9cf;
-
-    --critical: #ff8f85;
-    --critical-soft: #2e1a18;
-    --critical-border: #5d2b26;
-
-    --warning-text: #f0c069;
-    --warning-soft: #2a2417;
-    --warning-border: #55462a;
-
-    --info-soft: #1a2430;
-    --info-border: #2f4055;
-    --info-text: #9dc0e8;
-
-    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
-    --shadow-md: 0 4px 16px rgb(0 0 0 / 0.45);
-    --shadow-lg: 0 -8px 40px rgb(0 0 0 / 0.6);
-  }
 }
 
 /* ============================================================== reset ===== */
@@ -183,6 +162,8 @@ a:hover {
   max-width: var(--reading-width);
   margin: 0 auto;
   padding: 0 16px calc(96px + env(safe-area-inset-bottom));
+  background: var(--surface);
+  min-height: 100dvh;
 }
 
 .stack > * + * {
@@ -208,9 +189,22 @@ a:hover {
 
 /* ============================================================== header ==== */
 
+/*
+ * The patient guide's hero, in the same navy as the HCP screen's. The guide
+ * is what the clinician's app hands a patient, so it reads as the same
+ * product rather than an unrelated web page they were sent a link to.
+ */
 .med-header {
-  padding: 26px 0 8px;
+  margin-inline: -16px;
+  padding: 24px 16px 28px;
+  background: var(--du-navy);
+  color: #fff;
+  border-radius: 0 0 22px 22px;
 }
+
+.med-header .eyebrow { color: var(--du-mint); }
+.med-header .med-generic { color: #c8c6e6; }
+.med-header .med-headline { color: #e8e7f5; }
 
 .eyebrow {
   font-size: 12.5px;
@@ -379,12 +373,6 @@ a:hover {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
-}
-
-@media (prefers-color-scheme: dark) {
-  .btn--primary {
-    color: #06231f;
-  }
 }
 
 .btn--primary:hover:not(:disabled) {
@@ -680,12 +668,6 @@ a:hover {
   padding: 10px 14px;
   border-radius: 16px 16px 4px 16px;
   font-size: 15.5px;
-}
-
-@media (prefers-color-scheme: dark) {
-  .msg--user {
-    color: #06231f;
-  }
 }
 
 .msg--assistant {
@@ -1178,64 +1160,15 @@ a:hover {
 /*
  * HCP workspace.
  *
- * Two things are going on here.
- *
- * 1. It is a phone-app screen, not a desktop dashboard: the same narrow
- *    reading width as the patient page at EVERY viewport, wide desktop ones
- *    included, rather than expanding into a sidebar-plus-content layout.
- *
- * 2. It is skinned to sit inside DocUpdate's app — navy chrome, violet
- *    primary actions, white content cards, a bottom tab bar. That skin is
- *    applied by redefining the design tokens for this subtree, so every
- *    shared component (cards, buttons, medication sections, the provenance
- *    panel) reskins without a second copy of its CSS. Every token the dark
- *    block above touches is redefined here, because this screen keeps the
- *    host app's single look rather than following the OS theme.
+ * A phone-app screen, not a desktop dashboard: the same narrow reading width
+ * as the patient page at EVERY viewport, wide desktop ones included, rather
+ * than expanding into a sidebar-plus-content layout. The palette comes from
+ * the root tokens, which both screens share; what is specific to this one is
+ * the bottom tab bar showing where it would sit among the host app's tabs.
  *
  * None of DocUpdate's own assets are used, and the page states three times
  * over that it is an independent preview.
  */
-body:has(.doctor-page),
-.doctor-page {
-  color-scheme: light;
-
-  --bg: #f3f3f9;
-  --surface: #ffffff;
-  --surface-sunken: #f1f0f8;
-  --text: #191838;
-  --text-muted: #63628a;
-  --text-faint: #8a89ab;
-  --border: #e6e5f1;
-  --border-strong: #d3d2e6;
-
-  --accent: #6d4ce8;
-  --accent-hover: #5b3ad6;
-  --accent-soft: #efebfe;
-  --accent-text: #4f31c0;
-
-  --critical: #a3231c;
-  --critical-soft: #fdeeec;
-  --critical-border: #f2c4bf;
-
-  --warning-text: #7a4e00;
-  --warning-soft: #fdf5e6;
-  --warning-border: #eed9ab;
-
-  --info-soft: #eef3fa;
-  --info-border: #cfdcef;
-  --info-text: #274a7a;
-
-  --shadow-sm: 0 1px 2px rgb(23 22 64 / 0.05), 0 1px 3px rgb(23 22 64 / 0.04);
-  --shadow-md: 0 4px 16px rgb(23 22 64 / 0.08), 0 1px 3px rgb(23 22 64 / 0.05);
-
-  --radius: 16px;
-  --radius-sm: 12px;
-
-  --du-navy: #171640;
-  --du-navy-soft: #262457;
-  --du-mint: #9bd8ce;
-}
-
 .doctor-page {
   max-width: var(--reading-width);
   margin: 0 auto;

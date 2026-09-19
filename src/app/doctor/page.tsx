@@ -6,7 +6,8 @@ import { buildShareUrl, medicationPath } from "@/doctor/lib/share";
 import { MedicationSection } from "@/patient/components/MedicationSection";
 import { ProvenancePanel } from "@/sources/components/ProvenancePanel";
 import { ShareSection } from "@/doctor/components/ShareSection";
-import { AppBar, TabBar } from "@/doctor/components/AppChrome";
+import { AppBar } from "@/shared/components/AppBar";
+import { TabBar } from "@/doctor/components/AppChrome";
 
 export const metadata: Metadata = {
   title: "MedBridge for HCPs — DocUpdate Integration Preview",
@@ -25,7 +26,7 @@ export default async function DoctorPage({ searchParams }: {
 
   return (
     <main className="doctor-page" id="main">
-      <AppBar />
+      <AppBar subtitle="Patient education module" badge="Integration preview" />
       <div className="doctor-hero">
         <p className="eyebrow">DocUpdate Integration Preview</p>
         <h1>Create a patient medication guide</h1>

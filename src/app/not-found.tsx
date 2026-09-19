@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { DEFAULT_MEDICATION_SLUG } from "@/sources/lib/content/registry";
+import { AppBar } from "@/shared/components/AppBar";
 
 /**
  * Unknown medication route.
@@ -12,6 +13,7 @@ import { DEFAULT_MEDICATION_SLUG } from "@/sources/lib/content/registry";
 export default function NotFound() {
   return (
     <main className="page" id="main">
+      <AppBar subtitle="Your medication guide" />
       <div className="med-header">
         <p className="eyebrow">Link not recognised</p>
         <h1 className="med-title">We could not find that medication</h1>
@@ -20,7 +22,7 @@ export default function NotFound() {
         </p>
       </div>
 
-      <div className="card card--warning">
+      <div className="card card--warning" style={{ marginTop: 18 }}>
         <p className="card-label">Why we are not guessing</p>
         <p className="body-text">
           Rather than show you the closest match, we show nothing. Medication information is only
