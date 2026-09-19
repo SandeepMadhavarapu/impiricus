@@ -302,6 +302,10 @@ export const singulair10mgTablet: MedicationRecord = {
         "People who have both asthma and allergic rhinitis are directed to take only one dose daily, in the evening.",
         "This is what the label says in general. It is not a dosing instruction for you — follow the directions on your own prescription and ask your prescriber or pharmacist about your situation.",
       ],
+      detail: [
+        "Which product a person takes depends on age, and the label maps them explicitly: 15 years and older take one 10 mg tablet — the product this page describes. People aged 6 to 14 take one 5 mg chewable tablet. Ages 2 to 5 take one 4 mg chewable tablet or a packet of 4 mg oral granules. Ages 6 to 23 months take a packet of 4 mg oral granules.",
+        "This matters because the strengths are not interchangeable. A 10 mg tablet is not a child's dose, and the chewable tablets and granules are separate products with their own packaging and instructions.",
+      ],
       citations: [
         {
           sectionId: "dosage_and_administration",
@@ -317,6 +321,23 @@ export const singulair10mgTablet: MedicationRecord = {
           sectionId: "dosage_and_administration",
           quote:
             "Patients with both asthma and allergic rhinitis should take only one dose daily in the evening",
+        },
+        {
+          sectionId: "dosage_and_administration",
+          quote: "15 years and older: one 10-mg tablet",
+        },
+        {
+          sectionId: "dosage_and_administration",
+          quote: "6 to 14 years: one 5-mg chewable tablet",
+        },
+        {
+          sectionId: "dosage_and_administration",
+          quote:
+            "2 to 5 years: one 4-mg chewable tablet or one packet of 4-mg oral granules",
+        },
+        {
+          sectionId: "dosage_and_administration",
+          quote: "6 to 23 months: one packet of 4-mg oral granules",
         },
       ],
     },

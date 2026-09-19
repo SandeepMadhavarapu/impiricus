@@ -23,8 +23,11 @@ clinician has reviewed its content.
 | Crisis / overdose / emergency routing | **Working** |
 | Provider connection via verified public destinations | **Working** |
 | Provider referral *submission* | **Not implemented** — no authorised integration; no personal data is collected |
+| Follow-up questions (conversation-aware retrieval) | **Working** |
+| Unresolved question preserved across the provider handoff | **Working** |
 | Insurance coverage input + result states | **Working** |
-| Insurance coverage against a real payer | **Not implemented** — no credential exists; returns "unable to verify" |
+| Insurance coverage — real CMS Part D formulary evidence | **Integration complete; awaiting data ingest** (`npm run coverage:ingest`) |
+| Insurance coverage against a member-specific payer API | **Not implemented** — no credential exists |
 
 Nothing in this app fabricates a medical answer, a coverage result, or a
 provider connection. Where something cannot be verified, it says so.
@@ -57,6 +60,9 @@ medication.
 | `npm run test:watch` | Vitest in watch mode |
 | `npm run verify` | typecheck → lint → test → build |
 | `npm run content:fetch` | Re-fetch the FDA label and rewrite the provenance-stamped source record |
+| `npm run content:verify` | Check the stored label is still the current SPL version |
+| `npm run coverage:ingest` | Download CMS Part D formulary data and write the plan-specific snapshot |
+| `npm run coverage:ingest -- --dry-run` | Resolve the current CMS release without downloading (~2.2 GB) |
 
 ### Configuration
 
@@ -150,7 +156,7 @@ explainer* over retrieved passages — never the source of facts.
 npm test
 ```
 
-135 tests across 7 files, all passing:
+194 tests across 10 files, all passing:
 
 | File | Tests | Covers |
 |---|---:|---|
@@ -161,6 +167,9 @@ npm test
 | `coverage.test.ts` | 23 | timeout/error never becomes positive; no fabricated copay; "not listed" ≠ "not covered" |
 | `privacy.test.ts` | 18 | analytics allow-listing; rate limiting; verified provider destinations |
 | `share.test.ts` | 8 | no private data in share URLs; slug rejection |
+| `handoff.test.ts` | 18 | the unresolved question survives the handoff; crisis turns never do; stays local |
+| `followup.test.ts` | 19 | elliptical follow-ups resolved from context; pronouns with no antecedent ask instead of guessing |
+| `formulary.test.ts` | 16 | CMS formulary never becomes member coverage or a cost estimate; unmatched plan ≠ not covered |
 
 ---
 

@@ -21,3 +21,7 @@ next-env.d.ts
 # OS
 .DS_Store
 Thumbs.db
+
+# Ingested CMS formulary snapshot (regenerate with npm run coverage:ingest).
+# ~2.2 GB source; the extracted subset is operator-generated, not committed.
+/src/content/coverage/

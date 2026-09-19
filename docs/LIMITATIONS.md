@@ -90,3 +90,26 @@ is worse than one that does less.
 Not built: multi-medication catalogue, accounts, saved history, notifications,
 provider-side views, internationalisation, NFC tag writing (an NFC tag can carry
 the same public URL, but nothing in the app depends on it).
+
+---
+
+## Added during the repair pass
+
+- **CMS formulary data is not ingested.** The integration is complete and
+  tested, but `src/content/coverage/cms-part-d-snapshot.json` does not exist in
+  this environment, so coverage still reports "unable to verify". The source
+  archive is ~2.2 GB. Run `npm run coverage:ingest`.
+- **CMS data is Medicare Part D only.** Commercial and Medicaid plans are not in
+  the dataset. Those plans return `unable-to-verify`, never "not covered".
+- **Plan matching is token-overlap, not authoritative.** A conservative
+  threshold (0.6) means a weak match returns "could not match that plan" rather
+  than guessing. It can still fail to match a plan the user names correctly.
+- **The snapshot is a point-in-time copy.** Formularies change mid-year. The
+  release label and retrieval timestamp are shown on every result.
+- **Elliptical detection is heuristic.** It keys on anaphors, continuation
+  openers and content-token count. "this"/"it" are deliberately NOT anaphors —
+  on a single-medication page they refer to the drug — which means a genuinely
+  ambiguous "is it safe?" about something else may not trigger clarification.
+- **The carried handoff question is not persisted.** Closing the sheet discards
+  it. That is intentional (nothing is stored), but it means the question is lost
+  if the user navigates away.

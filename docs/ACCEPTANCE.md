@@ -154,3 +154,38 @@ Requirement → implementation → how it was verified → what remains limited.
 Everything in [docs/DEVICE-CHECKLIST.md](DEVICE-CHECKLIST.md). **No physical
 device test has been performed.** Browser automation does not exercise
 OS-level AirDrop or Quick Share.
+
+---
+
+# Addendum — independent diagnosis and repair
+
+Run against the existing repository. No external audit document was supplied,
+so findings below are from independent diagnosis against the running code.
+
+## Defects confirmed and repaired
+
+| # | Defect | How it was confirmed | Repair | Verification |
+|---|---|---|---|---|
+| 1 | **The provider handoff discarded the user's question.** `onOpenProvider` took no arguments; the provider step only rendered six generic prompts. | Read of `ChatSheet.tsx` / `ProviderSheet.tsx`; the prop signature took no payload and `QuestionBuilder` sourced only `defaultQuestionsForClinician`. | New `src/lib/handoff`. Question carried verbatim, shown on the choice screen with the reason it is open, placed first in the editable list badged "YOURS". | `test` (18) + `manual` — verified end to end in the production build: question "Can I drink alcohol while taking this?" arrived as item 1 of 7. |
+| 2 | **Retrieval was single-turn, so follow-ups were unreliable.** `orchestrator.ts:70` searched `req.message` only; history reached the model but never the retriever. | Probe against the real label: `"Are any of those permanent?"` → **0 hits** → "not covered", though the label states NP symptoms sometimes persist. `"Is that the same for her?"` → **3 confident hits in Dosage and Administration** from a pronoun-only query. | New `src/lib/retrieval/context.ts`. Prior topic merged **only** when the message cannot stand alone; a pronoun with no antecedent now asks (`needs-clarification`) instead of guessing. | `test` (19) — both original failures encoded as regressions. |
+| 3 | **Coverage had no real source.** Every lookup returned "unable to verify". | Read of `adapters.ts`; only `unconfigured` and `sample` existed. | CMS Part D formulary integration (`formulary.ts`, `snapshot.ts`, `cmsFormularyAdapter`, `scripts/ingest-formulary.mjs`). | `test` (16) + `api` — release resolution verified live (2026-08, HTTP 200, 2188 MB). **Data not ingested.** |
+| 4 | **Dosage education omitted the age→strength mapping.** | Read of the `how-its-taken` section — it covered timing but not which product suits which age. | Added the label's explicit mapping (15+ → 10 mg tablet; 6–14 → 5 mg chewable; 2–5 → 4 mg chewable/granules; 6–23 months → granules) with four new verbatim-verified citations. | `test` — all 38 citations remain literal substrings of the retrieved label. |
+
+## Claims deliberately NOT made
+
+- **No physical AirDrop or Quick Share testing.** Unchanged from before; every
+  item in `DEVICE-CHECKLIST.md` remains "Not tested". Browser automation cannot
+  exercise an OS share sheet.
+- **No live payer coverage.** The CMS integration is formulary evidence, not
+  member benefits, and its data has not been ingested in this environment.
+- **No successful provider connection.** Nothing is transmitted; the handoff is
+  local preparation only.
+- **Conversational assistant still unverified against a live model.** Tested
+  against a stub adapter; no request has been made to a real model API.
+
+## Test count
+
+| | Baseline | After |
+|---|---:|---:|
+| Test files | 7 | 10 |
+| Tests | 135 | 194 |
