@@ -5,6 +5,25 @@ run it, or call any API from the browser.
 
 ---
 
+## Automatic refresh and the API key
+
+Source checks, change detection and candidate preparation are automated;
+publication is reviewed. **The app does not consume this pipeline yet** - see
+[REFRESH.md](REFRESH.md), which states the integration gap plainly and gives
+the runbook.
+
+```bash
+cd data-pipeline
+cp .env.example .env.local     # paste the openFDA key after the "="
+npm run env:check              # confirms wiring, never prints the value
+npm run refresh:check          # reaches all 6 sources, writes nothing
+```
+
+openFDA is the only source that takes a key, and it is optional. In CI the key
+comes from the repository Actions secret `OPENFDA_API_KEY`.
+
+---
+
 ## Supported scope
 
 - **Three selected medication products.** Not a drug database.

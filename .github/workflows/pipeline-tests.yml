@@ -1,0 +1,78 @@
+# Network-free tests for the data pipeline.
+#
+# WHEN THIS RUNS: immediately, on this feature branch. `push` and
+# `pull_request` triggers work from any branch, unlike `schedule` and
+# `workflow_dispatch` (see pipeline-refresh.yml for that distinction).
+#
+# This job needs no secrets and no write access. It must never gain them:
+# it runs code from pull requests, and a job that runs submitted code with a
+# production credential is how a credential leaves the repository.
+name: pipeline-tests
+
+on:
+  push:
+    branches: ["**"]
+    paths:
+      - "data-pipeline/**"
+      - ".github/workflows/pipeline-tests.yml"
+  pull_request:
+    paths:
+      - "data-pipeline/**"
+      - ".github/workflows/pipeline-tests.yml"
+
+# Read-only. No secrets are referenced anywhere in this file.
+permissions:
+  contents: read
+
+concurrency:
+  group: pipeline-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: typecheck and fixture tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: data-pipeline
+
+    steps:
+      # actions/checkout v4.2.2
+      - name: Check out
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+
+      # actions/setup-node v4.1.0
+      - name: Set up Node
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: data-pipeline/package-lock.json
+
+      - name: Install
+        run: npm ci
+        timeout-minutes: 5
+
+      - name: Typecheck
+        run: npm run typecheck
+        timeout-minutes: 5
+
+      # These tests are deliberately network-free, so a source outage can never
+      # turn into a red build on an unrelated pull request.
+      - name: Fixture tests
+        run: npm test
+        timeout-minutes: 8
+
+      - name: Confirm no secret is committed
+        working-directory: .
+        run: |
+          # .env.local must never be tracked. This is a cheap, explicit guard
+          # rather than a reliance on .gitignore staying correct.
+          if git ls-files --error-unmatch data-pipeline/.env.local >/dev/null 2>&1; then
+            echo "::error::data-pipeline/.env.local is tracked by git. Remove it from the index."
+            exit 1
+          fi
+          echo "OK: .env.local is not tracked."

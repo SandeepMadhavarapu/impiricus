@@ -4,3 +4,18 @@ node_modules/
 # without running ingestion.
 data/raw/
 *.tsbuildinfo
+
+# Local secrets. The root .gitignore already ignores .env*.local, but this is
+# repeated here so the rule is visible to anyone reading the pipeline in
+# isolation, and so it survives a change to the root file.
+.env
+.env.local
+.env*.local
+# The placeholder file is committed on purpose: it documents the variable
+# names without carrying any value.
+!.env.example
+
+# Staged candidates are transient build output; manifests ARE committed as
+# evidence of what was published from which source versions.
+data/staging/
+data/manifests/snapshots/

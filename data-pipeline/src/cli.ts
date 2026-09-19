@@ -1,9 +1,23 @@
 #!/usr/bin/env node
+// Loaded before anything else: adapters read process.env at call time, but
+// a config module could read it at import time, and then order would matter.
+import { loadPipelineEnv, describeSecret, PIPELINE_ROOT } from "./config/env.js";
+loadPipelineEnv();
 import { mkdir, writeFile, readFile, readdir, rename } from "node:fs/promises";
 import path from "node:path";
 import { PRODUCTS, findProduct } from "./config/products.js";
 import { SOURCES } from "./config/sources.js";
 import { SUPPORTED_SCOPE } from "./config/scope.js";
+import { SECRET_ENV_NAMES } from "./config/env.js";
+import { runChecks, renderRunReport, renderCadenceTable, buildCandidateManifest } from "./refresh/run.js";
+import {
+  listManifests,
+  lastKnownGood,
+  rollbackTo,
+  verifyManifestAgainstTree,
+  hashTree,
+  EXPORTS_DIR as PUBLISHED_EXPORTS_DIR,
+} from "./refresh/manifest.js";
 import { exportAccess } from "./access/exportAccess.js";
 import { resolveProduct } from "./identity/resolve.js";
 import { buildRecord, summarize } from "./normalize/record.js";
@@ -342,7 +356,22 @@ ${PRODUCTS.map((p) => `  ${p.productKey}`).join("\n")}
 
 Notes:
   --force bypasses the 12-hour response cache.
-  OPENFDA_API_KEY is optional and raises openFDA's daily limit.`);
+  OPENFDA_API_KEY is optional and raises openFDA's daily limit.
+  Put it in data-pipeline/.env.local (git-ignored); run 'npm run env:check' to confirm.`);
+}
+
+/** Repeatable flag, e.g. --source openfda --source rxnav. */
+function argValues(args: string[], flag: string): string[] {
+  const out: string[] = [];
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === flag && args[i + 1]) out.push(args[i + 1]!);
+  }
+  return out;
+}
+
+function argValue(args: string[], flag: string): string | null {
+  const i = args.indexOf(flag);
+  return i >= 0 && args[i + 1] ? args[i + 1]! : null;
 }
 
 async function main(): Promise<void> {
@@ -381,6 +410,124 @@ async function main(): Promise<void> {
       for (const f of files) log(`wrote ${path.relative(process.cwd(), f)}`);
       return;
     }
+    case "refresh:check": {
+      // Reaches every source, compares versions, writes nothing.
+      const only = argValues(rest, "--source");
+      const run = await runChecks({
+        mode: "check-only",
+        only,
+        dryRun: rest.includes("--dry-run"),
+      });
+      log(renderRunReport(run));
+      // A permanent failure is a configuration problem and should fail CI.
+      const permanent = run.sources.filter((s) => s.outcome === "failed-permanent");
+      if (permanent.length > 0) process.exitCode = 2;
+      return;
+    }
+
+    case "refresh:cadence": {
+      log(renderCadenceTable());
+      return;
+    }
+
+    case "refresh:run": {
+      const only = argValues(rest, "--source");
+      const force = rest.includes("--force");
+      const run = await runChecks({ mode: force ? "force-refresh" : "refresh", only });
+      log(renderRunReport(run));
+
+      if (run.counts.changed === 0) {
+        log("");
+        log("No source changed. Nothing to stage; existing exports are left untouched.");
+        return;
+      }
+
+      // Candidates are described, never published: publication of medical and
+      // coverage content is a reviewed step.
+      const files = await hashTree(PUBLISHED_EXPORTS_DIR);
+      const m = await buildCandidateManifest(run, [], files);
+      log("");
+      log(`candidate manifest ${m.manifestId}  status=${m.status}`);
+      if (m.reviewBlockers.length > 0) {
+        log(`${m.reviewBlockers.length} review blocker(s); publication is not automatic.`);
+      }
+      return;
+    }
+
+    case "refresh:manifests": {
+      const all = await listManifests();
+      const good = await lastKnownGood();
+      if (all.length === 0) {
+        log("No manifests yet. Run `npm run refresh:run` to create a candidate.");
+        return;
+      }
+      for (const m of all) {
+        log(
+          `${m.manifestId}  ${m.status.padEnd(22)} files=${String(m.files.length).padStart(3)}  ` +
+            `blockers=${m.reviewBlockers.length}  ${m.createdAt}`
+        );
+      }
+      log("");
+      log(`last known good: ${good?.manifestId ?? "(none)"}`);
+      return;
+    }
+
+    case "refresh:verify": {
+      const good = await lastKnownGood();
+      if (!good) {
+        log("No published manifest to verify against.");
+        return;
+      }
+      const v = await verifyManifestAgainstTree(good);
+      log(`manifest ${good.manifestId}: ${v.ok ? "MATCHES the export tree" : "MISMATCH"}`);
+      for (const f of v.missing) log(`  missing  ${f}`);
+      for (const f of v.modified) log(`  modified ${f}`);
+      if (!v.ok) process.exitCode = 3;
+      return;
+    }
+
+    case "refresh:rollback": {
+      const id = argValue(rest, "--manifest");
+      if (!id) {
+        log("Usage: refresh:rollback --manifest <manifestId>");
+        process.exitCode = 1;
+        return;
+      }
+      const r = await rollbackTo(id);
+      log(r.detail);
+      if (!r.ok) process.exitCode = 4;
+      return;
+    }
+
+    case "env:check": {
+      // Reports CONFIGURATION, never values. Safe to run in CI and to paste
+      // into an issue.
+      const env = loadPipelineEnv();
+      log(`pipeline root   ${PIPELINE_ROOT}`);
+      log(`env files read  ${env.filesRead.length > 0 ? env.filesRead.join(", ") : "(none)"}`);
+      if (env.filesMissing.length > 0) log(`not present     ${env.filesMissing.join(", ")}`);
+      if (env.namesSkippedProcessWins.length > 0) {
+        log(
+          `process wins    ${env.namesSkippedProcessWins.join(", ")} ` +
+            `(already set in the environment; the file value was ignored)`
+        );
+      }
+      log("");
+      for (const name of SECRET_ENV_NAMES) {
+        const d = describeSecret(name);
+        log(
+          `${name.padEnd(18)} ${d.configured ? "configured" : "NOT CONFIGURED"}` +
+            (d.configured ? `  (length ${d.length}, from ${d.source})` : "")
+        );
+      }
+      if (!describeSecret("OPENFDA_API_KEY").configured) {
+        log("");
+        log("openFDA works without a key at a lower rate limit.");
+        log('To add one:  cp .env.example .env.local   then paste the key after "=".');
+      }
+      return;
+    }
+
     case "access:export": {
       const files = await exportAccess();
       for (const f of files) log(`wrote ${path.relative(process.cwd(), f)}`);
