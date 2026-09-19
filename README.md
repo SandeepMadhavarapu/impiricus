@@ -301,3 +301,14 @@ change a medication.
 In a medical emergency in the United States, call **911**. For a suspected
 overdose, call Poison Help at **1-800-222-1222**. For mental-health crisis
 support, call or text **988**.
+
+### Nearby Sound Sharing — Experimental
+
+Doctors can send a temporary opaque code using **Send Nearby / Send with sound**.
+The patient opens `/receive` and explicitly presses **Listen for guide** before
+microphone permission is requested. Audio is processed locally and is never recorded
+or uploaded. Only the decoded token is submitted to the server. Native share,
+AirDrop, Messages, Copy Link, and the existing QR code remain available.
+
+See [the nearby sharing demo guide](docs/NEARBY-SHARING.md) for setup, manual token
+testing, physical-device steps, protocol details, and known limitations.

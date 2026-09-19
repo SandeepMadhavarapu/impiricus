@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
+import { NearbyShare } from "./NearbyShare";
 import { track } from "@/shared/lib/analytics/client";
 
 /**
@@ -105,6 +106,8 @@ export function ShareSection({
       <p className="muted">
         {doctor ? "Share the public medication guide using your device’s sharing options, or copy the link. No patient or prescription details are included." : "Shares the public page only. Your conversation, coverage details and anything you typed stay on this device and are never included."}
       </p>
+
+      {doctor ? <><NearbyShare key={slug} slug={slug} blocked={blocked} /><h3 style={{ marginTop: 20 }}>Share normally</h3></> : null}
 
       <div className="btn-row" style={{ marginTop: 14 }}>
         <button type="button" className="btn btn--primary" onClick={onShare} disabled={blocked}>
