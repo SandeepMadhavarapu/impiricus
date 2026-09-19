@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Next.js build output
+/.next/
+/out/
+
+# Build artifacts. These are anchored to the repo root on purpose: an unanchored
+# "coverage/" also matches src/app/api/coverage/, which silently excluded a real
+# route handler from the first commit.
+/build/
+/coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# Local environment. .env.example is committed; real values never are.
+.env
+.env.local
+.env*.local
+
+# OS
+.DS_Store
+Thumbs.db

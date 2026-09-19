@@ -1,0 +1,36 @@
+{
+  "name": "medbridge",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Link-based medication education and access prototype (independent hackathon project).",
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000",
+    "lint": "eslint src tests scripts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "content:fetch": "node scripts/fetch-label.mjs",
+    "content:verify": "node scripts/verify-content.mjs",
+    "verify": "npm run typecheck && npm run lint && npm run test && npm run build"
+  },
+  "dependencies": {
+    "next": "^15.5.4",
+    "qrcode": "^1.5.4",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "server-only": "^0.0.1",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "eslint": "^9.34.0",
+    "eslint-config-next": "^15.5.4",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}
