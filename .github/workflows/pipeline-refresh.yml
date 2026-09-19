@@ -1,0 +1,294 @@
+# Scheduled source checks and reviewed data publication.
+#
+# WHEN THIS ACTUALLY RUNS  -- read before assuming it is live
+#
+#   schedule:          GitHub runs scheduled workflows ONLY from the DEFAULT
+#                      branch. While this file exists only on
+#                      feat/data-pipeline, the cron below does NOT fire. It
+#                      starts firing once this file is merged into main.
+#
+#   workflow_dispatch: the "Run workflow" button appears only once the
+#                      workflow exists on the default branch. After that you
+#                      may target any branch from the dropdown. Before the
+#                      merge, there is no button.
+#
+#   So today: this file is verified by `actionlint` and by running the same
+#   commands locally. It is NOT running on a schedule yet, and this comment
+#   exists so nobody claims otherwise.
+#
+# WHAT IT DOES
+#
+#   check   reaches every source, compares versions, writes nothing
+#   refresh regenerates exports when a source changed, then opens a PULL
+#           REQUEST with the result
+#
+# It never publishes on its own. Medical and coverage content changes are
+# reviewed by a person before merge. A green check here is "a candidate is
+# ready to look at", not "the data is correct".
+name: pipeline-refresh
+
+on:
+  schedule:
+    # 07:15 UTC daily. Off the hour on purpose: the top of the hour is the
+    # busiest slot on shared runners and scheduled jobs are dropped under load.
+    # Daily polling against sources that publish monthly is deliberate
+    # over-checking; it is cheap and it bounds detection latency to a day.
+    - cron: "15 7 * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "check = look only. refresh = regenerate and open a PR."
+        type: choice
+        options: ["check", "refresh"]
+        default: "check"
+      sources:
+        description: "Space-separated source ids to limit to (blank = all)."
+        type: string
+        default: ""
+      force:
+        description: "Refresh even when no change is detected."
+        type: boolean
+        default: false
+
+# Default to read-only. The publication job raises this for itself alone.
+permissions:
+  contents: read
+
+# One publication run at a time. Two concurrent runs would race on the same
+# branch and could interleave half-written exports.
+concurrency:
+  group: pipeline-refresh
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: "22"
+
+jobs:
+  check:
+    name: check sources
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    outputs:
+      changed: ${{ steps.check.outputs.changed }}
+      report: ${{ steps.check.outputs.report_path }}
+    defaults:
+      run:
+        working-directory: data-pipeline
+
+    steps:
+      # actions/checkout v4.2.2
+      - name: Check out
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+
+      # actions/setup-node v4.1.0
+      - name: Set up Node
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: data-pipeline/package-lock.json
+
+      - name: Install
+        run: npm ci
+        timeout-minutes: 5
+
+      - name: Confirm credential wiring without printing it
+        env:
+          OPENFDA_API_KEY: ${{ secrets.OPENFDA_API_KEY }}
+        run: npm run env:check
+        timeout-minutes: 2
+
+      - name: Check sources
+        id: check
+        env:
+          # Read from the repository Actions secret of the same name. If the
+          # secret is unset this is empty, and openFDA still works at a lower
+          # rate limit - so a missing key degrades the run, it does not fail it.
+          OPENFDA_API_KEY: ${{ secrets.OPENFDA_API_KEY }}
+          SOURCES: ${{ inputs.sources }}
+        # Source ids are passed through an environment variable and expanded by
+        # the shell, never interpolated into the script body. Retrieved content
+        # is data and is never placed on a command line.
+        run: |
+          set -euo pipefail
+          args=""
+          for s in ${SOURCES:-}; do args="$args --source $s"; done
+          # shellcheck disable=SC2086
+          npm run refresh:check -- $args | tee refresh-report.txt
+          if grep -qE "^checked .* changed [1-9]" refresh-report.txt; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "report_path=data-pipeline/refresh-report.txt" >> "$GITHUB_OUTPUT"
+        timeout-minutes: 12
+
+      - name: Publish run summary
+        if: always()
+        run: |
+          {
+            echo "## Source check"
+            echo ""
+            echo '```'
+            cat refresh-report.txt || echo "(no report produced)"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # actions/upload-artifact v4.4.3
+      - name: Keep the report
+        if: always()
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882
+        with:
+          name: refresh-report
+          path: data-pipeline/refresh-report.txt
+          retention-days: 14
+          if-no-files-found: warn
+
+  refresh:
+    name: regenerate and open a review PR
+    needs: check
+    # Only on an explicit refresh request. The daily scheduled run checks and
+    # reports; it does not open pull requests on its own.
+    if: >-
+      github.event_name == 'workflow_dispatch' &&
+      inputs.mode == 'refresh' &&
+      (needs.check.outputs.changed == 'true' || inputs.force)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      # Raised HERE ONLY, for the one job that must write a branch and a PR.
+      contents: write
+      pull-requests: write
+
+    steps:
+      # actions/checkout v4.2.2
+      - name: Check out
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      # actions/setup-node v4.1.0
+      - name: Set up Node
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: data-pipeline/package-lock.json
+
+      - name: Install
+        working-directory: data-pipeline
+        run: npm ci
+        timeout-minutes: 5
+
+      - name: Regenerate exports
+        working-directory: data-pipeline
+        env:
+          OPENFDA_API_KEY: ${{ secrets.OPENFDA_API_KEY }}
+        run: |
+          set -euo pipefail
+          npm run ingest
+          npm run export
+          npm run insurance:export
+          npm run access:export
+          npm run report
+        timeout-minutes: 30
+
+      # Validation runs AFTER regeneration and BEFORE the PR. A candidate that
+      # fails here is never proposed.
+      - name: Validate the regenerated bundle
+        working-directory: data-pipeline
+        run: |
+          set -euo pipefail
+          npm run typecheck
+          npm test
+        timeout-minutes: 10
+
+      - name: Refuse to proceed if anything outside the allowlist changed
+        run: |
+          set -euo pipefail
+          # A data refresh may only touch generated data. Source code,
+          # workflows and application files changing here would mean the job
+          # did something it was not asked to.
+          changed=$(git status --porcelain -- . | awk '{print $2}')
+          bad=0
+          for f in $changed; do
+            case "$f" in
+              data-pipeline/data/exports/*|data-pipeline/data/normalized/*|\
+              data-pipeline/data/reports/*|data-pipeline/data/manifests/*|\
+              data-pipeline/data/refresh-state.json) ;;
+              *) echo "::error::refresh touched a path outside the allowlist: $f"; bad=1 ;;
+            esac
+          done
+          [ "$bad" -eq 0 ] || exit 1
+          echo "OK: only generated data paths changed."
+
+      - name: Summarise the candidate
+        working-directory: data-pipeline
+        run: |
+          set -euo pipefail
+          {
+            echo "## Candidate data refresh"
+            echo ""
+            echo "Generated by run \`${{ github.run_id }}\`."
+            echo ""
+            echo "### Review before merging"
+            echo ""
+            echo "- Source changes are NOT automatically correct."
+            echo "- Future-effective documents must stay staged as upcoming."
+            echo "- Clinical summaries whose supporting content changed are stale until re-reviewed."
+            echo ""
+            echo '```'
+            npm run refresh:manifests --silent || true
+            echo '```'
+          } > pr-body.md
+          cat pr-body.md >> "$GITHUB_STEP_SUMMARY"
+
+      # peter-evans/create-pull-request v7.0.5
+      #
+      # Uses the GitHub-provided token. No personal access token is required.
+      # NOTE for the repository owner: workflow-created pull requests need
+      # Settings > Actions > General > "Allow GitHub Actions to create and
+      # approve pull requests" to be enabled. If it is not, this step fails and
+      # the uploaded artifact below is the fallback.
+      - name: Open or update the data-refresh PR
+        id: pr
+        continue-on-error: true
+        uses: peter-evans/create-pull-request@5e914681df9dc83aa4e4905692ca88beb2f9e91f
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: data-refresh/automated
+          base: main
+          title: "data: automated source refresh"
+          body-path: data-pipeline/pr-body.md
+          commit-message: "data: automated source refresh"
+          labels: data-refresh, needs-review
+          delete-branch: false
+          # Only generated data. Never source, workflows or app files.
+          add-paths: |
+            data-pipeline/data/exports/**
+            data-pipeline/data/normalized/**
+            data-pipeline/data/reports/**
+            data-pipeline/data/manifests/**
+            data-pipeline/data/refresh-state.json
+
+      - name: Report PR outcome
+        run: |
+          if [ "${{ steps.pr.outcome }}" = "success" ]; then
+            echo "Pull request step succeeded." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "::warning::PR creation did not succeed. The validated candidate is attached as an artifact instead. Check Settings > Actions > General > 'Allow GitHub Actions to create and approve pull requests'." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      # actions/upload-artifact v4.4.3 - the fallback when PR creation is blocked.
+      - name: Upload the validated candidate
+        if: always()
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882
+        with:
+          name: candidate-exports
+          path: |
+            data-pipeline/data/exports/**
+            data-pipeline/data/manifests/**
+          retention-days: 14
+          if-no-files-found: warn

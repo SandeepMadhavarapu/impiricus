@@ -1,0 +1,124 @@
+{
+  "query": {
+    "version": "2.1",
+    "last_name": "Chen",
+    "taxonomy_description": "Pharmacist",
+    "state": "CA",
+    "limit": "3"
+  },
+  "resultCount": 3,
+  "providers": [
+    {
+      "npi": "1356046890",
+      "enumerationType": "NPI-1",
+      "isIndividual": true,
+      "name": "ADRIAN CHEN",
+      "credential": null,
+      "primaryTaxonomy": {
+        "code": "183500000X",
+        "description": "Pharmacist",
+        "primary": true,
+        "state": "CA"
+      },
+      "allTaxonomies": [
+        {
+          "code": "183500000X",
+          "description": "Pharmacist",
+          "primary": true,
+          "state": "CA"
+        }
+      ],
+      "practiceLocation": {
+        "city": "CERRITOS",
+        "state": "CA",
+        "postalCode": "907037821",
+        "telephone": "626-818-9906"
+      },
+      "enumerationDate": "2023-04-03",
+      "lastUpdated": "2023-04-03",
+      "status": "A"
+    },
+    {
+      "npi": "1831583533",
+      "enumerationType": "NPI-1",
+      "isIndividual": true,
+      "name": "ALBERT CHEN",
+      "credential": "Pharm.D.",
+      "primaryTaxonomy": {
+        "code": "183500000X",
+        "description": "Pharmacist",
+        "primary": true,
+        "state": "CA"
+      },
+      "allTaxonomies": [
+        {
+          "code": "183500000X",
+          "description": "Pharmacist",
+          "primary": true,
+          "state": "CA"
+        }
+      ],
+      "practiceLocation": {
+        "city": "SAN FRANCISCO",
+        "state": "CA",
+        "postalCode": "941182216",
+        "telephone": "415-668-5250"
+      },
+      "enumerationDate": "2015-03-20",
+      "lastUpdated": "2015-03-20",
+      "status": "A"
+    },
+    {
+      "npi": "1851756043",
+      "enumerationType": "NPI-1",
+      "isIndividual": true,
+      "name": "ALBERT CHEN",
+      "credential": "Pharm.D",
+      "primaryTaxonomy": {
+        "code": "183500000X",
+        "description": "Pharmacist",
+        "primary": true,
+        "state": "CA"
+      },
+      "allTaxonomies": [
+        {
+          "code": "183500000X",
+          "description": "Pharmacist",
+          "primary": true,
+          "state": "CA"
+        }
+      ],
+      "practiceLocation": {
+        "city": "FRESNO",
+        "state": "CA",
+        "postalCode": "937115509",
+        "telephone": "800-797-3543"
+      },
+      "enumerationDate": "2015-12-15",
+      "lastUpdated": "2015-12-15",
+      "status": "A"
+    }
+  ],
+  "limitations": [
+    "NPPES enumeration is not proof of current licensure.",
+    "NPPES does not credential providers or verify privileges.",
+    "NPPES does not authenticate that a person is who the record says they are.",
+    "NPPES says nothing about accepting new patients or participating in any insurance network.",
+    "NPPES establishes no relationship between a provider and any patient.",
+    "Addresses and taxonomies are self-reported by the provider and may be out of date."
+  ],
+  "provenance": {
+    "sourceId": "nppes",
+    "sourceName": "NPPES NPI Registry API",
+    "url": "https://npiregistry.cms.hhs.gov/api/?version=2.1&last_name=Chen&taxonomy_description=Pharmacist&state=CA&limit=3",
+    "retrievedAt": "2026-09-19T19:21:06.638Z",
+    "sourceEffectiveDate": null,
+    "sourceIdentifier": null,
+    "sourceVersion": "2.1",
+    "rawPath": "data/raw/nppes/nppes-Chen-a5bce5eb5985caf0e9395f7ecfa5d243.json",
+    "contentHash": "55f66f069c1db61a9447ae6868b4175bea4e4885f15c4d290755c116054bf7bf",
+    "captureId": "a5bce5eb5985caf0e9395f7ecfa5d243",
+    "locator": "npiregistry/api",
+    "parserVersion": "pipeline-0.1.0"
+  }
+}

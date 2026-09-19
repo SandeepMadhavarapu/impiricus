@@ -1,0 +1,44 @@
+{
+  "name": "@medbridge/data-pipeline",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Medication ingestion and verification pipeline. Isolated from the application; produces app-consumable JSON exports.",
+  "scripts": {
+    "cli": "tsx src/cli.ts",
+    "resolve": "tsx src/cli.ts resolve",
+    "ingest": "tsx src/cli.ts ingest",
+    "validate": "tsx src/cli.ts validate",
+    "refresh": "tsx src/cli.ts refresh",
+    "export": "tsx src/cli.ts export",
+    "report": "tsx src/cli.ts report",
+    "nppes": "tsx src/cli.ts nppes",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:live": "LIVE=1 vitest run tests/live.smoke.test.ts",
+    "verify": "npm run typecheck && npm run test",
+    "insurance:ingest": "tsx src/cli.ts insurance:ingest",
+    "coverage": "tsx src/cli.ts coverage",
+    "insurance:export": "tsx src/cli.ts insurance:export",
+    "verify:report": "tsx src/cli.ts verify:report",
+    "access:export": "tsx src/cli.ts access:export",
+    "env:check": "tsx src/cli.ts env:check",
+    "refresh:check": "tsx src/cli.ts refresh:check",
+    "refresh:run": "tsx src/cli.ts refresh:run",
+    "refresh:cadence": "tsx src/cli.ts refresh:cadence",
+    "refresh:manifests": "tsx src/cli.ts refresh:manifests",
+    "refresh:verify": "tsx src/cli.ts refresh:verify",
+    "refresh:rollback": "tsx src/cli.ts refresh:rollback"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^4.5.1",
+    "pdfjs-dist": "^4.10.38",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "tsx": "^4.19.2",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}
