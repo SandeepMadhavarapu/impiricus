@@ -32,6 +32,26 @@ function flag(name: string): boolean {
   return env(name)?.toLowerCase() === "true";
 }
 
+/* ------------------------------------------------------------------- mode */
+
+export type AppMode = "patient" | "doctor";
+
+/**
+ * Which audience this deployment's root path ("/") is for.
+ *
+ * The doctor workspace (`/doctor`) and the patient page (`/medications/...`)
+ * are both always reachable regardless of this setting — it only decides
+ * where "/" sends someone, so the same build can be deployed twice under two
+ * domains: one that opens straight to the patient experience (what a shared
+ * link should show), and one that opens straight to the doctor demo
+ * workspace. Defaults to "patient" — the patient experience is what a real
+ * shared link must show, so an unset or misconfigured value must never
+ * silently land someone on the doctor workspace instead.
+ */
+export function getAppMode(): AppMode {
+  return env("APP_MODE")?.toLowerCase() === "doctor" ? "doctor" : "patient";
+}
+
 /* ------------------------------------------------------------------ origin */
 
 /**

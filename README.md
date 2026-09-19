@@ -195,7 +195,7 @@ explainer* over retrieved passages — never the source of facts.
 npm test
 ```
 
-212 tests across 12 files, all passing:
+216 tests across 13 files, all passing:
 
 | File | Tests | Covers |
 |---|---:|---|
@@ -211,6 +211,7 @@ npm test
 | `formulary.test.ts` | 18 | CMS formulary never becomes member coverage or a cost estimate; unmatched plan ≠ not covered |
 | `doctor.test.ts` | 10 | selection, unchanged preview content, provenance, invalid products, public HTTPS sharing configuration |
 | `share-component.test.ts` | 8 | direct native-share invocation, cancellation, clipboard/manual fallback, public-only payload, patient behavior |
+| `config.test.ts` | 4 | `APP_MODE` defaults to patient; only an explicit, case-insensitive "doctor" switches it |
 
 ---
 
@@ -232,6 +233,43 @@ deployment needs a shared store. See [docs/LIMITATIONS.md](docs/LIMITATIONS.md).
 
 `PUBLIC_ORIGIN` is read at build time for the statically generated page, so set
 it **before** running `npm run build`, and rebuild after changing it.
+
+### Two Vercel domains: patient link vs. doctor demo
+
+This is one codebase with two audiences that are meant to live at two
+different URLs: the real link a patient opens (which must land on the
+medication page, not a marketing splash or a workspace UI) and a separate demo
+URL for showing the `/doctor` workspace on its own. Both routes are always
+reachable directly on either domain — `APP_MODE` only decides what the bare
+domain ("/") redirects to.
+
+Set this up as **two separate Vercel projects** pointing at the same GitHub
+repo:
+
+| | Project A — patient | Project B — doctor demo |
+|---|---|---|
+| `APP_MODE` | unset (or `patient`) | `doctor` |
+| `PUBLIC_ORIGIN` | the patient project's own domain | the doctor project's own domain |
+| `/` redirects to | `/medications/<slug>` | `/doctor` |
+| Purpose | the link you actually share with patients | a demo URL for showing doctors/DocUpdate the workspace |
+
+Steps, once per project:
+
+1. In Vercel, **Add New → Project**, import this repo.
+2. Under **Settings → Environment Variables**, set `APP_MODE` (`doctor` for
+   the doctor-demo project, leave unset for the patient project) and
+   `PUBLIC_ORIGIN` to that project's own domain — every project needs its own
+   value here, since it's used to build absolute share URLs and QR codes for
+   *that* domain specifically.
+3. Deploy. Vercel builds `/` as a static redirect, so `APP_MODE` must be set
+   **before** the build runs (project env vars, not a `.env` file) — the two
+   projects will end up with different static redirects from the same source.
+4. Attach whatever custom domain/subdomain you want to each project under
+   **Settings → Domains**.
+
+Because `/doctor` is reachable on the patient domain too (and vice versa),
+nothing needs duplicating in code to keep both projects in sync — redeploying
+either one from the same `main` branch picks up the same routes and content.
 
 ### Troubleshooting
 
