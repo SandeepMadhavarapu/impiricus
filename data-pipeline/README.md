@@ -40,6 +40,9 @@ exports live in `data/exports/`.
 | `npm run export` | Writes app-consumable JSON to `data/exports/` |
 | `npm run report` | Writes the completeness/conflict report |
 | `npm run nppes -- --lastName Smith --state CA` | Targeted provider lookup |
+| `npm run insurance:ingest` | Fetch CMS Part D formulary evidence (range-fetches ~8.8 MB of a 2.14 GB archive) |
+| `npm run coverage -- --product <key> --contract S5820 --plan 034 --segment 000` | Coverage lookup for an exact plan |
+| `npm run insurance:export` | Write source register, plan index and example lookups |
 | `npm test` | Fixture-driven suite. **No network.** |
 | `npm run test:live` | Opt-in live smoke checks, reported separately |
 | `npm run typecheck` | `tsc --noEmit` |
@@ -68,10 +71,12 @@ to inflate a count. Rationale for each is in `src/config/products.ts`.
 ```
 data-pipeline/
   contracts/medication-export.d.ts   dependency-free types for the app
+  contracts/insurance-export.d.ts    coverage lookup + source register types
   src/
     config/        source registry (endpoints, limits, licensing) + product catalog
     sources/       http client, rxnav, dailymed, openfda, nppes
-    identity/      NDC conversion, candidate generation, resolution states
+    identity/      NDC conversion, candidate generation, resolution states, FDA approval matching
+    insurance/     Part D snapshot, plan resolution, coverage lookup
     normalize/     SPL XML -> structured sections; record assembly
     export/        app-consumable JSON
     schemas/       zod schemas and types
@@ -117,6 +122,7 @@ they are written.
 - [docs/SOURCES.md](docs/SOURCES.md) — every source, probed live, with what it can and cannot establish
 - [docs/INTEGRATION.md](docs/INTEGRATION.md) — for UI teammates: example reads and field meanings
 - [docs/AUDIT.md](docs/AUDIT.md) — verified live vs fixture-tested vs unavailable
+- `data/exports/insurance/source-register.json` — every insurance source, with discovery vs retrieval status
 - [docs/BOUNDARIES.md](docs/BOUNDARIES.md) — what public sources cannot provide, and where those features belong
 - `data/reports/completeness.md` — generated completeness and conflict report
 

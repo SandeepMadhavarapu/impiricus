@@ -10,6 +10,8 @@ import { MedicationRecordSchema, type MedicationRecord } from "./schemas/index.j
 import { lookupProviders } from "./sources/nppes.js";
 import { interactionApiStatus } from "./sources/rxnav.js";
 import { SourceUnavailableError } from "./sources/http.js";
+import { cmdInsuranceIngest, cmdCoverage } from "./insurance/cli.js";
+import { exportInsurance } from "./insurance/exportInsurance.js";
 
 /**
  * Pipeline CLI.
@@ -326,6 +328,9 @@ Commands:
   export                           Write app-consumable JSON to data/exports/
   report                           Write the completeness/conflict report
   nppes --lastName Smith --state CA [--taxonomy Pharmacist] [--limit 5]
+  insurance:ingest                 Fetch CMS Part D formulary evidence (range-fetches ~9 MB of a 2.1 GB archive)
+  coverage --product <key> --contract S5820 --plan 034 --segment 000 [--year 2026]
+  coverage --product <key> --planName "AARP"     Candidates only; a name never resolves a plan
 
 Known products:
 ${PRODUCTS.map((p) => `  ${p.productKey}`).join("\n")}
@@ -357,6 +362,15 @@ async function main(): Promise<void> {
       return cmdReport();
     case "nppes":
       return cmdNppes(rest);
+    case "insurance:ingest":
+      return cmdInsuranceIngest();
+    case "coverage":
+      return cmdCoverage(rest);
+    case "insurance:export": {
+      const files = await exportInsurance();
+      for (const f of files) log(`wrote ${path.relative(process.cwd(), f)}`);
+      return;
+    }
     default:
       usage();
       if (command) process.exitCode = 1;

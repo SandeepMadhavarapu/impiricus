@@ -16,7 +16,10 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:live": "LIVE=1 vitest run tests/live.smoke.test.ts",
-    "verify": "npm run typecheck && npm run test"
+    "verify": "npm run typecheck && npm run test",
+    "insurance:ingest": "tsx src/cli.ts insurance:ingest",
+    "coverage": "tsx src/cli.ts coverage",
+    "insurance:export": "tsx src/cli.ts insurance:export"
   },
   "dependencies": {
     "fast-xml-parser": "^4.5.1",

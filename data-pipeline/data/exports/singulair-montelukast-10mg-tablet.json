@@ -51,8 +51,11 @@
       "printedNumber": null,
       "title": null,
       "paragraphs": [],
+      "highlights": [],
       "tables": [],
       "subsections": [],
+      "applicability": "document-level-unresolved",
+      "appliesToProducts": [],
       "audience": "professional"
     },
     {
@@ -62,8 +65,15 @@
       "paragraphs": [
         "Warnings and Precautions (5.1) [see] Serious neuropsychiatric (NP) events have been reported with the use of SINGULAIR. The types of events reported were highly variable, and included, but were not limited to, agitation, aggression, depression, sleep disturbances, suicidal thoughts and behavior (including suicide). The mechanisms underlying NP events associated with SINGULAIR use are currently not well understood. Indications and Usage (1.3) [see] Because of the risk of NP events, the benefits of SINGULAIR may not outweigh the risks in some patients, particularly when the symptoms of disease may be mild and adequately treated with alternative therapies. Reserve use of SINGULAIR for patients with allergic rhinitis who have an inadequate response or intolerance to alternative therapies. In patients with asthma or exercise-induced bronchoconstriction, consider the benefits and risks before prescribing SINGULAIR. Warnings and Precautions (5.1) [see] Discuss the benefits and risks of SINGULAIR with patients and caregivers when prescribing SINGULAIR. Advise patients and/or caregivers to be alert for changes in behavior or new NP symptoms when taking SINGULAIR. If changes in behavior are observed, or if new NP symptoms or suicidal thoughts and/or behavior occur, advise patients to discontinue SINGULAIR and contact a healthcare provider immediately."
       ],
+      "highlights": [
+        "WARNING: SERIOUS NEUROPSYCHIATRIC EVENTS",
+        "See full prescribing information for complete boxed warning.",
+        "5.1 Serious neuropsychiatric events have been reported in patients taking SINGULAIR (). 5.1 Discuss benefits and risks of SINGULAIR with patients and caregivers (). 5.1 Monitor for neuropsychiatric symptoms in patients taking SINGULAIR (). 5.1 Discontinue SINGULAIR immediately if neuropsychiatric symptoms occur (). 1.3 5.1 Because the benefits of SINGULAIR may not outweigh the potential risk of neuropsychiatric symptoms in patients with allergic rhinitis, reserve use for patients who have an inadequate response or intolerance to alternative therapies (,)."
+      ],
       "tables": [],
       "subsections": [],
+      "applicability": "document-level-unresolved",
+      "appliesToProducts": [],
       "audience": "professional"
     },
     {
@@ -71,8 +81,11 @@
       "printedNumber": null,
       "title": null,
       "paragraphs": [],
+      "highlights": [],
       "tables": [],
       "subsections": [],
+      "applicability": "document-level-unresolved",
+      "appliesToProducts": [],
       "audience": "professional"
     },
     {
@@ -80,6 +93,12 @@
       "printedNumber": "1",
       "title": "1 INDICATIONS AND USAGE",
       "paragraphs": [],
+      "highlights": [
+        "SINGULAIR is a leukotriene receptor antagonist indicated for:",
+        "Limitations of Use:",
+        "1.1 Prophylaxis and chronic treatment of asthma in patients 12 months of age and older (). 1.2 Acute prevention of exercise-induced bronchoconstriction (EIB) in patients 6 years of age and older (). 1.3 Relief of symptoms of allergic rhinitis (AR): seasonal allergic rhinitis (SAR) in patients 2 years of age and older, and perennial allergic rhinitis (PAR) in patients 6 months of age and older. Reserve use for patients who have an inadequate response or intolerance to alternative therapies ().",
+        "5.2 Not indicated to treat an acute asthma attack ()."
+      ],
       "tables": [],
       "subsections": [
         {
@@ -89,8 +108,11 @@
           "paragraphs": [
             "® SINGULAIRis indicated for the prophylaxis and chronic treatment of asthma in adults and pediatric patients 12 months of age and older."
           ],
+          "highlights": [],
           "tables": [],
           "subsections": [],
+          "applicability": "document-level-unresolved",
+          "appliesToProducts": [],
           "audience": "professional"
         },
         {
@@ -100,8 +122,11 @@
           "paragraphs": [
             "SINGULAIR is indicated for prevention of exercise-induced bronchoconstriction (EIB) in patients 6 years of age and older."
           ],
+          "highlights": [],
           "tables": [],
           "subsections": [],
+          "applicability": "document-level-unresolved",
+          "appliesToProducts": [],
           "audience": "professional"
         },
         {
@@ -111,8 +136,11 @@
           "paragraphs": [
             "Warnings and Precautions (5.1) [see] SINGULAIR is indicated for the relief of symptoms of seasonal allergic rhinitis in patients 2 years of age and older and perennial allergic rhinitis in patients 6 months of age and older. Because the benefits of SINGULAIR may not outweigh the risk of neuropsychiatric symptoms in patients with allergic rhinitis, reserve use for patients who have an inadequate response or intolerance to alternative therapies."
           ],
+          "highlights": [],
           "tables": [],
           "subsections": [],
+          "applicability": "document-level-unresolved",
+          "appliesToProducts": [],
           "audience": "professional"
         },
         {
@@ -122,11 +150,16 @@
           "paragraphs": [
             "SINGULAIR is not indicated for the treatment of an acute asthma attack."
           ],
+          "highlights": [],
           "tables": [],
           "subsections": [],
+          "applicability": "document-level-unresolved",
+          "appliesToProducts": [],
           "audience": "professional"
         }
       ],
+      "applicability": "document-level-unresolved",
+      "appliesToProducts": [],
       "audience": "professional"
     },
     {
@@ -134,6 +167,13 @@
       "printedNumber": "2",
       "title": "2 DOSAGE AND ADMINISTRATION",
       "paragraphs": [],
+      "highlights": [
+        "Administration (by indications):",
+        "Dosage (by age):",
+        "2.4 2.5 Patients with both asthma and allergic rhinitis should take only one dose daily in the evening (). For oral granules: Must administer within 15 minutes after opening the packet (with or without mixing with food) ().",
+        "2.1 Asthma: Once daily in the evening for patients 12 months and older (). 2.2 Acute prevention of EIB: One tablet at least 2 hours before exercise for patients 6 years of age and older (). 2.3 Seasonal allergic rhinitis: Once daily for patients 2 years and older (). 2.3 Perennial allergic rhinitis: Once daily for patients 6 months and older ().",
+        "2 15 years and older: one 10-mg tablet (). 2 6 to 14 years: one 5-mg chewable tablet (). 2 2 to 5 years: one 4-mg chewable tablet or one packet of 4-mg oral granules (). 2 6 to 23 months: one packet of 4-mg oral granules ()."
+      ],
       "tables": [],
       "subsections": [
         {
@@ -145,6 +185,7 @@
             "The following doses are recommended:",
             "Patients who miss a dose should take the next dose at their regular time and should not take 2 doses at the same time."
           ],
+          "highlights": [],
           "tables": [
             {
               "caption": "Table 1: Recommended Dosage in Asthma",
@@ -175,6 +216,13 @@
             }
           ],
           "subsections": [],
+          "applicability": "explicitly-shared",
+          "appliesToProducts": [
+            "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+            "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+            "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+            "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+          ],
           "audience": "professional"
         },
         {
@@ -186,6 +234,7 @@
             "An additional dose of SINGULAIR should not be taken within 24 hours of a previous dose. Patients already taking SINGULAIR daily for another indication (including chronic asthma) should not take an additional dose to prevent EIB. All patients should have available for rescue a short-acting β-agonist.",
             "Daily administration of SINGULAIR for the chronic treatment of asthma has not been established to prevent acute episodes of EIB."
           ],
+          "highlights": [],
           "tables": [
             {
               "caption": "Table 2: Recommended Dosage in Exercise-Induced Bronchoconstriction (EIB)",
@@ -208,6 +257,12 @@
             }
           ],
           "subsections": [],
+          "applicability": "explicitly-shared",
+          "appliesToProducts": [
+            "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+            "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+            "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+          ],
           "audience": "professional"
         },
         {
@@ -220,6 +275,7 @@
             "The following doses for the treatment of symptoms of perennial allergic rhinitis are recommended:",
             "Patients who miss a dose should take the next dose at their regular time and should not take 2 doses at the same time."
           ],
+          "highlights": [],
           "tables": [
             {
               "caption": "Table 3: Recommended Dosage in Seasonal Allergic Rhinitis",
@@ -273,6 +329,13 @@
             }
           ],
           "subsections": [],
+          "applicability": "explicitly-shared",
+          "appliesToProducts": [
+            "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+            "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+            "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+            "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+          ],
           "audience": "professional"
         },
         {
@@ -283,8 +346,11 @@
             "For patients with both asthma and allergic rhinitis, administer only one SINGULAIR dose orally once daily in the evening.",
             "Patients who miss a dose should take the next dose at their regular time and should not take 2 doses at the same time."
           ],
+          "highlights": [],
           "tables": [],
           "subsections": [],
+          "applicability": "document-level-unresolved",
+          "appliesToProducts": [],
           "audience": "professional"
         },
         {
@@ -294,10 +360,23 @@
           "paragraphs": [
             "SINGULAIR 4-mg oral granules can be administered either directly in the mouth, dissolved in 1 teaspoonful (5 mL) of cold or room temperature baby formula or breast milk, or mixed with a spoonful of cold or room temperature soft foods; based on stability studies, only applesauce, carrots, rice, or ice cream should be used. The packet should not be opened until ready to use. After opening the packet, the full dose (with or without mixing with baby formula, breast milk, or food) must be administered within 15 minutes. If mixed with baby formula, breast milk, or food, SINGULAIR oral granules must not be stored for future use. Discard any unused portion. SINGULAIR oral granules are not intended to be dissolved in any liquid other than baby formula or breast milk for administration. However, liquids may be taken subsequent to administration. SINGULAIR oral granules can be administered without regard to the time of meals."
           ],
+          "highlights": [],
           "tables": [],
           "subsections": [],
+          "applicability": "not-applicable",
+          "appliesToProducts": [
+            "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+            "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)"
+          ],
           "audience": "professional"
         }
+      ],
+      "applicability": "explicitly-shared",
+      "appliesToProducts": [
+        "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+        "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+        "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+        "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
       ],
       "audience": "professional"
     },
@@ -308,8 +387,18 @@
       "paragraphs": [
         "Tablets: 10 mg, beige, rounded square-shaped, film-coated tablets, with code MSD 117 on one side and SINGULAIR on the other. Chewable Tablets: 5 mg, pink, round, bi-convex-shaped, with code MSD 275 on one side and SINGULAIR on the other. Chewable Tablets: 4 mg, pink, oval, bi-convex-shaped, with code MSD 711 on one side and SINGULAIR on the other. Oral Granules: 4 mg, white granules with 500 mg net weight, packed in a child-resistant foil packet."
       ],
+      "highlights": [
+        "3 Tablets: 10 mg () 3 Chewable tablets: 5 mg and 4 mg () 3 Oral granules: 4 mg ()"
+      ],
       "tables": [],
       "subsections": [],
+      "applicability": "explicitly-shared",
+      "appliesToProducts": [
+        "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+        "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+        "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+        "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+      ],
       "audience": "professional"
     },
     {
@@ -319,8 +408,13 @@
       "paragraphs": [
         "SINGULAIR is contraindicated in patients with hypersensitivity to any of its components."
       ],
+      "highlights": [
+        "4 Hypersensitivity to any component of SINGULAIR ()."
+      ],
       "tables": [],
       "subsections": [],
+      "applicability": "document-level-unresolved",
+      "appliesToProducts": [],
       "audience": "professional"
     },
     {
@@ -328,6 +422,9 @@
       "printedNumber": "5",
       "title": "5 WARNINGS AND PRECAUTIONS",
       "paragraphs": [],
+      "highlights": [
+        "5.2 Do not prescribe SINGULAIR to treat an acute asthma attack (). 5.2 Advise patients to have appropriate rescue medication available (). 5.3 Inhaled corticosteroid may be reduced gradually. Do not abruptly substitute SINGULAIR for inhaled or oral corticosteroids (). 5.4 Patients with known aspirin sensitivity should continue to avoid aspirin or non-steroidal anti-inflammatory agents while taking SINGULAIR (). 5.5 6.2 Systemic eosinophilia, sometimes presenting with clinical features of vasculitis consistent with Churg-Strauss syndrome, has been reported. These events have been sometimes associated with the reduction of oral corticosteroid therapy (and). 5.6 Inform patients with phenylketonuria that the 4-mg and 5-mg chewable tablets contain phenylalanine ()."
+      ],
       "tables": [],
       "subsections": [
         {
@@ -337,8 +434,11 @@
           "paragraphs": [
             "Clinical Pharmacology (12.3) [see] Indications and Usage (1.3) [see] Serious neuropsychiatric (NP) events have been reported with use of SINGULAIR. These postmarketing reports have been highly variable and included, but were not limited to, agitation, aggressive behavior or hostility, anxiousness, depression, disorientation, disturbance in attention, dream abnormalities, dysphemia (stuttering), hallucinations, insomnia, irritability, memory impairment, obsessive-compulsive symptoms, restlessness, somnambulism, suicidal thoughts and behavior (including suicide), tic, and tremor. NP events have been reported in adult, adolescent, and pediatric patients with and without a previous history of psychiatric disorder. NP events have been reported mostly during SINGULAIR treatment, but some were reported after SINGULAIR discontinuation. Animal studies showed that montelukast distributes into the brain in rats; however, the mechanisms underlying SINGULAIR-associated NP events are currently not well understood. Based upon the available data, it is difficult to identify risk factors for or quantify the risk of NP events with SINGULAIR use.Because of the risk of NP events, the benefits of SINGULAIR may not outweigh the risks in some patients, particularly when the symptoms of disease may be mild and adequately treated with alternative therapies. Reserve use of SINGULAIR for patients with allergic rhinitis who have an inadequate response or intolerance to alternative therapies. In patients with asthma or exercise-induced bronchoconstriction, consider the benefits and risks before prescribing SINGULAIR.Discuss the benefits and risks of SINGULAIR use with patients and caregivers when prescribing SINGULAIR. Advise patients and/or caregivers to be alert for changes in behavior or for new NP symptoms when taking SINGULAIR. If changes in behavior are observed, or if new NP symptoms or suicidal thoughts and/or behavior occur, advise patients to discontinue SINGULAIR and contact a healthcare provider immediately. In many cases, symptoms resolved after stopping SINGULAIR therapy; however, in some cases symptoms persisted after discontinuation of SINGULAIR. Therefore, continue to monitor and provide supportive care until symptoms resolve. Re-evaluate the benefits and risks of restarting treatment with SINGULAIR if such events occur."
           ],
+          "highlights": [],
           "tables": [],
           "subsections": [],
+          "applicability": "document-level-unresolved",
+          "appliesToProducts": [],
           "audience": "professional"
         },
         {
@@ -348,8 +448,11 @@
           "paragraphs": [
             "SINGULAIR is not indicated for use in the reversal of bronchospasm in acute asthma attacks, including status asthmaticus. Patients should be advised to have appropriate rescue medication available. Therapy with SINGULAIR can be continued during acute exacerbations of asthma. Patients who have exacerbations of asthma after exercise should have available for rescue a short-acting inhaled β-agonist."
           ],
+          "highlights": [],
           "tables": [],
           "subsections": [],
+          "applicability": "document-level-unresolved",
+          "appliesToProducts": [],
           "audience": "professional"
         },
         {
@@ -359,8 +462,11 @@
           "paragraphs": [
             "While the dose of inhaled corticosteroid may be reduced gradually under medical supervision, SINGULAIR should not be abruptly substituted for inhaled or oral corticosteroids."
           ],
+          "highlights": [],
           "tables": [],
           "subsections": [],
+          "applicability": "document-level-unresolved",
+          "appliesToProducts": [],
           "audience": "professional"
         },
         {
@@ -370,8 +476,11 @@
           "paragraphs": [
             "Clinical Studies (14.1) [see] Patients with known aspirin sensitivity should continue avoidance of aspirin or non-steroidal anti-inflammatory agents while taking SINGULAIR. Although SINGULAIR is effective in improving airway function in asthmatics with documented aspirin sensitivity, it has not been shown to truncate bronchoconstrictor response to aspirin and other non-steroidal anti-inflammatory drugs in aspirin-sensitive asthmatic patients."
           ],
+          "highlights": [],
           "tables": [],
           "subsections": [],
+          "applicability": "document-level-unresolved",
+          "appliesToProducts": [],
           "audience": "professional"
         },
         {
@@ -381,8 +490,11 @@
           "paragraphs": [
             "Adverse Reactions (6.2) [see]. Patients with asthma on therapy with SINGULAIR may present with systemic eosinophilia, sometimes presenting with clinical features of vasculitis consistent with Churg-Strauss syndrome, a condition which is often treated with systemic corticosteroid therapy. These events have been sometimes associated with the reduction of oral corticosteroid therapy. Physicians should be alert to eosinophilia, vasculitic rash, worsening pulmonary symptoms, cardiac complications, and/or neuropathy presenting in their patients. A causal association between SINGULAIR and these underlying conditions has not been established"
           ],
+          "highlights": [],
           "tables": [],
           "subsections": [],
+          "applicability": "document-level-unresolved",
+          "appliesToProducts": [],
           "audience": "professional"
         },
         {
@@ -392,10 +504,25 @@
           "paragraphs": [
             "SINGULAIR contains aspartame, a source of phenylalanine. Phenylalanine can be harmful to patients with phenylketonuria (PKU). Each 4 mg and 5 mg chewable tablet contains 0.674 mg and 0.842 mg of phenylalanine, respectively. Before prescribing SINGULAIR to a patient with PKU, consider the combined daily amount of phenylalanine from all sources, including SINGULAIR."
           ],
+          "highlights": [],
           "tables": [],
           "subsections": [],
+          "applicability": "explicitly-shared",
+          "appliesToProducts": [
+            "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+            "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+            "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+            "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+          ],
           "audience": "professional"
         }
+      ],
+      "applicability": "explicitly-shared",
+      "appliesToProducts": [
+        "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+        "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+        "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+        "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
       ],
       "audience": "professional"
     },
@@ -406,6 +533,10 @@
       "paragraphs": [
         "The following clinically significant adverse reactions are described elsewhere in the labeling:",
         "Warnings and Precautions (5.1) [see] Neuropsychiatric Events"
+      ],
+      "highlights": [
+        "6.1 Most common adverse reactions (incidence ≥5% and greater than placebo listed in descending order of frequency): upper respiratory infection, fever, headache, pharyngitis, cough, abdominal pain, diarrhea, otitis media, influenza, rhinorrhea, sinusitis, otitis ().",
+        "To report SUSPECTED ADVERSE REACTIONS, contact Organon LLC, a subsidiary of Organon & Co., Inc., at 1-844-674-3200 or FDA at 1-800-FDA-1088 or www.fda.gov/medwatch."
       ],
       "tables": [],
       "subsections": [
@@ -439,6 +570,7 @@
             "Pediatric Patients 6 Months to 14 Years of Age with Perennial Allergic Rhinitis",
             "The safety in patients 2 to 14 years of age with perennial allergic rhinitis is supported by the safety in patients 2 to 14 years of age with seasonal allergic rhinitis. The safety in patients 6 to 23 months of age is supported by data from pharmacokinetic and safety and efficacy studies in asthma in this pediatric population and from adult pharmacokinetic studies."
           ],
+          "highlights": [],
           "tables": [
             {
               "caption": "Table 5: Adverse Reactions Occurring in ≥1% of Patients with an Incidence Greater than that in Patients Treated with Placebo",
@@ -484,6 +616,10 @@
             }
           ],
           "subsections": [],
+          "applicability": "exact-product",
+          "appliesToProducts": [
+            "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)"
+          ],
           "audience": "professional"
         },
         {
@@ -506,11 +642,16 @@
             "General disorders and administration site conditions edema",
             "Warnings and Precautions (5.5) [see]. Patients with asthma on therapy with SINGULAIR may present with systemic eosinophilia, sometimes presenting with clinical features of vasculitis consistent with Churg-Strauss syndrome, a condition which is often treated with systemic corticosteroid therapy. These reactions have been sometimes associated with the reduction of oral corticosteroid therapy. Physicians should be alert to eosinophilia, vasculitic rash, worsening pulmonary symptoms, cardiac complications, and/or neuropathy presenting in their patients"
           ],
+          "highlights": [],
           "tables": [],
           "subsections": [],
+          "applicability": "document-level-unresolved",
+          "appliesToProducts": [],
           "audience": "professional"
         }
       ],
+      "applicability": "document-level-unresolved",
+      "appliesToProducts": [],
       "audience": "professional"
     },
     {
@@ -520,8 +661,11 @@
       "paragraphs": [
         "Clinical Pharmacology (12.3) [see]. No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers"
       ],
+      "highlights": [],
       "tables": [],
       "subsections": [],
+      "applicability": "document-level-unresolved",
+      "appliesToProducts": [],
       "audience": "professional"
     },
     {
@@ -529,6 +673,7 @@
       "printedNumber": "8",
       "title": "8 USE IN SPECIFIC POPULATIONS",
       "paragraphs": [],
+      "highlights": [],
       "tables": [],
       "subsections": [
         {
@@ -536,6 +681,7 @@
           "printedNumber": "8.1",
           "title": "8.1 Pregnancy",
           "paragraphs": [],
+          "highlights": [],
           "tables": [],
           "subsections": [
             {
@@ -547,8 +693,11 @@
                 "Data [see] Data [see]. Available data from published prospective and retrospective cohort studies over decades with montelukast use in pregnant women have not established a drug-associated risk of major birth defects. In animal reproduction studies, no adverse developmental effects were observed with oral administration of montelukast to pregnant rats and rabbits during organogenesis at doses approximately 100 and 110 times, respectively, the maximum recommended human daily oral dose (MRHDOD) based on AUCs",
                 "The estimated background risk of major birth defects and miscarriage for the indicated population is unknown. All pregnancies have a background risk of birth defect, loss, or other adverse outcomes. In the U.S. general population, the estimated background risk of major birth defects and miscarriage in clinically recognized pregnancies is 2-4% and 15-20%, respectively."
               ],
+              "highlights": [],
               "tables": [],
               "subsections": [],
+              "applicability": "document-level-unresolved",
+              "appliesToProducts": [],
               "audience": "professional"
             },
             {
@@ -558,6 +707,7 @@
               "paragraphs": [
                 "Clinical Considerations"
               ],
+              "highlights": [],
               "tables": [],
               "subsections": [
                 {
@@ -568,11 +718,16 @@
                     "Disease-associated maternal and/or embryo/fetal risk",
                     "Poorly or moderately controlled asthma in pregnancy increases the maternal risk of perinatal adverse outcomes such as preeclampsia and infant prematurity, low birth weight, and small for gestational age."
                   ],
+                  "highlights": [],
                   "tables": [],
                   "subsections": [],
+                  "applicability": "document-level-unresolved",
+                  "appliesToProducts": [],
                   "audience": "professional"
                 }
               ],
+              "applicability": "document-level-unresolved",
+              "appliesToProducts": [],
               "audience": "professional"
             },
             {
@@ -582,6 +737,7 @@
               "paragraphs": [
                 "Data"
               ],
+              "highlights": [],
               "tables": [],
               "subsections": [
                 {
@@ -592,8 +748,11 @@
                     "Human Data",
                     "Published data from prospective and retrospective cohort studies have not identified an association with SINGULAIR use during pregnancy and major birth defects. Available studies have methodologic limitations, including small sample size, in some cases retrospective data collection, and inconsistent comparator groups."
                   ],
+                  "highlights": [],
                   "tables": [],
                   "subsections": [],
+                  "applicability": "document-level-unresolved",
+                  "appliesToProducts": [],
                   "audience": "professional"
                 },
                 {
@@ -604,14 +763,21 @@
                     "Animal Data",
                     "In embryo-fetal development studies, montelukast administered to pregnant rats and rabbits during organogenesis (gestation days 6 to 17 in rats and 6 to 18 in rabbits) did not cause any adverse developmental effects at maternal oral doses up to 400 and 300 mg/kg/day in rats and rabbits, respectively (approximately 100 and 110 times the AUC in humans at the MRHDOD, respectively)."
                   ],
+                  "highlights": [],
                   "tables": [],
                   "subsections": [],
+                  "applicability": "document-level-unresolved",
+                  "appliesToProducts": [],
                   "audience": "professional"
                 }
               ],
+              "applicability": "document-level-unresolved",
+              "appliesToProducts": [],
               "audience": "professional"
             }
           ],
+          "applicability": "document-level-unresolved",
+          "appliesToProducts": [],
           "audience": "professional"
         },
         {
@@ -619,6 +785,7 @@
           "printedNumber": "8.2",
           "title": "8.2 Lactation",
           "paragraphs": [],
+          "highlights": [],
           "tables": [],
           "subsections": [
             {
@@ -629,11 +796,16 @@
                 "Risk Summary",
                 "Use in Specific Populations (8.4) [see] A published clinical lactation study reports the presence of montelukast in human milk. Data available on the effects of the drug on infants, either directlyor through breast milk, do not suggest a significant risk of adverse reactions from exposure to SINGULAIR. The effects of the drug on milk production are unknown. The developmental and health benefits of breastfeeding should be considered along with the mother's clinical need for SINGULAIR and any potential adverse reactions on the breastfed infant from SINGULAIR or from the underlying maternal condition."
               ],
+              "highlights": [],
               "tables": [],
               "subsections": [],
+              "applicability": "document-level-unresolved",
+              "appliesToProducts": [],
               "audience": "professional"
             }
           ],
+          "applicability": "document-level-unresolved",
+          "appliesToProducts": [],
           "audience": "professional"
         },
         {
@@ -650,8 +822,16 @@
             "Growth Rate in Pediatric Patients",
             "A 56-week, multi-center, double-blind, randomized, active- and placebo-controlled parallel group study was conducted to assess the effect of SINGULAIR on growth rate in 360 patients with mild asthma, aged 6 to 8 years. Treatment groups included SINGULAIR 5 mg once daily, placebo, and beclomethasone dipropionate administered as 168 mcg twice daily with a spacer device. For each subject, a growth rate was defined as the slope of a linear regression line fit to the height measurements over 56 weeks. The primary comparison was the difference in growth rates between SINGULAIR and placebo groups. Growth rates, expressed as least-squares (LS) mean (95% CI) in cm/year, for the SINGULAIR, placebo, and beclomethasone treatment groups were 5.67 (5.46, 5.88), 5.64 (5.42, 5.86), and 4.86 (4.64, 5.08), respectively. The differences in growth rates, expressed as least-squares (LS) mean (95% CI) in cm/year, for SINGULAIR minus placebo, beclomethasone minus placebo, and SINGULAIR minus beclomethasone treatment groups were 0.03 (-0.26, 0.31), -0.78 (-1.06, -0.49); and 0.81 (0.53, 1.09), respectively. Growth rate (expressed as mean change in height over time) for each treatment group is shown in FIGURE 1."
           ],
+          "highlights": [],
           "tables": [],
           "subsections": [],
+          "applicability": "explicitly-shared",
+          "appliesToProducts": [
+            "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+            "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+            "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+            "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+          ],
           "audience": "professional"
         },
         {
@@ -661,8 +841,13 @@
           "paragraphs": [
             "Of the total number of subjects in clinical studies of montelukast, 3.5% were 65 years of age and over, and 0.4% were 75 years of age and over. No overall differences in safety or effectiveness were observed between these subjects and younger subjects, and other reported clinical experience has not identified differences in responses between the elderly and younger patients, but greater sensitivity of some older individuals cannot be ruled out. The pharmacokinetic profile and the oral bioavailability of a single 10-mg oral dose of montelukast are similar in elderly and younger adults. The plasma half-life of montelukast is slightly longer in the elderly. No dosage adjustment in the elderly is required."
           ],
+          "highlights": [],
           "tables": [],
           "subsections": [],
+          "applicability": "exact-product",
+          "appliesToProducts": [
+            "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)"
+          ],
           "audience": "professional"
         },
         {
@@ -672,8 +857,11 @@
           "paragraphs": [
             "Clinical Pharmacology (12.3) [see] No dosage adjustment is recommended in patients with mild-to-moderate hepatic insufficiency."
           ],
+          "highlights": [],
           "tables": [],
           "subsections": [],
+          "applicability": "document-level-unresolved",
+          "appliesToProducts": [],
           "audience": "professional"
         },
         {
@@ -683,11 +871,16 @@
           "paragraphs": [
             "Clinical Pharmacology (12.3) [see]. No dosage adjustment is recommended in patients with renal insufficiency"
           ],
+          "highlights": [],
           "tables": [],
           "subsections": [],
+          "applicability": "document-level-unresolved",
+          "appliesToProducts": [],
           "audience": "professional"
         }
       ],
+      "applicability": "document-level-unresolved",
+      "appliesToProducts": [],
       "audience": "professional"
     },
     {
@@ -697,8 +890,11 @@
       "paragraphs": [
         "No specific information is available on the treatment of overdosage with SINGULAIR. In the event of overdose, it is reasonable to employ the usual supportive measures; e.g., remove unabsorbed material from the gastrointestinal tract, employ clinical monitoring, and institute supportive therapy, if required. It is not known whether montelukast is removed by peritoneal dialysis or hemodialysis."
       ],
+      "highlights": [],
       "tables": [],
       "subsections": [],
+      "applicability": "document-level-unresolved",
+      "appliesToProducts": [],
       "audience": "professional"
     },
     {
@@ -714,8 +910,16 @@
         "Each 4-mg and 5-mg chewable SINGULAIR tablet contains 4.2 and 5.2 mg montelukast sodium, respectively, which are equivalent to 4 and 5 mg of montelukast, respectively. Both chewable tablets contain the following inactive ingredients: mannitol, microcrystalline cellulose, hydroxypropyl cellulose, red ferric oxide, croscarmellose sodium, cherry flavor, aspartame, and magnesium stearate.",
         "Each packet of SINGULAIR 4-mg oral granules contains 4.2 mg montelukast sodium, which is equivalent to 4 mg of montelukast. The oral granule formulation contains the following inactive ingredients: mannitol, hydroxypropyl cellulose, and magnesium stearate."
       ],
+      "highlights": [],
       "tables": [],
       "subsections": [],
+      "applicability": "explicitly-shared",
+      "appliesToProducts": [
+        "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+        "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+        "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+        "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+      ],
       "audience": "professional"
     },
     {
@@ -723,6 +927,7 @@
       "printedNumber": "12",
       "title": "12 CLINICAL PHARMACOLOGY",
       "paragraphs": [],
+      "highlights": [],
       "tables": [],
       "subsections": [
         {
@@ -733,8 +938,11 @@
             "4 4 4 1 The cysteinyl leukotrienes (LTC, LTD, LTE) are products of arachidonic acid metabolism and are released from various cells, including mast cells and eosinophils. These eicosanoids bind to cysteinyl leukotriene (CysLT) receptors. The CysLT type-1 (CysLT) receptor is found in the human airway (including airway smooth muscle cells and airway macrophages) and on other pro-inflammatory cells (including eosinophils and certain myeloid stem cells). CysLTs have been correlated with the pathophysiology of asthma and allergic rhinitis. In asthma, leukotriene-mediated effects include airway edema, smooth muscle contraction, and altered cellular activity associated with the inflammatory process. In allergic rhinitis, CysLTs are released from the nasal mucosa after allergen exposure during both early- and late-phase reactions and are associated with symptoms of allergic rhinitis.",
             "1 4 1 Montelukast is an orally active compound that binds with high affinity and selectivity to the CysLTreceptor (in preference to other pharmacologically important airway receptors, such as the prostanoid, cholinergic, or β-adrenergic receptor). Montelukast inhibits physiologic actions of LTDat the CysLTreceptor without any agonist activity."
           ],
+          "highlights": [],
           "tables": [],
           "subsections": [],
+          "applicability": "document-level-unresolved",
+          "appliesToProducts": [],
           "audience": "professional"
         },
         {
@@ -745,8 +953,13 @@
             "4 4 Montelukast causes inhibition of airway cysteinyl leukotriene receptors as demonstrated by the ability to inhibit bronchoconstriction due to inhaled LTDin asthmatics. Doses as low as 5 mg cause substantial blockage of LTD-induced bronchoconstriction. In a placebo-controlled, crossover study (n=12), SINGULAIR inhibited early- and late-phase bronchoconstriction due to antigen challenge by 75% and 57%, respectively.",
             "Clinical Studies (14) [see]. The effect of SINGULAIR on eosinophils in the peripheral blood was examined in clinical trials. In patients with asthma aged 2 years and older who received SINGULAIR, a decrease in mean peripheral blood eosinophil counts ranging from 9% to 15% was noted, compared with placebo, over the double-blind treatment periods. In patients with seasonal allergic rhinitis aged 15 years and older who received SINGULAIR, a mean increase of 0.2% in peripheral blood eosinophil counts was noted, compared with a mean increase of 12.5% in placebo-treated patients, over the double-blind treatment periods; this reflects a mean difference of 12.3% in favor of SINGULAIR. The relationship between these observations and the clinical benefits of montelukast noted in the clinical trials is not known"
           ],
+          "highlights": [],
           "tables": [],
           "subsections": [],
+          "applicability": "not-applicable",
+          "appliesToProducts": [
+            "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+          ],
           "audience": "professional"
         },
         {
@@ -787,11 +1000,21 @@
             "Effect of Montelukast on Cytochrome P450 (CYP) Enzymes in vitro. in vivo in vitro Montelukast is a potent inhibitor of CYP2C8However, data from a clinical drug-drug interaction study involving montelukast and rosiglitazone (a probe substrate representative of drugs primarily metabolized by CYP2C8) in 12 healthy individuals demonstrated that the pharmacokinetics of rosiglitazone are not altered when the drugs are coadministered, indicating that montelukast does not inhibit CYP2C8. Therefore, montelukast is not anticipated to alter the metabolism of drugs metabolized by this enzyme (e.g., paclitaxel, rosiglitazone, and repaglinide). Based on furtherresults in human liver microsomes, therapeutic plasma concentrations of montelukast do not inhibit CYP 3A4, 2C9, 1A2, 2A6, 2C19, or 2D6.",
             "Cytochrome P450 (CYP) Enzyme Inhibitors In vitro Overdosage (10) [see] studies have shown that montelukast is a substrate of CYP 2C8, 2C9, and 3A4. Co-administration of montelukast with itraconazole, a strong CYP 3A4 inhibitor, resulted in no significant increase in the systemic exposure of montelukast. Data from a clinical drug interaction study involving montelukast and gemfibrozil (an inhibitor of both CYP 2C8 and 2C9) demonstrated that gemfibrozil, at a therapeutic dose, increased the systemic exposure of montelukast by 4.4-fold. Co-administration of itraconazole, gemfibrozil, and montelukast did not further increase the systemic exposure of montelukast. Based on available clinical experience, no dosage adjustment of montelukast is required upon co-administration with gemfibrozil."
           ],
+          "highlights": [],
           "tables": [],
           "subsections": [],
+          "applicability": "explicitly-shared",
+          "appliesToProducts": [
+            "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+            "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+            "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+            "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+          ],
           "audience": "professional"
         }
       ],
+      "applicability": "document-level-unresolved",
+      "appliesToProducts": [],
       "audience": "professional"
     },
     {
@@ -799,6 +1022,7 @@
       "printedNumber": "13",
       "title": "13 NONCLINICAL TOXICOLOGY",
       "paragraphs": [],
+      "highlights": [],
       "tables": [],
       "subsections": [
         {
@@ -810,11 +1034,16 @@
             "in vivo Montelukast demonstrated no evidence of mutagenic or clastogenic activity in the following assays: the microbial mutagenesis assay, the V-79 mammalian cell mutagenesis assay, the alkaline elution assay in rat hepatocytes, the chromosomal aberration assay in Chinese hamster ovary cells, and in themouse bone marrow chromosomal aberration assay.",
             "In fertility studies in female rats, montelukast produced reductions in fertility and fecundity indices at an oral dose of 200 mg/kg (estimated exposure was approximately 70 times the AUC for adults at the maximum recommended daily oral dose). No effects on female fertility or fecundity were observed at an oral dose of 100 mg/kg (estimated exposure was approximately 20 times the AUC for adults at the maximum recommended daily oral dose). Montelukast had no effects on fertility in male rats at oral doses up to 800 mg/kg (estimated exposure was approximately 160 times the AUC for adults at the maximum recommended daily oral dose)."
           ],
+          "highlights": [],
           "tables": [],
           "subsections": [],
+          "applicability": "document-level-unresolved",
+          "appliesToProducts": [],
           "audience": "professional"
         }
       ],
+      "applicability": "document-level-unresolved",
+      "appliesToProducts": [],
       "audience": "professional"
     },
     {
@@ -822,6 +1051,7 @@
       "printedNumber": "14",
       "title": "14 CLINICAL STUDIES",
       "paragraphs": [],
+      "highlights": [],
       "tables": [],
       "subsections": [
         {
@@ -850,6 +1080,7 @@
             "1 1 In another randomized, placebo-controlled, parallel-group trial (n=642) in a similar population of adult patients previously maintained, but not adequately controlled, on inhaled corticosteroids (beclomethasone 336 mcg/day), the addition of SINGULAIR to beclomethasone resulted in statistically significant improvements in FEVcompared with those patients who were continued on beclomethasone alone or those patients who were withdrawn from beclomethasone and treated with montelukast or placebo alone over the last 10 weeks of the 16-week, blinded treatment period. Patients who were randomized to treatment arms containing beclomethasone had statistically significantly better asthma control than those patients randomized to SINGULAIR alone or placebo alone as indicated by FEV, daytime asthma symptoms, PEFR, nocturnal awakenings due to asthma, and \"as-needed\" β-agonist requirements.",
             "Warnings and Precautions (5.4) [see]. In adult patients with asthma with documented aspirin sensitivity, nearly all of whom were receiving concomitant inhaled and/or oral corticosteroids, a 4-week, randomized, parallel-group trial (n=80) demonstrated that SINGULAIR, compared with placebo, resulted in significant improvement in parameters of asthma control. The magnitude of effect of SINGULAIR in aspirin-sensitive patients was similar to the effect observed in the general population of asthma patients studied. The effect of SINGULAIR on the bronchoconstrictor response to aspirin or other non-steroidal anti-inflammatory drugs in aspirin-sensitive asthmatic patients has not been evaluated"
           ],
+          "highlights": [],
           "tables": [
             {
               "caption": "Table 6: Effect of SINGULAIR on Primary and Secondary Endpoints in a Multinational Placebo-controlled Trial (ANOVA Model)",
@@ -919,6 +1150,12 @@
             }
           ],
           "subsections": [],
+          "applicability": "explicitly-shared",
+          "appliesToProducts": [
+            "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+            "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+            "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+          ],
           "audience": "professional"
         },
         {
@@ -934,6 +1171,7 @@
             "1 1 1 1 In a 12-week, randomized, double-blind, parallel group study of 110 adult and adolescent asthmatics 15 years of age and older, with a mean baseline FEVpercent of predicted of 83% and with documented exercise-induced exacerbation of asthma, treatment with SINGULAIR, 10 mg, once daily in the evening, resulted in a statistically significant reduction in mean maximal percent fall in FEVand mean time to recovery to within 5% of the pre-exercise FEV. Exercise challenge was conducted at the end of the dosing interval (i.e., 20 to 24 hours after the preceding dose). This effect was maintained throughout the 12-week treatment period indicating that tolerance did not occur. SINGULAIR did not, however, prevent clinically significant deterioration in maximal percent fall in FEVafter exercise (i.e., ≥20% decrease from pre-exercise baseline) in 52% of patients studied. In a separate crossover study in adults, a similar effect was observed after two once-daily 10-mg doses of SINGULAIR.",
             "In pediatric patients 6 to 14 years of age, using the 5-mg chewable tablet, a 2-day crossover study demonstrated effects similar to those observed in adults when exercise challenge was conducted at the end of the dosing interval (i.e., 20 to 24 hours after the preceding dose)."
           ],
+          "highlights": [],
           "tables": [
             {
               "caption": "1 Table 7: Mean Maximum Percent Fall in FEVFollowing Exercise Challenge in Study A (N=47) ANOVA Model",
@@ -1003,6 +1241,12 @@
             }
           ],
           "subsections": [],
+          "applicability": "explicitly-shared",
+          "appliesToProducts": [
+            "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+            "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+            "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+          ],
           "audience": "professional"
         },
         {
@@ -1019,6 +1263,7 @@
             "TABLE 10 In the study in which efficacy was demonstrated, the median age was 35 years (range 15 to 81); 64.1% were females and 35.9% were males. The ethnic/racial distribution in this study was 83.2% Caucasian, 8.1% Black, 5.4% Hispanic, 2.3% Asian, and 1.0% other origins. SINGULAIR 10-mg tablets once daily was shown to significantly reduce symptoms of perennial allergic rhinitis over a 6-week treatment period (); in this study the primary outcome variable was mean change from baseline in daytime nasal symptoms score (the average of individual scores of nasal congestion, rhinorrhea, and sneezing).",
             "The other 6-week study evaluated SINGULAIR 10 mg (n=626), placebo (n=609), and an active-control (cetirizine 10 mg; n=120). The primary analysis compared the mean change from baseline in daytime nasal symptoms score for SINGULAIR vs. placebo over the first 4 weeks of treatment; the study was not designed for statistical comparison between SINGULAIR and the active-control. The primary outcome variable included nasal itching in addition to nasal congestion, rhinorrhea, and sneezing. The estimated difference between SINGULAIR and placebo was -0.04 with a 95% CI of (-0.09, 0.01). The estimated difference between the active-control and placebo was -0.10 with a 95% CI of (-0.19, -0.01)."
           ],
+          "highlights": [],
           "tables": [
             {
               "caption": "Average of individual scores of nasal congestion, rhinorrhea, nasal itching, sneezing as assessed by patients on a 0-3 categorical scale. Table 9: Effects of SINGULAIR on Daytime Nasal Symptoms Scorein a Placebo- and Active-controlled Trial in Patients with Seasonal Allergic Rhinitis (ANCOVA Model)",
@@ -1078,9 +1323,17 @@
             }
           ],
           "subsections": [],
+          "applicability": "explicitly-shared",
+          "appliesToProducts": [
+            "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+            "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+            "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+          ],
           "audience": "professional"
         }
       ],
+      "applicability": "document-level-unresolved",
+      "appliesToProducts": [],
       "audience": "professional"
     },
     {
@@ -1098,6 +1351,7 @@
         "NDC 78206-172-01 unit of use high-density polyethylene (HDPE) bottles of 30 with a polypropylene child-resistant cap, an aluminum foil induction seal, and silica gel desiccant",
         "NDC 78206-172-02 unit of use high-density polyethylene (HDPE) bottles of 90 with a polypropylene child-resistant cap, an aluminum foil induction seal, and silica gel desiccant."
       ],
+      "highlights": [],
       "tables": [],
       "subsections": [
         {
@@ -1108,10 +1362,25 @@
             "Storage",
             "Store SINGULAIR 4-mg oral granules, 4-mg chewable tablets, 5-mg chewable tablets and 10-mg film-coated tablets at 20°C to 25°C (68°F to 77°F), excursions permitted to 15°C to 30°C (59°F to 86°F) [see USP Controlled Room Temperature]. Protect from moisture and light. Store in original package."
           ],
+          "highlights": [],
           "tables": [],
           "subsections": [],
+          "applicability": "explicitly-shared",
+          "appliesToProducts": [
+            "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+            "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+            "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+            "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+          ],
           "audience": "professional"
         }
+      ],
+      "applicability": "explicitly-shared",
+      "appliesToProducts": [
+        "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+        "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+        "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+        "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
       ],
       "audience": "professional"
     },
@@ -1125,8 +1394,11 @@
         "Organon Global Inc. Copyright © 2021All rights reserved.",
         "uspi-og0476-mf-2106r001"
       ],
+      "highlights": [],
       "tables": [],
       "subsections": [],
+      "applicability": "document-level-unresolved",
+      "appliesToProducts": [],
       "audience": "professional"
     },
     {
@@ -1144,8 +1416,14 @@
         "DIRECTIONS FOR USE: See accompanying Prescribing Information. Once opened, use thecontents of this packet within 15 minutes (with or without mixing with food).Discard any unused portion.",
         "Rx only"
       ],
+      "highlights": [],
       "tables": [],
       "subsections": [],
+      "applicability": "not-applicable",
+      "appliesToProducts": [
+        "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+        "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)"
+      ],
       "audience": "professional"
     },
     {
@@ -1161,8 +1439,16 @@
         "Phenylketonurics: contains phenylalanine(a component of aspartame) 0.674 mg per4-mg chewable tablet. Each tabletcontains 4.2 mg MontelukastSodium equivalent to4 mg Montelukast.",
         "Rx only 30 Tablets"
       ],
+      "highlights": [],
       "tables": [],
       "subsections": [],
+      "applicability": "explicitly-shared",
+      "appliesToProducts": [
+        "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+        "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+        "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+        "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+      ],
       "audience": "professional"
     },
     {
@@ -1178,8 +1464,15 @@
         "Phenylketonurics: contains phenylalanine(a component of aspartame) 0.842 mg per5-mg chewable tablet. Each tabletcontains 5.2 mg MontelukastSodium equivalent to5 mg Montelukast.",
         "Rx only 30 Tablets"
       ],
+      "highlights": [],
       "tables": [],
       "subsections": [],
+      "applicability": "explicitly-shared",
+      "appliesToProducts": [
+        "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+        "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+        "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+      ],
       "audience": "professional"
     },
     {
@@ -1196,8 +1489,16 @@
         "Rx only",
         "30 Tablets"
       ],
+      "highlights": [],
       "tables": [],
       "subsections": [],
+      "applicability": "explicitly-shared",
+      "appliesToProducts": [
+        "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+        "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+        "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+        "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+      ],
       "audience": "professional"
     }
   ],
@@ -1211,8 +1512,16 @@
         "Medication Guide Instructions for Use For the oral granules, advise the patient and/or caregiver to read the FDA-approved patient labeling (and).",
         "Warnings and Precautions (5.1) [see] Advise patients about the potential risk for serious neuropsychiatric symptoms and behavioral changes with SINGULAIR use. Warnings and Precautions (5.1) [see] Discuss the benefits and risks of SINGULAIR with patients when prescribing or continuing treatment with SINGULAIR. Warnings and Precautions (5.1) [see] Advise patients to monitor for changes in behavior or neuropsychiatric symptoms in patients taking SINGULAIR. Warnings and Precautions (5.1) [see] Instruct patients to discontinue SINGULAIR and contact a healthcare provider immediately if changes in behavior or thinking that are not typical for the patient occur, or if the patient develops suicidal ideation or suicidal behavior. Advise patients to take SINGULAIR daily as prescribed, even when they are asymptomatic, as well as during periods of worsening asthma, and to contact their physicians if their asthma is not well controlled. Warnings and Precautions (5.2) [see] Advise patients that oral SINGULAIR is not for the treatment of acute asthma attacks. They should have appropriate short-acting inhaled β-agonist medication available to treat asthma exacerbations. Patients who have exacerbations of asthma after exercise should be instructed to have available for rescue a short-acting inhaled β-agonist. Daily administration of SINGULAIR for the chronic treatment of asthma has not been established to prevent acute episodes of EIB. Advise patients to seek medical attention if short-acting inhaled bronchodilators are needed more often than usual, or if more than the maximum number of inhalations of short-acting bronchodilator treatment prescribed for a 24-hour period are needed. Instruct patients to continue other anti-asthma medications as prescribed unless instructed by a physician. Warnings and Precautions (5.4) [see] Instruct patients with known aspirin sensitivity to continue avoidance of aspirin or non-steroidal anti-inflammatory agents while taking SINGULAIR. Warnings and Precautions (5.6) [see] Inform phenylketonuric patients that the 4-mg and 5-mg chewable tablets contain phenylalanine (a source of aspartame)."
       ],
+      "highlights": [],
       "tables": [],
       "subsections": [],
+      "applicability": "explicitly-shared",
+      "appliesToProducts": [
+        "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+        "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+        "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+        "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+      ],
       "audience": "patient"
     },
     {
@@ -1220,6 +1529,7 @@
       "printedNumber": null,
       "title": null,
       "paragraphs": [],
+      "highlights": [],
       "tables": [
         {
           "caption": null,
@@ -1297,6 +1607,13 @@
         }
       ],
       "subsections": [],
+      "applicability": "explicitly-shared",
+      "appliesToProducts": [
+        "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+        "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+        "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+        "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+      ],
       "audience": "patient"
     },
     {
@@ -1316,8 +1633,14 @@
         "Do not open the packet until ready to use. right into the mouth dissolved in 1 teaspoonful (5 mL) of cold or room temperature baby formula or breast milk mixed with 1 spoonful of one of the following soft foods at cold or room temperature: applesauce, mashed carrots, rice, or ice cream. There are different ways you can give SINGULAIR 4-mg oral granules. You should choose the best method for your child: Give the child all of the mixture within 15 minutes. Do not store any leftover SINGULAIR mixture (oral granules mixed with food, baby formula, or breast milk) for use at a later time. Throw away any unused portion. Do not mix SINGULAIR oral granules with any liquid drink other than baby formula or breast milk. Your child may drink other liquids after swallowing the mixture.",
         "Store SINGULAIR at room temperature between 68°F to 77°F (20°C to 25°C). Keep SINGULAIR in the package it comes in. Keep SINGULAIR in a dry place and keep it away from light. Keep SINGULAIR and all medicines out of the reach of children."
       ],
+      "highlights": [],
       "tables": [],
       "subsections": [],
+      "applicability": "not-applicable",
+      "appliesToProducts": [
+        "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+        "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)"
+      ],
       "audience": "patient"
     }
   ],
@@ -1750,13 +2073,116 @@
       }
     ]
   },
+  "interactions": {
+    "availability": "label-section-available",
+    "checkingServiceAvailable": false,
+    "checkingServiceNote": "No comprehensive drug-interaction checking service is connected. The RxNav Interaction API was discontinued and returns HTTP 404; commercial knowledge bases require a licence. The content here is the interactions section of this product's own FDA label, which is not a substitute for a checker run against a patient's full medication list.",
+    "sections": [
+      {
+        "loincCode": "34073-7",
+        "printedNumber": "7",
+        "title": "7 DRUG INTERACTIONS",
+        "paragraphs": [
+          "Clinical Pharmacology (12.3) [see]. No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers"
+        ],
+        "highlights": [],
+        "tables": [],
+        "subsections": [],
+        "applicability": "document-level-unresolved",
+        "appliesToProducts": [],
+        "audience": "professional"
+      }
+    ],
+    "namedSubstances": [
+      "benzodiazepines",
+      "decongestants",
+      "digoxin",
+      "fexofenadine",
+      "gemfibrozil",
+      "itraconazole",
+      "non-steroidal anti-inflammatory",
+      "oral contraceptives",
+      "prednisolone",
+      "prednisone",
+      "sedative hypnotics",
+      "theophylline",
+      "thyroid hormones",
+      "warfarin"
+    ],
+    "caveats": [
+      "This is what THIS product's label describes. It is not a complete list of possible interactions.",
+      "It has not been checked against any other medication a person may be taking.",
+      "Absence of a substance here does not mean an interaction is impossible.",
+      "A pharmacist can check a full medication list; this data cannot."
+    ]
+  },
+  "recalls": {
+    "verified": [],
+    "candidates": [
+      {
+        "recallNumber": "D-0400-2023",
+        "tier": "discovery-candidate",
+        "reason": "CGMP Deviations: recalling drug products following an FDA inspection.",
+        "productDescription": "Montelukast Sodium Tablets, USP, 10 mg* Rx Only, Packaged as: a) 30-count bottle NDC 16729-119-10 UPC 3 16729 11910 8; b) 90-count bottle NDC 16729-119-15 UPC 3 16729 11915 3; c) 1,000-count bottle NDC 16729-119-17 UPC 3 16729 11917 7; Manufactured for: Accord Healthcare, Inc., Durham, NC 27703. Manufactured by: Intas Pharmaceuticals Limited, Pharmez, Ahmedabad-382 213, INDIA",
+        "rationale": "Discovered by generic name only. No declared product NDC and no package match, so this is not established to be a recall of this product."
+      },
+      {
+        "recallNumber": "D-1213-2018",
+        "tier": "discovery-candidate",
+        "reason": "Discoloration: A complaint was received from a pharmacist for the presence of blue specks on tablets.",
+        "productDescription": "Montelukast Sodium Tablets, 10 mg*, 30-count bottles, Rx Only,  By: Hetero, Hetero Labs Limited, Unit V, Polepally, Jadcherla, Mahaboob Nagar - 509 301, India, Manufactured for: Camber Pharmaceuticals, Inc., Piscataway, NJ 08854, NDC 31722-726-30.",
+        "rationale": "Discovered by generic name only. No declared product NDC and no package match, so this is not established to be a recall of this product."
+      },
+      {
+        "recallNumber": "D-0823-2020",
+        "tier": "discovery-candidate",
+        "reason": "Failed Dissolution Specifications:  testing revealed low out of specification result in one lot of product",
+        "productDescription": "Montelukast Sodium Chewable Tablets, 5 mg, 90-count bottles, Rx Only, Manufactured for : Macleods Pharma USA, Inc. Plainsboro, NJ Manufactured by: Macleods Pharmaceuticals Ltd Baddi, Himachal Pradesh, India  NDC 33342-111-10",
+        "rationale": "Discovered by generic name only. No declared product NDC and no package match, so this is not established to be a recall of this product."
+      },
+      {
+        "recallNumber": "D-0086-2024",
+        "tier": "discovery-candidate",
+        "reason": "Presence of Foreign Tablet(s)/Capsule(s): A foreign tablet was found in a bottle of Montelukast Sodium Tablets, USP 10mg, identified as metoprolol 25 mg.",
+        "productDescription": "Montelukast Sodium Tablets, USP 10 mg, Rx Only, 1000 count bottle, Distributed by: Dr. Reddy's Laboratories., Princeton, NJ 08540, Made in India, NDC# 55111-725-10.",
+        "rationale": "Discovered by generic name only. No declared product NDC and no package match, so this is not established to be a recall of this product."
+      },
+      {
+        "recallNumber": "D-0081-2019",
+        "tier": "discovery-candidate",
+        "reason": "Labeling: Label Mix-Up - One lot labeled Montelukast Sodium Tablets 10 mg tablets may contain 90 tablets of Losartan Potassium 50 mg.",
+        "productDescription": "Montelukast Sodium Tablets 10 mg, 30-count bottle, Rx Only, By: Hetero Hetero Labs Limited, Unit V, Polepally, Jadcherla, Mahaboob Nagar - 509 301, India, Manfuactured for: Camber Pharmaceuticals, Inc. Piscataway, NJ 08854, NDC 31722-726-30",
+        "rationale": "Discovered by generic name only. No declared product NDC and no package match, so this is not established to be a recall of this product."
+      },
+      {
+        "recallNumber": "D-0623-2017",
+        "tier": "discovery-candidate",
+        "reason": "Discoloration: the firm received a complaint of a sealed bottle in which tablets inside had blue spots and a blue powder inside the bottle.",
+        "productDescription": "Montelukast sodium tablets, 10 mg, 30-count bottle, Rx Only, Manufactured for: Camber Pharmaceuticals, Inc., Piscataway, NJ 08854, By: HETERO Labs Limited, Unit V, Polepally, Jadcherla, Mahaboob  Nagar - 509 301, India, NDC 31722-726-30",
+        "rationale": "Discovered by generic name only. No declared product NDC and no package match, so this is not established to be a recall of this product."
+      }
+    ],
+    "searchStrategy": "openFDA drug/enforcement searched by openfda.generic_name:\"montelukast sodium\". Name search is DISCOVERY ONLY; each hit is then checked against this product's NDCs, manufacturer, strength and dose form.",
+    "caveats": [
+      "Only entries under `verified` are established recalls of this exact product.",
+      "`candidates` share a generic name and nothing more. They frequently belong to a different manufacturer, strength or dose form.",
+      "An empty `verified` list does not mean this product has never been recalled — enforcement records often omit structured NDCs, which makes confirmation impossible from this source alone.",
+      "Recall status changes over time. Check the report date and openFDA's own last_updated."
+    ]
+  },
+  "applicabilityCounts": {
+    "exact-product": 2,
+    "explicitly-shared": 18,
+    "document-level-unresolved": 37,
+    "not-applicable": 3
+  },
   "conflicts": [],
   "clinicalReview": {
     "reviewed": false,
     "note": "No clinician has reviewed this record. 'app-ready' means structurally consumable, NOT clinically approved."
   },
   "freshness": {
-    "ingestedAt": "2026-09-19T19:21:36.663Z",
+    "ingestedAt": "2026-09-19T19:40:29.695Z",
     "splEffectiveDate": "2025-04-30",
     "sourceEffectiveDate": "2025-04-30"
   },

@@ -182,3 +182,114 @@ checking, no adverse-event incidence, no clinical review.
 
 If a feature needs one of those, it needs a different source and a different
 agreement. See [BOUNDARIES.md](BOUNDARIES.md).
+
+---
+
+# Insurance coverage (added in the second pass)
+
+Types: `contracts/insurance-export.d.ts` (dependency-free).
+Data: `data/exports/insurance/`.
+
+```
+source-register.json      what we discovered vs what we actually retrieved
+plans.json                5,517 exact Part D plan identities + formulary mapping
+coverage-examples.json    real lookup responses, including counterexamples
+```
+
+## Reading a coverage result
+
+```ts
+import type { CoverageLookupResult, CoverageExamples } from "../data-pipeline/contracts/insurance-export";
+
+const examples: CoverageExamples = await import(
+  "../data-pipeline/data/exports/insurance/coverage-examples.json"
+);
+```
+
+Or run one locally:
+
+```bash
+npm run coverage -- --product ozempic-semaglutide-1_34mg-per-ml-injection \
+  --contract S5820 --plan 034 --segment 000 --year 2026
+```
+
+## The six things to get right
+
+### 1. Never resolve a plan from a name
+
+39 plans in the 2026-08 release share the name
+"AARP Medicare Rx Preferred from UHC (PDP)". A name produces **candidates**, not
+an answer:
+
+```ts
+if (result.checked.planResolution.state !== "resolved") {
+  showCandidates(result.checked.planResolution.candidates);
+  askFor(result.checked.planResolution.missingDisambiguators); // contractId, planId, segmentId
+  return; // state is "ambiguous-plan"; nothing was checked
+}
+```
+
+### 2. `not-found` is not `not covered`
+
+```ts
+switch (result.state) {
+  case "listed":                      // on the list, no restrictions recorded
+  case "conditional":                 // on the list, WITH restrictions
+  case "explicitly-excluded":         // the source really excludes it
+  case "not-found-in-checked-source": // absent from what we checked. NOT "not covered"
+  case "stale-source":                // evidence is from a different plan year
+  case "ambiguous-plan":
+  case "ambiguous-drug":
+  case "source-unavailable":
+}
+```
+
+Render `result.headline` — it is written to match the state.
+
+### 3. Check `isExactProductMatch` before saying "your drug is covered"
+
+Branded Singulair appears on **one** formulary nationwide; generic montelukast
+on hundreds. A `clinical-drug` match is not a brand listing.
+
+```ts
+const exact = result.found.filter((f) => f.isExactProductMatch);
+if (result.found.length > 0 && exact.length === 0) {
+  // result.unknown already explains this; surface it.
+}
+```
+
+### 4. Prior authorisation is not approval
+
+`conditional` means the plan requires something *before* it will pay. Render
+`result.restrictions` verbatim — each string already carries its own caveat.
+
+### 5. A tier is not a dollar amount
+
+Every cost figure carries a `basis`. The only basis this pipeline can produce is
+`published-plan-cost-sharing-rule`, and each rule carries a caveat saying it is
+not a price for any individual. Never render it as "you will pay".
+
+### 6. Quantity-limit units are load-bearing
+
+`quantityLimit.asStated` is `"3 per 28 days"`, not "3 per month". Use
+`asStated`; do not recompose it from `amount` and `days`.
+
+## Freshness
+
+```ts
+result.freshness.yearMismatch  // true => state is "stale-source"
+result.freshness.sourceRelease // "2026-08"
+result.freshness.retrievedAt   // when we fetched it, NOT the document's date
+```
+
+## What a coverage request may contain
+
+Plan selectors and a product key. **No patient name, member ID, date of birth,
+diagnosis or credentials** — public plan comparison does not require them and
+the lookup does not accept them.
+
+## What is never provided
+
+`memberBenefitVerified` is `false` on every result. There is no eligibility
+integration, no real-time benefit connection, and no adjudicated cost. See
+`docs/BOUNDARIES.md`.

@@ -1,0 +1,2074 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-09-19T19:46:46.442Z",
+  "note": "Real responses produced from the committed CMS snapshot. memberBenefitVerified is false on every one: this pipeline has no authorised member-specific integration.",
+  "examples": [
+    {
+      "scenario": "ozempic-semaglutide-1_34mg-per-ml-injection on AARP Medicare Rx Preferred from UHC (PDP) - UnitedHealthcare, formulary 00026000",
+      "exercises": "Real utilisation management on an exact product match: Ozempic (RXCUI 2398842) is tier 3 with prior authorisation AND a quantity limit of 3 per 28 days. Also demonstrates that a plan NAME is not an identifier - S5820-034, S5820-035 and S5820-036 all carry the name 'AARP Medicare Rx Preferred from UHC (PDP)'.",
+      "request": {
+        "productKey": "ozempic-semaglutide-1_34mg-per-ml-injection",
+        "contractId": "S5820",
+        "planId": "034",
+        "segmentId": "000",
+        "planYear": 2026
+      },
+      "response": {
+        "schemaVersion": "1.0.0",
+        "state": "conditional",
+        "headline": "Listed on this plan's formulary, with 2 restriction(s).",
+        "checked": {
+          "plan": {
+            "planKey": "medicare-partd-2026-S5820-034-000",
+            "market": "medicare-part-d",
+            "planYear": 2026,
+            "contractId": "S5820",
+            "planId": "034",
+            "segmentId": "000",
+            "formularyId": "00026000",
+            "hiosIssuerId": null,
+            "hiosPlanId": null,
+            "planVariant": null,
+            "stateCode": null,
+            "medicaidProgram": null,
+            "managedCarePlanId": null,
+            "organizationName": "UNITEDHEALTHCARE INS. CO. & UHC INS. CO. OF NY",
+            "planName": "AARP Medicare Rx Preferred from UHC (PDP)",
+            "serviceArea": null
+          },
+          "planResolution": {
+            "state": "resolved",
+            "plan": {
+              "planKey": "medicare-partd-2026-S5820-034-000",
+              "market": "medicare-part-d",
+              "planYear": 2026,
+              "contractId": "S5820",
+              "planId": "034",
+              "segmentId": "000",
+              "formularyId": "00026000",
+              "hiosIssuerId": null,
+              "hiosPlanId": null,
+              "planVariant": null,
+              "stateCode": null,
+              "medicaidProgram": null,
+              "managedCarePlanId": null,
+              "organizationName": "UNITEDHEALTHCARE INS. CO. & UHC INS. CO. OF NY",
+              "planName": "AARP Medicare Rx Preferred from UHC (PDP)",
+              "serviceArea": null
+            },
+            "candidates": [],
+            "missingDisambiguators": [],
+            "rationale": "Resolved by contract S5820, plan 034, segment 000."
+          },
+          "medicationProductKey": "ozempic-semaglutide-1_34mg-per-ml-injection",
+          "medicationRxcui": "2398842",
+          "rxcuisSearched": [
+            {
+              "rxcui": "2398842",
+              "granularity": "exact-product",
+              "name": null
+            },
+            {
+              "rxcui": "2398841",
+              "granularity": "clinical-drug",
+              "name": "3 ML semaglutide 1.34 MG/ML Pen Injector"
+            },
+            {
+              "rxcui": "1991302",
+              "granularity": "ingredient",
+              "name": "semaglutide"
+            }
+          ],
+          "sourceIds": [
+            "cms-part-d-monthly-formulary"
+          ],
+          "planYear": 2026
+        },
+        "found": [
+          {
+            "matchedRxcui": "2398842",
+            "matchedConceptName": null,
+            "granularity": "exact-product",
+            "isExactProductMatch": true,
+            "formularyId": "00026000",
+            "formularyVersion": "22",
+            "policy": {
+              "priorAuthorization": "yes",
+              "stepTherapy": "no",
+              "quantityLimit": {
+                "present": "yes",
+                "amount": "3",
+                "days": "28",
+                "asStated": "3 per 28 days"
+              },
+              "tier": 3,
+              "tierLabel": null,
+              "preferredStatus": "unknown",
+              "specialtyPharmacyRequired": "unknown",
+              "ageRestriction": null,
+              "indicationCriteria": null,
+              "benefitScope": "pharmacy",
+              "effectiveStart": null,
+              "effectiveEnd": null,
+              "exceptionProcessUrl": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+              "notes": [
+                "Tier meaning is defined by the plan, not by CMS. Check the plan's Evidence of Coverage.",
+                "Quantity-limit units come from the source: an amount per a number of DAYS, not per month."
+              ]
+            },
+            "costSharing": [
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "1",
+                "daysSupply": "1",
+                "costType": "0",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "1",
+                "daysSupply": "2",
+                "costType": "0",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "1",
+                "costType": "2",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "2",
+                "costType": "2",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "4",
+                "costType": "2",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              }
+            ],
+            "provenance": [
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (basic drugs formulary file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "3c8c9abb8ff645155b597615a14c0ea6d3c3fb224b8f2c25681bf58ce37eb258",
+                "captureId": "2026-08",
+                "locator": "basic drugs formulary file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (plan information  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "5ba1ee7cbd97171a00a10f380b19ae602979741484931fc06e1ecd0ef6572a7a",
+                "captureId": "2026-08",
+                "locator": "plan information  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (beneficiary cost file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "9453e4843e270814c88cf55ce821392c3ba583623f941b704fc52f1d49ecb977",
+                "captureId": "2026-08",
+                "locator": "beneficiary cost file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (excluded drugs formulary file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "ff02266016cfeddbe1696f0bf4144d9540d9d7d85c2942647da829825ee5390f",
+                "captureId": "2026-08",
+                "locator": "excluded drugs formulary file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              }
+            ],
+            "supportingRow": {
+              "FORMULARY_ID": "00026000",
+              "RXCUI": "2398842",
+              "TIER_LEVEL_VALUE": "3",
+              "PRIOR_AUTHORIZATION_YN": "Y",
+              "STEP_THERAPY_YN": "N",
+              "QUANTITY_LIMIT_YN": "Y",
+              "QUANTITY_LIMIT_AMOUNT": "3",
+              "QUANTITY_LIMIT_DAYS": "28",
+              "CONTRACT_YEAR": "2026"
+            }
+          }
+        ],
+        "restrictions": [
+          "Prior authorisation required (tier 3). This means the prescriber must submit information BEFORE the plan will pay. It is not an approval.",
+          "Quantity limit: 3 per 28 days."
+        ],
+        "unknown": [
+          "Member eligibility, enrolment and deductible status: not checked.",
+          "The actual amount this person would pay: not determined.",
+          "The plan-defined meaning of the tier number: not in this dataset."
+        ],
+        "freshness": {
+          "sourceRelease": "2026-08",
+          "sourcePublished": "2026-08-26",
+          "retrievedAt": "2026-09-19T19:45:00.435Z",
+          "planYear": 2026,
+          "yearMismatch": false
+        },
+        "memberBenefitVerified": false,
+        "memberBenefitNote": "No member-specific benefit verification was performed. This pipeline has no authorised eligibility or real-time benefit integration, and no patient information was supplied or required.",
+        "nextSteps": [
+          {
+            "label": "Ask the pharmacy to run a test claim",
+            "detail": "A trial claim returns the actual amount for this member, which no formulary document can.",
+            "url": null
+          },
+          {
+            "label": "Medicare Plan Finder",
+            "detail": "Official CMS tool for checking drug coverage and costs by plan.",
+            "url": "https://www.medicare.gov/plan-compare/"
+          },
+          {
+            "label": "Call the plan's member services",
+            "detail": "The number on the member's card. Ask about this exact strength, form and quantity.",
+            "url": null
+          }
+        ],
+        "caveats": [
+          "This is the plan's PUBLISHED formulary, not a member's benefit. Enrolment, eligibility and deductible status were not checked.",
+          "Listing is not a guarantee of payment. Only an adjudicated pharmacy claim is binding.",
+          "Tier numbers are plan-defined. A tier is not a dollar amount."
+        ]
+      }
+    },
+    {
+      "scenario": "ozempic-semaglutide-1_34mg-per-ml-injection on Hamaspik Medicare Select (HMO D-SNP), formulary 00026303",
+      "exercises": "Brand versus generic. Formulary 00026303 is the ONLY one in the entire 2026-08 release that lists the BRANDED concepts for Singulair (153892) and Toprol XL (866438), both at tier 1 with no restrictions. Generic montelukast concepts appear on hundreds of formularies. A generic listing is not a brand listing, and this plan is the proof.",
+      "request": {
+        "productKey": "ozempic-semaglutide-1_34mg-per-ml-injection",
+        "contractId": "H0034",
+        "planId": "001",
+        "segmentId": "000",
+        "planYear": 2026
+      },
+      "response": {
+        "schemaVersion": "1.0.0",
+        "state": "conditional",
+        "headline": "Listed on this plan's formulary, with 2 restriction(s).",
+        "checked": {
+          "plan": {
+            "planKey": "medicare-partd-2026-H0034-001-000",
+            "market": "medicare-part-d",
+            "planYear": 2026,
+            "contractId": "H0034",
+            "planId": "001",
+            "segmentId": "000",
+            "formularyId": "00026303",
+            "hiosIssuerId": null,
+            "hiosPlanId": null,
+            "planVariant": null,
+            "stateCode": null,
+            "medicaidProgram": null,
+            "managedCarePlanId": null,
+            "organizationName": "HAMASPIK, INC.",
+            "planName": "Hamaspik Medicare Select (HMO D-SNP)",
+            "serviceArea": null
+          },
+          "planResolution": {
+            "state": "resolved",
+            "plan": {
+              "planKey": "medicare-partd-2026-H0034-001-000",
+              "market": "medicare-part-d",
+              "planYear": 2026,
+              "contractId": "H0034",
+              "planId": "001",
+              "segmentId": "000",
+              "formularyId": "00026303",
+              "hiosIssuerId": null,
+              "hiosPlanId": null,
+              "planVariant": null,
+              "stateCode": null,
+              "medicaidProgram": null,
+              "managedCarePlanId": null,
+              "organizationName": "HAMASPIK, INC.",
+              "planName": "Hamaspik Medicare Select (HMO D-SNP)",
+              "serviceArea": null
+            },
+            "candidates": [],
+            "missingDisambiguators": [],
+            "rationale": "Resolved by contract H0034, plan 001, segment 000."
+          },
+          "medicationProductKey": "ozempic-semaglutide-1_34mg-per-ml-injection",
+          "medicationRxcui": "2398842",
+          "rxcuisSearched": [
+            {
+              "rxcui": "2398842",
+              "granularity": "exact-product",
+              "name": null
+            },
+            {
+              "rxcui": "2398841",
+              "granularity": "clinical-drug",
+              "name": "3 ML semaglutide 1.34 MG/ML Pen Injector"
+            },
+            {
+              "rxcui": "1991302",
+              "granularity": "ingredient",
+              "name": "semaglutide"
+            }
+          ],
+          "sourceIds": [
+            "cms-part-d-monthly-formulary"
+          ],
+          "planYear": 2026
+        },
+        "found": [
+          {
+            "matchedRxcui": "2398842",
+            "matchedConceptName": null,
+            "granularity": "exact-product",
+            "isExactProductMatch": true,
+            "formularyId": "00026303",
+            "formularyVersion": "18",
+            "policy": {
+              "priorAuthorization": "yes",
+              "stepTherapy": "no",
+              "quantityLimit": {
+                "present": "yes",
+                "amount": "3",
+                "days": "28",
+                "asStated": "3 per 28 days"
+              },
+              "tier": 1,
+              "tierLabel": null,
+              "preferredStatus": "unknown",
+              "specialtyPharmacyRequired": "unknown",
+              "ageRestriction": null,
+              "indicationCriteria": null,
+              "benefitScope": "pharmacy",
+              "effectiveStart": null,
+              "effectiveEnd": null,
+              "exceptionProcessUrl": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+              "notes": [
+                "Tier meaning is defined by the plan, not by CMS. Check the plan's Evidence of Coverage.",
+                "Quantity-limit units come from the source: an amount per a number of DAYS, not per month."
+              ]
+            },
+            "costSharing": [
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "1",
+                "daysSupply": "1",
+                "costType": "0",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "1",
+                "daysSupply": "2",
+                "costType": "0",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "1",
+                "costType": "1",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "2",
+                "costType": "1",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "4",
+                "costType": "1",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              }
+            ],
+            "provenance": [
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (basic drugs formulary file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "3c8c9abb8ff645155b597615a14c0ea6d3c3fb224b8f2c25681bf58ce37eb258",
+                "captureId": "2026-08",
+                "locator": "basic drugs formulary file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (plan information  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "5ba1ee7cbd97171a00a10f380b19ae602979741484931fc06e1ecd0ef6572a7a",
+                "captureId": "2026-08",
+                "locator": "plan information  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (beneficiary cost file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "9453e4843e270814c88cf55ce821392c3ba583623f941b704fc52f1d49ecb977",
+                "captureId": "2026-08",
+                "locator": "beneficiary cost file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (excluded drugs formulary file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "ff02266016cfeddbe1696f0bf4144d9540d9d7d85c2942647da829825ee5390f",
+                "captureId": "2026-08",
+                "locator": "excluded drugs formulary file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              }
+            ],
+            "supportingRow": {
+              "FORMULARY_ID": "00026303",
+              "RXCUI": "2398842",
+              "TIER_LEVEL_VALUE": "1",
+              "PRIOR_AUTHORIZATION_YN": "Y",
+              "STEP_THERAPY_YN": "N",
+              "QUANTITY_LIMIT_YN": "Y",
+              "QUANTITY_LIMIT_AMOUNT": "3",
+              "QUANTITY_LIMIT_DAYS": "28",
+              "CONTRACT_YEAR": "2026"
+            }
+          }
+        ],
+        "restrictions": [
+          "Prior authorisation required (tier 1). This means the prescriber must submit information BEFORE the plan will pay. It is not an approval.",
+          "Quantity limit: 3 per 28 days."
+        ],
+        "unknown": [
+          "Member eligibility, enrolment and deductible status: not checked.",
+          "The actual amount this person would pay: not determined.",
+          "The plan-defined meaning of the tier number: not in this dataset."
+        ],
+        "freshness": {
+          "sourceRelease": "2026-08",
+          "sourcePublished": "2026-08-26",
+          "retrievedAt": "2026-09-19T19:45:00.435Z",
+          "planYear": 2026,
+          "yearMismatch": false
+        },
+        "memberBenefitVerified": false,
+        "memberBenefitNote": "No member-specific benefit verification was performed. This pipeline has no authorised eligibility or real-time benefit integration, and no patient information was supplied or required.",
+        "nextSteps": [
+          {
+            "label": "Ask the pharmacy to run a test claim",
+            "detail": "A trial claim returns the actual amount for this member, which no formulary document can.",
+            "url": null
+          },
+          {
+            "label": "Medicare Plan Finder",
+            "detail": "Official CMS tool for checking drug coverage and costs by plan.",
+            "url": "https://www.medicare.gov/plan-compare/"
+          },
+          {
+            "label": "Call the plan's member services",
+            "detail": "The number on the member's card. Ask about this exact strength, form and quantity.",
+            "url": null
+          }
+        ],
+        "caveats": [
+          "This is the plan's PUBLISHED formulary, not a member's benefit. Enrolment, eligibility and deductible status were not checked.",
+          "Listing is not a guarantee of payment. Only an adjudicated pharmacy claim is binding.",
+          "Tier numbers are plan-defined. A tier is not a dollar amount."
+        ]
+      }
+    },
+    {
+      "scenario": "singulair-montelukast-10mg-tablet on AARP Medicare Rx Preferred from UHC (PDP) - UnitedHealthcare, formulary 00026000",
+      "exercises": "Real utilisation management on an exact product match: Ozempic (RXCUI 2398842) is tier 3 with prior authorisation AND a quantity limit of 3 per 28 days. Also demonstrates that a plan NAME is not an identifier - S5820-034, S5820-035 and S5820-036 all carry the name 'AARP Medicare Rx Preferred from UHC (PDP)'.",
+      "request": {
+        "productKey": "singulair-montelukast-10mg-tablet",
+        "contractId": "S5820",
+        "planId": "034",
+        "segmentId": "000",
+        "planYear": 2026
+      },
+      "response": {
+        "schemaVersion": "1.0.0",
+        "state": "conditional",
+        "headline": "Listed on this plan's formulary, with 1 restriction(s).",
+        "checked": {
+          "plan": {
+            "planKey": "medicare-partd-2026-S5820-034-000",
+            "market": "medicare-part-d",
+            "planYear": 2026,
+            "contractId": "S5820",
+            "planId": "034",
+            "segmentId": "000",
+            "formularyId": "00026000",
+            "hiosIssuerId": null,
+            "hiosPlanId": null,
+            "planVariant": null,
+            "stateCode": null,
+            "medicaidProgram": null,
+            "managedCarePlanId": null,
+            "organizationName": "UNITEDHEALTHCARE INS. CO. & UHC INS. CO. OF NY",
+            "planName": "AARP Medicare Rx Preferred from UHC (PDP)",
+            "serviceArea": null
+          },
+          "planResolution": {
+            "state": "resolved",
+            "plan": {
+              "planKey": "medicare-partd-2026-S5820-034-000",
+              "market": "medicare-part-d",
+              "planYear": 2026,
+              "contractId": "S5820",
+              "planId": "034",
+              "segmentId": "000",
+              "formularyId": "00026000",
+              "hiosIssuerId": null,
+              "hiosPlanId": null,
+              "planVariant": null,
+              "stateCode": null,
+              "medicaidProgram": null,
+              "managedCarePlanId": null,
+              "organizationName": "UNITEDHEALTHCARE INS. CO. & UHC INS. CO. OF NY",
+              "planName": "AARP Medicare Rx Preferred from UHC (PDP)",
+              "serviceArea": null
+            },
+            "candidates": [],
+            "missingDisambiguators": [],
+            "rationale": "Resolved by contract S5820, plan 034, segment 000."
+          },
+          "medicationProductKey": "singulair-montelukast-10mg-tablet",
+          "medicationRxcui": "153892",
+          "rxcuisSearched": [
+            {
+              "rxcui": "153892",
+              "granularity": "exact-product",
+              "name": null
+            },
+            {
+              "rxcui": "200224",
+              "granularity": "clinical-drug",
+              "name": "montelukast 10 MG Oral Tablet"
+            },
+            {
+              "rxcui": "88249",
+              "granularity": "ingredient",
+              "name": "montelukast"
+            }
+          ],
+          "sourceIds": [
+            "cms-part-d-monthly-formulary"
+          ],
+          "planYear": 2026
+        },
+        "found": [
+          {
+            "matchedRxcui": "200224",
+            "matchedConceptName": "montelukast 10 MG Oral Tablet",
+            "granularity": "clinical-drug",
+            "isExactProductMatch": false,
+            "formularyId": "00026000",
+            "formularyVersion": "22",
+            "policy": {
+              "priorAuthorization": "no",
+              "stepTherapy": "no",
+              "quantityLimit": {
+                "present": "yes",
+                "amount": "30",
+                "days": "30",
+                "asStated": "30 per 30 days"
+              },
+              "tier": 1,
+              "tierLabel": null,
+              "preferredStatus": "unknown",
+              "specialtyPharmacyRequired": "unknown",
+              "ageRestriction": null,
+              "indicationCriteria": null,
+              "benefitScope": "pharmacy",
+              "effectiveStart": null,
+              "effectiveEnd": null,
+              "exceptionProcessUrl": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+              "notes": [
+                "Tier meaning is defined by the plan, not by CMS. Check the plan's Evidence of Coverage.",
+                "Quantity-limit units come from the source: an amount per a number of DAYS, not per month."
+              ]
+            },
+            "costSharing": [
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "1",
+                "daysSupply": "1",
+                "costType": "0",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "1",
+                "daysSupply": "2",
+                "costType": "0",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "1",
+                "costType": "2",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "2",
+                "costType": "2",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "4",
+                "costType": "2",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              }
+            ],
+            "provenance": [
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (basic drugs formulary file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "3c8c9abb8ff645155b597615a14c0ea6d3c3fb224b8f2c25681bf58ce37eb258",
+                "captureId": "2026-08",
+                "locator": "basic drugs formulary file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (plan information  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "5ba1ee7cbd97171a00a10f380b19ae602979741484931fc06e1ecd0ef6572a7a",
+                "captureId": "2026-08",
+                "locator": "plan information  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (beneficiary cost file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "9453e4843e270814c88cf55ce821392c3ba583623f941b704fc52f1d49ecb977",
+                "captureId": "2026-08",
+                "locator": "beneficiary cost file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (excluded drugs formulary file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "ff02266016cfeddbe1696f0bf4144d9540d9d7d85c2942647da829825ee5390f",
+                "captureId": "2026-08",
+                "locator": "excluded drugs formulary file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              }
+            ],
+            "supportingRow": {
+              "FORMULARY_ID": "00026000",
+              "RXCUI": "200224",
+              "TIER_LEVEL_VALUE": "1",
+              "PRIOR_AUTHORIZATION_YN": "N",
+              "STEP_THERAPY_YN": "N",
+              "QUANTITY_LIMIT_YN": "Y",
+              "QUANTITY_LIMIT_AMOUNT": "30",
+              "QUANTITY_LIMIT_DAYS": "30",
+              "CONTRACT_YEAR": "2026"
+            }
+          }
+        ],
+        "restrictions": [
+          "Quantity limit: 30 per 30 days."
+        ],
+        "unknown": [
+          "No EXACT product match. The listing(s) found are for a broader concept (clinical drug or ingredient). A generic listing does not establish that the branded product is listed.",
+          "Member eligibility, enrolment and deductible status: not checked.",
+          "The actual amount this person would pay: not determined.",
+          "The plan-defined meaning of the tier number: not in this dataset."
+        ],
+        "freshness": {
+          "sourceRelease": "2026-08",
+          "sourcePublished": "2026-08-26",
+          "retrievedAt": "2026-09-19T19:45:00.435Z",
+          "planYear": 2026,
+          "yearMismatch": false
+        },
+        "memberBenefitVerified": false,
+        "memberBenefitNote": "No member-specific benefit verification was performed. This pipeline has no authorised eligibility or real-time benefit integration, and no patient information was supplied or required.",
+        "nextSteps": [
+          {
+            "label": "Ask the pharmacy to run a test claim",
+            "detail": "A trial claim returns the actual amount for this member, which no formulary document can.",
+            "url": null
+          },
+          {
+            "label": "Medicare Plan Finder",
+            "detail": "Official CMS tool for checking drug coverage and costs by plan.",
+            "url": "https://www.medicare.gov/plan-compare/"
+          },
+          {
+            "label": "Call the plan's member services",
+            "detail": "The number on the member's card. Ask about this exact strength, form and quantity.",
+            "url": null
+          }
+        ],
+        "caveats": [
+          "This is the plan's PUBLISHED formulary, not a member's benefit. Enrolment, eligibility and deductible status were not checked.",
+          "Listing is not a guarantee of payment. Only an adjudicated pharmacy claim is binding.",
+          "Tier numbers are plan-defined. A tier is not a dollar amount."
+        ]
+      }
+    },
+    {
+      "scenario": "singulair-montelukast-10mg-tablet on Hamaspik Medicare Select (HMO D-SNP), formulary 00026303",
+      "exercises": "Brand versus generic. Formulary 00026303 is the ONLY one in the entire 2026-08 release that lists the BRANDED concepts for Singulair (153892) and Toprol XL (866438), both at tier 1 with no restrictions. Generic montelukast concepts appear on hundreds of formularies. A generic listing is not a brand listing, and this plan is the proof.",
+      "request": {
+        "productKey": "singulair-montelukast-10mg-tablet",
+        "contractId": "H0034",
+        "planId": "001",
+        "segmentId": "000",
+        "planYear": 2026
+      },
+      "response": {
+        "schemaVersion": "1.0.0",
+        "state": "listed",
+        "headline": "Listed on this plan's published formulary with no restrictions recorded.",
+        "checked": {
+          "plan": {
+            "planKey": "medicare-partd-2026-H0034-001-000",
+            "market": "medicare-part-d",
+            "planYear": 2026,
+            "contractId": "H0034",
+            "planId": "001",
+            "segmentId": "000",
+            "formularyId": "00026303",
+            "hiosIssuerId": null,
+            "hiosPlanId": null,
+            "planVariant": null,
+            "stateCode": null,
+            "medicaidProgram": null,
+            "managedCarePlanId": null,
+            "organizationName": "HAMASPIK, INC.",
+            "planName": "Hamaspik Medicare Select (HMO D-SNP)",
+            "serviceArea": null
+          },
+          "planResolution": {
+            "state": "resolved",
+            "plan": {
+              "planKey": "medicare-partd-2026-H0034-001-000",
+              "market": "medicare-part-d",
+              "planYear": 2026,
+              "contractId": "H0034",
+              "planId": "001",
+              "segmentId": "000",
+              "formularyId": "00026303",
+              "hiosIssuerId": null,
+              "hiosPlanId": null,
+              "planVariant": null,
+              "stateCode": null,
+              "medicaidProgram": null,
+              "managedCarePlanId": null,
+              "organizationName": "HAMASPIK, INC.",
+              "planName": "Hamaspik Medicare Select (HMO D-SNP)",
+              "serviceArea": null
+            },
+            "candidates": [],
+            "missingDisambiguators": [],
+            "rationale": "Resolved by contract H0034, plan 001, segment 000."
+          },
+          "medicationProductKey": "singulair-montelukast-10mg-tablet",
+          "medicationRxcui": "153892",
+          "rxcuisSearched": [
+            {
+              "rxcui": "153892",
+              "granularity": "exact-product",
+              "name": null
+            },
+            {
+              "rxcui": "200224",
+              "granularity": "clinical-drug",
+              "name": "montelukast 10 MG Oral Tablet"
+            },
+            {
+              "rxcui": "88249",
+              "granularity": "ingredient",
+              "name": "montelukast"
+            }
+          ],
+          "sourceIds": [
+            "cms-part-d-monthly-formulary"
+          ],
+          "planYear": 2026
+        },
+        "found": [
+          {
+            "matchedRxcui": "200224",
+            "matchedConceptName": "montelukast 10 MG Oral Tablet",
+            "granularity": "clinical-drug",
+            "isExactProductMatch": false,
+            "formularyId": "00026303",
+            "formularyVersion": "18",
+            "policy": {
+              "priorAuthorization": "no",
+              "stepTherapy": "no",
+              "quantityLimit": {
+                "present": "no",
+                "amount": null,
+                "days": null,
+                "asStated": null
+              },
+              "tier": 1,
+              "tierLabel": null,
+              "preferredStatus": "unknown",
+              "specialtyPharmacyRequired": "unknown",
+              "ageRestriction": null,
+              "indicationCriteria": null,
+              "benefitScope": "pharmacy",
+              "effectiveStart": null,
+              "effectiveEnd": null,
+              "exceptionProcessUrl": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+              "notes": [
+                "Tier meaning is defined by the plan, not by CMS. Check the plan's Evidence of Coverage.",
+                "Quantity-limit units come from the source: an amount per a number of DAYS, not per month."
+              ]
+            },
+            "costSharing": [
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "1",
+                "daysSupply": "1",
+                "costType": "0",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "1",
+                "daysSupply": "2",
+                "costType": "0",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "1",
+                "costType": "1",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "2",
+                "costType": "1",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "4",
+                "costType": "1",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              }
+            ],
+            "provenance": [
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (basic drugs formulary file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "3c8c9abb8ff645155b597615a14c0ea6d3c3fb224b8f2c25681bf58ce37eb258",
+                "captureId": "2026-08",
+                "locator": "basic drugs formulary file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (plan information  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "5ba1ee7cbd97171a00a10f380b19ae602979741484931fc06e1ecd0ef6572a7a",
+                "captureId": "2026-08",
+                "locator": "plan information  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (beneficiary cost file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "9453e4843e270814c88cf55ce821392c3ba583623f941b704fc52f1d49ecb977",
+                "captureId": "2026-08",
+                "locator": "beneficiary cost file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (excluded drugs formulary file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "ff02266016cfeddbe1696f0bf4144d9540d9d7d85c2942647da829825ee5390f",
+                "captureId": "2026-08",
+                "locator": "excluded drugs formulary file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              }
+            ],
+            "supportingRow": {
+              "FORMULARY_ID": "00026303",
+              "RXCUI": "200224",
+              "TIER_LEVEL_VALUE": "1",
+              "PRIOR_AUTHORIZATION_YN": "N",
+              "STEP_THERAPY_YN": "N",
+              "QUANTITY_LIMIT_YN": "N",
+              "QUANTITY_LIMIT_AMOUNT": null,
+              "QUANTITY_LIMIT_DAYS": null,
+              "CONTRACT_YEAR": "2026"
+            }
+          },
+          {
+            "matchedRxcui": "153892",
+            "matchedConceptName": null,
+            "granularity": "exact-product",
+            "isExactProductMatch": true,
+            "formularyId": "00026303",
+            "formularyVersion": "18",
+            "policy": {
+              "priorAuthorization": "no",
+              "stepTherapy": "no",
+              "quantityLimit": {
+                "present": "no",
+                "amount": null,
+                "days": null,
+                "asStated": null
+              },
+              "tier": 1,
+              "tierLabel": null,
+              "preferredStatus": "unknown",
+              "specialtyPharmacyRequired": "unknown",
+              "ageRestriction": null,
+              "indicationCriteria": null,
+              "benefitScope": "pharmacy",
+              "effectiveStart": null,
+              "effectiveEnd": null,
+              "exceptionProcessUrl": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+              "notes": [
+                "Tier meaning is defined by the plan, not by CMS. Check the plan's Evidence of Coverage.",
+                "Quantity-limit units come from the source: an amount per a number of DAYS, not per month."
+              ]
+            },
+            "costSharing": [
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "1",
+                "daysSupply": "1",
+                "costType": "0",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "1",
+                "daysSupply": "2",
+                "costType": "0",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "1",
+                "costType": "1",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "2",
+                "costType": "1",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "4",
+                "costType": "1",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              }
+            ],
+            "provenance": [
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (basic drugs formulary file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "3c8c9abb8ff645155b597615a14c0ea6d3c3fb224b8f2c25681bf58ce37eb258",
+                "captureId": "2026-08",
+                "locator": "basic drugs formulary file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (plan information  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "5ba1ee7cbd97171a00a10f380b19ae602979741484931fc06e1ecd0ef6572a7a",
+                "captureId": "2026-08",
+                "locator": "plan information  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (beneficiary cost file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "9453e4843e270814c88cf55ce821392c3ba583623f941b704fc52f1d49ecb977",
+                "captureId": "2026-08",
+                "locator": "beneficiary cost file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (excluded drugs formulary file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "ff02266016cfeddbe1696f0bf4144d9540d9d7d85c2942647da829825ee5390f",
+                "captureId": "2026-08",
+                "locator": "excluded drugs formulary file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              }
+            ],
+            "supportingRow": {
+              "FORMULARY_ID": "00026303",
+              "RXCUI": "153892",
+              "TIER_LEVEL_VALUE": "1",
+              "PRIOR_AUTHORIZATION_YN": "N",
+              "STEP_THERAPY_YN": "N",
+              "QUANTITY_LIMIT_YN": "N",
+              "QUANTITY_LIMIT_AMOUNT": null,
+              "QUANTITY_LIMIT_DAYS": null,
+              "CONTRACT_YEAR": "2026"
+            }
+          }
+        ],
+        "restrictions": [],
+        "unknown": [
+          "Member eligibility, enrolment and deductible status: not checked.",
+          "The actual amount this person would pay: not determined.",
+          "The plan-defined meaning of the tier number: not in this dataset."
+        ],
+        "freshness": {
+          "sourceRelease": "2026-08",
+          "sourcePublished": "2026-08-26",
+          "retrievedAt": "2026-09-19T19:45:00.435Z",
+          "planYear": 2026,
+          "yearMismatch": false
+        },
+        "memberBenefitVerified": false,
+        "memberBenefitNote": "No member-specific benefit verification was performed. This pipeline has no authorised eligibility or real-time benefit integration, and no patient information was supplied or required.",
+        "nextSteps": [
+          {
+            "label": "Ask the pharmacy to run a test claim",
+            "detail": "A trial claim returns the actual amount for this member, which no formulary document can.",
+            "url": null
+          },
+          {
+            "label": "Medicare Plan Finder",
+            "detail": "Official CMS tool for checking drug coverage and costs by plan.",
+            "url": "https://www.medicare.gov/plan-compare/"
+          },
+          {
+            "label": "Call the plan's member services",
+            "detail": "The number on the member's card. Ask about this exact strength, form and quantity.",
+            "url": null
+          }
+        ],
+        "caveats": [
+          "This is the plan's PUBLISHED formulary, not a member's benefit. Enrolment, eligibility and deductible status were not checked.",
+          "Listing is not a guarantee of payment. Only an adjudicated pharmacy claim is binding.",
+          "Tier numbers are plan-defined. A tier is not a dollar amount."
+        ]
+      }
+    },
+    {
+      "scenario": "toprol-xl-metoprolol-succinate-50mg-er-tablet on AARP Medicare Rx Preferred from UHC (PDP) - UnitedHealthcare, formulary 00026000",
+      "exercises": "Real utilisation management on an exact product match: Ozempic (RXCUI 2398842) is tier 3 with prior authorisation AND a quantity limit of 3 per 28 days. Also demonstrates that a plan NAME is not an identifier - S5820-034, S5820-035 and S5820-036 all carry the name 'AARP Medicare Rx Preferred from UHC (PDP)'.",
+      "request": {
+        "productKey": "toprol-xl-metoprolol-succinate-50mg-er-tablet",
+        "contractId": "S5820",
+        "planId": "034",
+        "segmentId": "000",
+        "planYear": 2026
+      },
+      "response": {
+        "schemaVersion": "1.0.0",
+        "state": "listed",
+        "headline": "Listed on this plan's published formulary with no restrictions recorded.",
+        "checked": {
+          "plan": {
+            "planKey": "medicare-partd-2026-S5820-034-000",
+            "market": "medicare-part-d",
+            "planYear": 2026,
+            "contractId": "S5820",
+            "planId": "034",
+            "segmentId": "000",
+            "formularyId": "00026000",
+            "hiosIssuerId": null,
+            "hiosPlanId": null,
+            "planVariant": null,
+            "stateCode": null,
+            "medicaidProgram": null,
+            "managedCarePlanId": null,
+            "organizationName": "UNITEDHEALTHCARE INS. CO. & UHC INS. CO. OF NY",
+            "planName": "AARP Medicare Rx Preferred from UHC (PDP)",
+            "serviceArea": null
+          },
+          "planResolution": {
+            "state": "resolved",
+            "plan": {
+              "planKey": "medicare-partd-2026-S5820-034-000",
+              "market": "medicare-part-d",
+              "planYear": 2026,
+              "contractId": "S5820",
+              "planId": "034",
+              "segmentId": "000",
+              "formularyId": "00026000",
+              "hiosIssuerId": null,
+              "hiosPlanId": null,
+              "planVariant": null,
+              "stateCode": null,
+              "medicaidProgram": null,
+              "managedCarePlanId": null,
+              "organizationName": "UNITEDHEALTHCARE INS. CO. & UHC INS. CO. OF NY",
+              "planName": "AARP Medicare Rx Preferred from UHC (PDP)",
+              "serviceArea": null
+            },
+            "candidates": [],
+            "missingDisambiguators": [],
+            "rationale": "Resolved by contract S5820, plan 034, segment 000."
+          },
+          "medicationProductKey": "toprol-xl-metoprolol-succinate-50mg-er-tablet",
+          "medicationRxcui": "866438",
+          "rxcuisSearched": [
+            {
+              "rxcui": "866438",
+              "granularity": "exact-product",
+              "name": null
+            },
+            {
+              "rxcui": "866436",
+              "granularity": "clinical-drug",
+              "name": "24 HR metoprolol succinate 50 MG Extended Release Oral Tablet"
+            },
+            {
+              "rxcui": "6918",
+              "granularity": "ingredient",
+              "name": "metoprolol"
+            }
+          ],
+          "sourceIds": [
+            "cms-part-d-monthly-formulary"
+          ],
+          "planYear": 2026
+        },
+        "found": [
+          {
+            "matchedRxcui": "866436",
+            "matchedConceptName": "24 HR metoprolol succinate 50 MG Extended Release Oral Tablet",
+            "granularity": "clinical-drug",
+            "isExactProductMatch": false,
+            "formularyId": "00026000",
+            "formularyVersion": "22",
+            "policy": {
+              "priorAuthorization": "no",
+              "stepTherapy": "no",
+              "quantityLimit": {
+                "present": "no",
+                "amount": null,
+                "days": null,
+                "asStated": null
+              },
+              "tier": 1,
+              "tierLabel": null,
+              "preferredStatus": "unknown",
+              "specialtyPharmacyRequired": "unknown",
+              "ageRestriction": null,
+              "indicationCriteria": null,
+              "benefitScope": "pharmacy",
+              "effectiveStart": null,
+              "effectiveEnd": null,
+              "exceptionProcessUrl": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+              "notes": [
+                "Tier meaning is defined by the plan, not by CMS. Check the plan's Evidence of Coverage.",
+                "Quantity-limit units come from the source: an amount per a number of DAYS, not per month."
+              ]
+            },
+            "costSharing": [
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "1",
+                "daysSupply": "1",
+                "costType": "0",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "1",
+                "daysSupply": "2",
+                "costType": "0",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "1",
+                "costType": "2",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "2",
+                "costType": "2",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "4",
+                "costType": "2",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              }
+            ],
+            "provenance": [
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (basic drugs formulary file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "3c8c9abb8ff645155b597615a14c0ea6d3c3fb224b8f2c25681bf58ce37eb258",
+                "captureId": "2026-08",
+                "locator": "basic drugs formulary file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (plan information  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "5ba1ee7cbd97171a00a10f380b19ae602979741484931fc06e1ecd0ef6572a7a",
+                "captureId": "2026-08",
+                "locator": "plan information  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (beneficiary cost file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "9453e4843e270814c88cf55ce821392c3ba583623f941b704fc52f1d49ecb977",
+                "captureId": "2026-08",
+                "locator": "beneficiary cost file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (excluded drugs formulary file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "ff02266016cfeddbe1696f0bf4144d9540d9d7d85c2942647da829825ee5390f",
+                "captureId": "2026-08",
+                "locator": "excluded drugs formulary file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              }
+            ],
+            "supportingRow": {
+              "FORMULARY_ID": "00026000",
+              "RXCUI": "866436",
+              "TIER_LEVEL_VALUE": "1",
+              "PRIOR_AUTHORIZATION_YN": "N",
+              "STEP_THERAPY_YN": "N",
+              "QUANTITY_LIMIT_YN": "N",
+              "QUANTITY_LIMIT_AMOUNT": null,
+              "QUANTITY_LIMIT_DAYS": null,
+              "CONTRACT_YEAR": "2026"
+            }
+          }
+        ],
+        "restrictions": [],
+        "unknown": [
+          "No EXACT product match. The listing(s) found are for a broader concept (clinical drug or ingredient). A generic listing does not establish that the branded product is listed.",
+          "Member eligibility, enrolment and deductible status: not checked.",
+          "The actual amount this person would pay: not determined.",
+          "The plan-defined meaning of the tier number: not in this dataset."
+        ],
+        "freshness": {
+          "sourceRelease": "2026-08",
+          "sourcePublished": "2026-08-26",
+          "retrievedAt": "2026-09-19T19:45:00.435Z",
+          "planYear": 2026,
+          "yearMismatch": false
+        },
+        "memberBenefitVerified": false,
+        "memberBenefitNote": "No member-specific benefit verification was performed. This pipeline has no authorised eligibility or real-time benefit integration, and no patient information was supplied or required.",
+        "nextSteps": [
+          {
+            "label": "Ask the pharmacy to run a test claim",
+            "detail": "A trial claim returns the actual amount for this member, which no formulary document can.",
+            "url": null
+          },
+          {
+            "label": "Medicare Plan Finder",
+            "detail": "Official CMS tool for checking drug coverage and costs by plan.",
+            "url": "https://www.medicare.gov/plan-compare/"
+          },
+          {
+            "label": "Call the plan's member services",
+            "detail": "The number on the member's card. Ask about this exact strength, form and quantity.",
+            "url": null
+          }
+        ],
+        "caveats": [
+          "This is the plan's PUBLISHED formulary, not a member's benefit. Enrolment, eligibility and deductible status were not checked.",
+          "Listing is not a guarantee of payment. Only an adjudicated pharmacy claim is binding.",
+          "Tier numbers are plan-defined. A tier is not a dollar amount."
+        ]
+      }
+    },
+    {
+      "scenario": "toprol-xl-metoprolol-succinate-50mg-er-tablet on Hamaspik Medicare Select (HMO D-SNP), formulary 00026303",
+      "exercises": "Brand versus generic. Formulary 00026303 is the ONLY one in the entire 2026-08 release that lists the BRANDED concepts for Singulair (153892) and Toprol XL (866438), both at tier 1 with no restrictions. Generic montelukast concepts appear on hundreds of formularies. A generic listing is not a brand listing, and this plan is the proof.",
+      "request": {
+        "productKey": "toprol-xl-metoprolol-succinate-50mg-er-tablet",
+        "contractId": "H0034",
+        "planId": "001",
+        "segmentId": "000",
+        "planYear": 2026
+      },
+      "response": {
+        "schemaVersion": "1.0.0",
+        "state": "listed",
+        "headline": "Listed on this plan's published formulary with no restrictions recorded.",
+        "checked": {
+          "plan": {
+            "planKey": "medicare-partd-2026-H0034-001-000",
+            "market": "medicare-part-d",
+            "planYear": 2026,
+            "contractId": "H0034",
+            "planId": "001",
+            "segmentId": "000",
+            "formularyId": "00026303",
+            "hiosIssuerId": null,
+            "hiosPlanId": null,
+            "planVariant": null,
+            "stateCode": null,
+            "medicaidProgram": null,
+            "managedCarePlanId": null,
+            "organizationName": "HAMASPIK, INC.",
+            "planName": "Hamaspik Medicare Select (HMO D-SNP)",
+            "serviceArea": null
+          },
+          "planResolution": {
+            "state": "resolved",
+            "plan": {
+              "planKey": "medicare-partd-2026-H0034-001-000",
+              "market": "medicare-part-d",
+              "planYear": 2026,
+              "contractId": "H0034",
+              "planId": "001",
+              "segmentId": "000",
+              "formularyId": "00026303",
+              "hiosIssuerId": null,
+              "hiosPlanId": null,
+              "planVariant": null,
+              "stateCode": null,
+              "medicaidProgram": null,
+              "managedCarePlanId": null,
+              "organizationName": "HAMASPIK, INC.",
+              "planName": "Hamaspik Medicare Select (HMO D-SNP)",
+              "serviceArea": null
+            },
+            "candidates": [],
+            "missingDisambiguators": [],
+            "rationale": "Resolved by contract H0034, plan 001, segment 000."
+          },
+          "medicationProductKey": "toprol-xl-metoprolol-succinate-50mg-er-tablet",
+          "medicationRxcui": "866438",
+          "rxcuisSearched": [
+            {
+              "rxcui": "866438",
+              "granularity": "exact-product",
+              "name": null
+            },
+            {
+              "rxcui": "866436",
+              "granularity": "clinical-drug",
+              "name": "24 HR metoprolol succinate 50 MG Extended Release Oral Tablet"
+            },
+            {
+              "rxcui": "6918",
+              "granularity": "ingredient",
+              "name": "metoprolol"
+            }
+          ],
+          "sourceIds": [
+            "cms-part-d-monthly-formulary"
+          ],
+          "planYear": 2026
+        },
+        "found": [
+          {
+            "matchedRxcui": "866436",
+            "matchedConceptName": "24 HR metoprolol succinate 50 MG Extended Release Oral Tablet",
+            "granularity": "clinical-drug",
+            "isExactProductMatch": false,
+            "formularyId": "00026303",
+            "formularyVersion": "18",
+            "policy": {
+              "priorAuthorization": "no",
+              "stepTherapy": "no",
+              "quantityLimit": {
+                "present": "no",
+                "amount": null,
+                "days": null,
+                "asStated": null
+              },
+              "tier": 1,
+              "tierLabel": null,
+              "preferredStatus": "unknown",
+              "specialtyPharmacyRequired": "unknown",
+              "ageRestriction": null,
+              "indicationCriteria": null,
+              "benefitScope": "pharmacy",
+              "effectiveStart": null,
+              "effectiveEnd": null,
+              "exceptionProcessUrl": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+              "notes": [
+                "Tier meaning is defined by the plan, not by CMS. Check the plan's Evidence of Coverage.",
+                "Quantity-limit units come from the source: an amount per a number of DAYS, not per month."
+              ]
+            },
+            "costSharing": [
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "1",
+                "daysSupply": "1",
+                "costType": "0",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "1",
+                "daysSupply": "2",
+                "costType": "0",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "1",
+                "costType": "1",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "2",
+                "costType": "1",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "4",
+                "costType": "1",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              }
+            ],
+            "provenance": [
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (basic drugs formulary file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "3c8c9abb8ff645155b597615a14c0ea6d3c3fb224b8f2c25681bf58ce37eb258",
+                "captureId": "2026-08",
+                "locator": "basic drugs formulary file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (plan information  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "5ba1ee7cbd97171a00a10f380b19ae602979741484931fc06e1ecd0ef6572a7a",
+                "captureId": "2026-08",
+                "locator": "plan information  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (beneficiary cost file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "9453e4843e270814c88cf55ce821392c3ba583623f941b704fc52f1d49ecb977",
+                "captureId": "2026-08",
+                "locator": "beneficiary cost file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (excluded drugs formulary file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "ff02266016cfeddbe1696f0bf4144d9540d9d7d85c2942647da829825ee5390f",
+                "captureId": "2026-08",
+                "locator": "excluded drugs formulary file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              }
+            ],
+            "supportingRow": {
+              "FORMULARY_ID": "00026303",
+              "RXCUI": "866436",
+              "TIER_LEVEL_VALUE": "1",
+              "PRIOR_AUTHORIZATION_YN": "N",
+              "STEP_THERAPY_YN": "N",
+              "QUANTITY_LIMIT_YN": "N",
+              "QUANTITY_LIMIT_AMOUNT": null,
+              "QUANTITY_LIMIT_DAYS": null,
+              "CONTRACT_YEAR": "2026"
+            }
+          },
+          {
+            "matchedRxcui": "866438",
+            "matchedConceptName": null,
+            "granularity": "exact-product",
+            "isExactProductMatch": true,
+            "formularyId": "00026303",
+            "formularyVersion": "18",
+            "policy": {
+              "priorAuthorization": "no",
+              "stepTherapy": "no",
+              "quantityLimit": {
+                "present": "no",
+                "amount": null,
+                "days": null,
+                "asStated": null
+              },
+              "tier": 1,
+              "tierLabel": null,
+              "preferredStatus": "unknown",
+              "specialtyPharmacyRequired": "unknown",
+              "ageRestriction": null,
+              "indicationCriteria": null,
+              "benefitScope": "pharmacy",
+              "effectiveStart": null,
+              "effectiveEnd": null,
+              "exceptionProcessUrl": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+              "notes": [
+                "Tier meaning is defined by the plan, not by CMS. Check the plan's Evidence of Coverage.",
+                "Quantity-limit units come from the source: an amount per a number of DAYS, not per month."
+              ]
+            },
+            "costSharing": [
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "1",
+                "daysSupply": "1",
+                "costType": "0",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "1",
+                "daysSupply": "2",
+                "costType": "0",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "1",
+                "costType": "1",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "2",
+                "costType": "1",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              },
+              {
+                "basis": "published-plan-cost-sharing-rule",
+                "coverageLevel": "3",
+                "daysSupply": "4",
+                "costType": "1",
+                "amount": "0",
+                "pharmacyTier": "preferred",
+                "caveat": "This is the plan's published cost-sharing RULE for this tier. It is not a price for any individual: deductible status, pharmacy contract and coverage phase all change the amount."
+              }
+            ],
+            "provenance": [
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (basic drugs formulary file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "3c8c9abb8ff645155b597615a14c0ea6d3c3fb224b8f2c25681bf58ce37eb258",
+                "captureId": "2026-08",
+                "locator": "basic drugs formulary file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (plan information  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "5ba1ee7cbd97171a00a10f380b19ae602979741484931fc06e1ecd0ef6572a7a",
+                "captureId": "2026-08",
+                "locator": "plan information  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (beneficiary cost file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "9453e4843e270814c88cf55ce821392c3ba583623f941b704fc52f1d49ecb977",
+                "captureId": "2026-08",
+                "locator": "beneficiary cost file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              },
+              {
+                "sourceId": "openfda",
+                "sourceName": "CMS Monthly Prescription Drug Plan Formulary (excluded drugs formulary file  20260831.zip)",
+                "url": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
+                "retrievedAt": "2026-09-19T19:45:00.435Z",
+                "sourceEffectiveDate": "2026-08-26",
+                "sourceIdentifier": "2026-08",
+                "sourceVersion": "2026",
+                "rawPath": "data/normalized/insurance/cms-part-d-snapshot.json",
+                "contentHash": "ff02266016cfeddbe1696f0bf4144d9540d9d7d85c2942647da829825ee5390f",
+                "captureId": "2026-08",
+                "locator": "excluded drugs formulary file  20260831.zip",
+                "parserVersion": "pipeline-0.1.0"
+              }
+            ],
+            "supportingRow": {
+              "FORMULARY_ID": "00026303",
+              "RXCUI": "866438",
+              "TIER_LEVEL_VALUE": "1",
+              "PRIOR_AUTHORIZATION_YN": "N",
+              "STEP_THERAPY_YN": "N",
+              "QUANTITY_LIMIT_YN": "N",
+              "QUANTITY_LIMIT_AMOUNT": null,
+              "QUANTITY_LIMIT_DAYS": null,
+              "CONTRACT_YEAR": "2026"
+            }
+          }
+        ],
+        "restrictions": [],
+        "unknown": [
+          "Member eligibility, enrolment and deductible status: not checked.",
+          "The actual amount this person would pay: not determined.",
+          "The plan-defined meaning of the tier number: not in this dataset."
+        ],
+        "freshness": {
+          "sourceRelease": "2026-08",
+          "sourcePublished": "2026-08-26",
+          "retrievedAt": "2026-09-19T19:45:00.435Z",
+          "planYear": 2026,
+          "yearMismatch": false
+        },
+        "memberBenefitVerified": false,
+        "memberBenefitNote": "No member-specific benefit verification was performed. This pipeline has no authorised eligibility or real-time benefit integration, and no patient information was supplied or required.",
+        "nextSteps": [
+          {
+            "label": "Ask the pharmacy to run a test claim",
+            "detail": "A trial claim returns the actual amount for this member, which no formulary document can.",
+            "url": null
+          },
+          {
+            "label": "Medicare Plan Finder",
+            "detail": "Official CMS tool for checking drug coverage and costs by plan.",
+            "url": "https://www.medicare.gov/plan-compare/"
+          },
+          {
+            "label": "Call the plan's member services",
+            "detail": "The number on the member's card. Ask about this exact strength, form and quantity.",
+            "url": null
+          }
+        ],
+        "caveats": [
+          "This is the plan's PUBLISHED formulary, not a member's benefit. Enrolment, eligibility and deductible status were not checked.",
+          "Listing is not a guarantee of payment. Only an adjudicated pharmacy claim is binding.",
+          "Tier numbers are plan-defined. A tier is not a dollar amount."
+        ]
+      }
+    },
+    {
+      "scenario": "Counterexample: resolving by insurer/plan NAME only",
+      "exercises": "A plan name is not an identifier. This must return ambiguous-plan with candidates and the missing disambiguators, never a coverage answer.",
+      "request": {
+        "productKey": "ozempic-semaglutide-1_34mg-per-ml-injection",
+        "planNameQuery": "AARP Medicare Rx Preferred",
+        "planYear": 2026
+      },
+      "response": {
+        "schemaVersion": "1.0.0",
+        "state": "ambiguous-plan",
+        "headline": "The plan could not be identified exactly, so nothing was checked.",
+        "checked": {
+          "plan": null,
+          "planResolution": {
+            "state": "ambiguous",
+            "plan": null,
+            "candidates": [
+              {
+                "planKey": "medicare-partd-2026-S5820-034-000",
+                "planName": "AARP Medicare Rx Preferred from UHC (PDP)",
+                "formularyId": "00026000"
+              },
+              {
+                "planKey": "medicare-partd-2026-S5820-035-000",
+                "planName": "AARP Medicare Rx Preferred from UHC (PDP)",
+                "formularyId": "00026000"
+              },
+              {
+                "planKey": "medicare-partd-2026-S5820-036-000",
+                "planName": "AARP Medicare Rx Preferred from UHC (PDP)",
+                "formularyId": "00026000"
+              },
+              {
+                "planKey": "medicare-partd-2026-S5820-037-000",
+                "planName": "AARP Medicare Rx Preferred from UHC (PDP)",
+                "formularyId": "00026000"
+              },
+              {
+                "planKey": "medicare-partd-2026-S5820-038-000",
+                "planName": "AARP Medicare Rx Preferred from UHC (PDP)",
+                "formularyId": "00026000"
+              },
+              {
+                "planKey": "medicare-partd-2026-S5921-382-000",
+                "planName": "AARP Medicare Rx Preferred from UHC (PDP)",
+                "formularyId": "00026000"
+              },
+              {
+                "planKey": "medicare-partd-2026-S5921-383-000",
+                "planName": "AARP Medicare Rx Preferred from UHC (PDP)",
+                "formularyId": "00026000"
+              },
+              {
+                "planKey": "medicare-partd-2026-S5921-384-000",
+                "planName": "AARP Medicare Rx Preferred from UHC (PDP)",
+                "formularyId": "00026000"
+              },
+              {
+                "planKey": "medicare-partd-2026-S5921-385-000",
+                "planName": "AARP Medicare Rx Preferred from UHC (PDP)",
+                "formularyId": "00026000"
+              },
+              {
+                "planKey": "medicare-partd-2026-S5921-386-000",
+                "planName": "AARP Medicare Rx Preferred from UHC (PDP)",
+                "formularyId": "00026000"
+              }
+            ],
+            "missingDisambiguators": [
+              "contractId",
+              "planId",
+              "segmentId"
+            ],
+            "rationale": "39 plans matched \"AARP Medicare Rx Preferred\". A plan name is not an identifier; supply contract id, plan id and segment id to resolve exactly."
+          },
+          "medicationProductKey": "ozempic-semaglutide-1_34mg-per-ml-injection",
+          "medicationRxcui": "2398842",
+          "rxcuisSearched": [
+            {
+              "rxcui": "2398842",
+              "granularity": "exact-product",
+              "name": null
+            },
+            {
+              "rxcui": "2398841",
+              "granularity": "clinical-drug",
+              "name": "3 ML semaglutide 1.34 MG/ML Pen Injector"
+            },
+            {
+              "rxcui": "1991302",
+              "granularity": "ingredient",
+              "name": "semaglutide"
+            }
+          ],
+          "sourceIds": [
+            "cms-part-d-monthly-formulary"
+          ],
+          "planYear": 2026
+        },
+        "found": [],
+        "restrictions": [],
+        "unknown": [
+          "Formulary status was not checked because the plan is not identified.",
+          "Missing disambiguator: contractId",
+          "Missing disambiguator: planId",
+          "Missing disambiguator: segmentId"
+        ],
+        "freshness": {
+          "sourceRelease": "2026-08",
+          "sourcePublished": "2026-08-26",
+          "retrievedAt": "2026-09-19T19:45:00.435Z",
+          "planYear": 2026,
+          "yearMismatch": false
+        },
+        "memberBenefitVerified": false,
+        "memberBenefitNote": "No member-specific benefit verification was performed. This pipeline has no authorised eligibility or real-time benefit integration, and no patient information was supplied or required.",
+        "nextSteps": [
+          {
+            "label": "Ask the pharmacy to run a test claim",
+            "detail": "A trial claim returns the actual amount for this member, which no formulary document can.",
+            "url": null
+          },
+          {
+            "label": "Medicare Plan Finder",
+            "detail": "Official CMS tool for checking drug coverage and costs by plan.",
+            "url": "https://www.medicare.gov/plan-compare/"
+          },
+          {
+            "label": "Call the plan's member services",
+            "detail": "The number on the member's card. Ask about this exact strength, form and quantity.",
+            "url": null
+          }
+        ],
+        "caveats": [
+          "This is the plan's PUBLISHED formulary, not a member's benefit. Enrolment, eligibility and deductible status were not checked.",
+          "Listing is not a guarantee of payment. Only an adjudicated pharmacy claim is binding.",
+          "Tier numbers are plan-defined. A tier is not a dollar amount."
+        ]
+      }
+    }
+  ]
+}

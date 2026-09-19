@@ -1,5 +1,5 @@
 import { XMLParser } from "fast-xml-parser";
-import type { LabelSection, LabelTable } from "../schemas/index.js";
+import type { Applicability, LabelSection, LabelTable } from "../schemas/index.js";
 
 /**
  * SPL (HL7 v3 Structured Product Labeling) normalizer.
@@ -118,6 +118,36 @@ function parseParagraphs(section: Node): string[] {
   return out;
 }
 
+/**
+ * Extracts FDA "Highlights of Prescribing Information" text.
+ *
+ * Lives in <excerpt><highlight><text>, NOT in the section's own <text>. The
+ * previous parser only read section.text and silently dropped this: 26 blocks
+ * holding roughly 20,000 characters across the three ingested labels, including
+ * the entire summary of Toprol XL section 7.
+ *
+ * Returned separately from `paragraphs` on purpose. The label states that the
+ * highlights do not include all the information needed, so merging them into
+ * the body text would misrepresent their status.
+ */
+function parseHighlights(section: Node): string[] {
+  const excerpt = section["excerpt"] as Node | undefined;
+  if (!excerpt) return [];
+  const out: string[] = [];
+  for (const hl of asArray(excerpt["highlight"] as Node | Node[])) {
+    const text = (hl as Node)["text"];
+    if (!text) continue;
+    for (const [key, value] of Object.entries(text as Node)) {
+      if (key.startsWith("@_") || key === "table") continue;
+      for (const item of asArray(value as unknown)) {
+        const t = clean(collectText(item));
+        if (t.length > 0) out.push(t);
+      }
+    }
+  }
+  return out;
+}
+
 function parseTables(section: Node): LabelTable[] {
   const text = section["text"] as Node | undefined;
   if (!text) return [];
@@ -151,12 +181,14 @@ function parseSection(section: Node): LabelSection {
     printedNumber: printedNumber(rawTitle),
     title: rawTitle,
     paragraphs: parseParagraphs(section),
+    highlights: parseHighlights(section),
     tables: parseTables(section),
     subsections,
-    // SPL <subject> scoping on a section is rare; when absent we record an
-    // empty list, which means "the document did not scope this" — NOT
-    // "applies to every product".
+    // SPL sections are rarely scoped with <subject>. Default to
+    // document-level-unresolved; scopeSections() refines this once the product
+    // set is known. "Unresolved" is never upgraded to "applies to all".
     appliesToProducts: [],
+    applicability: "document-level-unresolved" as Applicability,
     audience:
       loincCode && PATIENT_AUDIENCE_LOINC.has(loincCode)
         ? "patient"

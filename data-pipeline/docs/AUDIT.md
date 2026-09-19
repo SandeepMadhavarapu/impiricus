@@ -1,115 +1,174 @@
 # Verification audit
 
-What was verified against live sources, what was tested with synthetic
-fixtures, what is unavailable, and what remains unreviewed.
+What was verified against live sources, what was tested with fixtures, what is
+unavailable, and what remains unreviewed.
 
-Audit date: **2026-09-19**.
+Audit date: **2026-09-19** (second pass).
 
 ---
 
-## 1. Verified live, against real sources
+## 0. Verification of the previous audit
 
-These ran against the real APIs and the results are reproduced in
-`data/normalized/` and `data/exports/`.
+The prior report's claims were treated as assertions and checked against the
+implementation. **One was wrong in a way that lost real data.**
 
-| Check | Result |
+| Prior claim | Verdict | Evidence |
+|---|---|---|
+| "No interaction data is produced" | **Misleading** | All three labels have a Drug Interactions section (LOINC 34073-7). Singulair's carried 376 characters that were being exported. The claim conflated "no interaction-checking service" with "no interaction content". |
+| "`appliesToProducts` is empty on every section" | **Confirmed** | 0 of 62, 0 of 63, 0 of 97 sections scoped. |
+| "Ozempic approval unresolved" | **Confirmed, and fixable** | Resolved this pass to NDA209637 product 002. |
+| "Enforcement matching is by generic name; `matchedOnNdc` false throughout" | **Confirmed** | 0 of 23 records verified across the three products. |
+
+### Defect found during verification, not in the prior report
+
+**FDA Highlights content was being silently dropped.** The parser read only a
+section's own `<text>`, but `<excerpt><highlight><text>` holds the "Highlights
+of Prescribing Information" summary. Measured across the three raw SPLs:
+**26 excerpt blocks holding ~19,900 characters**, including the entire summary
+of Toprol XL section 7, which is why that section exported 0 characters.
+
+Fixed, and Highlights are kept in a **separate field** from `paragraphs`,
+because the label states they do not include all the information needed.
+Recovered: 4,635 + 3,466 + 2,799 = **10,900 characters** into the records.
+
+---
+
+## 1. Fixes verified live
+
+| # | Fix | Evidence after the change |
+|---|---|---|
+| A | Interactions | All three: `availability: "label-section-available"`, `checkingServiceAvailable: false`. Singulair yields **14 named substances** (warfarin, digoxin, gemfibrozil, itraconazole, theophylline, …). Absence is typed as `no-label-section` with a caveat that it is a fact about the document, not about safety. |
+| B | Applicability | Real states. Singulair: 2 exact-product, 18 explicitly-shared, 37 document-level-unresolved, **3 not-applicable** (sections belonging to the chewable/granule siblings). `productSpecificSections()` excludes unresolved content. |
+| C | Approval | **NDA209637 product 002** (4MG/3ML, Prescription). Products 001 and 002 both read 1.34 MG/ML; 001 is **Discontinued**. Package volume 3 mL, taken from RxNorm concept `2398842` ("3 ML … Pen Injector"), is what separates them. Without the volume the matcher returns `ambiguous` rather than guessing. |
+| D | Recalls | Tiered. **0 verified, 23 candidates** across the three products. No false "this product was recalled". An empty verified list is explicitly documented as not proving the absence of recalls. |
+
+Toprol XL also surfaced a real salt nuance: Drugs@FDA expresses its strength as
+`EQ 50MG TARTRATE` — the succinate salt stated as tartrate equivalent.
+
+---
+
+## 2. Insurance evidence — verified live
+
+### The transfer problem, and how it was solved
+
+The CMS Monthly Prescription Drug Plan file is **2.14 GB**. Reading the ZIP
+central directory over HTTP range requests (host returns `Accept-Ranges: bytes`
+and HTTP 206) showed why:
+
+| Member | Size |
 |---|---|
-| RxNav concept resolution | `153892` SBD Active; `866438` SBD Active; `2398842` SBD Active |
-| RxNav NDC association | all three products' package NDCs present in the matching concept's NDC list |
-| RxNav interaction API | **HTTP 404 — discontinued.** Re-probed at run time |
-| DailyMed SPL XML retrieval | 3 documents, 236 KB / 1.1 MB / 0.9 MB |
-| DailyMed version history | Singulair v5 (Jun 2025), v4, v3 present |
-| openFDA `drug/ndc` | exact `product_ndc` match for all three |
-| openFDA `drug/drugsfda` | product-level match for 2 of 3 |
-| openFDA `drug/enforcement` | 6 / 16 / 1 records retrieved |
-| NPPES v2.1 | HTTP 200 for NPI lookup and taxonomy search |
-| Identity resolution | **3 of 3 verified-match** |
-| Full ingest | 3 records written, schema-validated |
-| Export | 3 exports + index written |
+| pharmacy networks, parts 1-6 | **2.18 GB** |
+| basic drugs formulary | 7.9 MB |
+| plan information | 0.4 MB |
+| beneficiary cost | 0.4 MB |
+| excluded drugs / indication-based | ~0 MB |
 
-### Ingested record summary
+Fetching only the needed members transfers **8.8 MB in about 4 seconds** — a
+~250x reduction — and is the difference between documenting a dataset and
+ingesting it.
 
-| Product | Resolution | Readiness | SPL sections | Tables | Patient docs | Products in doc |
-|---|---|---|---:|---:|---:|---:|
-| Singulair 10 mg tablet | verified-match | app-ready | 60 | 10 | 3 | 4 |
-| Toprol XL 50 mg ER tablet | verified-match | app-ready | 95 | 3 | 1 | 4 |
-| Ozempic 1.34 mg/mL injection | verified-match | app-ready | 56 | 16 | 6 | 8 |
+### What was ingested
+
+| Metric | Value |
+|---|---|
+| Release | 2026-08 (contract year 2026), modified 2026-08-26 |
+| Formulary rows for our RXCUIs | 979 |
+| Plans | 5,517 |
+| Cost-sharing rules | 30 (demo plans only; the full file is 172,660 rows / ~23 MB) |
+| Explicit exclusions | 0 |
+| Committed snapshot | 1.9 MB |
+
+### Demo plans, both real
+
+| Plan | Evidence |
+|---|---|
+| **S5820-034-000** AARP Medicare Rx Preferred from UHC (PDP), formulary 00026000 | Ozempic RXCUI 2398842: **exact-product match**, tier 3, **prior authorisation**, **quantity limit 3 per 28 days** |
+| **H0034-001-000** Hamaspik Medicare Select (HMO D-SNP), formulary 00026303 | The **only** formulary in the entire release listing branded Singulair (153892) and Toprol XL (866438), both tier 1, no restrictions |
+
+### Counterexamples run against real data
+
+| Test | Result |
+|---|---|
+| Brand vs generic on the UHC plan | Only the generic clinical-drug concept (200224) matched. `isExactProductMatch: false`, and `unknown` states that a generic listing does not establish the brand is listed. |
+| Same drug on Hamaspik | Brand concept 153892 matched. `isExactProductMatch: true`. |
+| Resolve by plan NAME | `ambiguous-plan`. **39 plans** share "AARP Medicare Rx Preferred". Candidates returned, nothing checked. |
+| Wrong plan year (2025 vs 2026 evidence) | `stale-source`. Evidence reported, never applied. |
+| Plan absent from release | `not-found`, nothing checked. |
+| Drug absent from a resolved plan's formulary | `not-found-in-checked-source`, with the headline stating it is not the same as "not covered". |
+
+---
+
+## 3. Tested with synthetic fixtures
+
+**132 tests across 6 files, all passing, no network.** Fixtures are marked
+`SYNTHETIC-FIXTURE-DO-NOT-USE-AS-DATA` and never written to `data/`.
+
+New coverage this pass, beyond the original 76:
+
+- Interactions: LOINC-based lookup, substance extraction, absence never
+  rendered as "no interactions", not-retrieved distinguished from no-section.
+- Applicability: not-applicable for sibling-only sections, explicitly-shared
+  for multi-product sections, unresolved left unresolved, single-product
+  documents scoped to exact-product, unresolved excluded from product-specific
+  output.
+- Approval: all four real Drugs@FDA strength formats parsed; volume-based
+  disambiguation; **ambiguous when volume is absent**; dose-form tolerance
+  (`SOLUTION` vs `INJECTION, SOLUTION`).
+- Recalls: all three tiers; candidates kept out of verified.
+- Insurance: plan resolution, every coverage state, brand-vs-generic,
+  quantity-limit units, cost basis tagging, schema-drift failure, no patient
+  identifiers in any request shape.
 
 ### Live smoke checks
 
-`npm run test:live` — **7 passed**, reported separately from the fixture suite.
-Includes the interaction-API probe, which logged
-`interaction API: available=false http=404`.
+`npm run test:live` — opt-in, reported separately. 7 passing, including the
+interaction-API probe which logs `available=false http=404`.
 
 ---
 
-## 2. Tested with synthetic fixtures
-
-Fixture-driven suite: **76 tests across 4 files, all passing, no network.**
-Fixtures live in `tests/fixtures/` and are marked
-`SYNTHETIC-FIXTURE-DO-NOT-USE-AS-DATA`. They are never written to `data/`.
-
-| Failure mode | How it is tested |
-|---|---|
-| Ambiguous NDC conversion | 10-digit unhyphenated input is refused, all 3 possibilities listed |
-| Wrong strength | 50 mg spec vs 10 mg source resolves `conflicting` |
-| IR vs ER confusion | extended-release spec vs unstated form resolves `conflicting` |
-| Wrong dose form | tablet spec vs granule source resolves `conflicting` |
-| Wrong route | oral spec vs subcutaneous resolves `conflicting` |
-| Wrong NDC | mismatched product NDC resolves `conflicting` |
-| Multiple products in one SPL | both products parsed; the unselected one is listed, never merged |
-| Missing harmonized identifiers | resolution proceeds from SPL + NDC without the openfda block |
-| Historical / inactive concepts | non-current RXCUI fails the TTY evidence row |
-| Component-level concept | SBDC skips the NDC cross-check instead of failing it |
-| Source unavailable | all sources failing resolves `source-unavailable`, never `verified-match` |
-| Partial response | `splProduct: null` resolves `ambiguous`, not a guess |
-| Table structure | Age/Dose columns preserved; cell text absent from paragraphs |
-| Section hierarchy | 2.1 nests under 2; printed numbers extracted, never invented |
-| Salt vs moiety | both retained; inactive ingredients excluded |
-| Idempotency | parsing twice yields byte-identical output |
-| Malformed input | raises rather than returning an empty-but-plausible document |
-| Blocked export | carries no label content, only a reason |
-| Credential leakage | no `api_key=` survives into persisted provenance URLs |
-
----
-
-## 3. Defects found and fixed during the loop
-
-Each was a real defect caught by running against live data, not a hypothetical.
-
-| Defect | Detection | Fix |
-|---|---|---|
-| SPL sections and products parsed as 0 | Probe showed `root.component` is an array, so `.structuredBody` missed | Traverse the array and find the element carrying `structuredBody` |
-| Active ingredients empty | SPL uses `<ingredient classCode="ACTIM">`, not `<activeIngredient>`; route lives on the **outer** `manufacturedProduct` | Rewrote `parseProduct(outer, inner)` against the real shape |
-| All SPL fetches failed | `Accept: application/xml` returns **HTTP 406** from DailyMed | Text fetches send `*/*` |
-| Ozempic falsely `conflicting` | Package NDCs compared against **SBDC 1991308**, which carries an empty NDC list | TTY-aware guard: skip the cross-check for component-level concepts; corrected the spec to SBD `2398842` |
-| Wrong product identifiers in the catalogue | My initial Toprol and Ozempic NDCs were guesses; live query disproved both | Replaced with verified `70842-111` and `0169-4130` |
-
----
-
-## 4. Unavailable
+## 4. Unavailable, and why
 
 | Capability | Status | Evidence |
 |---|---|---|
-| Drug-drug interactions | **Unavailable.** RxNav Interaction API discontinued | HTTP 404, re-probed at run time |
-| Ozempic approval detail | **Not asserted.** No confident product-level match within NDA209637 | `approval: absent (ambiguous-applicability)` |
-| Novo Nordisk Ozempic label via openFDA | **Not indexed.** Only repackager copies returned | Retrieved via DailyMed name search instead |
-| Adverse-event incidence | **Deliberately excluded.** FAERS has no denominator | `FAERS_POLICY` in `src/sources/openfda.ts` |
+| Interaction **checking service** | Unavailable | RxNav Interaction API HTTP 404, re-probed at run time. Label-described interactions ARE available and exported. |
+| Marketplace / QHP drug-level formulary | **Not ingested** | CMS PUFs carry benefit design, not drug-level formularies. Those live in issuer machine-readable files with no public plan-to-formulary crosswalk. Registered as `discovered`. |
+| Virginia Medicaid PDL | **Not ingested** | Published as PDF. Requires table extraction with footnote preservation plus row-by-row verification before any restriction could be exported. Registered as `discovered` rather than parsed badly. |
+| Commercial / PBM formularies | **Not attempted** | A PBM standard formulary is not proof an employer plan uses it, and Transparency in Coverage files are multi-gigabyte rate files without drug-level membership. |
+| Real-time prescription benefit | **Not attempted** | Requires a trading-partner agreement, credentials and patient identifiers. No public API exists and none is simulated. |
+| Member-specific cost | **Impossible here** | `memberBenefitVerified` is typed as the literal `false`. |
 
 ---
 
 ## 5. Left unreviewed
 
-- **No clinical review of any kind.** `clinicalReview.reviewed` is `false` on every record and the schema types it as `false`, so it cannot be set true without a deliberate schema change.
-- **No derived patient summaries were generated.** The pipeline exports official label text only. Phase 6 permits derived summaries with per-claim supporting passages; none were produced, so none needed review.
-- **Section-to-product scoping is partial.** `appliesToProducts` is an empty array on every section because the SPLs examined do not scope sections with `<subject>`. Empty means "the document did not scope this", **not** "applies to all products" — but a consumer could misread it. `productsInDocument` is the mitigation.
-- **Enforcement matching is by generic name.** Each record carries `matchedOnNdc`, and for these three products that flag is false throughout. A name match does not establish that this exact product was recalled.
-- **openFDA `meta.last_updated` is recorded but not enforced.** Nothing currently fails on stale upstream data.
+- **No clinical review.** `clinicalReview.reviewed` is typed as literal `false`.
+- **Applicability classification is heuristic.** It keys on dose-form words and
+  strength phrases in a section's own text. It cannot invent structural scoping
+  the document lacks, so most sections stay `document-level-unresolved` — which
+  is honest, and is never an upgrade path to `exact-product`.
+- **Named-substance extraction is conservative** and deliberately
+  under-extracts. Toprol XL yields only one substance because its interactions
+  live in prose subsections rather than enumerations. The full section text is
+  exported regardless; the list is a convenience, not the evidence.
+- **Cost-sharing rules are committed for demo plans only.** The full 172,660-row
+  file is re-fetchable with `npm run insurance:ingest`.
+- **No PDF extraction exists yet.** Every insurance source requiring it
+  (Medicaid PDLs, commercial formularies) is registered as discovered, not
+  parsed. No OCR path has been built or needed.
+- **Enforcement `verified` lists are empty for all three products.** That is the
+  honest outcome of NDC-based verification, not evidence of safety.
 
 ---
 
-## 6. Not attempted
+## 6. Prioritised datasets worth adding next
 
-- Bulk NPPES harvesting. The API is for targeted lookups; a non-selective query is rejected.
-- Any large dataset download. The largest retrieval here is a 1.1 MB SPL.
-- Patient-facing derived content, insurance data, provider directories with availability, or any Impiricus integration. See [BOUNDARIES.md](BOUNDARIES.md).
+1. **CMS indication-based coverage formulary file** (~0 MB, already in the
+   archive we range-fetch). Would populate `indicationCriteria`, currently null.
+2. **CMS Quarterly SPUF pricing files**. Adds plan-level negotiated pricing —
+   still not a member's cost, but a stronger cost basis than tier alone.
+3. **Virginia Medicaid PDL PDF extraction**, with footnote preservation and
+   manual verification of every demo-critical restriction.
+4. **Marketplace issuer machine-readable formulary index**, if a documented
+   plan-to-formulary mapping can be established for a specific issuer.
+5. **Part D pharmacy network files**, only if pharmacy-level questions become a
+   requirement — 2.18 GB for a narrow gain.

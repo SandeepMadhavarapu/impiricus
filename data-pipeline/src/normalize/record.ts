@@ -2,6 +2,10 @@ import { resolveProduct, type ProductSpec } from "../identity/resolve.js";
 import { enforcementForProduct, drugsFdaByApplication } from "../sources/openfda.js";
 import { getSplHistory } from "../sources/dailymed.js";
 import { countTables, walkSections } from "./spl.js";
+import { scopeSections, applicabilityCounts } from "./applicability.js";
+import { buildInteractionEvidence, type InteractionEvidence } from "./interactions.js";
+import { buildRecallEvidence, type RecallEvidence } from "./recalls.js";
+import { matchApprovalProduct, volumeFromRxNormName } from "../identity/approval.js";
 import {
   absent,
   PARSER_VERSION,
@@ -102,52 +106,68 @@ export async function buildRecord(
     "not-retrieved",
     "No application number was available to query Drugs@FDA."
   );
+  /** How the product within the application was selected, or why it was not. */
+  let approvalEvidence: string[] = [];
 
   const appNumber = resolution.identity.applicationNumber;
   if (appNumber) {
     try {
       const res = await drugsFdaByApplication(appNumber, force);
       const app = res.applications[0];
-      const matched = app?.products?.find(
-        (p) => p.product_number === resolution.identity.fdaProductNumber
-      );
-      if (app && matched) {
-        approval = {
-          present: true,
-          applicationNumber: app.application_number,
-          sponsorName: app.sponsor_name ?? null,
-          matchedProduct: {
-            productNumber: matched.product_number,
-            strength: matched.active_ingredients?.[0]?.strength ?? "",
-            dosageForm: matched.dosage_form ?? "",
-            route: matched.route ?? null,
-            marketingStatus: matched.marketing_status ?? null,
-          },
-          // Other products are listed so the reader can see the application is
-          // broader than this product — never merged into it.
-          otherProductsInApplication: (app.products ?? [])
-            .filter((p) => p.product_number !== matched.product_number)
-            .map((p) => ({
-              productNumber: p.product_number,
-              strength: p.active_ingredients?.[0]?.strength ?? "",
-              dosageForm: p.dosage_form ?? "",
-            })),
-          submissions: (app.submissions ?? []).map((s) => ({
-            type: s.submission_type ?? "",
-            number: s.submission_number ?? "",
-            status: s.submission_status ?? null,
-            date: s.submission_status_date ?? null,
-          })),
-          provenance: res.provenance,
-        };
-      } else if (app) {
-        approval = absent(
-          "ambiguous-applicability",
-          `Application ${appNumber} was found but no single product within it could be matched to this ` +
-            `strength and dose form. Application-level facts are deliberately not transferred.`
-        );
-      } else {
+      if (!app) {
         approval = absent("not-present-in-source", `No Drugs@FDA record for ${appNumber}.`);
+      } else {
+        // Package volume from the RxNorm concept name is what separates two
+        // presentations that share a concentration.
+        const packageVolume = volumeFromRxNormName(rxnorm?.concept.name ?? null);
+        const strength = resolution.identity.strength[0];
+        const match = matchApprovalProduct(app, {
+          strengthValue: strength?.numeratorValue ?? 0,
+          strengthUnit: strength?.numeratorUnit ?? "",
+          denominatorUnit: strength?.denominatorUnit ?? null,
+          dosageForm: resolution.identity.dosageForm,
+          route: resolution.identity.route[0] ?? null,
+          packageVolume,
+        });
+
+        if (match.kind === "exact") {
+          const matched = match.product;
+          approval = {
+            present: true,
+            applicationNumber: app.application_number,
+            sponsorName: app.sponsor_name ?? null,
+            matchedProduct: {
+              productNumber: matched.product_number,
+              strength: matched.active_ingredients?.[0]?.strength ?? "",
+              dosageForm: matched.dosage_form ?? "",
+              route: matched.route ?? null,
+              marketingStatus: matched.marketing_status ?? null,
+            },
+            otherProductsInApplication: match.others.map((o) => ({
+              productNumber: o.productNumber,
+              strength: o.strength,
+              dosageForm: o.dosageForm,
+            })),
+            submissions: (app.submissions ?? []).map((sub) => ({
+              type: sub.submission_type ?? "",
+              number: sub.submission_number ?? "",
+              status: sub.submission_status ?? null,
+              date: sub.submission_status_date ?? null,
+            })),
+            provenance: res.provenance,
+          };
+          approvalEvidence = match.evidence;
+        } else if (match.kind === "ambiguous") {
+          approval = absent("ambiguous-applicability", match.reason);
+          approvalEvidence = match.candidates.map(
+            (c) => `candidate product ${c.productNumber}: ${c.strength} (${c.marketingStatus ?? "status unknown"}) - ${c.why}`
+          );
+        } else {
+          approval = absent("not-present-in-source", match.reason);
+          approvalEvidence = match.candidates.map(
+            (c) => `product ${c.productNumber}: ${c.strength} ${c.dosageForm}`
+          );
+        }
       }
     } catch (err) {
       approval = absent("retrieval-failed", String(err));
@@ -157,20 +177,31 @@ export async function buildRecord(
   /* --- supplemental: recalls ------------------------------------------- */
 
   let enforcement: MedicationRecord["supplemental"]["enforcement"];
+  let recallEvidence: RecallEvidence | null = null;
   try {
     const res = await enforcementForProduct(
       resolution.identity.genericName,
       resolution.identity.productNdc,
       force
     );
+    recallEvidence = buildRecallEvidence(res.raw as never[], resolution.identity);
     enforcement =
       res.records.length > 0
         ? {
             present: true,
             note:
-              "Supplemental recall records. Matching is by generic name unless matchedOnNdc is true; a " +
-              "name match does NOT establish that this exact product was recalled. Not patient-facing.",
-            records: res.records,
+              `Discovered by generic name. ${recallEvidence.verified.length} verified as this product, ` +
+              `${recallEvidence.candidates.length} unverified candidate(s). ` +
+              "Only entries in the verified tier are recalls of this exact product. Not patient-facing.",
+            records: recallEvidence.verified.concat(recallEvidence.candidates).map((c) => ({
+              recallNumber: c.recallNumber,
+              status: c.status,
+              classification: c.classification,
+              reason: c.reason,
+              reportDate: c.reportDate,
+              productDescription: c.productDescription,
+              matchedOnNdc: c.tier !== "discovery-candidate",
+            })),
             provenance: res.provenance,
           }
         : absent("not-present-in-source", "No enforcement records matched this generic name.");
@@ -205,11 +236,27 @@ export async function buildRecord(
         ? "partial"
         : "app-ready";
 
+  // Scope every section against the product set before export. Sections the
+  // document does not scope stay "document-level-unresolved" and must not be
+  // presented as product-specific dosing.
+  const scopedSections = splProduct
+    ? scopeSections(spl.sections, { selected: splProduct, allProducts: spl.products })
+    : spl.sections;
+  const scopedPatient = splProduct
+    ? scopeSections(spl.patientLabeling, { selected: splProduct, allProducts: spl.products })
+    : spl.patientLabeling;
+
+  const interactions = buildInteractionEvidence(scopedSections);
+
   return {
     schemaVersion: SCHEMA_VERSION,
     productKey: spec.productKey,
     resolution,
     identity: resolution.identity,
+    approvalEvidence,
+    interactions,
+    recalls: recallEvidence,
+    applicability: applicabilityCounts(scopedSections),
     label: {
       splSetId: spl.setId,
       splVersion: spl.splVersion,
@@ -220,8 +267,8 @@ export async function buildRecord(
         (p) =>
           `${p.name ?? "?"} ${p.activeIngredients[0]?.numeratorValue ?? "?"}${p.activeIngredients[0]?.numeratorUnit ?? ""} ${p.formDisplay ?? ""} (NDC ${p.ndc ?? "?"})`
       ),
-      sections: spl.sections,
-      patientLabeling: spl.patientLabeling,
+      sections: scopedSections,
+      patientLabeling: scopedPatient,
       provenance: inputs.provenance.filter((p) => p.sourceId === "dailymed"),
     },
     rxnorm: rxnorm

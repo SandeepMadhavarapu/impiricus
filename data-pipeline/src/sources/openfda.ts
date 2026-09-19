@@ -258,6 +258,12 @@ export async function enforcementForProduct(
 
   return {
     records,
+    /**
+     * The unmapped openFDA payloads. Classification needs the raw field names
+     * (recall_number, recalling_firm, product_description) plus fields the
+     * summary shape drops, so both are returned.
+     */
+    raw: results,
     provenance: captures.map((c) =>
       openFdaProvenance(c, "drug/enforcement", genericName, c.sourceLastUpdated)
     ),

@@ -19,8 +19,16 @@ export interface ExportedSection {
   printedNumber: string | null;
   title: string | null;
   paragraphs: string[];
+  /** FDA Highlights summary. A summary, NOT the full section. */
+  highlights: string[];
   tables: Array<{ caption: string | null; headers: string[][]; rows: string[][] }>;
   subsections: ExportedSection[];
+  /**
+   * How this section relates to THIS product. "document-level-unresolved" must
+   * not be rendered as product-specific dosing or patient instruction.
+   */
+  applicability: "exact-product" | "explicitly-shared" | "document-level-unresolved" | "not-applicable";
+  appliesToProducts: string[];
   audience: "professional" | "patient" | "unknown";
 }
 
@@ -98,6 +106,30 @@ export interface MedicationExport {
 
   conflicts: Array<{ field: string; assessment: string; blocksExport: boolean; note: string }>;
 
+  /**
+   * Interactions DESCRIBED BY THIS LABEL. Separate from an interaction-checking
+   * service, which does not exist here. Absence is never "no interactions".
+   */
+  interactions: {
+    availability: "label-section-available" | "label-section-empty" | "no-label-section" | "not-retrieved";
+    checkingServiceAvailable: false;
+    checkingServiceNote: string;
+    sections: ExportedSection[];
+    namedSubstances: string[];
+    caveats: string[];
+  };
+
+  /** Recalls, tiered. Only `verified` are recalls of this exact product. */
+  recalls: {
+    verified: Array<{ recallNumber: string; tier: string; reason: string; reportDate: string | null; rationale: string }>;
+    candidates: Array<{ recallNumber: string; tier: string; reason: string; productDescription: string; rationale: string }>;
+    searchStrategy: string;
+    caveats: string[];
+  } | null;
+
+  /** Section counts by applicability state. */
+  applicabilityCounts: Record<string, number>;
+
   /** Always false. Never render this record as clinically reviewed. */
   clinicalReview: { reviewed: false; note: string };
 
@@ -119,8 +151,11 @@ function exportSection(s: LabelSection): ExportedSection {
     printedNumber: s.printedNumber,
     title: s.title,
     paragraphs: s.paragraphs,
+    highlights: s.highlights,
     tables: s.tables,
     subsections: s.subsections.map(exportSection),
+    applicability: s.applicability,
+    appliesToProducts: s.appliesToProducts,
     audience: s.audience,
   };
 }
@@ -231,6 +266,38 @@ export function toExport(record: MedicationRecord): MedicationExport {
         why: c.why,
       })),
     },
+
+    interactions: {
+      availability: record.interactions.availability,
+      checkingServiceAvailable: false,
+      checkingServiceNote: record.interactions.checkingServiceNote,
+      sections: blocked ? [] : record.interactions.sections.map(exportSection),
+      namedSubstances: record.interactions.namedSubstances,
+      caveats: record.interactions.caveats,
+    },
+
+    recalls: record.recalls
+      ? {
+          verified: record.recalls.verified.map((v) => ({
+            recallNumber: v.recallNumber,
+            tier: v.tier,
+            reason: v.reason,
+            reportDate: v.reportDate,
+            rationale: v.rationale,
+          })),
+          candidates: record.recalls.candidates.map((c) => ({
+            recallNumber: c.recallNumber,
+            tier: c.tier,
+            reason: c.reason,
+            productDescription: c.productDescription,
+            rationale: c.rationale,
+          })),
+          searchStrategy: record.recalls.searchStrategy,
+          caveats: record.recalls.caveats,
+        }
+      : null,
+
+    applicabilityCounts: record.applicability,
 
     conflicts: record.conflicts.map((c) => ({
       field: c.field,

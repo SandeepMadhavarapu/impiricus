@@ -192,6 +192,26 @@ export const LabelTableSchema = z.object({
 });
 export type LabelTable = z.infer<typeof LabelTableSchema>;
 
+/**
+ * How a section relates to the selected product.
+ *
+ * An empty product list must never be read as "applies to everything". A
+ * document routinely covers several products, and a dosing table that belongs
+ * to a 4 mg granule must not become an instruction for a 10 mg tablet.
+ */
+export const ApplicabilitySchema = z.enum([
+  /** The section names, or is structurally bound to, this exact product. */
+  "exact-product",
+  /** The section explicitly covers several products including this one. */
+  "explicitly-shared",
+  /** The document did not scope it. Usable as source material, NOT as
+   *  product-specific dosing or patient instruction. */
+  "document-level-unresolved",
+  /** The section concerns a different product in the same document. */
+  "not-applicable",
+]);
+export type Applicability = z.infer<typeof ApplicabilitySchema>;
+
 export const LabelSectionSchema: z.ZodType<LabelSection> = z.lazy(() =>
   z.object({
     /** LOINC code from the SPL, when present. */
@@ -201,14 +221,21 @@ export const LabelSectionSchema: z.ZodType<LabelSection> = z.lazy(() =>
     title: z.string().nullable(),
     /** Paragraph text in document order, tables excluded. */
     paragraphs: z.array(z.string()),
+    /**
+     * FDA "Highlights of Prescribing Information" summary text, from
+     * <excerpt><highlight>. Kept SEPARATE from paragraphs because the label
+     * itself states the highlights do not include all the information needed.
+     */
+    highlights: z.array(z.string()),
     tables: z.array(LabelTableSchema),
     /** Nested subsections, preserving hierarchy. */
     subsections: z.array(LabelSectionSchema),
     /**
-     * Which products this section applies to, when the SPL scopes it.
-     * Empty means the SPL did not scope it — NOT that it applies to all.
+     * Product names this section is scoped to, when the document scopes it.
+     * Read `applicability` first — an empty list is not "applies to all".
      */
     appliesToProducts: z.array(z.string()),
+    applicability: ApplicabilitySchema,
     /** Professional PI vs patient-directed labeling. */
     audience: z.enum(["professional", "patient", "unknown"]),
   })
@@ -219,9 +246,12 @@ export interface LabelSection {
   printedNumber: string | null;
   title: string | null;
   paragraphs: string[];
+  /** FDA Highlights summary text. A summary, not the full section. */
+  highlights: string[];
   tables: LabelTable[];
   subsections: LabelSection[];
   appliesToProducts: string[];
+  applicability: Applicability;
   audience: "professional" | "patient" | "unknown";
 }
 
@@ -254,6 +284,42 @@ export const ConflictSchema = z.object({
   note: z.string(),
 });
 export type Conflict = z.infer<typeof ConflictSchema>;
+
+/* -------------------------------------------------------------- recalls --- */
+
+export const RecallMatchTierSchema = z.enum([
+  /** Generic-name hit only. NOT established to be this product. */
+  "discovery-candidate",
+  /** The enforcement record declares this product's NDC. */
+  "product-match",
+  /** A specific package of this product is confirmed. */
+  "package-match",
+]);
+
+export const ClassifiedRecallSchema = z.object({
+  recallNumber: z.string(),
+  tier: RecallMatchTierSchema,
+  status: z.string(),
+  classification: z.string().nullable(),
+  reason: z.string(),
+  reportDate: z.string().nullable(),
+  recallInitiationDate: z.string().nullable(),
+  productDescription: z.string(),
+  recallingFirm: z.string().nullable(),
+  distributionPattern: z.string().nullable(),
+  declaredProductNdcs: z.array(z.string()),
+  extractedPackageNdcs: z.array(z.string()),
+  lotNumbers: z.array(z.string()),
+  evidence: z.array(
+    z.object({
+      dimension: z.string(),
+      observed: z.string(),
+      agrees: z.boolean(),
+      note: z.string().optional(),
+    })
+  ),
+  rationale: z.string(),
+});
 
 /* -------------------------------------------------------------- record ---- */
 
@@ -356,6 +422,40 @@ export const MedicationRecordSchema = z.object({
       AbsentSchema,
     ]),
   }),
+
+  /** How the product within the FDA application was selected, or why not. */
+  approvalEvidence: z.array(z.string()),
+
+  /**
+   * Label-described interactions, kept distinct from an interaction-CHECKING
+   * service, which is not available. Absence is never "no interactions".
+   */
+  interactions: z.object({
+    availability: z.enum([
+      "label-section-available",
+      "label-section-empty",
+      "no-label-section",
+      "not-retrieved",
+    ]),
+    checkingServiceAvailable: z.literal(false),
+    checkingServiceNote: z.string(),
+    sections: z.array(LabelSectionSchema),
+    namedSubstances: z.array(z.string()),
+    caveats: z.array(z.string()),
+  }),
+
+  /** Recalls, tiered. Only `verified` are recalls of this exact product. */
+  recalls: z
+    .object({
+      verified: z.array(ClassifiedRecallSchema),
+      candidates: z.array(ClassifiedRecallSchema),
+      searchStrategy: z.string(),
+      caveats: z.array(z.string()),
+    })
+    .nullable(),
+
+  /** Section counts by applicability state. */
+  applicability: z.record(ApplicabilitySchema, z.number()),
 
   conflicts: z.array(ConflictSchema),
   readiness: ReadinessSchema,

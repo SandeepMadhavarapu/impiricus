@@ -45,6 +45,19 @@ export interface ExportedTable {
  * Sections nest: "5.1 Neuropsychiatric Events" is a `subsection` of
  * "5 WARNINGS AND PRECAUTIONS". Render the hierarchy; do not flatten it.
  */
+/**
+ * How a section relates to the product this record describes.
+ *
+ * `document-level-unresolved` means the document did NOT scope the section. It
+ * must not be rendered as product-specific dosing or patient instruction. One
+ * SPL routinely covers several products with different doses.
+ */
+export type Applicability =
+  | "exact-product"
+  | "explicitly-shared"
+  | "document-level-unresolved"
+  | "not-applicable";
+
 export interface ExportedSection {
   /** LOINC code identifying the section type. Stable across labelers. */
   loincCode: string | null;
@@ -53,8 +66,17 @@ export interface ExportedSection {
   title: string | null;
   /** Paragraph text in document order. Table content is NOT included here. */
   paragraphs: string[];
+  /**
+   * FDA "Highlights of Prescribing Information" summary text. The label itself
+   * states highlights do not include all the information needed, so render them
+   * as a summary, never as the section body.
+   */
+  highlights: string[];
   tables: ExportedTable[];
   subsections: ExportedSection[];
+  applicability: Applicability;
+  /** Products this section is scoped to. Empty + unresolved != "applies to all". */
+  appliesToProducts: string[];
   audience: Audience;
 }
 
@@ -161,6 +183,61 @@ export interface MedicationExport {
     blocksExport: boolean;
     note: string;
   }>;
+
+  /**
+   * Interactions DESCRIBED BY THIS LABEL.
+   *
+   * Two separate facts, both reported:
+   *   - the label's own Drug Interactions section (often present and useful)
+   *   - whether an interaction-CHECKING service exists (it does not; the RxNav
+   *     Interaction API was discontinued)
+   *
+   * `availability: "no-label-section"` is a fact about the DOCUMENT. It is not
+   * evidence that no interactions exist, and must never be rendered that way.
+   */
+  interactions: {
+    availability:
+      | "label-section-available"
+      | "label-section-empty"
+      | "no-label-section"
+      | "not-retrieved";
+    checkingServiceAvailable: false;
+    checkingServiceNote: string;
+    sections: ExportedSection[];
+    /** Conservatively extracted substance names. Not a complete list. */
+    namedSubstances: string[];
+    caveats: string[];
+  };
+
+  /**
+   * Recalls, tiered.
+   *
+   * Only `verified` entries are established recalls of THIS product. Entries in
+   * `candidates` share a generic name and nothing more — they frequently belong
+   * to a different manufacturer, strength or dose form. Never render a
+   * candidate as "this medication was recalled".
+   */
+  recalls: {
+    verified: Array<{
+      recallNumber: string;
+      tier: string;
+      reason: string;
+      reportDate: string | null;
+      rationale: string;
+    }>;
+    candidates: Array<{
+      recallNumber: string;
+      tier: string;
+      reason: string;
+      productDescription: string;
+      rationale: string;
+    }>;
+    searchStrategy: string;
+    caveats: string[];
+  } | null;
+
+  /** Section counts by applicability state. */
+  applicabilityCounts: Record<string, number>;
 
   /** Always false. Never render this record as clinically reviewed. */
   clinicalReview: { reviewed: false; note: string };

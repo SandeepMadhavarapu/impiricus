@@ -1,12 +1,12 @@
 # Completeness and conflict report
 
-Generated 2026-09-19T19:21:54.996Z
+Generated 2026-09-19T19:48:18.377Z
 
 ## Completeness by product and source
 
 | Product | Resolution | Readiness | SPL sections | Tables | Patient docs | RxNorm | Drugs@FDA | Recalls |
 |---|---|---|---:|---:|---:|---|---|---|
-| ozempic-semaglutide-1_34mg-per-ml-injection | verified-match | app-ready | 56 | 16 | 6 | 2398842 | absent (ambiguous-applicability) | 1 record(s) |
+| ozempic-semaglutide-1_34mg-per-ml-injection | verified-match | app-ready | 56 | 16 | 6 | 2398842 | NDA209637 product 002 | 1 record(s) |
 | singulair-montelukast-10mg-tablet | verified-match | app-ready | 60 | 10 | 3 | 153892 | NDA020829 product 002 | 6 record(s) |
 | toprol-xl-metoprolol-succinate-50mg-er-tablet | verified-match | app-ready | 95 | 3 | 1 | 866438 | NDA019962 product 001 | 16 record(s) |
 
