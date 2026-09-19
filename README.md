@@ -30,6 +30,7 @@ insurer. No clinician has reviewed its content.
 | Capability | Status |
 |---|---|
 | Public medication page from a real FDA label, with provenance | **Working** |
+| Ingestion pipeline with verified product identity | **Working**, see [data-pipeline/](data-pipeline/) |
 | Native share sheet (`navigator.share`), copy link, QR code | **Working** |
 | Medication assistant: deterministic label-excerpt search | **Working, no credential needed** |
 | Medication assistant: conversational answers | **Awaiting `ANTHROPIC_API_KEY`** (code complete, tested with a stub adapter) |
@@ -41,11 +42,44 @@ insurer. No clinician has reviewed its content.
 | Insurance coverage input + result states | **Working** |
 | Insurance coverage: real CMS Part D formulary evidence | **Integration complete; awaiting data ingest** (`npm run coverage:ingest`) |
 | Insurance coverage against a member-specific payer API | **Not implemented**, no credential exists |
-| Insurer / plan / pharmacy-by-ZIP pickers | **Structure complete; awaiting a licensed directory.** Falls back to free text and says so |
+| Insurer and plan pickers | **Working**, on 5,517 verified CMS Part D plan identities. A plan name is never treated as an identity |
+| Pharmacy-by-ZIP search | **Not implemented**, no pharmacy dataset is licensed. Falls back to a pharmacy type and says so |
+| Medications available | **3**: one with an authored plain-language guide, two shown as verbatim FDA label text |
 | Fair balance enforced in CI | **Working**, see below |
 
 Nothing in this app fabricates a medical answer, a coverage result, or a
 provider connection. Where something cannot be verified, it says so.
+
+### Two kinds of guide
+
+A medication reaches the patient page one of two ways, and the page says
+which:
+
+| | `authored` | `official-label` |
+|---|---|---|
+| Who wrote it | A person, in plain language | The FDA label, verbatim |
+| Every claim cited | Yes, to an exact quote | It IS the source |
+| Dosing shown | Yes, authored and cited | **No**, see below |
+| Key points, headline | Yes | No, nobody wrote them |
+| Today | Singulair | Toprol XL, Ozempic |
+
+There is deliberately **no third path** where the app generates plain language
+from a label. Writing patient-facing medical prose from a source document is
+the one thing this codebase exists to not do, and a model doing it quietly
+would be indistinguishable, to a reader, from a clinician having written it.
+Authoring a layer later upgrades a product automatically.
+
+An `official-label` page refuses three things, each covered by a test:
+
+- **No dosing.** One SPL routinely covers several products dosed differently,
+  and most sections are not structurally bound to any one of them. The page
+  shows no dose at all rather than a dose with a caveat nobody reads, and
+  points at the reader's own prescription and the full label.
+- **No absence claims.** Toprol XL's current SPL carries no boxed-warning
+  section, while metoprolol is a class people associate with one. A boxed
+  warning renders when the document has one, and the page stays silent
+  otherwise: a section missing from a document is a fact about the document.
+- **No claim of plain language, and none of clinical review.**
 
 ### Fair balance
 
@@ -116,6 +150,7 @@ patient workflows are unchanged.
 | `npm run content:verify` | Check the stored label is still the current SPL version |
 | `npm run coverage:ingest` | Download CMS Part D formulary data and write the plan-specific snapshot |
 | `npm run coverage:ingest -- --dry-run` | Resolve the current CMS release without downloading (~2.2 GB) |
+| `npm run content:sync` | Copy the pipeline's app-ready exports and Part D plan directory into `src/` |
 
 ### Configuration
 
@@ -235,7 +270,7 @@ explainer* over retrieved passages, never the source of facts.
 npm test
 ```
 
-222 tests across 14 files, all passing:
+264 tests across 16 files, all passing:
 
 | File | Tests | Covers |
 |---|---:|---|
@@ -253,6 +288,8 @@ npm test
 | `share-component.test.ts` | 8 | direct native-share invocation, cancellation, clipboard/manual fallback, public-only payload, patient behavior |
 | `config.test.ts` | 4 | `APP_MODE` defaults to patient; only an explicit, case-insensitive "doctor" switches it |
 | `fair-balance.test.ts` | 6 | no promotional or comparative wording; headline carries no risk claim; boxed warning named in a key point, ordered before benefits; patient scope note stays readable |
+| `label-guide.test.ts` | 28 | label-sourced pages show no dosing, never claim an absent boxed warning, never claim plain language or clinical review; the authored page is unchanged |
+| `directory.test.ts` | 13 | a plan name yields candidates not an identity; plan keys are unique where names are not; pharmacies stay empty rather than invented |
 
 ---
 
