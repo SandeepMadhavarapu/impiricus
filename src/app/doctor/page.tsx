@@ -6,6 +6,7 @@ import { buildShareUrl, medicationPath } from "@/doctor/lib/share";
 import { MedicationSection } from "@/patient/components/MedicationSection";
 import { ProvenancePanel } from "@/sources/components/ProvenancePanel";
 import { ShareSection } from "@/doctor/components/ShareSection";
+import { AppBar, TabBar } from "@/doctor/components/AppChrome";
 
 export const metadata: Metadata = {
   title: "MedBridge for HCPs — DocUpdate Integration Preview",
@@ -24,20 +25,17 @@ export default async function DoctorPage({ searchParams }: {
 
   return (
     <main className="doctor-page" id="main">
-      <header className="doctor-header">
-        <div className="doctor-brand"><strong>MedBridge</strong><span>For healthcare professionals</span></div>
-        <span className="doctor-badge">DocUpdate Integration Preview</span>
-      </header>
-      <div className="doctor-intro">
-        <p className="eyebrow">Patient education workspace</p>
+      <AppBar />
+      <div className="doctor-hero">
+        <p className="eyebrow">DocUpdate Integration Preview</p>
         <h1>Create a patient medication guide</h1>
-        <p className="muted">Select medication education grounded in the FDA-approved label, preview the guide, and share it directly with a patient.</p>
-        <p className="tiny">Independent demo. No integration with or endorsement by DocUpdate or Impiricus.</p>
+        <p>Select medication education grounded in the FDA-approved label, preview the guide, and share it directly with a patient.</p>
+        <p className="doctor-hero-note">Independent demo. No integration with or endorsement by DocUpdate or Impiricus.</p>
       </div>
       <ol className="doctor-steps" aria-label="Guide workflow">
-        <li><span>1</span> Select medication</li>
-        <li><span>2</span> Preview guide</li>
-        <li><span>3</span> Share with patient</li>
+        <li><span aria-hidden="true">1</span> Select</li>
+        <li><span aria-hidden="true">2</span> Preview</li>
+        <li><span aria-hidden="true">3</span> Share</li>
       </ol>
       <div className="doctor-workspace stack">
         <section className="card stack" aria-labelledby="select-heading">
@@ -90,7 +88,8 @@ export default async function DoctorPage({ searchParams }: {
           </>}
         </section>
       </div>
-      <footer className="site-footer">Public medication education only. No patient record is created. Shared links contain no patient information, doctor session, or prescription details. Education does not replace individualized clinical advice.</footer>
+      <footer className="site-footer">Public medication education only. No patient record is created. Shared links contain no patient information, doctor session, or prescription details. Education does not replace individualized clinical advice. The surrounding app frame is a visual mockup of where this screen would sit; only this screen is implemented.</footer>
+      <TabBar />
     </main>
   );
 }

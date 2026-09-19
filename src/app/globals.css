@@ -1178,35 +1178,263 @@ a:hover {
 /*
  * HCP workspace.
  *
- * Deliberately styled as a phone-app screen, not a desktop dashboard — this
- * runs at the same narrow reading width as the patient page (.page) at every
- * viewport, including wide desktop ones, rather than expanding into a
- * sidebar-plus-content layout. It is meant to eventually live inside
- * DocUpdate's own mobile app, so it should always look and behave like one,
- * not like a webpage that happens to also work on a phone.
+ * Two things are going on here.
+ *
+ * 1. It is a phone-app screen, not a desktop dashboard: the same narrow
+ *    reading width as the patient page at EVERY viewport, wide desktop ones
+ *    included, rather than expanding into a sidebar-plus-content layout.
+ *
+ * 2. It is skinned to sit inside DocUpdate's app — navy chrome, violet
+ *    primary actions, white content cards, a bottom tab bar. That skin is
+ *    applied by redefining the design tokens for this subtree, so every
+ *    shared component (cards, buttons, medication sections, the provenance
+ *    panel) reskins without a second copy of its CSS. Every token the dark
+ *    block above touches is redefined here, because this screen keeps the
+ *    host app's single look rather than following the OS theme.
+ *
+ * None of DocUpdate's own assets are used, and the page states three times
+ * over that it is an independent preview.
  */
-.doctor-page { max-width: var(--reading-width); margin: 0 auto; padding: 0 16px calc(48px + env(safe-area-inset-bottom)); }
-.doctor-header { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: 20px 0; border-bottom: 1px solid var(--border); }
-.doctor-brand { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
-.doctor-brand strong { font-size: 22px; color: var(--accent-text); letter-spacing: -0.04em; }
-.doctor-brand span { font-size: 13px; color: var(--text-muted); }
-.doctor-badge { background: var(--accent-soft); color: var(--accent-text); border: 1px solid var(--border); border-radius: 999px; padding: 7px 12px; font-size: 12px; font-weight: 650; }
-.doctor-intro { padding: 28px 0 20px; }
-.doctor-intro h1 { font-size: clamp(26px, 7.5vw, 32px); letter-spacing: -0.035em; }
-.doctor-intro > p { margin-top: 12px; }
-.doctor-steps { display: flex; flex-direction: column; gap: 12px; list-style: none; margin: 0 0 24px; padding: 16px 0; border-block: 1px solid var(--border); }
-.doctor-steps li { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; }
-.doctor-steps span { flex-shrink: 0; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent-soft); color: var(--accent-text); }
-.doctor-medication { display: block; padding: 16px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); text-decoration: none; color: var(--text); min-height: var(--tap); }
-.doctor-medication:hover, .doctor-medication[aria-current] { border-color: var(--accent); background: var(--accent-soft); color: var(--text); }
-.doctor-medication strong { display: block; font-size: 17px; }
-.doctor-medication span { display: block; margin-top: 10px; font-size: 13px; color: var(--text-muted); }
+body:has(.doctor-page),
+.doctor-page {
+  color-scheme: light;
+
+  --bg: #f3f3f9;
+  --surface: #ffffff;
+  --surface-sunken: #f1f0f8;
+  --text: #191838;
+  --text-muted: #63628a;
+  --text-faint: #8a89ab;
+  --border: #e6e5f1;
+  --border-strong: #d3d2e6;
+
+  --accent: #6d4ce8;
+  --accent-hover: #5b3ad6;
+  --accent-soft: #efebfe;
+  --accent-text: #4f31c0;
+
+  --critical: #a3231c;
+  --critical-soft: #fdeeec;
+  --critical-border: #f2c4bf;
+
+  --warning-text: #7a4e00;
+  --warning-soft: #fdf5e6;
+  --warning-border: #eed9ab;
+
+  --info-soft: #eef3fa;
+  --info-border: #cfdcef;
+  --info-text: #274a7a;
+
+  --shadow-sm: 0 1px 2px rgb(23 22 64 / 0.05), 0 1px 3px rgb(23 22 64 / 0.04);
+  --shadow-md: 0 4px 16px rgb(23 22 64 / 0.08), 0 1px 3px rgb(23 22 64 / 0.05);
+
+  --radius: 16px;
+  --radius-sm: 12px;
+
+  --du-navy: #171640;
+  --du-navy-soft: #262457;
+  --du-mint: #9bd8ce;
+}
+
+.doctor-page {
+  max-width: var(--reading-width);
+  margin: 0 auto;
+  padding: 0 16px calc(12px + env(safe-area-inset-bottom));
+  background: var(--surface);
+  min-height: 100dvh;
+}
+
+/* --- app chrome: top bar and bottom tab bar, both bled to the column edge */
+
+.du-appbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  margin-inline: -16px;
+  /* The prototype disclosure banner sits above this and already carries
+     safe-area-inset-top; adding it here too would double-count the notch. */
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--du-navy);
+  color: #fff;
+}
+
+.du-appbar-brand { display: flex; align-items: center; gap: 11px; min-width: 0; }
+
+.du-appbar-mark {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  background: var(--accent);
+}
+
+.du-appbar-mark svg { width: 20px; height: 20px; }
+
+/* Both chrome icon sets are stroke drawings, never filled shapes. */
+.du-appbar-mark svg,
+.du-tab svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.du-appbar-titles { display: flex; flex-direction: column; min-width: 0; }
+.du-appbar-titles strong { font-size: 16px; letter-spacing: -0.02em; }
+.du-appbar-titles span { font-size: 12px; color: #b9b7dd; }
+
+.du-appbar-badge {
+  flex-shrink: 0;
+  border-radius: 999px;
+  border: 1px solid #3b3872;
+  background: var(--du-navy-soft);
+  color: var(--du-mint);
+  padding: 6px 11px;
+  font-size: 11.5px;
+  font-weight: 650;
+}
+
+.du-tabbar {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  margin-inline: -16px;
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+  padding: 9px 6px calc(9px + env(safe-area-inset-bottom));
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+.du-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--text-faint);
+}
+
+/* The four context tabs are a mockup of where this screen would sit. */
+.du-tab[aria-disabled="true"] { opacity: 0.45; }
+
+.du-tab--active { color: var(--accent); }
+
+.du-tab svg { width: 23px; height: 23px; }
+
+/* --- hero ---------------------------------------------------------------- */
+
+.doctor-hero {
+  margin-inline: -16px;
+  padding: 24px 16px 28px;
+  background: var(--du-navy);
+  color: #fff;
+  border-radius: 0 0 22px 22px;
+}
+
+.doctor-hero .eyebrow { color: var(--du-mint); }
+.doctor-hero h1 { font-size: clamp(25px, 7vw, 31px); letter-spacing: -0.035em; }
+.doctor-hero > p { margin-top: 12px; color: #c8c6e6; font-size: 15.5px; }
+.doctor-hero > p.doctor-hero-note { font-size: 12.5px; color: #918fc0; }
+
+/* --- steps --------------------------------------------------------------- */
+
+.doctor-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 16px 0;
+}
+
+.doctor-steps li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.doctor-steps span {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  font-size: 12.5px;
+}
+
+/* --- medication picker: DocUpdate's patient-row pattern ------------------ */
+
+.doctor-medication {
+  display: block;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-sunken);
+  text-decoration: none;
+  color: var(--text);
+  min-height: var(--tap);
+}
+
+.doctor-medication:hover, .doctor-medication[aria-current] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
+.doctor-medication strong { display: block; font-size: 16.5px; }
+.doctor-medication span { display: block; margin-top: 9px; font-size: 13px; color: var(--text-muted); }
 .doctor-medication span:last-child { color: var(--accent-text); font-weight: 650; }
+
+/* --- share + preview ----------------------------------------------------- */
+
 .doctor-share .share-section { margin-top: 0; }
 .doctor-share .btn-row { flex-direction: column; }
 .doctor-share > .btn { margin-top: 20px; }
+.doctor-share .btn--primary { border-radius: 999px; }
+
 .doctor-preview-heading { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
 .doctor-preview-heading h2 { font-size: 21px; }
-.doctor-preview-heading .btn { align-self: stretch; text-align: center; }
-.doctor-empty { min-height: 240px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 16px; padding: 24px; border-style: dashed; box-shadow: none; }
-.doctor-empty-icon { font-size: 32px; color: var(--accent-text); background: var(--accent-soft); border-radius: 16px; width: 64px; height: 64px; display: grid; place-items: center; }
+.doctor-preview-heading .btn { align-self: stretch; text-align: center; border-radius: 999px; }
+
+.doctor-empty {
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  padding: 24px;
+  border-style: dashed;
+  box-shadow: none;
+}
+
+.doctor-empty-icon {
+  font-size: 32px;
+  color: var(--accent-text);
+  background: var(--accent-soft);
+  border-radius: 18px;
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+}
