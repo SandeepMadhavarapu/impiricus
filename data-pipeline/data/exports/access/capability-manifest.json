@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "access-1.0.0",
+  "generatedAt": "2026-09-19T21:03:20.503Z",
+  "note": "What is ready to display, and what is not. A capability listed as ready has real retrieved evidence behind every field a consumer would render.",
+  "readyToDisplay": [
+    {
+      "capability": "Medicare Part D published formulary status and restrictions",
+      "products": 3,
+      "plans": 2,
+      "policies": 6,
+      "evidence": "CMS monthly Part D release, verified current at build time",
+      "status": "verified-public-evidence"
+    },
+    {
+      "capability": "Medicaid fee-for-service preference status (Virginia)",
+      "products": 3,
+      "plans": 1,
+      "policies": 3,
+      "evidence": "Virginia PDL / Common Core Formulary PDF, column membership verified two ways (horizontal position and typography) with page-level citations",
+      "status": "verified-public-evidence"
+    },
+    {
+      "capability": "Official next steps, forms and contacts",
+      "actions": 42,
+      "linksVerified": 10,
+      "linksFailing": 0,
+      "evidence": "CMS Part D model forms; Virginia SA, appeal and 72-hour supply policies. Every published URL is reachability-checked at build time.",
+      "status": "verified-public-evidence"
+    },
+    {
+      "capability": "Source version change detection",
+      "comparedVersions": 2,
+      "evidence": "Two genuinely published Virginia PDL versions. Change records are review items; isPatientNotification is false on every one.",
+      "status": "verified-public-evidence"
+    },
+    {
+      "capability": "Insurance-card field matching",
+      "evidence": "Pure function over supplied fields, synthetic fixtures only. No card image is read or stored anywhere in this pipeline.",
+      "status": "verified-public-evidence"
+    }
+  ],
+  "statusVocabulary": {
+    "implementationStatus": "What WE built: not-attempted | attempted | implemented-partial | implemented.",
+    "sourceAvailability": "What the SOURCE did: not-assessed | available-but-not-retrieved | retrieved-validated | retrieval-failed | no-suitable-public-source-identified | no-public-source-exists. 'not-assessed' means we never looked, and must never be reported as the source being unavailable."
+  },
+  "notReadyToDisplay": [
+    {
+      "capability": "Plan-specific clinical prior-authorization criteria",
+      "implementationStatus": "attempted",
+      "sourceAvailability": "retrieval-failed",
+      "status": "unresolved-applicability",
+      "blocker": "The CMS release carries PA and step therapy as FLAGS only, with no criteria text. Criteria live in insurer-hosted documents; uhc.com returned HTTP 403 to automated retrieval, and a national PBM criteria document cannot be attributed to a specific contract-plan-segment without a documented plan-to-policy mapping."
+    },
+    {
+      "capability": "Virginia SA criteria bound to a specific drug",
+      "implementationStatus": "implemented-partial",
+      "sourceAvailability": "retrieved-validated",
+      "status": "incomplete-extraction",
+      "blocker": "The SA Criteria column is not aligned to the left column's class headings, so no rule over the left column establishes which criteria bind which drug. Criteria text is carried verbatim with page citations for a human to read in place."
+    },
+    {
+      "capability": "Financial assistance programme terms",
+      "implementationStatus": "not-attempted",
+      "sourceAvailability": "not-assessed",
+      "status": "not-implemented",
+      "blocker": "No adapter was built and NO RETRIEVAL WAS ATTEMPTED, so nothing is known about whether these sources are reachable. This is an implementation gap, not a source failure: manufacturer programme pages carry their own expiry and exclusion terms that must be quoted exactly and re-verified per retrieval, and that work was deferred rather than approximated."
+    },
+    {
+      "capability": "Marketplace and commercial formularies",
+      "implementationStatus": "not-attempted",
+      "sourceAvailability": "no-suitable-public-source-identified",
+      "status": "not-implemented",
+      "blocker": "No adapter was built. Discovery found no public plan-to-formulary crosswalk: CMS public use files carry benefit design, not drug-level formularies. No retrieval was attempted, so no source is recorded as having failed."
+    },
+    {
+      "capability": "Pharmacy network participation and stock",
+      "implementationStatus": "not-attempted",
+      "sourceAvailability": "available-but-not-retrieved",
+      "status": "not-implemented",
+      "blocker": "The CMS pharmacy network files ARE available and were listed in the archive (2.18 GB across six members); they were deliberately not fetched. NPPES proves a pharmacy exists, never that it participates in a plan network or holds stock."
+    },
+    {
+      "capability": "Member eligibility, copay, and approval status",
+      "implementationStatus": "not-attempted",
+      "sourceAvailability": "no-public-source-exists",
+      "status": "requires-authorized-member-integration",
+      "blocker": "Requires an authorised payer integration with a trading-partner agreement and patient identifiers. No public API exists and none is simulated."
+    }
+  ],
+  "displayablePolicyCount": 9
+}

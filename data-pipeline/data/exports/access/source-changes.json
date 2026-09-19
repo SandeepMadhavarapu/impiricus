@@ -1,0 +1,2586 @@
+{
+  "schemaVersion": "access-1.0.0",
+  "generatedAt": "2026-09-19T21:03:20.500Z",
+  "asOfDate": "2026-09-19",
+  "comparison": {
+    "source": "Virginia Medicaid PDL / Common Core Formulary",
+    "currentlyEffective": {
+      "version": "07/01/2026 v4",
+      "effectiveDate": "2026-07-01",
+      "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAmed-PDL-List-Criteria-20260701-v4.pdf",
+      "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe"
+    },
+    "upcoming": {
+      "version": "10/01/2026 v2",
+      "effectiveDate": "2026-10-01",
+      "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAmed-PDL-List-Criteria-20261001-v2.pdf",
+      "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+      "daysUntilEffective": 12
+    },
+    "allPublishedVersions": [
+      {
+        "version": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "effectivity": "upcoming"
+      },
+      {
+        "version": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "effectivity": "currently-effective"
+      }
+    ],
+    "parserVersion": "pdl-extract-2026.09.1"
+  },
+  "note": "Both sides are genuinely retrieved published versions of the same document, and the comparison runs FROM the version in force TO the next one. Every record therefore describes a change that has NOT happened yet: effectiveStatus is 'upcoming' and takesEffectOn carries the date. Current coverage is the 'currentlyEffective' side. A change record is an item for review, never a patient notification: isPatientNotification is the literal false on every record.",
+  "entrySegmentation": {
+    "complete": false,
+    "fragmentsFilteredFromNewerVersion": 182,
+    "note": "Entry boundaries within a column are not fully recoverable: one listing wraps over several lines with no terminator. Line-wrap fragments are filtered before diffing, but ADDED and REMOVED records remain review items rather than confirmed listing changes. The higher-confidence class is a record present in both versions whose column differs - for example Cinryze, Preferred on page 52 of 07/01/2026 v4 and Non-Preferred on page 54 of 10/01/2026 v2, confirmed by reading both documents."
+  },
+  "summary": {
+    "source-content": 94,
+    "formatting-only": 0,
+    "parser-induced": 0,
+    "ambiguous-needs-review": 0
+  },
+  "changes": [
+    {
+      "id": "c6f3f0bf7add1cfb",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "(generic for Dymista®)",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "(generic for Dymista®)",
+        "locator": "page 70"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "d2ce36f161696f22",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "(ST)",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "(ST)",
+        "locator": "page 60"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "2bd8ec6c0c69802d",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "40 mg syringe",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "40 mg syringe",
+        "locator": "page 60"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "c1d6e82732b0077c",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "albuterol HFA (Proair)",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "albuterol HFA (Proair)",
+        "locator": "page 68"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "3b350b4f91735f53",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "albuterol HFA (Proventil)",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "albuterol HFA (Proventil)",
+        "locator": "page 69"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "5a6a0da25456bcda",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "alogliptin (generic Nesina™)",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "alogliptin (generic Nesina™)",
+        "locator": "page 49"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "bfa246b99545428c",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Alsuma®",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Alsuma®",
+        "locator": "page 30"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "6c60c6f5c7534ffb",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Amerge®",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Amerge®",
+        "locator": "page 30"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "7bb5b72ffc49e9a0",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "******Anzupgo®",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "******Anzupgo®",
+        "locator": "page 40"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "4065e4e8904cbb73",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "******Anzupgo® LENGTH OF AUTHORIZATION:",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "******Anzupgo® LENGTH OF AUTHORIZATION:",
+        "locator": "page 40"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "68a4be150262ecf9",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "arformoterol (generic Brovana®)",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "arformoterol (generic Brovana®)",
+        "locator": "page 69"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "7b193fdd2d669509",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Axert®",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Axert®",
+        "locator": "page 30"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "7c044ae19abed4dd",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "azelastine/fluticasone nasal",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "azelastine/fluticasone nasal",
+        "locator": "page 71"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "53854a21e2f53b2d",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "azelastine/fluticasone nasal spray",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "azelastine/fluticasone nasal spray",
+        "locator": "page 70"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "f2adb0a707ba8d81",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "bosentan (generic Tracleer®)",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "bosentan (generic Tracleer®)",
+        "locator": "page 25"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "bosentan (generic Tracleer®)",
+        "locator": "page 25"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Value is \"non-preferred\" in the version currently in force and becomes \"preferred\" in the version effective 2026-10-01. It has NOT changed yet."
+    },
+    {
+      "id": "37cce0124a17cb22",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Breztri Aerosphere™",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Breztri Aerosphere™",
+        "locator": "page 70"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Breztri Aerosphere™",
+        "locator": "page 71"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Value is \"non-preferred\" in the version currently in force and becomes \"preferred\" in the version effective 2026-10-01. It has NOT changed yet."
+    },
+    {
+      "id": "ba1375dca2ce0807",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Cambia®",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Cambia®",
+        "locator": "page 30"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "31bf046899f7048e",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Cinryze™",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Cinryze™",
+        "locator": "page 52"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Cinryze™",
+        "locator": "page 54"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Value is \"preferred\" in the version currently in force and becomes \"non-preferred\" in the version effective 2026-10-01. It has NOT changed yet."
+    },
+    {
+      "id": "a39952dfc2200cb6",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Climara",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Climara",
+        "locator": "page 52"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "aae55588b95cf231",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Copaxone",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Copaxone",
+        "locator": "page 60"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "a8f23da23eca79e2",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Copaxone® 40 mg syringe®",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Copaxone® 40 mg syringe®",
+        "locator": "page 61"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "e554b99ff8ca50d5",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Divigel",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Divigel",
+        "locator": "page 52"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "fcfe9d5c55c989c2",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Dotti",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Dotti",
+        "locator": "page 52"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "2e8d564b0955d0e8",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Duavee",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Duavee",
+        "locator": "page 52"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "0d7fa1c8d328b246",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Dymista®",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Dymista®",
+        "locator": "page 70"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Dymista®",
+        "locator": "page 71"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Value is \"preferred\" in the version currently in force and becomes \"non-preferred\" in the version effective 2026-10-01. It has NOT changed yet."
+    },
+    {
+      "id": "7e865c85483b41bb",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Elestrin",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Elestrin",
+        "locator": "page 52"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "027eb176204dce95",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "estradiol",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "estradiol",
+        "locator": "page 52"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "72477b464fefce48",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "estradiol once weekly patch,",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "estradiol once weekly patch,",
+        "locator": "page 52"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "02a1af29e26e5ee0",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "estradiol packet (Divigel)",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "estradiol packet (Divigel)",
+        "locator": "page 52"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "eb8b75ee72b1da64",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "estradiol twice weekly (Minivelle)",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "estradiol twice weekly (Minivelle)",
+        "locator": "page 52"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "9ba3177335d6e05c",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Estrogen Agents",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Estrogen Agents",
+        "locator": "page 51"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "be3b34ac97b04192",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "estrogens, conjugated",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "estrogens, conjugated",
+        "locator": "page 52"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "a574cd03723adb7d",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Evamist",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Evamist",
+        "locator": "page 52"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "ba83750bcccc9775",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Frova®",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Frova®",
+        "locator": "page 30"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "6042bcc07c7f5438",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Glyxambi®",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Glyxambi®",
+        "locator": "page 49"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "b03cd45bdf100b39",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Glyxambi® alogliptin (generic Nesina™)",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Glyxambi® alogliptin (generic Nesina™)",
+        "locator": "page 49"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "685acd4e7d2bdd8c",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Haegarda",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Haegarda®",
+        "locator": "page 52"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Haegarda",
+        "locator": "page 54"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Value is \"non-preferred\" in the version currently in force and becomes \"preferred\" in the version effective 2026-10-01. It has NOT changed yet."
+    },
+    {
+      "id": "26b201c8d49a0da4",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "icatibant (generic Firazyr )",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "icatibant (generic Firazyr )",
+        "locator": "page 52"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "138f0899f898d815",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "icatibant (generic Firazyr®)",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "icatibant (generic Firazyr®)",
+        "locator": "page 54"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "12a4f559b3911e22",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Imitrex® cartridge/pen/tab",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Imitrex® cartridge/pen/tab",
+        "locator": "page 30"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "98d4ebb2902c6fdb",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Imitrex® cartridge/pen/tab/vial",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Imitrex® cartridge/pen/tab/vial",
+        "locator": "page 30"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "6ee6a65b8efb0c52",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "IntrarosaTM",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "IntrarosaTM",
+        "locator": "page 52"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "00035b4a2855bd91",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Keppra",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Keppra",
+        "locator": "page 28"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "07b4fafa53bfe936",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Keppra® XR",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Keppra® XR",
+        "locator": "page 28"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "c26eee9ea6781bf6",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "**Kesimpta",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "**Kesimpta",
+        "locator": "page 60"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "e29ba70467dadd8f",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "**Kesimpta® (ST)",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "**Kesimpta® (ST)",
+        "locator": "page 61"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "5c48b3b974ed3f96",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Kuvan powder packet Javygtor",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Kuvan powder packet Javygtor",
+        "locator": "page 54"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "747784c2866b4c7c",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Kuvan tab",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Kuvan tab",
+        "locator": "page 54"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "e71ea40327cbca70",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Lyllana",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Lyllana",
+        "locator": "page 52"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "e1d81615c0d5ce53",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Lynkuet Veozah LENGTH OF AUTHORIZATION: 1 year",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Lynkuet Veozah LENGTH OF AUTHORIZATION: 1 year",
+        "locator": "page 52"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "b9bc6fbee0da12c5",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Menostar",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Menostar",
+        "locator": "page 52"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "cfd71bfc46d545b8",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "MigranowTM Kit",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "MigranowTM Kit",
+        "locator": "page 30"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "20ba4584f6716a8f",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Minivelle Twice Weekly",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Minivelle Twice Weekly",
+        "locator": "page 52"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "8f2e2df5f5c7e23b",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "ODT/soln/tab",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "ODT/soln/tab",
+        "locator": "page 31"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "a35caa5c369d101c",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "ODT/tab",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "ODT/tab",
+        "locator": "page 29"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "3062cc5531bd74a3",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "ondansetron 16mg ODT",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "ondansetron 16mg ODT",
+        "locator": "page 56"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "ae638b4625781c75",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "OnzetraTM XsailTM",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "OnzetraTM XsailTM",
+        "locator": "page 30"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "652da9d03500be41",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Oral CLOSED CLASS",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Oral CLOSED CLASS",
+        "locator": "page 52"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "86e03138d6500ed3",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Osphena",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Osphena",
+        "locator": "page 52"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "912a6f7dcf4ed1c7",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Palynziq",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Palynziq",
+        "locator": "page 54"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "84a402dad1dbd306",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Premarin",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Premarin",
+        "locator": "page 52"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "45cb088d54a3c9cb",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "pump(Climara)",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "pump(Climara)",
+        "locator": "page 52"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "2fc0df44fdf50435",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Pyzchiva",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Pyzchiva",
+        "locator": "page 62"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "9eab32b3894e87af",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Pyzchiva® Syringe, Vial",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Pyzchiva® Syringe, Vial",
+        "locator": "page 61"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "4e0205402ab29b01",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Rebif",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Rebif",
+        "locator": "page 60"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "51c4db267b4d61df",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Rebif® SQ",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Rebif® SQ",
+        "locator": "page 61"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "e6e26566cba4b316",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Remeron",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Remeron",
+        "locator": "page 29"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "76d049737d131665",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Remeron® ODT/tab",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Remeron® ODT/tab",
+        "locator": "page 29"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "09eef3d5803e315a",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Rexulti",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Rexulti",
+        "locator": "page 31"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "7a7bb35be180d4ad",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Rexulti® tab",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Rexulti® tab",
+        "locator": "page 32"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "2389cdac4ced9cf2",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Risperdal",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Risperdal",
+        "locator": "page 31"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "aad0f81ebd10e389",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Risperdal® ODT/soln/tab",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Risperdal® ODT/soln/tab",
+        "locator": "page 32"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "979bd54858173097",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Sajazir™",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Sajazir™",
+        "locator": "page 52"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Sajazir™",
+        "locator": "page 54"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Value is \"preferred\" in the version currently in force and becomes \"non-preferred\" in the version effective 2026-10-01. It has NOT changed yet."
+    },
+    {
+      "id": "bfb358dccea63c25",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "sapropterin",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "sapropterin",
+        "locator": "page 54"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "60d79f681bd1f97d",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Sephience",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Sephience",
+        "locator": "page 54"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "7e5fcf3d9a478fd7",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Serevent Diskus®",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Serevent Diskus®",
+        "locator": "page 69"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "e0627a9ac38aa696",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Serevent Diskus® arformoterol (generic Brovana®)",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Serevent Diskus® arformoterol (generic Brovana®)",
+        "locator": "page 68"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "ca1154ee861ccde2",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "spray (generic for Dymista®)",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "spray (generic for Dymista®)",
+        "locator": "page 71"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "ade2453b479be36c",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Sumavel® Dosepro",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Sumavel® Dosepro",
+        "locator": "page 30"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "ecf1b2dcae04d9a7",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Syringe, Vial",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Syringe, Vial",
+        "locator": "page 62"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "96bbafde97e0ab2b",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Testim",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Testim",
+        "locator": "page 47"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "3bbcfe553959ac02",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Testim",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Testim",
+        "locator": "page 47"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "65e4ae89427911e0",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Tracleer® tab",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Tracleer® tab",
+        "locator": "page 25"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Tracleer® tab",
+        "locator": "page 25"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Value is \"preferred\" in the version currently in force and becomes \"non-preferred\" in the version effective 2026-10-01. It has NOT changed yet."
+    },
+    {
+      "id": "f49c876056d20b0b",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Trelegy® Ellipta",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Trelegy® Ellipta",
+        "locator": "page 69"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Trelegy® Ellipta",
+        "locator": "page 71"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Value is \"preferred\" in the version currently in force and becomes \"non-preferred\" in the version effective 2026-10-01. It has NOT changed yet."
+    },
+    {
+      "id": "a7ba88a7deb40650",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Treximet®",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Treximet®",
+        "locator": "page 30"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "50e37e5362772224",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Vaginal",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Vaginal",
+        "locator": "page 52"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "00cea56cfab31770",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Vaginal Estrogens",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Vaginal Estrogens",
+        "locator": "page 53"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "ad0aed35cd8dc662",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Viltepso",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "Viltepso",
+        "locator": "page 33"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "4366e680fa62b55c",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Vivelle-Dot",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Vivelle-Dot",
+        "locator": "page 52"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "504203a5551355c4",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Vyondys-53",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Vyondys-53",
+        "locator": "page 33"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "e85bdde31a33fee9",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "Zelvysia",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "Zelvysia",
+        "locator": "page 54"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "16d9192592a3477b",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "zolmitriptan nasal",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "zolmitriptan nasal",
+        "locator": "page 30"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    },
+    {
+      "id": "282db7f020badc9e",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "zolmitriptan nasal, ODT, tab",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": null,
+        "locator": null
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": "zolmitriptan nasal, ODT, tab",
+        "locator": "page 30"
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Appears in the newer version and was absent from the older one. Absence from the older document is not evidence it was excluded then."
+    },
+    {
+      "id": "92dcbe871a280218",
+      "category": "preference-status",
+      "nature": "source-content",
+      "subjectLabel": "***Zoryve cream, 0.05%",
+      "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
+      "previous": {
+        "documentVersion": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe",
+        "statedText": "***Zoryve cream, 0.05%",
+        "locator": "page 41"
+      },
+      "current": {
+        "documentVersion": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+        "statedText": null,
+        "locator": null
+      },
+      "parserVersion": "pdl-extract-2026.09.1",
+      "verification": "verified-against-both-documents",
+      "isPatientNotification": false,
+      "note": "Present in the older version and absent from the newer one. Absence is NOT the same as exclusion: it may have moved, been renamed, or left the list's scope."
+    }
+  ]
+}
