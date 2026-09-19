@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { track } from "@/shared/lib/analytics/client";
 
 /**
@@ -25,17 +25,24 @@ export function ShareSection({
   shareUrl,
   productName,
   originIsConfigured,
+  audience = "patient",
 }: {
   slug: string;
   shareUrl: string;
   productName: string;
   originIsConfigured: boolean;
+  audience?: "patient" | "doctor";
 }) {
   const [status, setStatus] = useState<string | null>(null);
   const [tone, setTone] = useState<"ok" | "neutral">("neutral");
   const [showQr, setShowQr] = useState(false);
 
-  const canWebShare = typeof navigator !== "undefined" && typeof navigator.share === "function";
+  const [canWebShare, setCanWebShare] = useState(false);
+  useEffect(() => {
+    setCanWebShare(typeof navigator.share === "function");
+  }, []);
+  const doctor = audience === "doctor";
+  const blocked = doctor && !originIsConfigured;
 
   const say = (message: string, nextTone: "ok" | "neutral" = "neutral") => {
     setStatus(message);
@@ -43,13 +50,14 @@ export function ShareSection({
   };
 
   const onShare = useCallback(async () => {
+    if (blocked) return;
     const payload = {
       title: `${productName} — what it is, benefits and risks`,
       text: `Plain-language information about ${productName}, sourced from the FDA-approved label.`,
       url: shareUrl,
     };
 
-    if (!canWebShare) {
+    if (typeof navigator.share !== "function") {
       await copyLink("manual");
       return;
     }
@@ -59,7 +67,7 @@ export function ShareSection({
       // Must be called directly from the user gesture, with no await before it.
       await navigator.share(payload);
       // The sheet closed. That is ALL we know — not that anything was sent.
-      say("Sharing options closed. Your device handles delivery from here.");
+      say(doctor ? "Patient guide ready to share. Sharing options closed; your device handles delivery." : "Sharing options closed. Your device handles delivery from here.");
     } catch (err) {
       const name = err instanceof Error ? err.name : "";
       if (name === "AbortError") {
@@ -72,42 +80,43 @@ export function ShareSection({
       await copyLink("web-share");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [canWebShare, productName, shareUrl]);
+  }, [blocked, doctor, productName, shareUrl]);
 
   const copyLink = useCallback(
     async (_from: string) => {
+      if (blocked) return;
       try {
         await navigator.clipboard.writeText(shareUrl);
         track("share_initiated", { method: "clipboard" });
-        say("Link copied. Paste it anywhere to share.", "ok");
+        say(doctor ? "Patient guide ready to share. Link copied — paste it in a message to your patient." : "Link copied. Paste it anywhere to share.", "ok");
       } catch {
         track("share_fallback_used", { method: "manual" });
         say("Could not copy automatically — select the link below and copy it manually.");
       }
     },
-    [shareUrl]
+    [shareUrl, blocked, doctor]
   );
 
   return (
     <section className="share-section" aria-labelledby="share-heading">
       <h2 className="section-title" id="share-heading">
-        Share this medication information
+        {doctor ? "Share the patient guide" : "Share this medication information"}
       </h2>
       <p className="muted">
-        Shares the public page only. Your conversation, coverage details and anything you typed stay
-        on this device and are never included.
+        {doctor ? "Share the public medication guide using your device’s sharing options, or copy the link. No patient or prescription details are included." : "Shares the public page only. Your conversation, coverage details and anything you typed stay on this device and are never included."}
       </p>
 
       <div className="btn-row" style={{ marginTop: 14 }}>
-        <button type="button" className="btn btn--primary" onClick={onShare}>
-          {canWebShare ? "Share medication information" : "Copy link to share"}
+        <button type="button" className="btn btn--primary" onClick={onShare} disabled={blocked}>
+          {doctor ? "Share with Patient" : canWebShare ? "Share medication information" : "Copy link to share"}
         </button>
-        <button type="button" className="btn" onClick={() => copyLink("button")}>
-          Copy link
+        <button type="button" className="btn" onClick={() => copyLink("button")} disabled={blocked}>
+          {doctor ? "Copy Link" : "Copy link"}
         </button>
         <button
           type="button"
           className="btn"
+          disabled={blocked}
           onClick={() => {
             setShowQr((v) => !v);
             if (!showQr) track("qr_shown");
@@ -153,8 +162,7 @@ export function ShareSection({
 
       {!originIsConfigured ? (
         <p className="tiny" style={{ marginTop: 8, color: "var(--warning-text)" }}>
-          Note for the operator: <code>PUBLIC_ORIGIN</code> is not configured, so this link points at
-          localhost and will not open on another device. Set it before sharing or deploying.
+          {doctor ? <>Sharing needs a public HTTPS deployment. Set <code>PUBLIC_ORIGIN</code> to its origin before building. The preview works locally, but this link is not ready for a patient.</> : <>Note for the operator: <code>PUBLIC_ORIGIN</code> is not configured, so this link points at localhost and will not open on another device. Set it before sharing or deploying.</>}
         </p>
       ) : null}
     </section>

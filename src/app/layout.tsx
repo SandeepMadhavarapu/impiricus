@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <a className="skip-link" href="#main">
-          Skip to medication information
+          Skip to main content
         </a>
         {/*
           Identity disclosure. This is an independent prototype; it must never

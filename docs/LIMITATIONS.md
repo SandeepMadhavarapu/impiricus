@@ -88,8 +88,14 @@ is worse than one that does less.
 ## Scope
 
 Not built: multi-medication catalogue, accounts, saved history, notifications,
-provider-side views, internationalisation, NFC tag writing (an NFC tag can carry
+internationalisation, NFC tag writing (an NFC tag can carry
 the same public URL, but nothing in the app depends on it).
+
+The `/doctor` workspace is a **DocUpdate Integration Preview**, not an actual
+DocUpdate or Impiricus integration. It shares the existing public guide, with
+no patient-specific records, authentication, prescriptions, or delivery tracking.
+Doctor-side sharing requires a configured public HTTPS origin. OS sharing still
+requires physical-device testing.
 
 ---
 
