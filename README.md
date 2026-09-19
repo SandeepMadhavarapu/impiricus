@@ -47,6 +47,23 @@ npm run dev
 Then open <http://localhost:3000>. The root path redirects to the featured
 medication.
 
+### Doctor → patient demo
+
+Open `/doctor` for the **DocUpdate Integration Preview**. Select Singulair
+10 mg film-coated tablet, preview the existing patient content and citations,
+then choose **Share with Patient** or **Copy Link**. The recipient opens the
+existing `/medications/singulair-montelukast-10mg-tablet` experience.
+
+This is an independent preview, with no DocUpdate or Impiricus integration or
+endorsement. No account, patient record, or prescription is created. Only the
+bare public medication URL is shared. Native sharing uses the device's options;
+cancellation is normal and no delivery confirmation is claimed.
+
+Doctor-side sharing is disabled until `PUBLIC_ORIGIN` is a public HTTPS origin.
+Deploy the app and configure that origin before building for an off-device demo.
+The selector and preview work locally without it. The root route and existing
+patient workflows are unchanged.
+
 ### All commands
 
 | Command | What it does |
@@ -156,7 +173,7 @@ explainer* over retrieved passages — never the source of facts.
 npm test
 ```
 
-194 tests across 10 files, all passing:
+212 tests across 12 files, all passing:
 
 | File | Tests | Covers |
 |---|---:|---|
@@ -168,8 +185,10 @@ npm test
 | `privacy.test.ts` | 18 | analytics allow-listing; rate limiting; verified provider destinations |
 | `share.test.ts` | 8 | no private data in share URLs; slug rejection |
 | `handoff.test.ts` | 18 | the unresolved question survives the handoff; crisis turns never do; stays local |
-| `followup.test.ts` | 19 | elliptical follow-ups resolved from context; pronouns with no antecedent ask instead of guessing |
-| `formulary.test.ts` | 16 | CMS formulary never becomes member coverage or a cost estimate; unmatched plan ≠ not covered |
+| `followup.test.ts` | 23 | elliptical follow-ups resolved from context; pronouns with no antecedent ask instead of guessing |
+| `formulary.test.ts` | 18 | CMS formulary never becomes member coverage or a cost estimate; unmatched plan ≠ not covered |
+| `doctor.test.ts` | 10 | selection, unchanged preview content, provenance, invalid products, public HTTPS sharing configuration |
+| `share-component.test.ts` | 8 | direct native-share invocation, cancellation, clipboard/manual fallback, public-only payload, patient behavior |
 
 ---
 

@@ -1,5 +1,21 @@
 # 90-second demo script
 
+## Doctor → patient opening
+
+1. Open `/doctor`. Point out **DocUpdate Integration Preview** and the explicit
+   disclosure that no DocUpdate or Impiricus connection exists.
+2. Select **Singulair (montelukast sodium) 10 mg tablet, film coated**.
+3. Preview the guide: boxed warning first, existing plain-language information,
+   expandable citations and provenance. No clinical content is generated here.
+4. Choose **Share with Patient** on the deployed HTTPS site. Use the native
+   share sheet, or **Copy Link** when sharing is unavailable. Cancellation is
+   normal; the app never claims delivery.
+5. Open the URL on the receiving device. Continue the patient demo below.
+
+Local preview works without configuration, but doctor sharing is disabled until
+`PUBLIC_ORIGIN` points to a public HTTPS deployment. No deployment or real-device
+share is implied by this script.
+
 **Setup:** deploy to HTTPS with `PUBLIC_ORIGIN` set, or run locally and demo the
 QR on-screen. Leave `ENABLE_SAMPLE_COVERAGE` **unset** — the honest
 "unable to verify" result is the stronger demo, and sample data risks being
