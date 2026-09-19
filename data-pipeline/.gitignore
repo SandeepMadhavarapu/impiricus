@@ -1,0 +1,6 @@
+node_modules/
+# Raw payloads are large and immutable; regenerate with `npm run ingest`.
+# Normalized records, exports and reports ARE committed — teammates consume them
+# without running ingestion.
+data/raw/
+*.tsbuildinfo
