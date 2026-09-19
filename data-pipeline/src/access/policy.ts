@@ -72,6 +72,8 @@ function materialize(
     basis: t.basis,
     action: t.action,
     respondsToRequirementId: null,
+    formType: t.formType ?? "not-a-form",
+    routeApplicability: t.routeApplicability ?? "applicability-unresolved",
     formTitle: t.formTitle ?? null,
     formUrl: t.formUrl ?? null,
     submissionUrl: t.submissionUrl ?? null,
@@ -110,6 +112,8 @@ function materialize(
 
 export interface PartDPolicyInput {
   productKey: string;
+  /** Reference date the effectivity judgement was made against. */
+  asOfDate: string;
   coverage: CoverageLookupResult;
   /** Indication restrictions from the CMS indication-based coverage file. */
   indications: string[];
@@ -247,6 +251,25 @@ export function buildPartDPolicy(input: PartDPolicyInput): AccessPolicy {
     scopeLabel: plan ? `${plan.planName ?? plan.planKey} (${plan.planKey})` : "unresolved plan",
     geography: "United States (Medicare Part D)",
     planYear: coverage.checked.planYear,
+    sourceEffectivity: {
+      documentVersion: coverage.freshness.sourceRelease ?? "unknown",
+      effectiveDate: coverage.freshness.sourcePublished,
+      status: "currently-effective",
+      asOfDate: input.asOfDate,
+      note:
+        "The CMS monthly release in use was confirmed to be the newest published at build time. " +
+        "Unlike the state PDL, CMS does not publish a future-dated release alongside the current " +
+        "one, so there is no upcoming version to hold separate.",
+    },
+    upcomingChanges: [],
+    // Part D evidence is the plan's own structured filing, not a document
+    // whose layout had to be interpreted, so there is no extraction dispute to
+    // resolve and no second document needed to confirm a column reading.
+    independentCorroboration: null,
+    extractionDisputes: [],
+    scopeWarning:
+      "Medicare Part D only. This says nothing about Medicaid, Marketplace, or commercial " +
+      "coverage, and nothing about what this person is enrolled in or would pay.",
     applicability: plan ? "verified-for-this-plan" : "policy-applicability-unresolved",
     applicabilityRationale: plan
       ? "Formulary rows were selected by this plan's own FORMULARY_ID, taken from the plan record " +
@@ -274,6 +297,16 @@ export function buildPartDPolicy(input: PartDPolicyInput): AccessPolicy {
 
 export interface VaFfsPolicyInput {
   productKey: string;
+  /** Reference date the effectivity judgement was made against. */
+  asOfDate: string;
+  /** Whether the document this policy describes is in force on `asOfDate`. */
+  effectivityStatus: "currently-effective" | "upcoming" | "superseded";
+  /** Differences in the next published version affecting THIS product. */
+  upcomingChanges: AccessPolicy["upcomingChanges"];
+  /** Result of checking a SEPARATE publisher document. */
+  corroboration: AccessPolicy["independentCorroboration"];
+  /** How each extraction disagreement touching this product was resolved. */
+  extractionDisputes: AccessPolicy["extractionDisputes"];
   /** The brand/product name searched for. */
   searchTerm: string;
   match: PdlMatch;
@@ -308,6 +341,12 @@ export function buildVaFfsPolicy(input: VaFfsPolicyInput): AccessPolicy {
 
   const requirements: PolicyRequirement[] = [];
   const hit = match.hits.find((h) => h.column === "non-preferred");
+
+  // Service-authorization CRITERIA text is deliberately NOT turned into a
+  // requirement. The criteria column does not align to the drug-class headings,
+  // so which criteria bind which drug is unestablished; promoting that text
+  // here would assert a clinical condition the document never tied to this
+  // product. It stays in `evidence` with its page citation, for a human.
 
   if (match.status === "non-preferred" || match.status === "appears-in-both-columns") {
     requirements.push({
@@ -374,6 +413,28 @@ export function buildVaFfsPolicy(input: VaFfsPolicyInput): AccessPolicy {
     scopeLabel: "Virginia Medicaid fee-for-service (statewide)",
     geography: "Virginia, United States",
     planYear: null,
+    sourceEffectivity: {
+      documentVersion: input.retrieval.version ?? "unknown",
+      effectiveDate: input.retrieval.effective,
+      status: input.effectivityStatus,
+      asOfDate: input.asOfDate,
+      note:
+        input.effectivityStatus === "currently-effective"
+          ? `This is the version in force on ${input.asOfDate}. Virginia publishes each quarterly ` +
+            "PDL weeks ahead of its effective date and keeps superseded versions online, so the " +
+            "newest published file is often NOT the one in force."
+          : `This version is NOT in force on ${input.asOfDate}. Do not present it as current ` +
+            "coverage.",
+    },
+    upcomingChanges: input.upcomingChanges,
+    independentCorroboration: input.corroboration,
+    extractionDisputes: input.extractionDisputes,
+    scopeWarning:
+      "VIRGINIA MEDICAID FEE-FOR-SERVICE ONLY. Virginia contracts with managed care organisations " +
+      "(Aetna, Anthem, Humana, Sentara, UnitedHealthcare) that publish their OWN formularies and " +
+      "their own authorization rules. Most Virginia Medicaid members are enrolled in one of those " +
+      "plans, not in fee-for-service. Nothing here may be applied to a managed care member " +
+      "without retrieving that plan's own documents.",
     applicability: "verified-for-this-market-segment",
     applicabilityRationale:
       "The PDL is published by the state Medicaid agency and applies to fee-for-service statewide. " +

@@ -78,18 +78,35 @@ data-pipeline/data/exports/access/coverage-matrix.json
 It answers: what the plan publishes, what restriction applies, the official
 next step with a verified form URL or phone number, and what is still unknown.
 
-Worked example - Singulair on Virginia Medicaid fee-for-service:
+Worked example - Singulair on Virginia Medicaid FEE-FOR-SERVICE:
 
 ```
-listingStatus:  non-preferred            (page 73, Non-Preferred Agents column)
+source:         PDL effective 07/01/2026 v4  -> sourceEffectivity.status = currently-effective
+                (the newest PUBLISHED file is effective 10/01/2026 and is NOT in force yet)
+listingStatus:  non-preferred            (page 72, Non-Preferred Agents column)
+corroborated:   QuickList 07/01/2026 v3 (a separate, preferred-only document) does not list it
 requirement:    "Non-preferred drugs require a SA"   - not a denial, not an approval
 next step:      prescriber submits a service authorization
                 fax 800-932-6651 | phone 800-932-6648 | WebPA / e-PA
                 urgent: "For urgent requests, please call 800-932-6648."
 also published: on denial a 34-day supply is authorised automatically
                 appeal within 30 days; decision within 21 days
+scopeWarning:   FEE-FOR-SERVICE ONLY - not Aetna/Anthem/Humana/Sentara/UHC managed care
 unknown:        enrolment, approval, and any amount this person would pay
 ```
+
+### Four things to check before rendering
+
+1. **`sourceEffectivity.status`** must be `currently-effective`. Virginia
+   publishes each PDL weeks ahead of its effective date, so the newest file is
+   usually NOT the coverage in force. `upcomingChanges` carries what is coming;
+   it must never replace the current fields.
+2. **`scopeWarning`** - Virginia findings are fee-for-service only.
+3. **`mayDisplayFormularyEvidence(...)`**, not just `mayLookUpCoverage`.
+   Resolving the plan is necessary but NOT sufficient; five conditions must
+   hold. `personalBenefitsVerified` is always `false`.
+4. **`formType`** - a `generic-model-template` is a regulator's model form, not
+   this plan's. A working URL proves availability, not applicability.
 
 Read [ACCESS.md](ACCESS.md) before rendering any of it: `non-preferred` is not
 excluded, `not-addressed-in-this-document` is not "not covered", and
@@ -329,7 +346,7 @@ cd data-pipeline && npm install
 | `npm run insurance:export` | Rewrite register, plans, coverage examples |
 | `npm run verify:report -- --live` | Regenerate accounting; check for a newer CMS release |
 | `npm run report` | Completeness and conflict report |
-| `npm test` | fixture tests, no network |
+| `npm test` | 204 fixture tests, no network |
 | `npm run test:live` | Opt-in live smoke checks |
 
 ---

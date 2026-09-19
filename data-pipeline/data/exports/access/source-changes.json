@@ -1,23 +1,37 @@
 {
   "schemaVersion": "access-1.0.0",
-  "generatedAt": "2026-09-19T20:51:21.436Z",
+  "generatedAt": "2026-09-19T21:03:20.500Z",
+  "asOfDate": "2026-09-19",
   "comparison": {
     "source": "Virginia Medicaid PDL / Common Core Formulary",
-    "previous": {
+    "currentlyEffective": {
       "version": "07/01/2026 v4",
       "effectiveDate": "2026-07-01",
       "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAmed-PDL-List-Criteria-20260701-v4.pdf",
       "contentHash": "203a19c39413bf31ec9b347176c3f3c5e3239dc1c25797f5b7588c840fa2fffe"
     },
-    "current": {
+    "upcoming": {
       "version": "10/01/2026 v2",
       "effectiveDate": "2026-10-01",
       "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAmed-PDL-List-Criteria-20261001-v2.pdf",
-      "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98"
+      "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+      "daysUntilEffective": 12
     },
+    "allPublishedVersions": [
+      {
+        "version": "10/01/2026 v2",
+        "effectiveDate": "2026-10-01",
+        "effectivity": "upcoming"
+      },
+      {
+        "version": "07/01/2026 v4",
+        "effectiveDate": "2026-07-01",
+        "effectivity": "currently-effective"
+      }
+    ],
     "parserVersion": "pdl-extract-2026.09.1"
   },
-  "note": "Both sides are genuinely retrieved published versions of the same document. A change record is an item for review, never a patient notification: isPatientNotification is the literal false on every record.",
+  "note": "Both sides are genuinely retrieved published versions of the same document, and the comparison runs FROM the version in force TO the next one. Every record therefore describes a change that has NOT happened yet: effectiveStatus is 'upcoming' and takesEffectOn carries the date. Current coverage is the 'currentlyEffective' side. A change record is an item for review, never a patient notification: isPatientNotification is the literal false on every record.",
   "entrySegmentation": {
     "complete": false,
     "fragmentsFilteredFromNewerVersion": 182,
@@ -36,6 +50,8 @@
       "nature": "source-content",
       "subjectLabel": "(generic for Dymista®)",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -61,6 +77,8 @@
       "nature": "source-content",
       "subjectLabel": "(ST)",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -86,6 +104,8 @@
       "nature": "source-content",
       "subjectLabel": "40 mg syringe",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -111,6 +131,8 @@
       "nature": "source-content",
       "subjectLabel": "albuterol HFA (Proair)",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -136,6 +158,8 @@
       "nature": "source-content",
       "subjectLabel": "albuterol HFA (Proventil)",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -161,6 +185,8 @@
       "nature": "source-content",
       "subjectLabel": "alogliptin (generic Nesina™)",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -186,6 +212,8 @@
       "nature": "source-content",
       "subjectLabel": "Alsuma®",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -211,6 +239,8 @@
       "nature": "source-content",
       "subjectLabel": "Amerge®",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -236,6 +266,8 @@
       "nature": "source-content",
       "subjectLabel": "******Anzupgo®",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -261,6 +293,8 @@
       "nature": "source-content",
       "subjectLabel": "******Anzupgo® LENGTH OF AUTHORIZATION:",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -286,6 +320,8 @@
       "nature": "source-content",
       "subjectLabel": "arformoterol (generic Brovana®)",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -311,6 +347,8 @@
       "nature": "source-content",
       "subjectLabel": "Axert®",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -336,6 +374,8 @@
       "nature": "source-content",
       "subjectLabel": "azelastine/fluticasone nasal",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -361,6 +401,8 @@
       "nature": "source-content",
       "subjectLabel": "azelastine/fluticasone nasal spray",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -386,6 +428,8 @@
       "nature": "source-content",
       "subjectLabel": "bosentan (generic Tracleer®)",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -403,7 +447,7 @@
       "parserVersion": "pdl-extract-2026.09.1",
       "verification": "verified-against-both-documents",
       "isPatientNotification": false,
-      "note": "Value moved from \"non-preferred\" to \"preferred\" between published versions."
+      "note": "Value is \"non-preferred\" in the version currently in force and becomes \"preferred\" in the version effective 2026-10-01. It has NOT changed yet."
     },
     {
       "id": "37cce0124a17cb22",
@@ -411,6 +455,8 @@
       "nature": "source-content",
       "subjectLabel": "Breztri Aerosphere™",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -428,7 +474,7 @@
       "parserVersion": "pdl-extract-2026.09.1",
       "verification": "verified-against-both-documents",
       "isPatientNotification": false,
-      "note": "Value moved from \"non-preferred\" to \"preferred\" between published versions."
+      "note": "Value is \"non-preferred\" in the version currently in force and becomes \"preferred\" in the version effective 2026-10-01. It has NOT changed yet."
     },
     {
       "id": "ba1375dca2ce0807",
@@ -436,6 +482,8 @@
       "nature": "source-content",
       "subjectLabel": "Cambia®",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -461,6 +509,8 @@
       "nature": "source-content",
       "subjectLabel": "Cinryze™",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -478,7 +528,7 @@
       "parserVersion": "pdl-extract-2026.09.1",
       "verification": "verified-against-both-documents",
       "isPatientNotification": false,
-      "note": "Value moved from \"preferred\" to \"non-preferred\" between published versions."
+      "note": "Value is \"preferred\" in the version currently in force and becomes \"non-preferred\" in the version effective 2026-10-01. It has NOT changed yet."
     },
     {
       "id": "a39952dfc2200cb6",
@@ -486,6 +536,8 @@
       "nature": "source-content",
       "subjectLabel": "Climara",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -511,6 +563,8 @@
       "nature": "source-content",
       "subjectLabel": "Copaxone",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -536,6 +590,8 @@
       "nature": "source-content",
       "subjectLabel": "Copaxone® 40 mg syringe®",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -561,6 +617,8 @@
       "nature": "source-content",
       "subjectLabel": "Divigel",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -586,6 +644,8 @@
       "nature": "source-content",
       "subjectLabel": "Dotti",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -611,6 +671,8 @@
       "nature": "source-content",
       "subjectLabel": "Duavee",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -636,6 +698,8 @@
       "nature": "source-content",
       "subjectLabel": "Dymista®",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -653,7 +717,7 @@
       "parserVersion": "pdl-extract-2026.09.1",
       "verification": "verified-against-both-documents",
       "isPatientNotification": false,
-      "note": "Value moved from \"preferred\" to \"non-preferred\" between published versions."
+      "note": "Value is \"preferred\" in the version currently in force and becomes \"non-preferred\" in the version effective 2026-10-01. It has NOT changed yet."
     },
     {
       "id": "7e865c85483b41bb",
@@ -661,6 +725,8 @@
       "nature": "source-content",
       "subjectLabel": "Elestrin",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -686,6 +752,8 @@
       "nature": "source-content",
       "subjectLabel": "estradiol",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -711,6 +779,8 @@
       "nature": "source-content",
       "subjectLabel": "estradiol once weekly patch,",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -736,6 +806,8 @@
       "nature": "source-content",
       "subjectLabel": "estradiol packet (Divigel)",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -761,6 +833,8 @@
       "nature": "source-content",
       "subjectLabel": "estradiol twice weekly (Minivelle)",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -786,6 +860,8 @@
       "nature": "source-content",
       "subjectLabel": "Estrogen Agents",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -811,6 +887,8 @@
       "nature": "source-content",
       "subjectLabel": "estrogens, conjugated",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -836,6 +914,8 @@
       "nature": "source-content",
       "subjectLabel": "Evamist",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -861,6 +941,8 @@
       "nature": "source-content",
       "subjectLabel": "Frova®",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -886,6 +968,8 @@
       "nature": "source-content",
       "subjectLabel": "Glyxambi®",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -911,6 +995,8 @@
       "nature": "source-content",
       "subjectLabel": "Glyxambi® alogliptin (generic Nesina™)",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -936,6 +1022,8 @@
       "nature": "source-content",
       "subjectLabel": "Haegarda",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -953,7 +1041,7 @@
       "parserVersion": "pdl-extract-2026.09.1",
       "verification": "verified-against-both-documents",
       "isPatientNotification": false,
-      "note": "Value moved from \"non-preferred\" to \"preferred\" between published versions."
+      "note": "Value is \"non-preferred\" in the version currently in force and becomes \"preferred\" in the version effective 2026-10-01. It has NOT changed yet."
     },
     {
       "id": "26b201c8d49a0da4",
@@ -961,6 +1049,8 @@
       "nature": "source-content",
       "subjectLabel": "icatibant (generic Firazyr )",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -986,6 +1076,8 @@
       "nature": "source-content",
       "subjectLabel": "icatibant (generic Firazyr®)",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1011,6 +1103,8 @@
       "nature": "source-content",
       "subjectLabel": "Imitrex® cartridge/pen/tab",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1036,6 +1130,8 @@
       "nature": "source-content",
       "subjectLabel": "Imitrex® cartridge/pen/tab/vial",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1061,6 +1157,8 @@
       "nature": "source-content",
       "subjectLabel": "IntrarosaTM",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1086,6 +1184,8 @@
       "nature": "source-content",
       "subjectLabel": "Keppra",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1111,6 +1211,8 @@
       "nature": "source-content",
       "subjectLabel": "Keppra® XR",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1136,6 +1238,8 @@
       "nature": "source-content",
       "subjectLabel": "**Kesimpta",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1161,6 +1265,8 @@
       "nature": "source-content",
       "subjectLabel": "**Kesimpta® (ST)",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1186,6 +1292,8 @@
       "nature": "source-content",
       "subjectLabel": "Kuvan powder packet Javygtor",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1211,6 +1319,8 @@
       "nature": "source-content",
       "subjectLabel": "Kuvan tab",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1236,6 +1346,8 @@
       "nature": "source-content",
       "subjectLabel": "Lyllana",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1261,6 +1373,8 @@
       "nature": "source-content",
       "subjectLabel": "Lynkuet Veozah LENGTH OF AUTHORIZATION: 1 year",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1286,6 +1400,8 @@
       "nature": "source-content",
       "subjectLabel": "Menostar",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1311,6 +1427,8 @@
       "nature": "source-content",
       "subjectLabel": "MigranowTM Kit",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1336,6 +1454,8 @@
       "nature": "source-content",
       "subjectLabel": "Minivelle Twice Weekly",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1361,6 +1481,8 @@
       "nature": "source-content",
       "subjectLabel": "ODT/soln/tab",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1386,6 +1508,8 @@
       "nature": "source-content",
       "subjectLabel": "ODT/tab",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1411,6 +1535,8 @@
       "nature": "source-content",
       "subjectLabel": "ondansetron 16mg ODT",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1436,6 +1562,8 @@
       "nature": "source-content",
       "subjectLabel": "OnzetraTM XsailTM",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1461,6 +1589,8 @@
       "nature": "source-content",
       "subjectLabel": "Oral CLOSED CLASS",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1486,6 +1616,8 @@
       "nature": "source-content",
       "subjectLabel": "Osphena",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1511,6 +1643,8 @@
       "nature": "source-content",
       "subjectLabel": "Palynziq",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1536,6 +1670,8 @@
       "nature": "source-content",
       "subjectLabel": "Premarin",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1561,6 +1697,8 @@
       "nature": "source-content",
       "subjectLabel": "pump(Climara)",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1586,6 +1724,8 @@
       "nature": "source-content",
       "subjectLabel": "Pyzchiva",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1611,6 +1751,8 @@
       "nature": "source-content",
       "subjectLabel": "Pyzchiva® Syringe, Vial",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1636,6 +1778,8 @@
       "nature": "source-content",
       "subjectLabel": "Rebif",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1661,6 +1805,8 @@
       "nature": "source-content",
       "subjectLabel": "Rebif® SQ",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1686,6 +1832,8 @@
       "nature": "source-content",
       "subjectLabel": "Remeron",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1711,6 +1859,8 @@
       "nature": "source-content",
       "subjectLabel": "Remeron® ODT/tab",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1736,6 +1886,8 @@
       "nature": "source-content",
       "subjectLabel": "Rexulti",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1761,6 +1913,8 @@
       "nature": "source-content",
       "subjectLabel": "Rexulti® tab",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1786,6 +1940,8 @@
       "nature": "source-content",
       "subjectLabel": "Risperdal",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1811,6 +1967,8 @@
       "nature": "source-content",
       "subjectLabel": "Risperdal® ODT/soln/tab",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1836,6 +1994,8 @@
       "nature": "source-content",
       "subjectLabel": "Sajazir™",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1853,7 +2013,7 @@
       "parserVersion": "pdl-extract-2026.09.1",
       "verification": "verified-against-both-documents",
       "isPatientNotification": false,
-      "note": "Value moved from \"preferred\" to \"non-preferred\" between published versions."
+      "note": "Value is \"preferred\" in the version currently in force and becomes \"non-preferred\" in the version effective 2026-10-01. It has NOT changed yet."
     },
     {
       "id": "bfb358dccea63c25",
@@ -1861,6 +2021,8 @@
       "nature": "source-content",
       "subjectLabel": "sapropterin",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1886,6 +2048,8 @@
       "nature": "source-content",
       "subjectLabel": "Sephience",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1911,6 +2075,8 @@
       "nature": "source-content",
       "subjectLabel": "Serevent Diskus®",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1936,6 +2102,8 @@
       "nature": "source-content",
       "subjectLabel": "Serevent Diskus® arformoterol (generic Brovana®)",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1961,6 +2129,8 @@
       "nature": "source-content",
       "subjectLabel": "spray (generic for Dymista®)",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -1986,6 +2156,8 @@
       "nature": "source-content",
       "subjectLabel": "Sumavel® Dosepro",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -2011,6 +2183,8 @@
       "nature": "source-content",
       "subjectLabel": "Syringe, Vial",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -2036,6 +2210,8 @@
       "nature": "source-content",
       "subjectLabel": "Testim",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -2061,6 +2237,8 @@
       "nature": "source-content",
       "subjectLabel": "Testim",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -2086,6 +2264,8 @@
       "nature": "source-content",
       "subjectLabel": "Tracleer® tab",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -2103,7 +2283,7 @@
       "parserVersion": "pdl-extract-2026.09.1",
       "verification": "verified-against-both-documents",
       "isPatientNotification": false,
-      "note": "Value moved from \"preferred\" to \"non-preferred\" between published versions."
+      "note": "Value is \"preferred\" in the version currently in force and becomes \"non-preferred\" in the version effective 2026-10-01. It has NOT changed yet."
     },
     {
       "id": "f49c876056d20b0b",
@@ -2111,6 +2291,8 @@
       "nature": "source-content",
       "subjectLabel": "Trelegy® Ellipta",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -2128,7 +2310,7 @@
       "parserVersion": "pdl-extract-2026.09.1",
       "verification": "verified-against-both-documents",
       "isPatientNotification": false,
-      "note": "Value moved from \"preferred\" to \"non-preferred\" between published versions."
+      "note": "Value is \"preferred\" in the version currently in force and becomes \"non-preferred\" in the version effective 2026-10-01. It has NOT changed yet."
     },
     {
       "id": "a7ba88a7deb40650",
@@ -2136,6 +2318,8 @@
       "nature": "source-content",
       "subjectLabel": "Treximet®",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -2161,6 +2345,8 @@
       "nature": "source-content",
       "subjectLabel": "Vaginal",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -2186,6 +2372,8 @@
       "nature": "source-content",
       "subjectLabel": "Vaginal Estrogens",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -2211,6 +2399,8 @@
       "nature": "source-content",
       "subjectLabel": "Viltepso",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -2236,6 +2426,8 @@
       "nature": "source-content",
       "subjectLabel": "Vivelle-Dot",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -2261,6 +2453,8 @@
       "nature": "source-content",
       "subjectLabel": "Vyondys-53",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -2286,6 +2480,8 @@
       "nature": "source-content",
       "subjectLabel": "Zelvysia",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -2311,6 +2507,8 @@
       "nature": "source-content",
       "subjectLabel": "zolmitriptan nasal",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -2336,6 +2534,8 @@
       "nature": "source-content",
       "subjectLabel": "zolmitriptan nasal, ODT, tab",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",
@@ -2361,6 +2561,8 @@
       "nature": "source-content",
       "subjectLabel": "***Zoryve cream, 0.05%",
       "productKey": null,
+      "effectiveStatus": "upcoming",
+      "takesEffectOn": "2026-10-01",
       "previous": {
         "documentVersion": "07/01/2026 v4",
         "effectiveDate": "2026-07-01",

@@ -206,9 +206,37 @@ export const AccessActionSchema = z.object({
   action: z.string(),
   /** The requirement this responds to, when it responds to one. */
   respondsToRequirementId: z.string().nullable().default(null),
+  /**
+   * What KIND of form this is.
+   *
+   * `generic-model-template` is a regulator's model document that a plan MAY
+   * accept. It is not the plan's own form, and describing it as "this plan's
+   * submission route" overstates it: many plans publish their own form and
+   * some require it. A working URL proves the template is available, not that
+   * this plan accepts it.
+   *
+   * `plan-specific-form` is the named plan's own published form, established
+   * as such from the plan's own materials.
+   */
+  formType: z
+    .enum(["generic-model-template", "plan-specific-form", "not-a-form"])
+    .default("not-a-form"),
   /** Official form, when the source names one. */
   formTitle: z.string().nullable().default(null),
   formUrl: z.string().nullable().default(null),
+  /**
+   * Whether this route is established for the SPECIFIC plan in question.
+   *
+   * A federally standardised process applies to the market segment; it does
+   * not establish which form a given sponsor accepts or where it wants it sent.
+   */
+  routeApplicability: z
+    .enum([
+      "verified-for-this-plan",
+      "market-segment-standard-plan-form-may-differ",
+      "applicability-unresolved",
+    ])
+    .default("applicability-unresolved"),
   /** Official portal or submission route. */
   submissionUrl: z.string().nullable().default(null),
   submissionFax: z.string().nullable().default(null),
@@ -263,6 +291,92 @@ export const AccessPolicySchema = z.object({
 
   applicability: PolicyApplicabilitySchema,
   applicabilityRationale: z.string(),
+
+  /**
+   * Which published version this policy describes, and whether it is in force.
+   *
+   * `currently-effective` is the only value a consumer may present as today's
+   * coverage.
+   */
+  sourceEffectivity: z.object({
+    documentVersion: z.string(),
+    effectiveDate: z.string().nullable(),
+    status: z.enum(["currently-effective", "upcoming", "superseded", "not-applicable"]),
+    asOfDate: z.string(),
+    note: z.string(),
+  }),
+
+  /**
+   * Differences in the NEXT published version that affect this product.
+   *
+   * Carried alongside, never merged into `listingStatus` or `requirements`.
+   * Until `takesEffectOn`, the current fields are the coverage.
+   */
+  upcomingChanges: z
+    .array(
+      z.object({
+        takesEffectOn: z.string(),
+        documentVersion: z.string(),
+        summary: z.string(),
+        previousValue: z.string(),
+        newValue: z.string(),
+        locator: z.string().nullable(),
+      })
+    )
+    .default([]),
+
+  /**
+   * Corroboration from a SEPARATE document by the same authority.
+   *
+   * Position and typography inside one PDF are two encodings of one decision
+   * in one file; their agreement checks the parser, not the fact. Real
+   * corroboration requires a different document.
+   */
+  independentCorroboration: z
+    .object({
+      result: z.enum([
+        "corroborated-preferred",
+        "consistent-with-non-preferred",
+        "contradicted",
+        "not-checked",
+        "not-applicable-drug-absent-from-pdl",
+      ]),
+      documentTitle: z.string(),
+      documentVersion: z.string(),
+      documentUrl: z.string(),
+      contentHash: z.string(),
+      effectiveDate: z.string(),
+      quotation: z.string().nullable(),
+      locator: z.string().nullable(),
+      note: z.string(),
+    })
+    .nullable()
+    .default(null),
+
+  /**
+   * How each extraction disagreement touching this product was resolved.
+   *
+   * Recorded so a reviewer can see that a dispute was decided, and on what
+   * basis, rather than silently going one way.
+   */
+  extractionDisputes: z
+    .array(
+      z.object({
+        locator: z.string(),
+        disputed: z.string(),
+        resolution: z.string(),
+        basis: z.string(),
+      })
+    )
+    .default([]),
+
+  /**
+   * Scope this policy must not be applied beyond.
+   *
+   * Rendered prominently, because a Medicaid fee-for-service finding says
+   * nothing about a managed care plan and the two are easy to conflate.
+   */
+  scopeWarning: z.string(),
 
   listingStatus: z.enum([
     "preferred",
@@ -342,6 +456,17 @@ export const SourceChangeSchema = z.object({
     statedText: z.string().nullable(),
     locator: z.string().nullable(),
   }),
+  /**
+   * Whether this difference is ALREADY IN FORCE or still to come.
+   *
+   * Publishers issue a formulary weeks before it takes effect, so a diff
+   * between the newest two published documents is usually a diff between
+   * today's rules and next quarter's. Presenting that as a change that has
+   * happened states future coverage as current.
+   */
+  effectiveStatus: z.enum(["in-effect", "upcoming"]),
+  /** The date the newer side takes (or took) effect. */
+  takesEffectOn: z.string().nullable(),
   /** Parser build that produced both sides. Differing versions void a diff. */
   parserVersion: z.string(),
   verification: z.enum(["verified-against-both-documents", "unverified", "needs-human-review"]),

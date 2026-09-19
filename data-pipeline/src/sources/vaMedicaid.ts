@@ -83,6 +83,89 @@ export const VA_PDL_VERSIONS: VaPdlVersionRef[] = [
   },
 ];
 
+/* ---------------------------------------------------------- effectivity */
+
+/**
+ * Where a published version sits relative to a reference date.
+ *
+ * Virginia publishes each quarterly PDL WEEKS BEFORE it takes effect, and the
+ * superseded versions stay online. "Latest published" and "currently in
+ * effect" are therefore different documents for much of every quarter, and
+ * taking the newest file as current states tomorrow's coverage as today's.
+ *
+ * This is not hypothetical: on 2026-09-19 the newest published PDL was
+ * effective 2026-10-01, twelve days away. Cinryze is Preferred under the
+ * document in force and Non-Preferred under the one that follows it.
+ */
+export type VersionEffectivity = "currently-effective" | "upcoming" | "superseded";
+
+export interface ClassifiedVersion {
+  ref: VaPdlVersionRef;
+  effectivity: VersionEffectivity;
+  /** Days until it takes effect; zero or negative once in force. */
+  daysUntilEffective: number;
+}
+
+function dayDiff(fromIso: string, toIso: string): number {
+  const a = Date.parse(`${fromIso}T00:00:00Z`);
+  const b = Date.parse(`${toIso}T00:00:00Z`);
+  return Math.round((a - b) / 86_400_000);
+}
+
+/**
+ * Classifies published versions against a reference date.
+ *
+ * The currently effective version is the one with the LATEST effective date
+ * that is not in the future. Anything later is upcoming; anything earlier is
+ * superseded.
+ */
+export function classifyVersions(
+  refs: VaPdlVersionRef[],
+  asOf: string
+): ClassifiedVersion[] {
+  const dated = refs
+    .map((ref) => ({ ref, days: dayDiff(ref.effectiveDate, asOf) }))
+    .sort((a, b) => b.ref.effectiveDate.localeCompare(a.ref.effectiveDate));
+
+  const inForce = dated.filter((d) => d.days <= 0);
+  const currentEffectiveDate = inForce[0]?.ref.effectiveDate ?? null;
+
+  return dated.map(({ ref, days }) => ({
+    ref,
+    daysUntilEffective: days,
+    effectivity:
+      days > 0
+        ? "upcoming"
+        : ref.effectiveDate === currentEffectiveDate
+          ? "currently-effective"
+          : "superseded",
+  }));
+}
+
+/**
+ * The version in force on `asOf`.
+ *
+ * Returns null when every published version is still in the future, rather
+ * than falling back to one of them.
+ */
+export function currentlyEffectiveVersion(
+  refs: VaPdlVersionRef[],
+  asOf: string
+): ClassifiedVersion | null {
+  return classifyVersions(refs, asOf).find((v) => v.effectivity === "currently-effective") ?? null;
+}
+
+/** The next version to take effect after `asOf`, if one is published. */
+export function upcomingVersion(
+  refs: VaPdlVersionRef[],
+  asOf: string
+): ClassifiedVersion | null {
+  const upcoming = classifyVersions(refs, asOf)
+    .filter((v) => v.effectivity === "upcoming")
+    .sort((a, b) => a.ref.effectiveDate.localeCompare(b.ref.effectiveDate));
+  return upcoming[0] ?? null;
+}
+
 export function vaPdlUrl(slug: string): string {
   return `${VA_PDL_DOC_BASE}/${slug}.pdf`;
 }
@@ -637,6 +720,167 @@ export function findInPdl(blocks: PdlClassBlock[], term: string): PdlMatch {
         "listing. Column membership, drug class and page number ARE verified and can be relied on.",
     },
     classes: [...classes],
+  };
+}
+
+/* ------------------------------------------- independent corroboration */
+
+/**
+ * The publisher's separate "QuickList" document.
+ *
+ * WHY THIS EXISTS
+ *
+ * Column position and typography both come from the SAME PDF. They are two
+ * encodings of one publisher decision inside one file, so agreement between
+ * them is a consistency check on the parser, NOT independent corroboration of
+ * the fact. If that file were wrong, or parsed wrongly in a way that affected
+ * both, they would agree and still be wrong.
+ *
+ * The QuickList is a different document, differently laid out, listing ONLY
+ * preferred agents grouped by therapeutic category. It has no non-preferred
+ * column at all. So for a drug in the full PDL:
+ *
+ *   present in QuickList  -> the publisher calls it preferred
+ *   absent from QuickList -> the publisher does not call it preferred
+ *
+ * That is a genuinely separate statement by the same authority, and it is what
+ * the pipeline uses to corroborate a preferred/non-preferred assignment.
+ *
+ * Absence is weaker than presence and is reported as such: the QuickList also
+ * omits drugs outside the PDL's selected classes entirely.
+ */
+export interface VaQuickListRef {
+  slug: string;
+  effectiveDate: string;
+  version: string;
+}
+
+export const VA_QUICKLIST_VERSIONS: VaQuickListRef[] = [
+  { slug: "VAmed-PDLquick-20261001-v1", effectiveDate: "2026-10-01", version: "v1" },
+  { slug: "VAmed-PDLquick-20260701-v3", effectiveDate: "2026-07-01", version: "v3" },
+];
+
+export type CorroborationResult =
+  /** The QuickList lists it, so the publisher separately calls it preferred. */
+  | "corroborated-preferred"
+  /** Absent from a preferred-only list: consistent with non-preferred. */
+  | "consistent-with-non-preferred"
+  /** The two documents disagree. Surfaced, never silently resolved. */
+  | "contradicted"
+  /** No QuickList of a matching effective date was retrieved. */
+  | "not-checked"
+  /**
+   * The full PDL does not address this drug at all, so a preferred-only list
+   * omitting it adds nothing. Absence from both is not evidence of anything.
+   */
+  | "not-applicable-drug-absent-from-pdl";
+
+export interface Corroboration {
+  result: CorroborationResult;
+  /** The separate document consulted. */
+  documentTitle: string;
+  documentVersion: string;
+  documentUrl: string;
+  contentHash: string;
+  effectiveDate: string;
+  /** The matching line, when found. */
+  quotation: string | null;
+  locator: string | null;
+  note: string;
+}
+
+/**
+ * Checks a drug name against the QuickList for the same effective date.
+ *
+ * `expected` is what the full PDL said, so a disagreement can be detected
+ * rather than averaged away.
+ */
+export async function corroborateAgainstQuickList(
+  term: string,
+  expected: PdlStatus,
+  effectiveDate: string
+): Promise<Corroboration> {
+  const ref = VA_QUICKLIST_VERSIONS.find((v) => v.effectiveDate === effectiveDate);
+  const base = {
+    documentTitle: "Virginia PDL / Common Core Formulary QuickList (preferred agents only)",
+    documentVersion: ref ? `${ref.effectiveDate} ${ref.version}` : "none",
+    documentUrl: ref ? vaPdlUrl(ref.slug) : VA_PDL_LANDING,
+    effectiveDate,
+  };
+
+  if (!ref) {
+    return {
+      ...base,
+      result: "not-checked",
+      contentHash: "",
+      quotation: null,
+      locator: null,
+      note:
+        `No QuickList with effective date ${effectiveDate} is in the catalogue, so the full ` +
+        "PDL's assignment was not corroborated against a second document.",
+    };
+  }
+
+  const bytes = await fetchBinary(vaPdlUrl(ref.slug), { label: "quicklist" });
+  const doc = await parsePdf(bytes, { url: vaPdlUrl(ref.slug) });
+
+  const needle = term.toLowerCase();
+  let hit: { text: string; page: number } | null = null;
+  for (const page of doc.pages) {
+    for (const line of page.lines) {
+      if (line.text.toLowerCase().includes(needle)) {
+        hit = { text: line.text, page: page.pageNumber };
+        break;
+      }
+    }
+    if (hit) break;
+  }
+
+  const present = hit !== null;
+  const expectedPreferred = expected === "preferred" || expected === "appears-in-both-columns";
+
+  let result: CorroborationResult;
+  let note: string;
+  if (expected === "not-addressed-in-this-document") {
+    // The full PDL never mentions this drug, so a preferred-only list omitting
+    // it is expected and corroborates nothing. Reporting that absence as
+    // "consistent with non-preferred" would manufacture agreement about a
+    // status the documents never assign.
+    result = "not-applicable-drug-absent-from-pdl";
+    note =
+      "The full PDL does not address this drug, and the QuickList lists only preferred agents, " +
+      "so its absence there is expected and adds no evidence. Neither document assigns this " +
+      "drug a preference status, and neither says it is not covered.";
+  } else if (present && expectedPreferred) {
+    result = "corroborated-preferred";
+    note =
+      "The QuickList, a separate preferred-agents-only document, lists this drug. Two " +
+      "independent documents by the same authority agree it is preferred.";
+  } else if (!present && !expectedPreferred) {
+    result = "consistent-with-non-preferred";
+    note =
+      "The QuickList lists only preferred agents and does not list this drug, which is " +
+      "consistent with the full PDL placing it in the Non-Preferred column. Absence is weaker " +
+      "evidence than presence: the QuickList also omits drugs outside the PDL's selected classes.";
+  } else if (present && !expectedPreferred) {
+    result = "contradicted";
+    note =
+      "DISAGREEMENT: the full PDL places this drug in the Non-Preferred column, but the " +
+      "preferred-only QuickList lists it. Do not present either as settled; read both documents.";
+  } else {
+    result = "contradicted";
+    note =
+      "DISAGREEMENT: the full PDL places this drug in the Preferred column, but the " +
+      "preferred-only QuickList does not list it. Do not present either as settled.";
+  }
+
+  return {
+    ...base,
+    result,
+    contentHash: doc.sha256,
+    quotation: hit?.text ?? null,
+    locator: hit ? `page ${hit.page}` : null,
+    note,
   };
 }
 

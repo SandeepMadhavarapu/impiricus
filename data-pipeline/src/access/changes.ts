@@ -101,6 +101,17 @@ function idFor(parts: string[]): string {
 export interface CompareOptions {
   category: SourceChange["category"];
   productKeyFor?: (item: ComparableItem) => string | null;
+  /**
+   * Whether the newer side is already in force.
+   *
+   * Publishers issue a formulary weeks before it takes effect, so the newest
+   * two published documents usually straddle the present: the older one is the
+   * coverage in force and the newer one is next quarter's. Passing "upcoming"
+   * keeps that distinction on every record produced.
+   */
+  effectiveStatus: SourceChange["effectiveStatus"];
+  /** The date the newer side takes (or took) effect. */
+  takesEffectOn: string | null;
 }
 
 /**
@@ -133,6 +144,8 @@ export function compareSnapshots(
         changes.push(
           build({
             category: opts.category,
+            effectiveStatus: opts.effectiveStatus,
+            takesEffectOn: opts.takesEffectOn,
             nature: parserDiffers ? "parser-induced" : "formatting-only",
             subjectLabel: b.subjectLabel,
             productKey: opts.productKeyFor?.(b) ?? null,
@@ -156,6 +169,8 @@ export function compareSnapshots(
       changes.push(
         build({
           category: opts.category,
+          effectiveStatus: opts.effectiveStatus,
+          takesEffectOn: opts.takesEffectOn,
           nature: parserDiffers ? "ambiguous-needs-review" : "source-content",
           subjectLabel: b.subjectLabel,
           productKey: opts.productKeyFor?.(b) ?? null,
@@ -167,7 +182,10 @@ export function compareSnapshots(
             ? `Value moved from "${a.value}" to "${b.value}", but the sides were produced by ` +
               `different parser builds (${previous.parserVersion} vs ${current.parserVersion}). ` +
               "Cannot be attributed to the publisher without re-running both with one build."
-            : `Value moved from "${a.value}" to "${b.value}" between published versions.`,
+            : opts.effectiveStatus === "upcoming"
+              ? `Value is "${a.value}" in the version currently in force and becomes "${b.value}" ` +
+                `in the version effective ${opts.takesEffectOn ?? "later"}. It has NOT changed yet.`
+              : `Value moved from "${a.value}" to "${b.value}" between published versions.`,
           verification: parserDiffers ? "needs-human-review" : "verified-against-both-documents",
         })
       );
@@ -180,6 +198,8 @@ export function compareSnapshots(
     changes.push(
       build({
         category: opts.category,
+        effectiveStatus: opts.effectiveStatus,
+        takesEffectOn: opts.takesEffectOn,
         nature: parserDiffers ? "ambiguous-needs-review" : "source-content",
         subjectLabel: present.subjectLabel,
         productKey: opts.productKeyFor?.(present) ?? null,
@@ -206,6 +226,8 @@ export function compareSnapshots(
 function build(args: {
   category: SourceChange["category"];
   nature: SourceChange["nature"];
+  effectiveStatus: SourceChange["effectiveStatus"];
+  takesEffectOn: string | null;
   subjectLabel: string;
   productKey: string | null;
   previous: VersionSnapshot;
@@ -221,6 +243,8 @@ function build(args: {
     nature: args.nature,
     subjectLabel: args.subjectLabel,
     productKey: args.productKey,
+    effectiveStatus: args.effectiveStatus,
+    takesEffectOn: args.takesEffectOn,
     previous: {
       documentVersion: args.previous.documentVersion,
       effectiveDate: args.previous.effectiveDate,

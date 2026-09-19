@@ -20,10 +20,17 @@
  *   insurer-identified      we know the carrier, nothing about the benefit
  *   routing-identified      we know where claims route; not which plan
  *   plan-family-identified  we know a group of plans; still ambiguous
- *   exact-plan-identified   one plan in one year, and coverage may be shown
+ *   exact-plan-identified   one plan, one year - the plan question is settled
  *
- * Only the last licenses a coverage answer. Everything else returns candidates
- * and the fields still needed.
+ * Reaching the last level is NECESSARY BUT NOT SUFFICIENT for showing that
+ * plan's formulary evidence. It settles which plan someone holds; it says
+ * nothing about whether we hold usable evidence for that plan. Four further
+ * conditions have to hold - a verified plan-to-formulary relationship, a
+ * medication match at a granularity that actually covers this product, a plan
+ * year and source version that are applicable, and a lookup that returned
+ * usable evidence. `mayDisplayFormularyEvidence` checks all five together.
+ *
+ * Under no combination does any of this verify a person's benefits.
  *
  * PRIVACY
  *
@@ -71,7 +78,14 @@ export interface CardMatchEvidence {
 
 export interface CardMatchResult {
   level: CardResolutionLevel;
-  /** True only at exact-plan-identified. Gate coverage lookups on this. */
+  /**
+   * True only at exact-plan-identified.
+   *
+   * NECESSARY BUT NOT SUFFICIENT for showing a plan's formulary evidence.
+   * Knowing which plan someone holds says nothing about whether we hold usable
+   * evidence for it. Call `mayDisplayFormularyEvidence` before displaying
+   * anything; this flag only says the plan question is settled.
+   */
   mayLookUpCoverage: boolean;
   /** Plans consistent with the fields supplied. */
   candidates: Array<{ planKey: string; planName: string | null; formularyId: string | null }>;
@@ -333,5 +347,165 @@ export function matchCard(
         : "No usable plan identifiers were supplied.",
     ignoredPersonalFields,
     requiresUserSelection: false,
+  };
+}
+
+
+/* ------------------------------------------------------- display gating */
+
+/**
+ * Everything that must hold before a plan's formulary evidence may be shown.
+ *
+ * Resolving the plan is one of five conditions, not the decision. The others
+ * fail independently and for unrelated reasons: the plan record may not carry
+ * a formulary id, the evidence may be for a different formulary, the match may
+ * be at ingredient level rather than this product, the evidence may be for
+ * another plan year, or the source document may not be in force yet.
+ */
+export interface FormularyDisplayContext {
+  /** From CardMatchResult.level. */
+  planResolvedExactly: boolean;
+  /** Formulary id recorded on the PLAN record. */
+  formularyIdOnPlanRecord: string | null;
+  /** Formulary id recorded on the EVIDENCE row. */
+  formularyIdOnEvidence: string | null;
+  /** How closely the listed concept matches this product. */
+  medicationMatchGranularity:
+    | "exact-product"
+    | "clinical-drug"
+    | "ingredient"
+    | "drug-class"
+    | "ambiguous-text"
+    | null;
+  /** The year the caller is asking about. */
+  requestedPlanYear: number;
+  /** The year the evidence belongs to. */
+  evidencePlanYear: number | null;
+  /** Whether the source document is in force. */
+  sourceEffectivity: "currently-effective" | "upcoming" | "superseded" | "not-applicable";
+  /** The coverage state the lookup returned. */
+  coverageState: string;
+}
+
+export interface FormularyDisplayDecision {
+  mayDisplay: boolean;
+  /** Conditions that failed. Each one alone prevents display. */
+  blockedBy: string[];
+  /** Conditions that passed but constrain HOW it may be shown. */
+  cautions: string[];
+  /**
+   * Always false. Nothing in this pipeline verifies a person's actual
+   * benefits, and resolving their plan does not begin to.
+   */
+  personalBenefitsVerified: false;
+  explanation: string;
+}
+
+/** States that mean we do not hold usable evidence. */
+const UNUSABLE_COVERAGE_STATES = new Set([
+  "source-unavailable",
+  "ambiguous-plan",
+  "ambiguous-drug",
+  "stale-source",
+]);
+
+/**
+ * Decides whether plan-specific formulary evidence may be displayed.
+ *
+ * Every condition is checked independently and all failures are reported, so a
+ * caller sees the whole reason rather than the first one.
+ */
+export function mayDisplayFormularyEvidence(
+  ctx: FormularyDisplayContext
+): FormularyDisplayDecision {
+  const blockedBy: string[] = [];
+  const cautions: string[] = [];
+
+  if (!ctx.planResolvedExactly) {
+    blockedBy.push(
+      "The plan is not resolved to exactly one contract, plan and segment in a known year."
+    );
+  }
+
+  // A plan-to-formulary relationship has to be established, not assumed.
+  if (!ctx.formularyIdOnPlanRecord) {
+    blockedBy.push(
+      "The plan record carries no formulary id, so no formulary can be attributed to it."
+    );
+  } else if (!ctx.formularyIdOnEvidence) {
+    blockedBy.push("The evidence row carries no formulary id, so it cannot be tied to this plan.");
+  } else if (ctx.formularyIdOnPlanRecord !== ctx.formularyIdOnEvidence) {
+    blockedBy.push(
+      `The evidence is for formulary ${ctx.formularyIdOnEvidence} but this plan uses ` +
+        `${ctx.formularyIdOnPlanRecord}. It is another plan's drug list.`
+    );
+  }
+
+  switch (ctx.medicationMatchGranularity) {
+    case null:
+      blockedBy.push("No medication match was recorded.");
+      break;
+    case "ambiguous-text":
+      blockedBy.push(
+        "The formulary entry is free text that could not be resolved to a drug concept."
+      );
+      break;
+    case "drug-class":
+      blockedBy.push(
+        "The match is at drug-class level, which does not establish that this product is listed."
+      );
+      break;
+    case "ingredient":
+      cautions.push(
+        "The match is at INGREDIENT level. It does not establish that this strength, form or " +
+          "brand is listed. Say so wherever it is shown."
+      );
+      break;
+    case "clinical-drug":
+      cautions.push(
+        "The match is a generic clinical-drug concept, NOT the branded product. A generic " +
+          "listing does not establish that the brand is listed."
+      );
+      break;
+    case "exact-product":
+      break;
+  }
+
+  if (ctx.evidencePlanYear === null) {
+    blockedBy.push("The evidence carries no plan year, so its applicability cannot be checked.");
+  } else if (ctx.evidencePlanYear !== ctx.requestedPlanYear) {
+    blockedBy.push(
+      `The evidence is for plan year ${ctx.evidencePlanYear} but ${ctx.requestedPlanYear} was ` +
+        "requested. Coverage is defined per plan year."
+    );
+  }
+
+  if (ctx.sourceEffectivity === "upcoming") {
+    blockedBy.push(
+      "The source document is not in force yet. Showing it as current coverage would state " +
+        "future rules as today's."
+    );
+  } else if (ctx.sourceEffectivity === "superseded") {
+    blockedBy.push("The source document has been superseded by a newer effective version.");
+  } else if (ctx.sourceEffectivity === "not-applicable") {
+    blockedBy.push("The source document's effectivity was not established.");
+  }
+
+  if (UNUSABLE_COVERAGE_STATES.has(ctx.coverageState)) {
+    blockedBy.push(`The lookup returned "${ctx.coverageState}", so no usable evidence was found.`);
+  }
+
+  const mayDisplay = blockedBy.length === 0;
+  return {
+    mayDisplay,
+    blockedBy,
+    cautions,
+    personalBenefitsVerified: false,
+    explanation: mayDisplay
+      ? "Published formulary evidence for this plan and product may be shown" +
+        (cautions.length > 0 ? ", with the cautions attached." : ".") +
+        " This remains what the plan PUBLISHES. It is not this person's benefit, and nothing " +
+        "here establishes their enrolment, eligibility, approval or cost."
+      : "Plan-specific formulary evidence must not be displayed: " + blockedBy.join(" "),
   };
 }

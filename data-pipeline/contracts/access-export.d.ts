@@ -162,6 +162,21 @@ export interface AccessAction {
   basis: ActionBasis;
   action: string;
   respondsToRequirementId: string | null;
+  /**
+   * What KIND of form this is.
+   *
+   * `generic-model-template` is a regulator's MODEL document that a plan may
+   * accept. It is NOT the plan's own form. Many sponsors publish their own and
+   * some require it, so rendering a template as "this plan's submission route"
+   * overstates what is known. A working `formUrl` proves the template is
+   * AVAILABLE; it says nothing about whether this plan ACCEPTS it.
+   */
+  formType: "generic-model-template" | "plan-specific-form" | "not-a-form";
+  /** Whether this route is established for the SPECIFIC plan. */
+  routeApplicability:
+    | "verified-for-this-plan"
+    | "market-segment-standard-plan-form-may-differ"
+    | "applicability-unresolved";
   formTitle: string | null;
   formUrl: string | null;
   submissionUrl: string | null;
@@ -212,6 +227,76 @@ export interface AccessPolicy {
 
   applicability: PolicyApplicability;
   applicabilityRationale: string;
+
+  /**
+   * Which published version this describes, and whether it is in force.
+   *
+   * ONLY `currently-effective` may be presented as today's coverage.
+   * Publishers issue a formulary weeks before it takes effect and keep
+   * superseded versions online, so the newest published file is usually NOT
+   * the one in force.
+   */
+  sourceEffectivity: {
+    documentVersion: string;
+    effectiveDate: string | null;
+    status: "currently-effective" | "upcoming" | "superseded" | "not-applicable";
+    asOfDate: string;
+    note: string;
+  };
+
+  /**
+   * Differences in the NEXT published version affecting this product.
+   *
+   * Carried alongside, never merged into `listingStatus` or `requirements`.
+   * Until `takesEffectOn`, the current fields ARE the coverage.
+   */
+  upcomingChanges: Array<{
+    takesEffectOn: string;
+    documentVersion: string;
+    summary: string;
+    previousValue: string;
+    newValue: string;
+    locator: string | null;
+  }>;
+
+  /**
+   * Corroboration from a SEPARATE document by the same authority.
+   *
+   * Position and typography inside one PDF are two encodings of one decision
+   * in one file; their agreement checks the parser, not the fact.
+   */
+  independentCorroboration: {
+    result:
+      | "corroborated-preferred"
+      | "consistent-with-non-preferred"
+      | "contradicted"
+      | "not-checked"
+      | "not-applicable-drug-absent-from-pdl";
+    documentTitle: string;
+    documentVersion: string;
+    documentUrl: string;
+    contentHash: string;
+    effectiveDate: string;
+    quotation: string | null;
+    locator: string | null;
+    note: string;
+  } | null;
+
+  /** How each extraction disagreement touching this product was resolved. */
+  extractionDisputes: Array<{
+    locator: string;
+    disputed: string;
+    resolution: string;
+    basis: string;
+  }>;
+
+  /**
+   * Scope this must not be applied beyond. RENDER THIS PROMINENTLY.
+   *
+   * A Medicaid fee-for-service finding says nothing about a managed care plan,
+   * and most Medicaid members are in managed care.
+   */
+  scopeWarning: string;
 
   listingStatus: ListingStatus;
   /** Plain sentence matched to the status. Safe to render. */
@@ -288,6 +373,16 @@ export interface SourceChange {
   nature: ChangeNature;
   subjectLabel: string;
   productKey: string | null;
+  /**
+   * Whether this difference is ALREADY IN FORCE or still to come.
+   *
+   * A diff between the newest two published documents is usually a diff
+   * between today's rules and next quarter's. `upcoming` means it has NOT
+   * happened; do not present it as a change that has occurred.
+   */
+  effectiveStatus: "in-effect" | "upcoming";
+  /** The date the newer side takes (or took) effect. */
+  takesEffectOn: string | null;
   previous: {
     documentVersion: string;
     effectiveDate: string | null;
@@ -382,7 +477,13 @@ export interface InsuranceCardFields {
 
 export interface CardMatchResult {
   level: CardResolutionLevel;
-  /** True only at exact-plan-identified. Gate coverage lookups on this. */
+  /**
+   * True only at exact-plan-identified.
+   *
+   * NECESSARY BUT NOT SUFFICIENT. It settles WHICH PLAN someone holds; it says
+   * nothing about whether usable evidence exists for that plan. Call
+   * `mayDisplayFormularyEvidence` before displaying anything.
+   */
   mayLookUpCoverage: boolean;
   candidates: Array<{ planKey: string; planName: string | null; formularyId: string | null }>;
   missingFields: string[];
@@ -397,3 +498,46 @@ export interface CardMatchResult {
   ignoredPersonalFields: string[];
   requiresUserSelection: boolean;
 }
+
+/**
+ * The five conditions that must ALL hold before plan-specific formulary
+ * evidence may be displayed.
+ *
+ * Resolving the plan is one of them, not the decision. The others fail
+ * independently: the plan record may carry no formulary id, the evidence may
+ * belong to a different formulary, the match may be at ingredient or class
+ * level rather than this product, the evidence may be for another plan year,
+ * or the source version may not be in force yet.
+ */
+export interface FormularyDisplayContext {
+  planResolvedExactly: boolean;
+  formularyIdOnPlanRecord: string | null;
+  formularyIdOnEvidence: string | null;
+  medicationMatchGranularity: MatchGranularity | null;
+  requestedPlanYear: number;
+  evidencePlanYear: number | null;
+  sourceEffectivity: "currently-effective" | "upcoming" | "superseded" | "not-applicable";
+  coverageState: string;
+}
+
+export interface FormularyDisplayDecision {
+  mayDisplay: boolean;
+  /** Conditions that failed. Each one alone prevents display. */
+  blockedBy: string[];
+  /** Conditions that passed but constrain HOW it may be shown. */
+  cautions: string[];
+  /**
+   * Always false, whatever else holds. Nothing in this pipeline verifies a
+   * person's actual benefits, and resolving their plan does not begin to.
+   */
+  personalBenefitsVerified: false;
+  explanation: string;
+}
+
+/** Granularity of a formulary match; re-declared here for convenience. */
+export type MatchGranularity =
+  | "exact-product"
+  | "clinical-drug"
+  | "ingredient"
+  | "drug-class"
+  | "ambiguous-text";

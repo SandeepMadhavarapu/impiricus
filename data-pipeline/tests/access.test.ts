@@ -11,7 +11,18 @@ import {
   type ColumnBoundaries,
   type PdlCell,
 } from "@pipeline/sources/vaMedicaid.js";
-import { matchCard, redactForLog } from "@pipeline/access/cardMatch.js";
+import {
+  matchCard,
+  redactForLog,
+  mayDisplayFormularyEvidence,
+  type FormularyDisplayContext,
+} from "@pipeline/access/cardMatch.js";
+import {
+  classifyVersions,
+  currentlyEffectiveVersion,
+  upcomingVersion,
+  type VaPdlVersionRef,
+} from "@pipeline/sources/vaMedicaid.js";
 import {
   compareSnapshots,
   entryKey,
@@ -47,7 +58,11 @@ describe("PDL column semantics", () => {
     expect(columnFor(375, BOUNDS)).not.toBe("non-preferred");
   });
 
-  it("reads typography as an independent signal of preference", () => {
+  /**
+   * Typography is a SECOND ENCODING inside the same file, not a second source.
+   * It checks the parser; it cannot corroborate the fact.
+   */
+  it("reads typography as a parser cross-check, not as corroboration", () => {
     expect(typographyHint([{ text: "montelukast", bold: true, italic: false }])).toBe(
       "preferred-bold"
     );
@@ -266,7 +281,7 @@ describe("source change detection", () => {
       documentVersion: "v2",
       contentHash: "bbb",
     };
-    const changes = compareSnapshots(a, b, { category: "preference-status" });
+    const changes = compareSnapshots(a, b, { category: "preference-status", effectiveStatus: "in-effect", takesEffectOn: null });
     expect(changes).toHaveLength(0);
   });
 
@@ -277,7 +292,7 @@ describe("source change detection", () => {
       documentVersion: "v2",
       contentHash: "bbb",
     };
-    const changes = compareSnapshots(a, b, { category: "preference-status" });
+    const changes = compareSnapshots(a, b, { category: "preference-status", effectiveStatus: "in-effect", takesEffectOn: null });
     expect(changes).toHaveLength(1);
     expect(changes[0]!.nature).toBe("source-content");
     expect(changes[0]!.note).toMatch(/preferred.*non-preferred/i);
@@ -291,7 +306,7 @@ describe("source change detection", () => {
       documentVersion: "v2",
       contentHash: "bbb",
     };
-    const changes = compareSnapshots(a, b, { category: "preference-status" });
+    const changes = compareSnapshots(a, b, { category: "preference-status", effectiveStatus: "in-effect", takesEffectOn: null });
     expect(changes[0]!.nature).toBe("ambiguous-needs-review");
     expect(changes[0]!.verification).toBe("needs-human-review");
   });
@@ -299,7 +314,7 @@ describe("source change detection", () => {
   it("never marks a change as a patient notification", () => {
     const a = base([item("x", "preferred", "X")]);
     const b = { ...base([item("x", "non-preferred", "X")]), contentHash: "bbb" };
-    for (const c of compareSnapshots(a, b, { category: "preference-status" })) {
+    for (const c of compareSnapshots(a, b, { category: "preference-status", effectiveStatus: "in-effect", takesEffectOn: null })) {
       expect(c.isPatientNotification).toBe(false);
     }
   });
@@ -307,7 +322,7 @@ describe("source change detection", () => {
   it("says removal is not exclusion", () => {
     const a = base([item("x", "preferred", "X")]);
     const b = { ...base([]), contentHash: "bbb" };
-    const changes = compareSnapshots(a, b, { category: "formulary-listing" });
+    const changes = compareSnapshots(a, b, { category: "formulary-listing", effectiveStatus: "in-effect", takesEffectOn: null });
     expect(changes[0]!.note).toMatch(/NOT the same as exclusion/i);
   });
 
@@ -319,9 +334,249 @@ describe("source change detection", () => {
   it("summarises by nature", () => {
     const a = base([item("x", "preferred", "X")]);
     const b = { ...base([item("x", "non-preferred", "X")]), contentHash: "bbb" };
-    const s = summarizeChanges(compareSnapshots(a, b, { category: "preference-status" }));
+    const s = summarizeChanges(compareSnapshots(a, b, { category: "preference-status", effectiveStatus: "in-effect", takesEffectOn: null }));
     expect(s["source-content"]).toBe(1);
     expect(s["formatting-only"]).toBe(0);
+  });
+});
+
+describe("published-version effectivity", () => {
+  const refs: VaPdlVersionRef[] = [
+    {
+      slug: "later",
+      effectiveDate: "2026-10-01",
+      version: "v2",
+      expectedFooterVersion: "10/01/2026 v2",
+    },
+    {
+      slug: "earlier",
+      effectiveDate: "2026-07-01",
+      version: "v4",
+      expectedFooterVersion: "07/01/2026 v4",
+    },
+  ];
+
+  /**
+   * The defect this pins: Virginia publishes each quarterly PDL weeks before
+   * it takes effect. Taking the newest published file as current coverage
+   * states next quarter's rules as today's.
+   */
+  it("does not treat the newest published version as current", () => {
+    const cur = currentlyEffectiveVersion(refs, "2026-09-19");
+    expect(cur?.ref.effectiveDate).toBe("2026-07-01");
+    expect(cur?.ref.effectiveDate).not.toBe("2026-10-01");
+  });
+
+  it("marks a future-dated version upcoming, with days remaining", () => {
+    const next = upcomingVersion(refs, "2026-09-19");
+    expect(next?.ref.effectiveDate).toBe("2026-10-01");
+    expect(next?.daysUntilEffective).toBe(12);
+    expect(next?.effectivity).toBe("upcoming");
+  });
+
+  it("switches over once the effective date arrives", () => {
+    expect(currentlyEffectiveVersion(refs, "2026-10-01")?.ref.effectiveDate).toBe("2026-10-01");
+    expect(upcomingVersion(refs, "2026-10-01")).toBeNull();
+  });
+
+  it("classifies an older version as superseded", () => {
+    const all = classifyVersions(refs, "2026-10-02");
+    expect(all.find((v) => v.ref.effectiveDate === "2026-07-01")?.effectivity).toBe("superseded");
+  });
+
+  it("returns null rather than falling back when everything is future-dated", () => {
+    expect(currentlyEffectiveVersion(refs, "2026-01-01")).toBeNull();
+  });
+});
+
+describe("the committed exports separate current coverage from upcoming", () => {
+  const read = async () =>
+    JSON.parse(
+      await readFile(
+        path.join(process.cwd(), "data", "exports", "access", "access-policies.json"),
+        "utf8"
+      )
+    );
+
+  it("builds every Virginia policy from the version in force", async () => {
+    const a = await read();
+    const va = a.policies.filter((p: any) => p.benefitProgram === "medicaid-fee-for-service");
+    expect(va.length).toBeGreaterThan(0);
+    for (const p of va) {
+      expect(p.sourceEffectivity.status).toBe("currently-effective");
+    }
+  });
+
+  it("marks every detected change as upcoming, with its effective date", async () => {
+    const c = JSON.parse(
+      await readFile(
+        path.join(process.cwd(), "data", "exports", "access", "source-changes.json"),
+        "utf8"
+      )
+    );
+    expect(c.changes.length).toBeGreaterThan(0);
+    for (const ch of c.changes) {
+      expect(ch.effectiveStatus).toBe("upcoming");
+      expect(ch.takesEffectOn).toBeTruthy();
+      expect(ch.isPatientNotification).toBe(false);
+    }
+  });
+
+  /** Cinryze has NOT moved yet; it moves on the upcoming effective date. */
+  it("words a future preference change in the future tense", async () => {
+    const c = JSON.parse(
+      await readFile(
+        path.join(process.cwd(), "data", "exports", "access", "source-changes.json"),
+        "utf8"
+      )
+    );
+    const cinryze = c.changes.find((x: any) => /cinryze/i.test(x.subjectLabel));
+    expect(cinryze).toBeDefined();
+    expect(cinryze.note).toMatch(/currently in force/i);
+    expect(cinryze.note).toMatch(/becomes/i);
+    expect(cinryze.note).not.toMatch(/\bmoved from\b/i);
+  });
+
+  it("corroborates a column reading against a SEPARATE document", async () => {
+    const a = await read();
+    const singulair = a.policies.find(
+      (p: any) =>
+        p.benefitProgram === "medicaid-fee-for-service" && p.productKey.startsWith("singulair")
+    );
+    const c = singulair.independentCorroboration;
+    expect(c).not.toBeNull();
+    expect(c.result).toBe("consistent-with-non-preferred");
+    // A different document, not the same file read twice.
+    expect(c.documentUrl).toMatch(/PDLquick/i);
+    expect(c.documentUrl).not.toMatch(/List-Criteria/i);
+  });
+
+  /** Absence from a preferred-only list proves nothing about an absent drug. */
+  it("does not manufacture corroboration for a drug the PDL never mentions", async () => {
+    const a = await read();
+    const ozempic = a.policies.find(
+      (p: any) =>
+        p.benefitProgram === "medicaid-fee-for-service" && p.productKey.startsWith("ozempic")
+    );
+    expect(ozempic.independentCorroboration.result).toBe("not-applicable-drug-absent-from-pdl");
+    expect(ozempic.independentCorroboration.note).toMatch(/adds no evidence/i);
+  });
+
+  it("keeps Virginia fee-for-service scope prominent on every policy", async () => {
+    const a = await read();
+    for (const p of a.policies.filter(
+      (x: any) => x.benefitProgram === "medicaid-fee-for-service"
+    )) {
+      expect(p.scopeWarning).toMatch(/FEE-FOR-SERVICE ONLY/i);
+      expect(p.scopeWarning).toMatch(/managed care/i);
+    }
+  });
+
+  /** Unbound criteria must never become a drug-specific requirement. */
+  it("keeps unbound SA criteria out of requirements", async () => {
+    const a = await read();
+    for (const p of a.policies.filter(
+      (x: any) => x.benefitProgram === "medicaid-fee-for-service"
+    )) {
+      for (const r of p.requirements) {
+        expect(r.statedText).not.toMatch(/hemangioma|hemangeol/i);
+        expect(r.kind).not.toBe("clinical");
+      }
+    }
+  });
+
+  it("describes CMS model forms as templates, not the plan's own form", async () => {
+    const a = await read();
+    const partD = a.policies.filter((p: any) => p.benefitProgram === "medicare-part-d");
+    const templates = partD
+      .flatMap((p: any) => p.actions)
+      .filter((x: any) => x.formType === "generic-model-template");
+    expect(templates.length).toBeGreaterThan(0);
+    const coverage = templates.find((x: any) => x.id === "partd-coverage-determination");
+    expect(coverage.action).toMatch(/MODEL form|generic template/i);
+    expect(coverage.action).toMatch(/not this plan's form/i);
+    expect(coverage.routeApplicability).toBe("market-segment-standard-plan-form-may-differ");
+  });
+
+  it("separates what we implemented from what the source did", async () => {
+    const m = JSON.parse(
+      await readFile(
+        path.join(process.cwd(), "data", "exports", "access", "capability-manifest.json"),
+        "utf8"
+      )
+    );
+    const assistance = m.notReadyToDisplay.find((x: any) => /assistance/i.test(x.capability));
+    expect(assistance.implementationStatus).toBe("not-attempted");
+    expect(assistance.sourceAvailability).toBe("not-assessed");
+    // It must NOT claim the source was unavailable, because we never looked.
+    expect(assistance.status).not.toBe("source-unavailable");
+    expect(assistance.blocker).toMatch(/NO RETRIEVAL WAS ATTEMPTED/i);
+  });
+});
+
+describe("displaying plan-specific formulary evidence", () => {
+  const ok: FormularyDisplayContext = {
+    planResolvedExactly: true,
+    formularyIdOnPlanRecord: "00026000",
+    formularyIdOnEvidence: "00026000",
+    medicationMatchGranularity: "exact-product",
+    requestedPlanYear: 2026,
+    evidencePlanYear: 2026,
+    sourceEffectivity: "currently-effective",
+    coverageState: "conditional",
+  };
+
+  it("allows display when every condition holds", () => {
+    const d = mayDisplayFormularyEvidence(ok);
+    expect(d.mayDisplay).toBe(true);
+    expect(d.blockedBy).toHaveLength(0);
+    expect(d.personalBenefitsVerified).toBe(false);
+  });
+
+  /** The headline correction: resolving the plan is not enough on its own. */
+  it("blocks display when the plan resolves but the formulary link does not", () => {
+    const d = mayDisplayFormularyEvidence({ ...ok, formularyIdOnEvidence: "00099999" });
+    expect(d.mayDisplay).toBe(false);
+    expect(d.blockedBy.join(" ")).toMatch(/another plan's drug list/i);
+  });
+
+  it("blocks display when the plan record has no formulary at all", () => {
+    const d = mayDisplayFormularyEvidence({ ...ok, formularyIdOnPlanRecord: null });
+    expect(d.mayDisplay).toBe(false);
+  });
+
+  it("blocks a drug-class match and cautions an ingredient match", () => {
+    expect(
+      mayDisplayFormularyEvidence({ ...ok, medicationMatchGranularity: "drug-class" }).mayDisplay
+    ).toBe(false);
+    const ing = mayDisplayFormularyEvidence({ ...ok, medicationMatchGranularity: "ingredient" });
+    expect(ing.mayDisplay).toBe(true);
+    expect(ing.cautions.join(" ")).toMatch(/INGREDIENT level/i);
+  });
+
+  it("blocks a year mismatch", () => {
+    const d = mayDisplayFormularyEvidence({ ...ok, evidencePlanYear: 2025 });
+    expect(d.mayDisplay).toBe(false);
+    expect(d.blockedBy.join(" ")).toMatch(/plan year/i);
+  });
+
+  it("blocks a source document that is not in force yet", () => {
+    const d = mayDisplayFormularyEvidence({ ...ok, sourceEffectivity: "upcoming" });
+    expect(d.mayDisplay).toBe(false);
+    expect(d.blockedBy.join(" ")).toMatch(/not in force yet/i);
+  });
+
+  it("blocks an unusable lookup result", () => {
+    expect(
+      mayDisplayFormularyEvidence({ ...ok, coverageState: "source-unavailable" }).mayDisplay
+    ).toBe(false);
+  });
+
+  it("never verifies personal benefits, whatever else holds", () => {
+    for (const ctx of [ok, { ...ok, planResolvedExactly: false }]) {
+      expect(mayDisplayFormularyEvidence(ctx).personalBenefitsVerified).toBe(false);
+    }
+    expect(mayDisplayFormularyEvidence(ok).explanation).toMatch(/not this person's benefit/i);
   });
 });
 

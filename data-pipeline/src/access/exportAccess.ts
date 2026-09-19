@@ -17,6 +17,10 @@ import { DEMO_PLANS } from "../config/demoPlans.js";
 import { findPartDRelease } from "../sources/cmsPartD.js";
 import { listRemoteZip, fetchZipMemberFlattened } from "../sources/zipRange.js";
 import {
+  classifyVersions,
+  corroborateAgainstQuickList,
+  currentlyEffectiveVersion,
+  upcomingVersion,
   retrievePdl,
   deriveColumnBoundaries,
   parsePdlClasses,
@@ -174,8 +178,10 @@ function pdlSnapshot(
   };
 }
 
-export async function exportAccess(): Promise<string[]> {
+export async function exportAccess(opts: { asOf?: string } = {}): Promise<string[]> {
   const written: string[] = [];
+  // Reference date for every effectivity judgement, so a run is reproducible.
+  const asOfDate = opts.asOf ?? new Date().toISOString().slice(0, 10);
   await mkdir(OUT, { recursive: true });
 
   /* ---------------------------------------------------------- link check */
@@ -236,6 +242,7 @@ export async function exportAccess(): Promise<string[]> {
         policies.push(
           buildPartDPolicy({
             productKey: pk,
+            asOfDate,
             coverage,
             indications: [...new Set(planIndications)],
             retrieval: partDRetrieval,
@@ -247,7 +254,22 @@ export async function exportAccess(): Promise<string[]> {
   }
 
   /* ------------------------------------------------ Virginia Medicaid FFS */
-  const current = await retrievePdl(VA_PDL_VERSIONS[0]!);
+  //
+  // The version IN FORCE, not the newest published. Virginia posts each
+  // quarterly PDL weeks before it takes effect and keeps superseded versions
+  // online, so "latest file" and "current coverage" are different documents
+  // for most of every quarter. Building from the newest file states next
+  // quarter's rules as today's.
+  const effective = currentlyEffectiveVersion(VA_PDL_VERSIONS, asOfDate);
+  if (!effective) {
+    throw new Error(
+      `No Virginia PDL version is in force on ${asOfDate}; every published version is ` +
+        "future-dated. Refusing to present an upcoming document as current coverage."
+    );
+  }
+  const next = upcomingVersion(VA_PDL_VERSIONS, asOfDate);
+
+  const current = await retrievePdl(effective.ref);
   if (!current.verified) {
     throw new Error(`Virginia PDL failed self-verification: ${current.verificationNote}`);
   }
@@ -262,6 +284,16 @@ export async function exportAccess(): Promise<string[]> {
     effective: current.ref.effectiveDate,
   };
 
+  // Diff the in-force version against the next one, so a product's upcoming
+  // change can travel with its policy WITHOUT displacing current coverage.
+  let nextBlocks: PdlClassBlock[] | null = null;
+  let nextRetrieval: Awaited<ReturnType<typeof retrievePdl>> | null = null;
+  if (next) {
+    nextRetrieval = await retrievePdl(next.ref);
+    const nb = deriveColumnBoundaries(nextRetrieval.doc);
+    if (nb) nextBlocks = parsePdlClasses(nextRetrieval.doc, nb);
+  }
+
   for (const pk of productKeys) {
     const terms = PDL_SEARCH_TERMS[pk] ?? [];
     // Search the brand first; fall back to the ingredient only if the brand is
@@ -275,9 +307,62 @@ export async function exportAccess(): Promise<string[]> {
         match = alt;
       }
     }
+    // Does the next published version change THIS product's status?
+    const upcomingChanges: AccessPolicy["upcomingChanges"] = [];
+    if (nextBlocks && next) {
+      const after = findInPdl(nextBlocks, chosen);
+      if (after.status !== match.status) {
+        upcomingChanges.push({
+          takesEffectOn: next.ref.effectiveDate,
+          documentVersion: next.ref.expectedFooterVersion,
+          summary:
+            `In the version effective ${next.ref.effectiveDate}, this product's listing changes ` +
+            `from "${match.status}" to "${after.status}". It has NOT changed yet.`,
+          previousValue: match.status,
+          newValue: after.status,
+          locator: after.hits[0] ? `page ${after.hits[0].page}` : null,
+        });
+      }
+    }
+
+    // Corroborate the column reading against a SEPARATE publisher document.
+    const corroboration = await corroborateAgainstQuickList(
+      chosen,
+      match.status,
+      current.ref.effectiveDate
+    );
+
+    // Record how every extraction disagreement touching this product's rows
+    // was resolved, so a reviewer sees a decision rather than a silent choice.
+    const disputes: AccessPolicy["extractionDisputes"] = [];
+    for (const h of match.hits) {
+      const cells = [
+        ...(blocks.find((b) => b.className === h.className)?.preferred ?? []),
+        ...(blocks.find((b) => b.className === h.className)?.nonPreferred ?? []),
+      ];
+      for (const c of cells.filter((c) => c.columnDisputed && c.text === h.text)) {
+        disputes.push({
+          locator: `page ${c.page}, x=${c.x.toFixed(0)}`,
+          disputed:
+            `Horizontal position places "${c.text}" in the ${c.column} column, but its ` +
+            `typography reads ${c.typography}.`,
+          resolution: `Kept as ${c.column}.`,
+          basis:
+            "Horizontal position is bound to the column headers measured on the same page, " +
+            "whereas typography is a styling convention the publisher applies inconsistently to " +
+            "legends and headings. Position wins, and the disagreement is recorded here.",
+        });
+      }
+    }
+
     policies.push(
       buildVaFfsPolicy({
         productKey: pk,
+        asOfDate,
+        corroboration,
+        extractionDisputes: disputes,
+        effectivityStatus: "currently-effective",
+        upcomingChanges,
         searchTerm: chosen,
         match,
         retrieval: vaRetrieval,
@@ -288,23 +373,29 @@ export async function exportAccess(): Promise<string[]> {
   }
 
   /* ------------------------------------------------------ change detection */
-  const previous = await retrievePdl(VA_PDL_VERSIONS[1]!);
-  const prevBounds = deriveColumnBoundaries(previous.doc);
+  //
+  // The comparison runs FROM the version in force TO the next one, so every
+  // record describes a change that is still to come. Comparing the newest two
+  // published files and calling the result "changed" would report next
+  // quarter's rules as though they had already replaced this quarter's.
   let changes: SourceChange[] = [];
-  if (prevBounds) {
-    const prevBlocks = parsePdlClasses(previous.doc, prevBounds);
+  if (nextBlocks && nextRetrieval && next) {
     changes = compareSnapshots(
-      pdlSnapshot(prevBlocks, {
-        version: previous.ref.expectedFooterVersion,
-        effective: previous.ref.effectiveDate,
-        hash: previous.doc.sha256,
-      }),
       pdlSnapshot(blocks, {
         version: current.ref.expectedFooterVersion,
         effective: current.ref.effectiveDate,
         hash: current.doc.sha256,
       }),
-      { category: "preference-status" }
+      pdlSnapshot(nextBlocks, {
+        version: next.ref.expectedFooterVersion,
+        effective: next.ref.effectiveDate,
+        hash: nextRetrieval.doc.sha256,
+      }),
+      {
+        category: "preference-status",
+        effectiveStatus: "upcoming",
+        takesEffectOn: next.ref.effectiveDate,
+      }
     );
   }
 
@@ -340,26 +431,40 @@ export async function exportAccess(): Promise<string[]> {
       {
         schemaVersion: ACCESS_SCHEMA_VERSION,
         generatedAt: new Date().toISOString(),
+        asOfDate,
         comparison: {
           source: "Virginia Medicaid PDL / Common Core Formulary",
-          previous: {
-            version: previous.ref.expectedFooterVersion,
-            effectiveDate: previous.ref.effectiveDate,
-            url: vaPdlUrl(previous.ref.slug),
-            contentHash: previous.doc.sha256,
-          },
-          current: {
+          /** The version IN FORCE on asOfDate. This is current coverage. */
+          currentlyEffective: {
             version: current.ref.expectedFooterVersion,
             effectiveDate: current.ref.effectiveDate,
             url: vaPdlUrl(current.ref.slug),
             contentHash: current.doc.sha256,
           },
+          /** The next version to take effect. NOT current coverage. */
+          upcoming: next
+            ? {
+                version: next.ref.expectedFooterVersion,
+                effectiveDate: next.ref.effectiveDate,
+                url: vaPdlUrl(next.ref.slug),
+                contentHash: nextRetrieval?.doc.sha256 ?? null,
+                daysUntilEffective: next.daysUntilEffective,
+              }
+            : null,
+          allPublishedVersions: classifyVersions(VA_PDL_VERSIONS, asOfDate).map((v) => ({
+            version: v.ref.expectedFooterVersion,
+            effectiveDate: v.ref.effectiveDate,
+            effectivity: v.effectivity,
+          })),
           parserVersion: PARSER_VERSION,
         },
         note:
-          "Both sides are genuinely retrieved published versions of the same document. A change " +
-          "record is an item for review, never a patient notification: isPatientNotification is " +
-          "the literal false on every record.",
+          "Both sides are genuinely retrieved published versions of the same document, and the " +
+          "comparison runs FROM the version in force TO the next one. Every record therefore " +
+          "describes a change that has NOT happened yet: effectiveStatus is 'upcoming' and " +
+          "takesEffectOn carries the date. Current coverage is the 'currentlyEffective' side. " +
+          "A change record is an item for review, never a patient notification: " +
+          "isPatientNotification is the literal false on every record.",
         entrySegmentation: {
           complete: false,
           fragmentsFilteredFromNewerVersion: lastSkippedFragments,
@@ -441,9 +546,20 @@ export async function exportAccess(): Promise<string[]> {
             status: "verified-public-evidence",
           },
         ],
+        statusVocabulary: {
+          implementationStatus:
+            "What WE built: not-attempted | attempted | implemented-partial | implemented.",
+          sourceAvailability:
+            "What the SOURCE did: not-assessed | available-but-not-retrieved | " +
+            "retrieved-validated | retrieval-failed | no-suitable-public-source-identified | " +
+            "no-public-source-exists. 'not-assessed' means we never looked, and must never be " +
+            "reported as the source being unavailable.",
+        },
         notReadyToDisplay: [
           {
             capability: "Plan-specific clinical prior-authorization criteria",
+            implementationStatus: "attempted",
+            sourceAvailability: "retrieval-failed",
             status: "unresolved-applicability",
             blocker:
               "The CMS release carries PA and step therapy as FLAGS only, with no criteria text. " +
@@ -453,6 +569,8 @@ export async function exportAccess(): Promise<string[]> {
           },
           {
             capability: "Virginia SA criteria bound to a specific drug",
+            implementationStatus: "implemented-partial",
+            sourceAvailability: "retrieved-validated",
             status: "incomplete-extraction",
             blocker:
               "The SA Criteria column is not aligned to the left column's class headings, so no " +
@@ -461,27 +579,40 @@ export async function exportAccess(): Promise<string[]> {
           },
           {
             capability: "Financial assistance programme terms",
-            status: "source-unavailable",
+            implementationStatus: "not-attempted",
+            sourceAvailability: "not-assessed",
+            status: "not-implemented",
             blocker:
-              "Not retrieved in this pass. Manufacturer programme pages carry their own expiry " +
-              "and exclusion terms that must be quoted exactly and re-checked per retrieval.",
+              "No adapter was built and NO RETRIEVAL WAS ATTEMPTED, so nothing is known about " +
+              "whether these sources are reachable. This is an implementation gap, not a source " +
+              "failure: manufacturer programme pages carry their own expiry and exclusion terms " +
+              "that must be quoted exactly and re-verified per retrieval, and that work was " +
+              "deferred rather than approximated.",
           },
           {
             capability: "Marketplace and commercial formularies",
-            status: "source-unavailable",
+            implementationStatus: "not-attempted",
+            sourceAvailability: "no-suitable-public-source-identified",
+            status: "not-implemented",
             blocker:
-              "No public plan-to-formulary crosswalk. CMS public use files carry benefit design, " +
-              "not drug-level formularies.",
+              "No adapter was built. Discovery found no public plan-to-formulary crosswalk: CMS " +
+              "public use files carry benefit design, not drug-level formularies. No retrieval " +
+              "was attempted, so no source is recorded as having failed.",
           },
           {
             capability: "Pharmacy network participation and stock",
-            status: "source-unavailable",
+            implementationStatus: "not-attempted",
+            sourceAvailability: "available-but-not-retrieved",
+            status: "not-implemented",
             blocker:
-              "The CMS pharmacy network files are 2.18 GB of the archive. NPPES proves a pharmacy " +
-              "exists, never that it participates in a plan network or holds stock.",
+              "The CMS pharmacy network files ARE available and were listed in the archive " +
+              "(2.18 GB across six members); they were deliberately not fetched. NPPES proves a " +
+              "pharmacy exists, never that it participates in a plan network or holds stock.",
           },
           {
             capability: "Member eligibility, copay, and approval status",
+            implementationStatus: "not-attempted",
+            sourceAvailability: "no-public-source-exists",
             status: "requires-authorized-member-integration",
             blocker:
               "Requires an authorised payer integration with a trading-partner agreement and " +

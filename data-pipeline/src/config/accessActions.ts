@@ -35,6 +35,8 @@ export interface AccessActionTemplate {
   actor: Actor;
   basis: ActionBasis;
   action: string;
+  formType?: AccessAction["formType"];
+  routeApplicability?: AccessAction["routeApplicability"];
   formTitle?: string | null;
   formUrl?: string | null;
   submissionUrl?: string | null;
@@ -63,7 +65,11 @@ export const PART_D_ACTIONS: AccessActionTemplate[] = [
     basis: "source-directed",
     action:
       "Request a coverage determination from the plan, including an exception request when the " +
-      "drug is restricted or not on the formulary. CMS publishes a model form for this.",
+      "drug is restricted or not on the formulary. CMS publishes a MODEL form for this. It is a " +
+      "generic template, not this plan's form: check the plan's own materials for the form it " +
+      "accepts and the address, fax or portal it wants it sent to.",
+    formType: "generic-model-template",
+    routeApplicability: "market-segment-standard-plan-form-may-differ",
     formTitle: "Model Coverage Determination Request Form (with instructions)",
     formUrl:
       "https://www.cms.gov/medicare/appeals-and-grievances/medprescriptdrugapplgriev/downloads/modcovdetreqform-and-instrctns-feb-2019-508-.zip",
@@ -83,7 +89,10 @@ export const PART_D_ACTIONS: AccessActionTemplate[] = [
     basis: "source-directed",
     action:
       "If the plan denies the coverage determination, request a redetermination - the first level " +
-      "of appeal, decided by the plan itself.",
+      "of appeal, decided by the plan itself. The CMS model form is a generic template; the plan " +
+      "may publish its own and will specify where to send it.",
+    formType: "generic-model-template",
+    routeApplicability: "market-segment-standard-plan-form-may-differ",
     formTitle: "Model Redetermination Request Form (with instructions)",
     formUrl:
       "https://www.cms.gov/files/zip/model-redetermination-request-form-and-instructionseff010125v508.zip",
@@ -100,7 +109,10 @@ export const PART_D_ACTIONS: AccessActionTemplate[] = [
     basis: "source-directed",
     action:
       "If the plan upholds its denial on redetermination, request reconsideration by the " +
-      "Independent Review Entity, which is outside the plan.",
+      "Independent Review Entity, which is outside the plan. This level is handled by the IRE " +
+      "rather than the plan, so the CMS form is the operative one.",
+    formType: "generic-model-template",
+    routeApplicability: "verified-for-this-plan",
     formTitle: "Request for Reconsideration of Medicare Prescription Drug Denial",
     formUrl:
       "https://www.cms.gov/files/zip/request-reconsideration-prescription-drug-denial-eff-010125.zip",
@@ -118,6 +130,8 @@ export const PART_D_ACTIONS: AccessActionTemplate[] = [
     action:
       "To let someone else act on the enrollee's behalf, file an Appointment of Representative " +
       "form. Required before a representative can pursue a request or appeal.",
+    formType: "generic-model-template",
+    routeApplicability: "verified-for-this-plan",
     formTitle: "CMS-1696 Appointment of Representative",
     formUrl: "https://www.cms.gov/medicare/cms-forms/cms-forms/cms-forms-items/cms012207",
     quotation:
@@ -133,6 +147,8 @@ export const PART_D_ACTIONS: AccessActionTemplate[] = [
     action:
       "Read Medicare's own plain-language explanation of the appeal levels before starting. " +
       "This is our navigation suggestion, not a step any plan document directs.",
+    formType: "not-a-form",
+    routeApplicability: "market-segment-standard-plan-form-may-differ",
     submissionUrl: "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
     quotation:
       "Medicare publishes a public explanation of how to file an appeal and what the levels are.",
@@ -149,6 +165,8 @@ export const VA_AUTHORIZATIONS_URL =
 export const VA_MEDICAID_FFS_ACTIONS: AccessActionTemplate[] = [
   {
     id: "va-ffs-service-authorization",
+    formType: "not-a-form",
+    routeApplicability: "verified-for-this-plan",
     actor: "prescriber",
     basis: "source-directed",
     action:
@@ -169,6 +187,8 @@ export const VA_MEDICAID_FFS_ACTIONS: AccessActionTemplate[] = [
   },
   {
     id: "va-ffs-72-hour-supply",
+    formType: "not-a-form",
+    routeApplicability: "verified-for-this-plan",
     actor: "pharmacy",
     basis: "source-directed",
     action:
@@ -186,6 +206,8 @@ export const VA_MEDICAID_FFS_ACTIONS: AccessActionTemplate[] = [
   },
   {
     id: "va-ffs-appeal",
+    formType: "not-a-form",
+    routeApplicability: "verified-for-this-plan",
     actor: "patient",
     basis: "source-directed",
     action:
@@ -216,6 +238,8 @@ export const VA_MEDICAID_FFS_ACTIONS: AccessActionTemplate[] = [
   },
   {
     id: "va-ffs-interim-supply-on-denial",
+    formType: "not-a-form",
+    routeApplicability: "verified-for-this-plan",
     actor: "plan-or-insurer",
     basis: "source-directed",
     action:
