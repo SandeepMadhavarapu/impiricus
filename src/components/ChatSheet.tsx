@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Sheet } from "./Sheet";
 import { track } from "@/lib/analytics/client";
 import type { ChatAnswer } from "@/lib/chat/types";
+import { reasonForAnswerMode, type UnresolvedQuestion } from "@/lib/handoff";
 
 /**
  * Medication-scoped assistant.
@@ -29,6 +30,11 @@ interface Turn {
   role: "user" | "assistant";
   content: string;
   answer?: ChatAnswer;
+  /**
+   * For assistant turns: the question that produced this answer. Kept so it can
+   * be carried into the provider handoff if the person escalates.
+   */
+  question?: string;
 }
 
 export function ChatSheet({
@@ -43,7 +49,8 @@ export function ChatSheet({
   onClose: () => void;
   slug: string;
   productName: string;
-  onOpenProvider: () => void;
+  /** Receives the question the person still wants answered, if any. */
+  onOpenProvider: (unresolved: UnresolvedQuestion | null) => void;
   onOpenCoverage: () => void;
 }) {
   const [turns, setTurns] = useState<Turn[]>([]);
@@ -92,7 +99,12 @@ export function ChatSheet({
       const answer: ChatAnswer = await res.json();
       setTurns((prev) => [
         ...prev,
-        { role: "assistant", content: answer.paragraphs.join(" "), answer },
+        {
+          role: "assistant",
+          content: answer.paragraphs.join(" "),
+          answer,
+          question: trimmed,
+        },
       ]);
     } catch {
       setError("Network problem — your question was not sent. Please try again.");
@@ -142,6 +154,7 @@ export function ChatSheet({
               <AnswerBlock
                 key={i}
                 answer={turn.answer!}
+                question={turn.question ?? ""}
                 onOpenProvider={onOpenProvider}
                 onOpenCoverage={onOpenCoverage}
               />
@@ -205,17 +218,21 @@ const MODE_LABEL: Record<ChatAnswer["mode"], string> = {
   assistant: "AI answer · grounded in the label",
   "label-excerpts": "Label text · not AI",
   "not-covered": "Not covered by the label",
+  "needs-clarification": "Needs clarification",
   unavailable: "Assistant unavailable",
   urgent: "Urgent",
 };
 
 function AnswerBlock({
   answer,
+  question,
   onOpenProvider,
   onOpenCoverage,
 }: {
   answer: ChatAnswer;
-  onOpenProvider: () => void;
+  /** The question that produced this answer, carried into the handoff. */
+  question: string;
+  onOpenProvider: (unresolved: UnresolvedQuestion | null) => void;
   onOpenCoverage: () => void;
 }) {
   return (
@@ -277,10 +294,17 @@ function AnswerBlock({
             className="btn btn--small"
             onClick={() => {
               track("provider_cta_clicked");
-              onOpenProvider();
+              // Carry the still-open question across. An urgent/crisis turn
+              // returns null: that person needs help now, not a question list.
+              const reason = reasonForAnswerMode(answer.mode);
+              onOpenProvider(
+                reason && question ? { question, reason } : null
+              );
             }}
           >
-            Connect with a healthcare provider
+            {answer.mode === "not-covered" || answer.mode === "unavailable"
+              ? "Take this question to a provider"
+              : "Connect with a healthcare provider"}
           </button>
           <button type="button" className="btn btn--small" onClick={onOpenCoverage}>
             Check coverage

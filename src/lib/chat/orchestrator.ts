@@ -1,6 +1,7 @@
 import "server-only";
 import { getMedication, productLabel } from "@/lib/content/registry";
 import { searchPassages, type ScoredPassage } from "@/lib/retrieval";
+import { buildContextualQuery, priorUserMessages } from "@/lib/retrieval/context";
 import { getAssistantConfig } from "@/lib/config";
 import { getAdapter, type ProviderMessage, type AssistantAdapter } from "./providers";
 import { validateCitations, stripCitationMarkers, toCitation } from "./grounding";
@@ -66,8 +67,29 @@ export async function answerQuestion(
     };
   }
 
-  /* 2. Retrieval. */
-  const passages = searchPassages(source, req.message, { limit: MAX_CONTEXT_PASSAGES });
+  /* 2. Retrieval, aware of the conversation so far.
+     A follow-up like "are any of those permanent?" carries no topic of its own;
+     without the previous turn it retrieves nothing, or matches on noise. */
+  const contextual = buildContextualQuery(req.message, priorUserMessages(req.history));
+
+  // Depends on earlier context that we do not have. Ask rather than guess —
+  // a pronoun-only query used to return a confident, wrong label section.
+  if (contextual.needsClarification) {
+    return {
+      mode: "needs-clarification",
+      paragraphs: [
+        "I am not sure what that refers to. Could you say which part you mean?",
+        `For example: "are the side effects permanent?" or "is it safe during pregnancy?" I can only answer from the FDA label for ${productLabel(source)}, so naming the topic helps me find the right section.`,
+      ],
+      citations: [],
+      crisisFooter: shouldOfferCrisisFooter(req.message) ? crisisFooterBlock() : undefined,
+      offerProviderConnection: false,
+      scopeNote: record.scopeNote,
+      provenanceNote: "No answer attempted — the question depends on context I do not have.",
+    };
+  }
+
+  const passages = searchPassages(source, contextual.text, { limit: MAX_CONTEXT_PASSAGES });
 
   const crisisFooter = shouldOfferCrisisFooter(req.message) ? crisisFooterBlock() : undefined;
   const scopeNote = record.scopeNote;

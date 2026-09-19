@@ -213,18 +213,3 @@ export const ADVERSE_EVENT_REPORTING = {
   sources: [FDA_MEDWATCH],
 };
 
-/**
- * Builds the default question list a user can edit before taking it to a
- * clinician. Generic and non-promotional: it does not tell anyone to ask for a
- * prescription.
- */
-export function defaultQuestionsForClinician(productName: string): string[] {
-  return [
-    `Is ${productName} a good fit for my situation, given my history?`,
-    "This medication has a boxed warning about mood and behaviour changes. What should I watch for?",
-    "Are there alternatives I should consider first?",
-    "How will we know whether it is working?",
-    "What should I do if I notice side effects?",
-    "How does this interact with the other medicines I take?",
-  ];
-}

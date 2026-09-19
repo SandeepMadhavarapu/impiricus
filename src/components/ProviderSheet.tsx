@@ -6,10 +6,15 @@ import { track } from "@/lib/analytics/client";
 import {
   PROVIDER_ROUTES,
   ADVERSE_EVENT_REPORTING,
-  defaultQuestionsForClinician,
   type ProviderIntent,
   type ProviderRoute,
 } from "@/lib/providers/routes";
+import {
+  buildHandoffQuestions,
+  handoffReasonLabel,
+  normaliseQuestion,
+  type UnresolvedQuestion,
+} from "@/lib/handoff";
 
 /**
  * Provider connection.
@@ -27,10 +32,16 @@ export function ProviderSheet({
   open,
   onClose,
   productName,
+  unresolved = null,
 }: {
   open: boolean;
   onClose: () => void;
   productName: string;
+  /**
+   * The question the person came here still wanting answered. Carried from the
+   * chat verbatim; never transmitted anywhere.
+   */
+  unresolved?: UnresolvedQuestion | null;
 }) {
   const [intent, setIntent] = useState<ProviderIntent | null>(null);
   const route = intent ? PROVIDER_ROUTES.find((r) => r.intent === intent) ?? null : null;
@@ -46,6 +57,21 @@ export function ProviderSheet({
       <div className="chat-log">
         {!route ? (
           <>
+            {unresolved && normaliseQuestion(unresolved.question) ? (
+              <div className="card card--info" role="note">
+                <p className="card-label" style={{ color: "var(--info-text)" }}>
+                  Your question, carried over
+                </p>
+                <p style={{ fontSize: 16, fontWeight: 550 }}>
+                  &ldquo;{normaliseQuestion(unresolved.question)}&rdquo;
+                </p>
+                <p className="tiny" style={{ marginTop: 8 }}>
+                  {handoffReasonLabel(unresolved.reason)} It stays on your device — this site does
+                  not send it to anyone.
+                </p>
+              </div>
+            ) : null}
+
             <div className="card card--flat">
               <p style={{ fontSize: 15 }}>Who would you like to talk to?</p>
               <p className="tiny" style={{ marginTop: 8 }}>
@@ -74,7 +100,12 @@ export function ProviderSheet({
             <ReportingBlock />
           </>
         ) : (
-          <RouteView route={route} productName={productName} onBack={() => setIntent(null)} />
+          <RouteView
+            route={route}
+            productName={productName}
+            unresolved={unresolved}
+            onBack={() => setIntent(null)}
+          />
         )}
       </div>
     </Sheet>
@@ -84,10 +115,12 @@ export function ProviderSheet({
 function RouteView({
   route,
   productName,
+  unresolved,
   onBack,
 }: {
   route: ProviderRoute;
   productName: string;
+  unresolved: UnresolvedQuestion | null;
   onBack: () => void;
 }) {
   return (
@@ -139,7 +172,7 @@ function RouteView({
       </div>
 
       {route.intent === "existing-clinician" || route.intent === "pharmacist" ? (
-        <QuestionBuilder productName={productName} />
+        <QuestionBuilder productName={productName} unresolved={unresolved} />
       ) : null}
 
       <div className="card card--warning">
@@ -178,11 +211,19 @@ function RouteView({
  * The user edits it, then copies or prints it. It never leaves the device, so
  * the page can say so without qualification.
  */
-function QuestionBuilder({ productName }: { productName: string }) {
+function QuestionBuilder({
+  productName,
+  unresolved,
+}: {
+  productName: string;
+  unresolved: UnresolvedQuestion | null;
+}) {
+  // The carried question is first in the list — it is why they are here.
   const [questions, setQuestions] = useState<string[]>(() =>
-    defaultQuestionsForClinician(productName)
+    buildHandoffQuestions(productName, unresolved)
   );
   const [copied, setCopied] = useState(false);
+  const carriedFirst = Boolean(unresolved && normaliseQuestion(unresolved.question));
 
   const text = questions.filter((q) => q.trim()).join("\n\n");
 
@@ -198,6 +239,11 @@ function QuestionBuilder({ productName }: { productName: string }) {
 
       {questions.map((q, i) => (
         <div className="question-item" key={i}>
+          {carriedFirst && i === 0 ? (
+            <span className="cite-ref" style={{ alignSelf: "center" }}>
+              YOURS
+            </span>
+          ) : null}
           <textarea
             value={q}
             rows={2}

@@ -5,6 +5,7 @@ import { ChatSheet } from "./ChatSheet";
 import { CoverageSheet } from "./CoverageSheet";
 import { ProviderSheet } from "./ProviderSheet";
 import { track } from "@/lib/analytics/client";
+import type { UnresolvedQuestion } from "@/lib/handoff";
 
 /**
  * The three primary actions, and the sheets they open.
@@ -26,6 +27,12 @@ export function ActionBar({
   dosageForm: string;
 }) {
   const [openSheet, setOpenSheet] = useState<null | "chat" | "coverage" | "provider">(null);
+  /**
+   * The question the person still wants answered, carried from chat into the
+   * provider step. Local-only state; cleared when they start fresh from the
+   * page rather than from a conversation.
+   */
+  const [unresolved, setUnresolved] = useState<UnresolvedQuestion | null>(null);
 
   return (
     <>
@@ -46,6 +53,7 @@ export function ActionBar({
             className="btn"
             onClick={() => {
               track("provider_cta_clicked");
+              setUnresolved(null);
               setOpenSheet("provider");
             }}
           >
@@ -62,7 +70,10 @@ export function ActionBar({
         onClose={() => setOpenSheet(null)}
         slug={slug}
         productName={productName}
-        onOpenProvider={() => setOpenSheet("provider")}
+        onOpenProvider={(carried) => {
+          setUnresolved(carried);
+          setOpenSheet("provider");
+        }}
         onOpenCoverage={() => setOpenSheet("coverage")}
       />
 
@@ -79,6 +90,7 @@ export function ActionBar({
         open={openSheet === "provider"}
         onClose={() => setOpenSheet(null)}
         productName={productName}
+        unresolved={unresolved}
       />
     </>
   );

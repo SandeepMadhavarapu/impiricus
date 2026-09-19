@@ -38,6 +38,8 @@ export type AnswerMode =
   | "urgent"
   /** Retrieval found nothing relevant. */
   | "not-covered"
+  /** A follow-up that depends on context we do not have. Ask, do not guess. */
+  | "needs-clarification"
   /** The configured model failed. Honest failure, never a silent fallback. */
   | "unavailable";
 
