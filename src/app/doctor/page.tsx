@@ -39,34 +39,22 @@ export default async function DoctorPage({ searchParams }: {
         <li><span>2</span> Preview guide</li>
         <li><span>3</span> Share with patient</li>
       </ol>
-      <div className="doctor-workspace">
-        <aside className="doctor-controls stack" aria-label="Medication selection and sharing">
-          <section className="card stack" aria-labelledby="select-heading">
-            <p className="eyebrow">01 / Select</p>
-            <h2 className="section-title" id="select-heading">Medication library</h2>
-            <p className="muted">One supported strength and form in this demo.</p>
-            {medications.map(({ record, source }) => (
-              <Link key={record.slug} href={`/doctor?medication=${record.slug}`} className="doctor-medication"
-                aria-current={selected?.record.slug === record.slug ? "true" : undefined}>
-                <strong>{productLabel(source)}</strong>
-                <span>FDA-label sourced · Citations available</span>
-                <span>{isStale(source) ? "Source refresh needed" : `Label effective ${source.document.effectiveDate}`}</span>
-                <span>{selected?.record.slug === record.slug ? "Selected ✓" : "Select medication →"}</span>
-              </Link>
-            ))}
-            <p className="tiny">Source-backed education. No clinical review has been performed.</p>
-          </section>
-          <section className="card doctor-share" aria-label="Share patient guide">
-            <p className="eyebrow">03 / Share</p>
-            {selected ? <ShareSection key={selected.record.slug} slug={selected.record.slug}
-              shareUrl={buildShareUrl(origin, selected.record.slug)} productName={productLabel(selected.source)}
-              originIsConfigured={publicReady} audience="doctor" /> : <>
-              <h2 className="section-title">Ready when you are</h2>
-              <p className="muted">Select a medication to preview and share its patient guide.</p>
-              <button className="btn btn--primary btn--block" disabled>Share with Patient</button>
-            </>}
-          </section>
-        </aside>
+      <div className="doctor-workspace stack">
+        <section className="card stack" aria-labelledby="select-heading">
+          <p className="eyebrow">01 / Select</p>
+          <h2 className="section-title" id="select-heading">Medication library</h2>
+          <p className="muted">One supported strength and form in this demo.</p>
+          {medications.map(({ record, source }) => (
+            <Link key={record.slug} href={`/doctor?medication=${record.slug}`} className="doctor-medication"
+              aria-current={selected?.record.slug === record.slug ? "true" : undefined}>
+              <strong>{productLabel(source)}</strong>
+              <span>FDA-label sourced · Citations available</span>
+              <span>{isStale(source) ? "Source refresh needed" : `Label effective ${source.document.effectiveDate}`}</span>
+              <span>{selected?.record.slug === record.slug ? "Selected ✓" : "Select medication →"}</span>
+            </Link>
+          ))}
+          <p className="tiny">Source-backed education. No clinical review has been performed.</p>
+        </section>
         <section className="doctor-preview stack" aria-labelledby="preview-heading">
           <div className="doctor-preview-heading">
             <div><p className="eyebrow">02 / Preview</p><h2 id="preview-heading">Patient guide preview</h2></div>
@@ -90,6 +78,16 @@ export default async function DoctorPage({ searchParams }: {
             <h3>{medication ? "Medication unavailable" : "Start with a medication"}</h3>
             <p className="muted">{medication ? "Choose a supported medication from the library." : "Select a medication to see the patient guide, including safety information and its supporting sources."}</p>
           </div>}
+        </section>
+        <section className="card doctor-share" aria-label="Share patient guide">
+          <p className="eyebrow">03 / Share</p>
+          {selected ? <ShareSection key={selected.record.slug} slug={selected.record.slug}
+            shareUrl={buildShareUrl(origin, selected.record.slug)} productName={productLabel(selected.source)}
+            originIsConfigured={publicReady} audience="doctor" /> : <>
+            <h2 className="section-title">Ready when you are</h2>
+            <p className="muted">Select a medication to preview and share its patient guide.</p>
+            <button className="btn btn--primary btn--block" disabled>Share with Patient</button>
+          </>}
         </section>
       </div>
       <footer className="site-footer">Public medication education only. No patient record is created. Shared links contain no patient information, doctor session, or prescription details. Education does not replace individualized clinical advice.</footer>

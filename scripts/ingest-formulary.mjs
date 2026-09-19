@@ -36,7 +36,7 @@ const DATASET_TITLE = "Monthly Prescription Drug Plan Formulary and Pharmacy Net
 /** RXCUIs for the product this app publishes. Keep in sync with the source record. */
 const SOURCE_RECORD = "src/sources/content/sources/singulair-montelukast-10mg-tablet.json";
 
-const OUT_PATH = path.join("src", "content", "coverage", "cms-part-d-snapshot.json");
+const OUT_PATH = path.join("src", "sources", "content", "coverage", "cms-part-d-snapshot.json");
 
 const keepZip = process.argv.includes("--keep");
 /** Resolves the live CMS release and reports it, without downloading. */

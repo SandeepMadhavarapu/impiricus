@@ -18,6 +18,7 @@ import { FormularySnapshotSchema, type FormularySnapshot } from "./formulary";
 const SNAPSHOT_PATH = path.join(
   process.cwd(),
   "src",
+  "sources",
   "content",
   "coverage",
   "cms-part-d-snapshot.json"
