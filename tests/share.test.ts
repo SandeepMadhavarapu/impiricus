@@ -37,9 +37,25 @@ describe("share URL construction", () => {
       "SLUG",
       "slug/../other",
       "javascript:alert(1)",
+      "slug%2e%2e",
+      "slug\\other",
     ]) {
       expect(() => medicationPath(bad), bad).toThrow(InvalidShareTargetError);
     }
+  });
+
+  /**
+   * The pipeline escapes a decimal point with an underscore, so Ozempic's
+   * 1.34 mg/mL product keys as "...-1_34mg-per-ml-injection". The app and the
+   * pipeline share ONE identity string rather than translating between two
+   * spellings, so the slug rule has to accept it.
+   */
+  it("accepts an underscore, which a real product key contains", () => {
+    const slug = "ozempic-semaglutide-1_34mg-per-ml-injection";
+    expect(medicationPath(slug)).toBe(`/medications/${slug}`);
+    expect(buildShareUrl("https://example.org", slug)).toBe(
+      `https://example.org/medications/${slug}`
+    );
   });
 });
 

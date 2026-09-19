@@ -14,7 +14,8 @@
     "content:fetch": "node scripts/fetch-label.mjs",
     "content:verify": "node scripts/verify-content.mjs",
     "verify": "npm run typecheck && npm run lint && npm run test && npm run build",
-    "coverage:ingest": "node scripts/ingest-formulary.mjs"
+    "coverage:ingest": "node scripts/ingest-formulary.mjs",
+    "content:sync": "node scripts/sync-label-exports.mjs"
   },
   "dependencies": {
     "next": "^15.5.4",

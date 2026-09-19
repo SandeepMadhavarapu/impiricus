@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import {
-  getMedication,
-  listMedicationSlugs,
   productLabel,
   displayStrength,
   displayDosageForm,
@@ -10,6 +8,14 @@ import {
   evidenceAgeDays,
 } from "@/sources/lib/content/registry";
 import { patientScopeNote } from "@/sources/lib/content/types";
+import {
+  getGuide,
+  listGuideSlugs,
+  guideProductName,
+  type AuthoredGuide,
+  type LabelGuide,
+} from "@/sources/lib/content/catalogue";
+import { LabelGuideView } from "@/patient/components/LabelGuideView";
 import { getPublicOrigin, getIntegrationStates } from "@/shared/lib/config";
 import { buildShareUrl } from "@/doctor/lib/share";
 import { MedicationSection } from "@/patient/components/MedicationSection";
@@ -27,23 +33,31 @@ interface Params {
 }
 
 export async function generateStaticParams() {
-  return listMedicationSlugs().map((slug) => ({ slug }));
+  return listGuideSlugs().map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
-  const resolved = getMedication(slug);
-  if (!resolved) return { title: "Medication not found" };
+  const guide = getGuide(slug);
+  if (!guide) return { title: "Medication not found" };
 
-  const name = productLabel(resolved.source);
+  const name = guideProductName(guide);
+  // An authored guide has a headline written for a lay reader. A label-sourced
+  // one does not, and a description is not worth inventing one for, so it
+  // falls back to naming the product and what the page is.
+  const description =
+    guide.mode === "authored"
+      ? guide.authored.record.headline
+      : `Information about ${name}, taken from its FDA-approved label.`;
+
   return {
     title: `${name}: what it is, benefits and risks`,
     // Share previews carry product information only. Never a session, a
     // referrer, an identifier, or anything about the person sharing.
-    description: resolved.record.headline,
+    description,
     openGraph: {
       title: `${name}`,
-      description: resolved.record.headline,
+      description,
       url: buildShareUrl(getPublicOrigin().origin, slug),
       type: "article",
     },
@@ -53,12 +67,39 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 export default async function MedicationPage({ params }: Params) {
   const { slug } = await params;
-  const resolved = getMedication(slug);
+  const guide = getGuide(slug);
 
   // An unknown slug is a real 404. Never fall back to a different medication.
-  if (!resolved) notFound();
+  if (!guide) notFound();
 
-  const { record, source } = resolved;
+  return guide.mode === "authored" ? (
+    <AuthoredView guide={guide} slug={slug} />
+  ) : (
+    <LabelView guide={guide} slug={slug} />
+  );
+}
+
+/**
+ * A product with no authored plain-language layer.
+ *
+ * Shows the label's own words and says so. See src/sources/lib/content/label.ts
+ * for what this view may and may not present.
+ */
+function LabelView({ guide, slug }: { guide: LabelGuide; slug: string }) {
+  const { origin, source: originSource } = getPublicOrigin();
+  return (
+    <LabelGuideView
+      guide={guide}
+      slug={slug}
+      shareUrl={buildShareUrl(origin, slug)}
+      originIsConfigured={originSource === "configured"}
+      integrations={getIntegrationStates()}
+    />
+  );
+}
+
+function AuthoredView({ guide, slug }: { guide: AuthoredGuide; slug: string }) {
+  const { record, source } = guide.authored;
   const { origin, source: originSource } = getPublicOrigin();
   const shareUrl = buildShareUrl(origin, slug);
   const name = productLabel(source);

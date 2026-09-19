@@ -15,8 +15,21 @@ export interface ShareTarget {
   text: string;
 }
 
-/** Characters a slug may contain. Anything else is rejected, not sanitised. */
-const SLUG_PATTERN = /^[a-z0-9-]+$/;
+/**
+ * Characters a slug may contain. Anything else is rejected, not sanitised.
+ *
+ * Underscore is included because the pipeline escapes a decimal point with
+ * one: Ozempic's 1.34 mg/mL product keys as "...-1_34mg-per-ml-injection".
+ * It is an RFC 3986 unreserved character, so it is safe in a path segment,
+ * and allowing it keeps ONE identity string shared by the pipeline and the
+ * app. Translating between two spellings of a product key would be a place
+ * for them to disagree about which drug is which, which is the failure this
+ * codebase works hardest to avoid.
+ *
+ * Everything genuinely dangerous stays rejected: separators, query and
+ * fragment markers, whitespace, uppercase and scheme-like strings.
+ */
+const SLUG_PATTERN = /^[a-z0-9_-]+$/;
 
 export class InvalidShareTargetError extends Error {}
 

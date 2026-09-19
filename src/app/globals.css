@@ -320,6 +320,87 @@ a:hover {
   font-weight: 550;
 }
 
+/* ========================================================= label text ==== */
+
+/*
+ * Verbatim FDA label content.
+ *
+ * Shown for products with no authored plain-language layer. It is denser than
+ * anything else on the patient page, so it gets tighter type and clear
+ * hierarchy rather than being styled to look like the authored guide: the two
+ * are different promises and should not look identical.
+ */
+.label-section + .label-section { margin-top: 16px; }
+
+.label-section-title {
+  font-size: 16px;
+  font-weight: 650;
+  margin-bottom: 8px;
+}
+
+.label-section[data-depth="1"],
+.label-section[data-depth="2"] {
+  margin-top: 14px;
+  padding-left: 12px;
+  border-left: 2px solid var(--border);
+}
+
+.label-section[data-depth="1"] .label-section-title { font-size: 15px; }
+
+.label-section .body-text { font-size: 15px; }
+.label-section .body-text + .body-text { margin-top: 10px; }
+
+.label-highlights {
+  background: var(--surface-sunken);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  font-size: 14.5px;
+}
+
+.label-highlights .card-label { color: var(--text-muted); }
+.label-highlights p + p { margin-top: 8px; }
+
+/*
+ * A dosing table flattened to prose loses which dose belongs to which age
+ * group, so tables stay tables and scroll sideways on a narrow screen rather
+ * than forcing the whole page to.
+ */
+.label-table-wrap {
+  overflow-x: auto;
+  margin: 12px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.label-table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 320px;
+  font-size: 14px;
+}
+
+.label-table caption {
+  caption-side: top;
+  text-align: left;
+  font-weight: 650;
+  font-size: 14px;
+  padding-bottom: 8px;
+  color: var(--text-muted);
+}
+
+.label-table th,
+.label-table td {
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.label-table th {
+  background: var(--surface-sunken);
+  font-weight: 650;
+}
+
 /* =============================================================== cards ==== */
 
 .card {

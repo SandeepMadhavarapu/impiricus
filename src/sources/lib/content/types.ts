@@ -113,7 +113,9 @@ export const MedicationRecordSchema = z.object({
   slug: z
     .string()
     .min(1)
-    .regex(/^[a-z0-9-]+$/, "slug must be lowercase alphanumeric with hyphens"),
+    // Matches SLUG_PATTERN in doctor/lib/share: the slug is the join key
+    // between the pipeline's productKey, the URL, and this record.
+    .regex(/^[a-z0-9_-]+$/, "slug must be lowercase alphanumeric with hyphens or underscores"),
   sourceRecordId: z.string().min(1),
   /**
    * One-sentence answer to "what is this?", shown above the fold.
