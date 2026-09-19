@@ -5,7 +5,7 @@ import {
   medicationPath,
   urlCarriesExtraData,
   InvalidShareTargetError,
-} from "@/lib/share";
+} from "@/doctor/lib/share";
 
 const ORIGIN = "https://example.org";
 const SLUG = "singulair-montelukast-10mg-tablet";

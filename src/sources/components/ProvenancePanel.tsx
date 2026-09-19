@@ -1,5 +1,5 @@
-import type { SourceRecord } from "@/lib/content/types";
-import type { IntegrationState } from "@/lib/config";
+import type { SourceRecord } from "@/sources/lib/content/types";
+import type { IntegrationState } from "@/shared/lib/config";
 
 /**
  * Where this content came from, and what is actually connected.

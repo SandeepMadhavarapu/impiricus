@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Fetches FDA-approved labeling for the configured product and writes a
- * provenance-stamped source record to src/content/sources/.
+ * provenance-stamped source record to src/sources/content/sources/.
  *
  * Every field written here comes from a public API response. Nothing in this
  * script authors clinical text; it only transcribes and records where the text

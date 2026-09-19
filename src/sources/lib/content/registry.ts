@@ -1,5 +1,5 @@
-import rawSingulair from "@/content/sources/singulair-montelukast-10mg-tablet.json";
-import { singulair10mgTablet } from "@/content/medications/singulair-montelukast-10mg-tablet";
+import rawSingulair from "@/sources/content/sources/singulair-montelukast-10mg-tablet.json";
+import { singulair10mgTablet } from "@/sources/content/medications/singulair-montelukast-10mg-tablet";
 import {
   MedicationRecordSchema,
   SourceRecordSchema,

@@ -1,4 +1,4 @@
-import type { SourceRecord } from "@/lib/content/types";
+import type { SourceRecord } from "@/sources/lib/content/types";
 
 /**
  * Deterministic retrieval over one medication's label sections.

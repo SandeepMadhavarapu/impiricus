@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { sanitizeEvent } from "@/lib/analytics/events";
-import { getAnalyticsConfig } from "@/lib/config";
-import { rateLimit, clientKey } from "@/lib/security/ratelimit";
+import { sanitizeEvent } from "@/shared/lib/analytics/events";
+import { getAnalyticsConfig } from "@/shared/lib/config";
+import { rateLimit, clientKey } from "@/shared/lib/security/ratelimit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

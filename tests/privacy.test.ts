@@ -4,9 +4,9 @@ import {
   isAnalyticsEvent,
   ANALYTICS_EVENTS,
   FORBIDDEN_EVENT_SEMANTICS,
-} from "@/lib/analytics/events";
-import { rateLimit, resetRateLimits, clientKey } from "@/lib/security/ratelimit";
-import { PROVIDER_ROUTES, ADVERSE_EVENT_REPORTING, getRoute } from "@/lib/providers/routes";
+} from "@/shared/lib/analytics/events";
+import { rateLimit, resetRateLimits, clientKey } from "@/shared/lib/security/ratelimit";
+import { PROVIDER_ROUTES, ADVERSE_EVENT_REPORTING, getRoute } from "@/doctor/lib/providers/routes";
 
 describe("analytics sanitisation", () => {
   it("drops unknown events entirely", () => {

@@ -96,7 +96,7 @@ the same public URL, but nothing in the app depends on it).
 ## Added during the repair pass
 
 - **CMS formulary data is not ingested.** The integration is complete and
-  tested, but `src/content/coverage/cms-part-d-snapshot.json` does not exist in
+  tested, but `src/sources/content/coverage/cms-part-d-snapshot.json` does not exist in
   this environment, so coverage still reports "unable to verify". The source
   archive is ~2.2 GB. Run `npm run coverage:ingest`.
 - **CMS data is Medicare Part D only.** Commercial and Medicaid plans are not in

@@ -6,7 +6,7 @@ import {
   reasonForAnswerMode,
   handoffReasonLabel,
   type UnresolvedQuestion,
-} from "@/lib/handoff";
+} from "@/doctor/lib/handoff";
 
 const PRODUCT = "Singulair (montelukast sodium) 10 mg tablet, film coated";
 
@@ -131,7 +131,7 @@ describe("the carried question stays local", () => {
    * one, this test should fail and force a confirm-before-send review.
    */
   it("exports no network or storage surface", async () => {
-    const mod = await import("@/lib/handoff");
+    const mod = await import("@/doctor/lib/handoff");
     const exported = Object.keys(mod).join(" ").toLowerCase();
     for (const forbidden of ["send", "post", "submit", "persist", "save", "store", "upload"]) {
       expect(exported, `handoff module exposes "${forbidden}"`).not.toContain(forbidden);
@@ -140,7 +140,7 @@ describe("the carried question stays local", () => {
 
   it("module source contains no fetch, storage or beacon calls", async () => {
     const { readFile } = await import("node:fs/promises");
-    const src = await readFile("src/lib/handoff/index.ts", "utf8");
+    const src = await readFile("src/doctor/lib/handoff/index.ts", "utf8");
     expect(src).not.toMatch(/\bfetch\s*\(/);
     expect(src).not.toMatch(/localStorage|sessionStorage|indexedDB/);
     expect(src).not.toMatch(/sendBeacon/);

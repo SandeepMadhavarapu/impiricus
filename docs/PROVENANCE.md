@@ -1,6 +1,6 @@
 # Medication source records
 
-Generated from `src/content/sources/`. Regenerate the underlying record with `npm run content:fetch`; check it is still current with `npm run content:verify`.
+Generated from `src/sources/content/sources/`. Regenerate the underlying record with `npm run content:fetch`; check it is still current with `npm run content:verify`.
 
 ---
 
@@ -102,7 +102,7 @@ Total: 93,239 characters, chunked into 139 retrieval passages.
 
 ### Citation integrity
 
-The authored plain-language layer (`src/content/medications/`) carries **34 citations**. Each names a source section and an exact quote, and `tests/content.test.ts` asserts every quote is a literal substring of the transcribed text above (whitespace- and case-insensitive).
+The authored plain-language layer (`src/sources/content/medications/`) carries **34 citations**. Each names a source section and an exact quote, and `tests/content.test.ts` asserts every quote is a literal substring of the transcribed text above (whitespace- and case-insensitive).
 
 A quote that drifts from its source fails the test suite, so this property holds at build time rather than by convention.
 

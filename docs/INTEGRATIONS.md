@@ -26,7 +26,7 @@ authentication scheme or credential is known to this codebase, and inventing one
 would produce exactly the failure this project is meant to avoid: an interface
 that looks integrated and is not.
 
-`src/lib/chat/providers/index.ts` defines the `AssistantAdapter` interface the
+`src/patient/lib/chat/providers/index.ts` defines the `AssistantAdapter` interface the
 orchestrator depends on. An authorised integration implements that interface and
 nothing else changes — retrieval, grounding, citation validation, safety routing
 and the UI are all provider-agnostic.
@@ -55,7 +55,7 @@ run a test claim, which is the only thing that produces a binding answer.
 
 ## Adding a coverage adapter
 
-Implement `CoverageAdapter` in `src/lib/coverage/adapters.ts`:
+Implement `CoverageAdapter` in `src/patient/lib/coverage/adapters.ts`:
 
 ```ts
 export interface CoverageAdapter {
@@ -114,7 +114,7 @@ npm run coverage:ingest
 
 That downloads the release, extracts only the rows matching this product's
 RXCUIs plus the plan index, and writes
-`src/content/coverage/cms-part-d-snapshot.json` (a few hundred KB, gitignored).
+`src/sources/content/coverage/cms-part-d-snapshot.json` (a few hundred KB, gitignored).
 
 **What a hit actually establishes.** That the drug appears on a *named plan's*
 published formulary, with its tier and utilisation-management flags. That is

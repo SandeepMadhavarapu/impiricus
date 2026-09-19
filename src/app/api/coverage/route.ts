@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { CoverageRequestSchema } from "@/lib/coverage/types";
-import { getCoverageAdapter, checkCoverageSafely } from "@/lib/coverage/adapters";
-import { getMedication, productLabel } from "@/lib/content/registry";
-import { rateLimit, clientKey } from "@/lib/security/ratelimit";
+import { CoverageRequestSchema } from "@/patient/lib/coverage/types";
+import { getCoverageAdapter, checkCoverageSafely } from "@/patient/lib/coverage/adapters";
+import { getMedication, productLabel } from "@/sources/lib/content/registry";
+import { rateLimit, clientKey } from "@/shared/lib/security/ratelimit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

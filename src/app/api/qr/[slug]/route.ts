@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import QRCode from "qrcode";
-import { getMedication } from "@/lib/content/registry";
-import { getPublicOrigin } from "@/lib/config";
-import { buildShareUrl } from "@/lib/share";
+import { getMedication } from "@/sources/lib/content/registry";
+import { getPublicOrigin } from "@/shared/lib/config";
+import { buildShareUrl } from "@/doctor/lib/share";
 
 export const runtime = "nodejs";
 

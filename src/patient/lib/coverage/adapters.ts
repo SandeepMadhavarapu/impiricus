@@ -1,5 +1,5 @@
 import "server-only";
-import { getCoverageConfig } from "@/lib/config";
+import { getCoverageConfig } from "@/shared/lib/config";
 import {
   lookupFormulary,
   describeQuantityLimit,

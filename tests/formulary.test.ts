@@ -5,9 +5,9 @@ import {
   FormularySnapshotSchema,
   MATCH_THRESHOLD,
   type FormularySnapshot,
-} from "@/lib/coverage/formulary";
-import { cmsFormularyAdapter, checkCoverageSafely } from "@/lib/coverage/adapters";
-import { formatCost, isPositiveEvidence, type CoverageRequest } from "@/lib/coverage/types";
+} from "@/patient/lib/coverage/formulary";
+import { cmsFormularyAdapter, checkCoverageSafely } from "@/patient/lib/coverage/adapters";
+import { formatCost, isPositiveEvidence, type CoverageRequest } from "@/patient/lib/coverage/types";
 
 const RXCUI = "153892"; // montelukast 10 MG Oral Tablet [Singulair]
 

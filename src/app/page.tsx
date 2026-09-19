@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { DEFAULT_MEDICATION_SLUG } from "@/lib/content/registry";
+import { DEFAULT_MEDICATION_SLUG } from "@/sources/lib/content/registry";
 
 /**
  * The root path goes straight to the featured medication.

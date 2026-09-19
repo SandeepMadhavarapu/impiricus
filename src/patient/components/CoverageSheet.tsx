@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import { Sheet } from "./Sheet";
-import { track } from "@/lib/analytics/client";
+import { track } from "@/shared/lib/analytics/client";
 import {
   EVIDENCE_LABELS,
   formatCost,
   type CoverageResult,
   type CoverageField,
   type TriState,
-} from "@/lib/coverage/types";
+} from "@/patient/lib/coverage/types";
 
 /**
  * Coverage check.

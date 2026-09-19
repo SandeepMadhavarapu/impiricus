@@ -3,7 +3,7 @@ import {
   assessUrgency,
   urgentGuidance,
   shouldOfferCrisisFooter,
-} from "@/lib/safety/urgent";
+} from "@/patient/lib/safety/urgent";
 
 describe("crisis detection", () => {
   const crisisMessages = [

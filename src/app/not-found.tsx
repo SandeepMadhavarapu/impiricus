@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { DEFAULT_MEDICATION_SLUG } from "@/lib/content/registry";
+import { DEFAULT_MEDICATION_SLUG } from "@/sources/lib/content/registry";
 
 /**
  * Unknown medication route.

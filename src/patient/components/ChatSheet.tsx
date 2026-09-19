@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Sheet } from "./Sheet";
-import { track } from "@/lib/analytics/client";
-import type { ChatAnswer } from "@/lib/chat/types";
-import { reasonForAnswerMode, type UnresolvedQuestion } from "@/lib/handoff";
+import { track } from "@/shared/lib/analytics/client";
+import type { ChatAnswer } from "@/patient/lib/chat/types";
+import { reasonForAnswerMode, type UnresolvedQuestion } from "@/doctor/lib/handoff";
 
 /**
  * Medication-scoped assistant.
