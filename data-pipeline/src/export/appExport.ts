@@ -231,7 +231,7 @@ export function toExport(record: MedicationRecord): MedicationExport {
   const blockedReason = blocked
     ? record.resolution.state !== "verified-match"
       ? `Identity resolution state is "${record.resolution.state}": ${record.resolution.rationale}`
-      : `Blocking conflict(s): ${blockingConflicts.map((c) => `${c.field} — ${c.note}`).join(" | ")}`
+      : `Blocking conflict(s): ${blockingConflicts.map((c) => `${c.field}: ${c.note}`).join(" | ")}`
     : null;
 
   const setId = record.label.splSetId;

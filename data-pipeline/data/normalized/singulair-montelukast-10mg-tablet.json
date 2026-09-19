@@ -179,7 +179,7 @@
       }
     ],
     "rationale": "All 8 checkable critical dimensions agree across 5 sources.",
-    "resolvedAt": "2026-09-19T20:14:04.869Z"
+    "resolvedAt": "2026-09-19T23:10:50.319Z"
   },
   "identity": {
     "productKey": "singulair-montelukast-10mg-tablet",
@@ -694,22 +694,20 @@
             "tables": [],
             "subsections": [],
             "appliesToProducts": [
-              "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
               "SINGULAIR 4mg GRANULE (NDC 78206-171)",
               "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
               "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
             ],
-            "applicability": "explicitly-shared",
+            "applicability": "not-applicable",
             "audience": "professional"
           }
         ],
         "appliesToProducts": [
-          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
           "SINGULAIR 4mg GRANULE (NDC 78206-171)",
           "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
           "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
         ],
-        "applicability": "explicitly-shared",
+        "applicability": "not-applicable",
         "audience": "professional"
       },
       {
@@ -1012,12 +1010,11 @@
             "tables": [],
             "subsections": [],
             "appliesToProducts": [
-              "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
               "SINGULAIR 4mg GRANULE (NDC 78206-171)",
               "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
               "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
             ],
-            "applicability": "explicitly-shared",
+            "applicability": "not-applicable",
             "audience": "professional"
           },
           {
@@ -1510,11 +1507,9 @@
             ],
             "subsections": [],
             "appliesToProducts": [
-              "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
-              "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
-              "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+              "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)"
             ],
-            "applicability": "explicitly-shared",
+            "applicability": "exact-product",
             "audience": "professional"
           }
         ],
@@ -1629,12 +1624,11 @@
         "tables": [],
         "subsections": [],
         "appliesToProducts": [
-          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
           "SINGULAIR 4mg GRANULE (NDC 78206-171)",
           "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
           "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
         ],
-        "applicability": "explicitly-shared",
+        "applicability": "not-applicable",
         "audience": "professional"
       },
       {
@@ -1654,11 +1648,10 @@
         "tables": [],
         "subsections": [],
         "appliesToProducts": [
-          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
           "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
           "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
         ],
-        "applicability": "explicitly-shared",
+        "applicability": "not-applicable",
         "audience": "professional"
       },
       {
@@ -1679,12 +1672,9 @@
         "tables": [],
         "subsections": [],
         "appliesToProducts": [
-          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
-          "SINGULAIR 4mg GRANULE (NDC 78206-171)",
-          "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
-          "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)"
         ],
-        "applicability": "explicitly-shared",
+        "applicability": "exact-product",
         "audience": "professional"
       }
     ],
@@ -1702,12 +1692,11 @@
         "tables": [],
         "subsections": [],
         "appliesToProducts": [
-          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
           "SINGULAIR 4mg GRANULE (NDC 78206-171)",
           "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
           "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
         ],
-        "applicability": "explicitly-shared",
+        "applicability": "not-applicable",
         "audience": "patient"
       },
       {
@@ -1835,7 +1824,7 @@
         "sourceId": "dailymed",
         "sourceName": "DailyMed SPL Web Services v2",
         "url": "https://dailymed.nlm.nih.gov/dailymed/services/v2/spls/482dcc92-b47f-4ea6-854a-f5ac2aea7842.xml",
-        "retrievedAt": "2026-09-19T19:40:28.289Z",
+        "retrievedAt": "2026-09-19T23:10:49.686Z",
         "sourceEffectiveDate": "2025-04-30",
         "sourceIdentifier": "482dcc92-b47f-4ea6-854a-f5ac2aea7842",
         "sourceVersion": "5",
@@ -1849,7 +1838,7 @@
         "sourceId": "dailymed",
         "sourceName": "DailyMed SPL Web Services v2",
         "url": "https://dailymed.nlm.nih.gov/dailymed/services/v2/spls.json?setid=482dcc92-b47f-4ea6-854a-f5ac2aea7842",
-        "retrievedAt": "2026-09-19T19:40:28.488Z",
+        "retrievedAt": "2026-09-19T23:10:49.768Z",
         "sourceEffectiveDate": "Jun 25, 2025",
         "sourceIdentifier": "482dcc92-b47f-4ea6-854a-f5ac2aea7842",
         "sourceVersion": "5",
@@ -1963,7 +1952,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/153892/properties.json",
-        "retrievedAt": "2026-09-19T19:40:28.633Z",
+        "retrievedAt": "2026-09-19T23:10:49.998Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "153892",
         "sourceVersion": null,
@@ -1977,7 +1966,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/153892/historystatus.json",
-        "retrievedAt": "2026-09-19T19:40:28.669Z",
+        "retrievedAt": "2026-09-19T23:10:50.029Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "153892",
         "sourceVersion": null,
@@ -1991,7 +1980,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/153892/allrelated.json",
-        "retrievedAt": "2026-09-19T19:40:28.780Z",
+        "retrievedAt": "2026-09-19T23:10:50.096Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "153892",
         "sourceVersion": null,
@@ -2005,7 +1994,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/153892/ndcs.json",
-        "retrievedAt": "2026-09-19T19:40:28.730Z",
+        "retrievedAt": "2026-09-19T23:10:50.154Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "153892",
         "sourceVersion": null,
@@ -2378,7 +2367,7 @@
         "sourceId": "drugsfda",
         "sourceName": "Drugs@FDA (via openFDA drug/drugsfda)",
         "url": "https://api.fda.gov/drug/drugsfda.json?search=application_number%3A%22NDA020829%22&limit=10&skip=0",
-        "retrievedAt": "2026-09-19T19:40:29.304Z",
+        "retrievedAt": "2026-09-19T23:10:50.677Z",
         "sourceEffectiveDate": "2026-09-16",
         "sourceIdentifier": "NDA020829",
         "sourceVersion": null,
@@ -2455,7 +2444,7 @@
           "sourceId": "openfda",
           "sourceName": "openFDA Drug APIs",
           "url": "https://api.fda.gov/drug/enforcement.json?search=openfda.generic_name%3A%22montelukast%20sodium%22&limit=50&skip=0",
-          "retrievedAt": "2026-09-19T19:40:29.650Z",
+          "retrievedAt": "2026-09-19T23:10:51.009Z",
           "sourceEffectiveDate": "2026-09-09",
           "sourceIdentifier": "montelukast sodium",
           "sourceVersion": null,
@@ -3054,15 +3043,15 @@
     "caveats": [
       "Only entries under `verified` are established recalls of this exact product.",
       "`candidates` share a generic name and nothing more. They frequently belong to a different manufacturer, strength or dose form.",
-      "An empty `verified` list does not mean this product has never been recalled — enforcement records often omit structured NDCs, which makes confirmation impossible from this source alone.",
+      "An empty `verified` list does not mean this product has never been recalled. Enforcement records often omit structured NDCs, which makes confirmation impossible from this source alone.",
       "Recall status changes over time. Check the report date and openFDA's own last_updated."
     ]
   },
   "applicability": {
-    "exact-product": 2,
-    "explicitly-shared": 18,
+    "exact-product": 4,
+    "explicitly-shared": 11,
     "document-level-unresolved": 37,
-    "not-applicable": 3
+    "not-applicable": 8
   },
   "conflicts": [],
   "readiness": "app-ready",
@@ -3072,6 +3061,6 @@
     "reviewedBy": null,
     "note": "No clinician has reviewed this record. 'app-ready' means structurally consumable, NOT clinically approved."
   },
-  "ingestedAt": "2026-09-19T20:14:04.885Z",
+  "ingestedAt": "2026-09-19T23:10:51.047Z",
   "parserVersion": "pipeline-0.1.0"
 }

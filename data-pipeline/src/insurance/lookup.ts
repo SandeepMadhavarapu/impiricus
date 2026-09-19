@@ -362,7 +362,7 @@ export function lookupCoverage(
   } else if (found.length === 0) {
     state = "not-found-in-checked-source";
     headline =
-      "Not found on this plan's published formulary. That is not the same as 'not covered' — an " +
+      "Not found on this plan's published formulary. That is not the same as 'not covered': an " +
       "exception process may apply, and a different strength or form may be listed.";
   } else if (restrictions.length > 0) {
     state = "conditional";

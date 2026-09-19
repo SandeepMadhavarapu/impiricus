@@ -342,7 +342,7 @@ export function decideResolution(spec: ProductSpec, inputs: ResolutionInputs): R
         rxnorm.isCurrent &&
           (!spec.expectedRxcui || rxnorm.concept.rxcui === spec.expectedRxcui),
         "rxnav",
-        rxnorm.isCurrent ? undefined : "RXCUI is not current — do not treat as active."
+        rxnorm.isCurrent ? undefined : "RXCUI is not current. Do not treat as active."
       )
     );
 

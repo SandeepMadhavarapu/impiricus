@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
-import { classifySection, applicabilityCounts, productSpecificSections } from "@pipeline/normalize/applicability.js";
+import { classifySection, applicabilityCounts, productSpecificSections, scopeSections } from "@pipeline/normalize/applicability.js";
 import type { Applicability } from "@pipeline/schemas/index.js";
 import { buildInteractionEvidence, extractNamedSubstances, findInteractionSections } from "@pipeline/normalize/interactions.js";
 import { classifyRecall, buildRecallEvidence } from "@pipeline/normalize/recalls.js";
@@ -156,6 +156,125 @@ describe("B. section applicability is explicit", () => {
     const r = classifySection(section, input);
     expect(r.applicability).toBe("document-level-unresolved");
     expect(r.appliesToProducts).toEqual([]);
+  });
+
+  /**
+   * Regression: sibling products that SHARE a dose form.
+   *
+   * The original classifier treated any form word over four characters as
+   * distinctive, so "tablet" matched a 10 mg film-coated tablet and a 4 mg
+   * chewable tablet alike. Sibling-only sections came back explicitly-shared,
+   * which is treated as safe for product-specific guidance, and the 4 mg
+   * CHEWABLE paediatric panel landed in the 10 mg adult tablet's guidance set.
+   *
+   * The existing fixture could not catch this: its only sibling is a granule,
+   * whose form word does not collide with "tablet".
+   */
+  describe("siblings sharing a dose form", () => {
+    const chewable4 = syntheticSplProduct({
+      ndc: "99999-003",
+      formDisplay: "TABLET, CHEWABLE",
+      activeIngredients: [
+        {
+          name: "TESTOLOL SUCCINATE",
+          activeMoiety: "TESTOLOL",
+          numeratorValue: "4",
+          numeratorUnit: "mg",
+          denominatorValue: "1",
+          denominatorUnit: "1",
+        },
+      ],
+    });
+    const withChewable = { selected: tablet, allProducts: [tablet, granule, chewable4] };
+
+    const section = (title: string, text: string): LabelSection => ({
+      loincCode: null,
+      printedNumber: null,
+      title,
+      paragraphs: [text],
+      highlights: [],
+      tables: [],
+      subsections: [],
+      appliesToProducts: [],
+      applicability: "document-level-unresolved",
+      audience: "professional",
+    });
+
+    it("does not treat a shared word like 'tablet' as naming the selected product", () => {
+      // The real 4 mg CHEWABLE bottle panel, which names no 10 mg product.
+      const panel = section(
+        "PRINCIPAL DISPLAY PANEL - 4 mg Tablet Bottle Label",
+        "TESTDRUG CHEWABLE Tablets 4 mg. For Pediatric Patients 2-5 Years of Age."
+      );
+      const r = classifySection(panel, withChewable);
+      expect(r.applicability).toBe("not-applicable");
+      expect(r.appliesToProducts.join(" ")).not.toContain("FILM COATED");
+    });
+
+    it("keeps sibling-only content out of product-specific guidance entirely", () => {
+      const panel = section(
+        "PRINCIPAL DISPLAY PANEL - 4 mg Tablet Bottle Label",
+        "TESTDRUG CHEWABLE Tablets 4 mg. For Pediatric Patients 2-5 Years of Age."
+      );
+      const scoped = scopeSections([panel], withChewable);
+      expect(productSpecificSections(scoped)).toHaveLength(0);
+    });
+
+    it("still recognises the selected product by a word the sibling lacks", () => {
+      const s = section("Coating", "The film coated tablet may be taken with or without food.");
+      expect(classifySection(s, withChewable).applicability).toBe("exact-product");
+    });
+
+    it("still recognises the selected product by its own strength", () => {
+      const s = section("Adult dosing", "Adults take one 10 mg tablet once daily.");
+      expect(classifySection(s, withChewable).applicability).toBe("exact-product");
+    });
+
+    it("marks a section naming both as explicitly-shared", () => {
+      const s = section("Dosage", "Adults take one 10 mg tablet. Children take one 4 mg tablet.");
+      expect(classifySection(s, withChewable).applicability).toBe("explicitly-shared");
+    });
+
+    /**
+     * When every product shares the dose form, as Toprol XL's four strengths
+     * do, form carries no signal at all and strength is the only
+     * discriminator. Matching must then be on number boundaries: plain
+     * substring matching lets "5 mg" match inside "15 mg".
+     */
+    it("does not match a strength inside a longer number", () => {
+      const fifty = syntheticSplProduct({
+        ndc: "99999-050",
+        formDisplay: "TABLET, EXTENDED RELEASE",
+        activeIngredients: [
+          {
+            name: "TESTOLOL SUCCINATE",
+            activeMoiety: "TESTOLOL",
+            numeratorValue: "5",
+            numeratorUnit: "mg",
+            denominatorValue: "1",
+            denominatorUnit: "1",
+          },
+        ],
+      });
+      const twenty5 = syntheticSplProduct({
+        ndc: "99999-025",
+        formDisplay: "TABLET, EXTENDED RELEASE",
+        activeIngredients: [
+          {
+            name: "TESTOLOL SUCCINATE",
+            activeMoiety: "TESTOLOL",
+            numeratorValue: "25",
+            numeratorUnit: "mg",
+            denominatorValue: "1",
+            denominatorUnit: "1",
+          },
+        ],
+      });
+      const input2 = { selected: fifty, allProducts: [fifty, twenty5] };
+      const s = section("Panel", "TESTDRUG extended release tablets 25 mg bottle label.");
+      // "5 mg" must NOT match inside "25 mg".
+      expect(classifySection(s, input2).applicability).toBe("not-applicable");
+    });
   });
 
   it("scopes everything to the product when the document has only one", () => {

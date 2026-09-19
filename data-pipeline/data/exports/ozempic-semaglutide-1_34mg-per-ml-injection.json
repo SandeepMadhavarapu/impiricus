@@ -130,17 +130,8 @@
           "highlights": [],
           "tables": [],
           "subsections": [],
-          "applicability": "explicitly-shared",
-          "appliesToProducts": [
-            "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-            "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-            "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-            "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-            "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-            "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-            "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-            "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
-          ],
+          "applicability": "document-level-unresolved",
+          "appliesToProducts": [],
           "audience": "professional"
         },
         {
@@ -615,14 +606,8 @@
             }
           ],
           "subsections": [],
-          "applicability": "explicitly-shared",
+          "applicability": "not-applicable",
           "appliesToProducts": [
-            "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-            "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-            "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-            "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-            "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-            "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
             "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
             "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
           ],
@@ -959,14 +944,8 @@
           "highlights": [],
           "tables": [],
           "subsections": [],
-          "applicability": "explicitly-shared",
+          "applicability": "not-applicable",
           "appliesToProducts": [
-            "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-            "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-            "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-            "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-            "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-            "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
             "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
             "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
           ],
@@ -1826,16 +1805,11 @@
       "highlights": [],
       "tables": [],
       "subsections": [],
-      "applicability": "explicitly-shared",
+      "applicability": "not-applicable",
       "appliesToProducts": [
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-        "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
         "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
         "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-        "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-        "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
+        "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)"
       ],
       "audience": "professional"
     },
@@ -1864,10 +1838,6 @@
         "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
         "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
         "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-        "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-        "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-        "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-        "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
         "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
       ],
       "audience": "professional"
@@ -1892,16 +1862,9 @@
       "highlights": [],
       "tables": [],
       "subsections": [],
-      "applicability": "explicitly-shared",
+      "applicability": "not-applicable",
       "appliesToProducts": [
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-        "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-        "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-        "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-        "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-        "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
+        "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)"
       ],
       "audience": "professional"
     },
@@ -1931,11 +1894,8 @@
         "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
         "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
         "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-        "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-        "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
         "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-        "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-        "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
+        "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)"
       ],
       "audience": "professional"
     },
@@ -1964,10 +1924,6 @@
         "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
         "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
         "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-        "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-        "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-        "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-        "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
         "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
       ],
       "audience": "professional"
@@ -1992,16 +1948,9 @@
       "highlights": [],
       "tables": [],
       "subsections": [],
-      "applicability": "explicitly-shared",
+      "applicability": "not-applicable",
       "appliesToProducts": [
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-        "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-        "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-        "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-        "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-        "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
+        "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)"
       ],
       "audience": "professional"
     },
@@ -2025,16 +1974,9 @@
       "highlights": [],
       "tables": [],
       "subsections": [],
-      "applicability": "explicitly-shared",
+      "applicability": "not-applicable",
       "appliesToProducts": [
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-        "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-        "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-        "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-        "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-        "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
+        "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)"
       ],
       "audience": "professional"
     },
@@ -2058,15 +2000,8 @@
       "highlights": [],
       "tables": [],
       "subsections": [],
-      "applicability": "explicitly-shared",
+      "applicability": "not-applicable",
       "appliesToProducts": [
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-        "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-        "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-        "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-        "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
         "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
       ],
       "audience": "professional"
@@ -2207,17 +2142,8 @@
         }
       ],
       "subsections": [],
-      "applicability": "explicitly-shared",
-      "appliesToProducts": [
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-        "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-        "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-        "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-        "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-        "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
-      ],
+      "applicability": "document-level-unresolved",
+      "appliesToProducts": [],
       "audience": "patient"
     },
     {
@@ -2366,16 +2292,10 @@
         }
       ],
       "subsections": [],
-      "applicability": "explicitly-shared",
+      "applicability": "not-applicable",
       "appliesToProducts": [
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-        "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-        "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
         "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-        "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-        "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
+        "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)"
       ],
       "audience": "patient"
     },
@@ -2525,15 +2445,8 @@
         }
       ],
       "subsections": [],
-      "applicability": "explicitly-shared",
+      "applicability": "not-applicable",
       "appliesToProducts": [
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-        "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-        "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-        "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-        "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
         "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
       ],
       "audience": "patient"
@@ -2700,17 +2613,8 @@
         }
       ],
       "subsections": [],
-      "applicability": "explicitly-shared",
-      "appliesToProducts": [
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-        "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-        "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-        "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-        "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-        "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
-      ],
+      "applicability": "document-level-unresolved",
+      "appliesToProducts": [],
       "audience": "patient"
     },
     {
@@ -2803,13 +2707,8 @@
         }
       ],
       "subsections": [],
-      "applicability": "explicitly-shared",
+      "applicability": "not-applicable",
       "appliesToProducts": [
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-        "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-        "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-        "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
         "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
         "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
         "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
@@ -3186,41 +3085,18 @@
     "caveats": [
       "Only entries under `verified` are established recalls of this exact product.",
       "`candidates` share a generic name and nothing more. They frequently belong to a different manufacturer, strength or dose form.",
-      "An empty `verified` list does not mean this product has never been recalled — enforcement records often omit structured NDCs, which makes confirmation impossible from this source alone.",
+      "An empty `verified` list does not mean this product has never been recalled. Enforcement records often omit structured NDCs, which makes confirmation impossible from this source alone.",
       "Recall status changes over time. Check the report date and openFDA's own last_updated."
     ]
   },
   "applicabilityCounts": {
     "exact-product": 0,
-    "explicitly-shared": 14,
-    "document-level-unresolved": 33,
-    "not-applicable": 9
+    "explicitly-shared": 6,
+    "document-level-unresolved": 34,
+    "not-applicable": 16
   },
   "productSpecificGuidance": {
     "sections": [
-      {
-        "loincCode": "42229-5",
-        "printedNumber": "2.1",
-        "title": "2.1 Important Administration Instructions",
-        "paragraphs": [
-          "• Inspect OZEMPIC visually before use. It should appear clear and colorless. Do not use OZEMPIC if particulate matter and coloration is seen. • Administer OZEMPIC once weekly, on the same day each week, at any time of the day, with or without meals. • Inject OZEMPIC subcutaneously in the abdomen, thigh, or upper arm. Instruct patients to use a different injection site each week when injecting in the same body region. • When using OZEMPIC with insulin, instruct patients to administer as separate injections and to never mix the products. It is acceptable to inject OZEMPIC and insulin in the same body region, but the injections should not be adjacent to each other. • The day of weekly administration can be changed if necessary as long as the time between two doses is at least 2 days (>48 hours). • If a dose is missed, administer OZEMPIC as soon as possible within 5 days after the missed dose. If more than 5 days have passed, skip the missed dose and administer the next dose on the regularly scheduled day. In each case, patients can then resume their regular once-weekly dosing schedule."
-        ],
-        "highlights": [],
-        "tables": [],
-        "subsections": [],
-        "applicability": "explicitly-shared",
-        "appliesToProducts": [
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-          "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-          "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-          "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
-        ],
-        "audience": "professional"
-      },
       {
         "loincCode": "43678-2",
         "printedNumber": "3",
@@ -3302,174 +3178,6 @@
         "audience": "professional"
       },
       {
-        "loincCode": "34084-4",
-        "printedNumber": "6.1",
-        "title": "6.1 Clinical Trials Experience",
-        "paragraphs": [
-          "Because clinical trials are conducted under widely varying conditions, adverse reaction rates observed in the clinical trials of a drug cannot be directly compared to rates in the clinical trials of another drug and may not reflect the rates observed in practice.",
-          "Pool of Placebo-Controlled Trials",
-          "Table 1 14 [see Clinical Studies ()] 1c 2 2 2 The data inare derived from 2 placebo-controlled trials (1 monotherapy trial and 1 trial in combination with basal insulin) in patients with type 2 diabetes. These data reflect exposure of 521 patients to OZEMPIC and a mean duration of exposure to OZEMPIC of 32.9 weeks. Across the treatment arms, the mean age of patients was 56 years, 3.4% were 75 years or older and 55% were male. In these trials 71% were White, 7% were Black or African American, and 19% were Asian; 21% identified as Hispanic or Latino ethnicity. At baseline, patients had type 2 diabetes for an average of 8.8 years and had a mean HbAof 8.2%. At baseline, 8.9% of the population reported retinopathy. Baseline estimated renal function was normal (eGFR ≥90 mL/min/1.73m) in 57.2%, mildly impaired (eGFR 60 to 90 mL/min/1.73m) in 35.9% and moderately impaired (eGFR 30 to 60 mL/min/1.73m) in 6.9% of patients.",
-          "Pool of Placebo- and Active-Controlled Trials",
-          "The occurrence of adverse reactions was also evaluated in a larger pool of patients with type 2 diabetes",
-          "14 [see Clinical Studies ()] 1c 2 2 2 participating in 7 placebo- and active-controlled glycemic control trialsincluding two trials in Japanese patients evaluating the use of OZEMPIC as monotherapy and add-on therapy to oral medications or insulin. In this pool, a total of 3150 patients with type 2 diabetes were treated with OZEMPIC for a mean duration of 44.9 weeks. Across the treatment arms, the mean age of patients was 57 years, 3.2% were 75 years or older and 57% were male. In these trials, 60% were White, 6% were Black or African American, and 31% were Asian; 16% identified as Hispanic or Latino ethnicity. At baseline, patients had type 2 diabetes for an average of 8.2 years and had a mean HbAof 8.2%. At baseline, 7.8% of the population reported retinopathy. Baseline estimated renal function was normal (eGFR ≥90 mL/min/1.73m) in 63.1%, mildly impaired (eGFR 60 to 90 mL/min/1.73m) in 34.3%, and moderately impaired (eGFR 30 to 60 mL/min/1.73m) in 2.5% of the patients.",
-          "Common Adverse Reactions",
-          "Table 1 shows common adverse reactions, excluding hypoglycemia, associated with the use of OZEMPIC in the pool of placebo-controlled trials. These adverse reactions occurred more commonly on OZEMPIC than on placebo and occurred in at least 5% of patients treated with OZEMPIC.",
-          "Table 1. Adverse Reactions in Placebo-Controlled Trials Reported in ≥5% of OZEMPIC-Treated Patients with Type 2 Diabetes Mellitus",
-          "Table 1 In the pool of placebo- and active-controlled trials and in the 2-year cardiovascular outcomes trial, the types and frequency of common adverse reactions, excluding hypoglycemia, were similar to those listed in.",
-          "In a clinical trial with 959 patients treated with OZEMPIC 1 mg or OZEMPIC 2 mg as add-on to metformin with or without sulfonylurea treatment for 40 weeks, no new safety signals were identified.",
-          "14.3 [see Clinical Studies ()] In the FLOW trialin patients with type 2 diabetes mellitus and chronic kidney disease, safety data collection was limited to serious adverse events and selected predefined categories of adverse events regardless of seriousness. There were no new serious or severe adverse reactions identified in this trial.",
-          "Gastrointestinal Adverse Reactions",
-          "In the pool of placebo-controlled trials, gastrointestinal adverse reactions occurred more frequently among patients receiving OZEMPIC than placebo (placebo 15.3%, OZEMPIC 0.5 mg 32.7%, OZEMPIC 1 mg 36.4%). The majority of reports of nausea, vomiting, and/or diarrhea occurred during dose escalation. More patients receiving OZEMPIC 0.5 mg (3.1%) and OZEMPIC 1 mg (3.8%) discontinued treatment due to gastrointestinal adverse reactions than patients receiving placebo (0.4%).",
-          "In the trial with OZEMPIC 1 mg and 2 mg, gastrointestinal adverse reactions occurred more frequently among patients receiving OZEMPIC 2 mg (34%) vs OZEMPIC 1 mg (30.8%).",
-          "Other Adverse Reactions",
-          "Hypoglycemia",
-          "Table 2 summarizes the incidence of events related to hypoglycemia by various definitions in the placebo-controlled trials.",
-          "Table 2. Hypoglycemia Adverse Reactions in Placebo-Controlled Trials in Patients with Type 2 Diabetes Mellitus",
-          "5.5 14 [see Warnings and Precautions (), Clinical Studies ()]. Hypoglycemia was more frequent when OZEMPIC was used in combination with a sulfonylureaSevere hypoglycemia occurred in 0.8% and 1.2% of patients when OZEMPIC 0.5 mg and 1 mg, respectively, was coadministered with a sulfonylurea.",
-          "Documented symptomatic hypoglycemia occurred in 17.3% and 24.4% of patients when OZEMPIC 0.5 mg and 1 mg, respectively, was coadministered with a sulfonylurea. Severe or blood glucose confirmed symptomatic hypoglycemia occurred in 6.5% and 10.4% of patients when OZEMPIC 0.5 mg and 1 mg, respectively, was coadministered with a sulfonylurea.",
-          "Injection Site Reactions",
-          "In placebo-controlled trials, injection site reactions (e.g., injection-site discomfort, erythema) were reported in 0.2% of OZEMPIC-treated patients.",
-          "Increases in Amylase and Lipase",
-          "In placebo-controlled trials, patients exposed to OZEMPIC had a mean increase from baseline in amylase of 13% and lipase of 22%. These changes were not observed in placebo-treated patients.",
-          "Acute Pancreatitis",
-          "In glycemic control trials, acute pancreatitis was confirmed by adjudication in 7 OZEMPIC-treated patients (0.3 cases per 100 patient years) versus 3 in comparator-treated patients (0.2 cases per 100 patient years).",
-          "Cholelithiasis",
-          "In placebo-controlled trials, cholelithiasis was reported in 1.5% and 0.4% of patients-treated with OZEMPIC 0.5 mg and 1 mg, respectively. Cholelithiasis was not reported in placebo-treated patients.",
-          "Increases in Heart Rate",
-          "In placebo-controlled trials, OZEMPIC 0.5 mg and 1 mg resulted in a mean increase in heart rate of 2 to 3 beats per minute. There was a mean decrease in heart rate of 0.3 beats per minute in placebo-treated patients.",
-          "Fatigue, Dysgeusia and Dizziness",
-          "Other adverse reactions with a frequency of >0.4% were associated with OZEMPIC include fatigue, dysgeusia and dizziness.",
-          "Table 1 In addition to the reactions in, the following gastrointestinal adverse reactions with a frequency of <5% were associated with OZEMPIC (frequencies listed, respectively, as: placebo; 0.5 mg; 1 mg): dyspepsia (1.9%, 3.5%, 2.7%), eructation (0%, 2.7%, 1.1%), flatulence (0.8%, 0.4%, 1.5%), gastroesophageal reflux disease (0%, 1.9%, 1.5%), and gastritis (0.8%, 0.8%, 0.4%)."
-        ],
-        "highlights": [],
-        "tables": [
-          {
-            "caption": null,
-            "headers": [],
-            "rows": [
-              [
-                "Adverse Reaction",
-                "Placebo (N=262) %",
-                "OZEMPIC 0.5 mg (N=260) %",
-                "OZEMPIC 1 mg (N=261) %"
-              ],
-              [
-                "Nausea",
-                "6.1",
-                "15.8",
-                "20.3"
-              ],
-              [
-                "Vomiting",
-                "2.3",
-                "5",
-                "9.2"
-              ],
-              [
-                "Diarrhea",
-                "1.9",
-                "8.5",
-                "8.8"
-              ],
-              [
-                "Abdominal pain",
-                "4.6",
-                "7.3",
-                "5.7"
-              ],
-              [
-                "Constipation",
-                "1.5",
-                "5",
-                "3.1"
-              ]
-            ]
-          },
-          {
-            "caption": null,
-            "headers": [],
-            "rows": [
-              [
-                "",
-                "Placebo",
-                "OZEMPIC 0.5 mg",
-                "OZEMPIC 1 mg"
-              ],
-              [
-                "Monotherapy"
-              ],
-              [
-                "(30 weeks)",
-                "N=129",
-                "N=127",
-                "N=130"
-              ],
-              [
-                "† Severe",
-                "0%",
-                "0%",
-                "0%"
-              ],
-              [
-                "Documented symptomatic (≤70 mg/dL glucose threshold)",
-                "0%",
-                "1.6%",
-                "3.8%"
-              ],
-              [
-                "† Severeor Blood Glucose Confirmed Symptomatic (≤56 mg/dL glucose threshold)",
-                "1.6%",
-                "0%",
-                "0%"
-              ],
-              [
-                "Add-on to Basal Insulin with or without Metformin"
-              ],
-              [
-                "(30 weeks)",
-                "N=132",
-                "N=132",
-                "N=131"
-              ],
-              [
-                "† Severe",
-                "0%",
-                "0%",
-                "1.5%"
-              ],
-              [
-                "Documented symptomatic (≤70 mg/dL glucose threshold)",
-                "15.2%",
-                "16.7%",
-                "29.8%"
-              ],
-              [
-                "† Severeor Blood Glucose Confirmed Symptomatic (≤56 mg/dL glucose threshold)",
-                "5.3%",
-                "8.3%",
-                "10.7%"
-              ],
-              [
-                "† “Severe” hypoglycemia adverse reactions are episodes requiring the assistance of another person."
-              ]
-            ]
-          }
-        ],
-        "subsections": [],
-        "applicability": "explicitly-shared",
-        "appliesToProducts": [
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-          "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-          "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-          "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
-        ],
-        "audience": "professional"
-      },
-      {
         "loincCode": "34089-3",
         "printedNumber": "11",
         "title": "11 DESCRIPTION",
@@ -3478,54 +3186,6 @@
           "Structural formula:",
           "OZEMPIC is a sterile, aqueous, clear, colorless solution. Each 3 mL prefilled, single-patient-use pen contains semaglutide 2 mg (0.68 mg/mL), 4 mg (1.34 mg/mL), or 8 mg (2.68 mg/mL). Each 1 mL of OZEMPIC solution also contains the following inactive ingredients: disodium phosphate dihydrate, 1.42 mg; propylene glycol, 14 mg; phenol, 5.5 mg; and water for injections. OZEMPIC has a pH of approximately 7.4. Hydrochloric acid or sodium hydroxide may be added to adjust pH.",
           "Each 0.5 mL single-dose syringe contains a solution of OZEMPIC containing 0.25 mg, 0.5 mg or 1 mg of semaglutide. Each 1 mL of OZEMPIC contains the following inactive ingredients: disodium phosphate dihydrate, 1.42 mg; sodium chloride, 8.25 mg; and water for injection. OZEMPIC has a pH of approximately 7.4. Hydrochloric acid or sodium hydroxide may be added to adjust pH."
-        ],
-        "highlights": [],
-        "tables": [],
-        "subsections": [],
-        "applicability": "explicitly-shared",
-        "appliesToProducts": [
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-          "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-          "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-          "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
-        ],
-        "audience": "professional"
-      },
-      {
-        "loincCode": "43682-4",
-        "printedNumber": "12.3",
-        "title": "12.3 Pharmacokinetics",
-        "paragraphs": [
-          "Absorption",
-          "Absolute bioavailability of semaglutide is 89%. Maximum concentration of semaglutide is reached 1 to 3 days post dose.",
-          "Similar exposure is achieved with subcutaneous administration of semaglutide in the abdomen, thigh, or upper arm.",
-          "In patients with type 2 diabetes, semaglutide exposure increases in a dose-proportional manner for once-weekly doses of 0.5 mg, 1 mg and 2 mg. Steady-state exposure is achieved following 4 to 5 weeks of once-weekly administration. In patients with type 2 diabetes, the mean population-PK estimated steady-state concentrations following once-weekly subcutaneous administration of 0.5 mg and 1 mg semaglutide were approximately 65 ng/mL and 123 ng/mL, respectively. In the trial comparing semaglutide 1 mg and 2 mg, the mean steady state concentrations were 111.1 ng/mL and 222.1 ng/mL, respectively.",
-          "Distribution",
-          "The mean apparent volume of distribution of semaglutide following subcutaneous administration in patients with type 2 diabetes is approximately 12.5 L. Semaglutide is extensively bound to plasma albumin (>99%).",
-          "Elimination",
-          "The apparent clearance of semaglutide in patients with type 2 diabetes is approximately 0.05 L/h. With an elimination half-life of approximately 1 week, semaglutide will be present in the circulation for about 5 weeks after the last dose.",
-          "Metabolism",
-          "The primary route of elimination for semaglutide is metabolism following proteolytic cleavage of the peptide backbone and sequential beta-oxidation of the fatty acid sidechain.",
-          "Excretion",
-          "The primary excretion routes of semaglutide-related material are via the urine and feces. Approximately 3% of the dose is excreted in the urine as intact semaglutide.",
-          "Specific Populations",
-          "Figure 3 Based on a population pharmacokinetic analysis, age, sex, race, and ethnicity, and renal impairment do not have a clinically meaningful effect on the pharmacokinetics of semaglutide. The exposure of semaglutide decreases with an increase in body weight. However, semaglutide doses of 0.5 mg and 1 mg provide adequate systemic exposure over the body weight range of 40 to 198 kg evaluated in the clinical trials. The effects of intrinsic factors on the pharmacokinetics of semaglutide are shown in.",
-          "Figure 3. Impact of Intrinsic Factors on Semaglutide Exposure",
-          "avg avg Semaglutide exposure (C) relative to reference subject profile: non-Hispanic/non-Latino, White, female below 65 years, body weight 85 kg, with normal renal function. Population PK model also included maintenance dose and injection site as covariates. Body weight test categories (55 and 127 kg) represent the 5% and 95% percentiles in the dataset. Abbreviations: C: average semaglutide concentration. CI: Confidence interval.",
-          "Patients with Renal impairment Figure 3 - Renal impairment does not impact the pharmacokinetics of semaglutide in a clinically relevant manner. This was shown in a study with a single dose of 0.5 mg semaglutide in patients with different degrees of renal impairment (mild, moderate, severe, or kidney failure) compared with subjects with normal renal function. This was also shown for subjects with both type 2 diabetes and renal impairment based on data from clinical studies ().",
-          "Patients with Hepatic impairment - Hepatic impairment does not have any impact on the exposure of semaglutide. The pharmacokinetics of semaglutide were evaluated in patients with different degrees of hepatic impairment (mild, moderate, severe) compared with subjects with normal hepatic function in a study with a single-dose of 0.5 mg semaglutide.",
-          "Pediatric Patients - Semaglutide has not been studied in pediatric patients.",
-          "Drug Interaction Studies",
-          "In vitro studies have shown very low potential for semaglutide to inhibit or induce CYP enzymes, and to inhibit drug transporters.",
-          "7.2 [see Drug Interactions ()] The delay of gastric emptying with semaglutide may influence the absorption of concomitantly administered oral medicinal products. The potential effect of semaglutide on the absorption of co-administered oral medications was studied in trials at semaglutide 1 mg steady-state exposure.",
-          "Figure 4 No clinically relevant drug-drug interaction with semaglutide () was observed based on the evaluated medications; therefore, no dose adjustment is required when co-administered with semaglutide. In a separate study, no apparent effect on the rate of gastric emptying was observed with semaglutide 2.4 mg.",
-          "Figure 4. Impact of Semaglutide on the Exposure of Coadministered Oral Medications",
-          "max Relative exposure in terms of AUC and Cfor each medication when given with semaglutide compared to without semaglutide. Metformin and oral contraceptive drug (ethinylestradiol/levonorgestrel) were assessed at steady state. Warfarin (S-warfarin/R-warfarin), digoxin and atorvastatin were assessed after a single dose.",
-          "max Abbreviations: AUC: area under the curve. C: maximum concentration. CI: confidence interval."
         ],
         "highlights": [],
         "tables": [],
@@ -3700,40 +3360,6 @@
       {
         "loincCode": "51945-4",
         "printedNumber": null,
-        "title": "PRINCIPAL DISPLAY PANEL – 0.25 mg or 0.5 mg doses, 2 mg/3mL – Pen",
-        "paragraphs": [
-          "0.25 mg",
-          "0.5 mg",
-          "13 NDC 0169-4181-List 418113",
-          "® OZEMPIC",
-          "(semaglutide) injection",
-          "For Single Patient Use Only",
-          "2 mg/3 mL (0.68 mg/mL) Prefilled pen",
-          "Pen delivers doses in 0.25 mg or 0.5 mg increments only",
-          "For subcutaneous use only",
-          "Use OZEMPIC once weekly",
-          "® Contains: 1 OZEMPIC pen, 6 NovoFinePlus 32G needles, Product Literature.",
-          "Dispense the enclosed Medication Guide to each patient."
-        ],
-        "highlights": [],
-        "tables": [],
-        "subsections": [],
-        "applicability": "explicitly-shared",
-        "appliesToProducts": [
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-          "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-          "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-          "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
-        ],
-        "audience": "professional"
-      },
-      {
-        "loincCode": "51945-4",
-        "printedNumber": null,
         "title": "PRINCIPAL DISPLAY PANEL – 1 mg dose, 4 mg/3 mL – Pen",
         "paragraphs": [
           "1 mg",
@@ -3756,43 +3382,6 @@
           "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
           "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
           "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-          "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-          "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-          "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
-        ],
-        "audience": "professional"
-      },
-      {
-        "loincCode": "51945-4",
-        "printedNumber": null,
-        "title": "PRINCIPAL DISPLAY PANEL – 2 mg dose, 8mg/3 mL – Pen",
-        "paragraphs": [
-          "2 mg",
-          "12 NDC 0169-4772-List 477212",
-          "® OZEMPIC",
-          "(semaglutide) injection",
-          "For Single Patient Use Only",
-          "8 mg/3 mL (2.68 mg/mL) Prefilled pen",
-          "Pen delivers 4 doses of 2 mg only",
-          "For subcutaneous use only",
-          "Use OZEMPIC once weekly",
-          "® Contains: 1 OZEMPIC pen, 4 NovoFinePlus 32G needles, Product Literature.",
-          "Dispense the enclosed Medication Guide to each patient."
-        ],
-        "highlights": [],
-        "tables": [],
-        "subsections": [],
-        "applicability": "explicitly-shared",
-        "appliesToProducts": [
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-          "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-          "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
           "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
         ],
         "audience": "professional"
@@ -3823,11 +3412,8 @@
           "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
           "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
           "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-          "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
           "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-          "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
+          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)"
         ],
         "audience": "professional"
       },
@@ -3856,116 +3442,13 @@
           "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
           "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
           "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-          "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-          "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-          "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
-        ],
-        "audience": "professional"
-      },
-      {
-        "loincCode": "51945-4",
-        "printedNumber": null,
-        "title": "Package/Label Display Panel – 0.25 mg/0.5 mL – Syringe",
-        "paragraphs": [
-          "NDC XXXX-XXXX-XX List XXXXXX ® Ozempic 0.25 mg",
-          "(semaglutide) injection",
-          "0.25 mg/0.5 mL",
-          "Use Ozempic 1 time a week",
-          "For subcutaneous use only",
-          "Each prefilled syringe delivers 0.25 mg semaglutide",
-          "Rx only",
-          "Dispense the enclosed Medication Guide to each patient.",
-          "Dispense in this sealed carton.",
-          "Contains: 4 x 0.5 mL Single-dose Prefilled Syringes",
-          "Push to open"
-        ],
-        "highlights": [],
-        "tables": [],
-        "subsections": [],
-        "applicability": "explicitly-shared",
-        "appliesToProducts": [
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-          "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-          "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-          "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
-        ],
-        "audience": "professional"
-      },
-      {
-        "loincCode": "51945-4",
-        "printedNumber": null,
-        "title": "Package/Label Display Panel – 0.5 mg/0.5 mL – Syringe",
-        "paragraphs": [
-          "NDC XXXX-XXXX-XX List XXXXXX ® Ozempic 0.5 mg",
-          "(semaglutide) injection",
-          "0.5 mg/0.5 mL",
-          "Use Ozempic 1 time a week",
-          "For subcutaneous use only",
-          "Each prefilled syringe delivers 0.5 mg semaglutide",
-          "Rx only",
-          "Dispense the enclosed Medication Guide to each patient.",
-          "Dispense in this sealed carton.",
-          "Contains: 4 x 0.5 mL Single-dose Prefilled Syringes",
-          "Push to open"
-        ],
-        "highlights": [],
-        "tables": [],
-        "subsections": [],
-        "applicability": "explicitly-shared",
-        "appliesToProducts": [
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-          "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-          "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-          "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
-        ],
-        "audience": "professional"
-      },
-      {
-        "loincCode": "51945-4",
-        "printedNumber": null,
-        "title": "Package/Label Display Panel – 1 mg/0.5 mL – Syringe",
-        "paragraphs": [
-          "NDC XXXX-XXXX-XX List XXXXXX ® Ozempic1 mg",
-          "(semaglutide) injection",
-          "1 mg/0.5 mL",
-          "Use Ozempic 1 time a week",
-          "For subcutaneous use only",
-          "Each prefilled syringe delivers 1 mg semaglutide",
-          "Rx only",
-          "Dispense the enclosed Medication Guide to each patient.",
-          "Dispense in this sealed carton.",
-          "Contains: 4 x 0.5 mL Single-dose Prefilled Syringes",
-          "Push to open"
-        ],
-        "highlights": [],
-        "tables": [],
-        "subsections": [],
-        "applicability": "explicitly-shared",
-        "appliesToProducts": [
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-          "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-          "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
           "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
         ],
         "audience": "professional"
       }
     ],
-    "excludedUnresolvedCount": 33,
-    "excludedNotApplicableCount": 9,
+    "excludedUnresolvedCount": 34,
+    "excludedNotApplicableCount": 16,
     "note": "Only exact-product and explicitly-shared sections. Sections the document did not scope to a product are excluded and must not be used to generate dosing or patient instructions for this product; read them in professionalLabeling instead. An empty array means the document scoped nothing, not that there is no dosing information."
   },
   "conflicts": [],
@@ -3974,7 +3457,7 @@
     "note": "No clinician has reviewed this record. 'app-ready' means structurally consumable, NOT clinically approved."
   },
   "freshness": {
-    "ingestedAt": "2026-09-19T20:14:05.051Z",
+    "ingestedAt": "2026-09-19T23:10:54.244Z",
     "splEffectiveDate": "2026-06-01",
     "sourceEffectiveDate": "2026-06-01"
   },

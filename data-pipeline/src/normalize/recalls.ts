@@ -207,7 +207,7 @@ export function buildRecallEvidence(
       "Only entries under `verified` are established recalls of this exact product.",
       "`candidates` share a generic name and nothing more. They frequently belong to a different " +
         "manufacturer, strength or dose form.",
-      "An empty `verified` list does not mean this product has never been recalled — enforcement " +
+      "An empty `verified` list does not mean this product has never been recalled. Enforcement " +
         "records often omit structured NDCs, which makes confirmation impossible from this source alone.",
       "Recall status changes over time. Check the report date and openFDA's own last_updated.",
     ],

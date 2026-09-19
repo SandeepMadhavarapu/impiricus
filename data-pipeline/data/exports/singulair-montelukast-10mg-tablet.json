@@ -507,9 +507,8 @@
           "highlights": [],
           "tables": [],
           "subsections": [],
-          "applicability": "explicitly-shared",
+          "applicability": "not-applicable",
           "appliesToProducts": [
-            "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
             "SINGULAIR 4mg GRANULE (NDC 78206-171)",
             "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
             "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
@@ -517,9 +516,8 @@
           "audience": "professional"
         }
       ],
-      "applicability": "explicitly-shared",
+      "applicability": "not-applicable",
       "appliesToProducts": [
-        "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
         "SINGULAIR 4mg GRANULE (NDC 78206-171)",
         "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
         "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
@@ -825,9 +823,8 @@
           "highlights": [],
           "tables": [],
           "subsections": [],
-          "applicability": "explicitly-shared",
+          "applicability": "not-applicable",
           "appliesToProducts": [
-            "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
             "SINGULAIR 4mg GRANULE (NDC 78206-171)",
             "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
             "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
@@ -1323,11 +1320,9 @@
             }
           ],
           "subsections": [],
-          "applicability": "explicitly-shared",
+          "applicability": "exact-product",
           "appliesToProducts": [
-            "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
-            "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
-            "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+            "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)"
           ],
           "audience": "professional"
         }
@@ -1442,9 +1437,8 @@
       "highlights": [],
       "tables": [],
       "subsections": [],
-      "applicability": "explicitly-shared",
+      "applicability": "not-applicable",
       "appliesToProducts": [
-        "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
         "SINGULAIR 4mg GRANULE (NDC 78206-171)",
         "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
         "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
@@ -1467,9 +1461,8 @@
       "highlights": [],
       "tables": [],
       "subsections": [],
-      "applicability": "explicitly-shared",
+      "applicability": "not-applicable",
       "appliesToProducts": [
-        "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
         "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
         "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
       ],
@@ -1492,12 +1485,9 @@
       "highlights": [],
       "tables": [],
       "subsections": [],
-      "applicability": "explicitly-shared",
+      "applicability": "exact-product",
       "appliesToProducts": [
-        "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
-        "SINGULAIR 4mg GRANULE (NDC 78206-171)",
-        "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
-        "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+        "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)"
       ],
       "audience": "professional"
     }
@@ -1515,9 +1505,8 @@
       "highlights": [],
       "tables": [],
       "subsections": [],
-      "applicability": "explicitly-shared",
+      "applicability": "not-applicable",
       "appliesToProducts": [
-        "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
         "SINGULAIR 4mg GRANULE (NDC 78206-171)",
         "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
         "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
@@ -2339,15 +2328,15 @@
     "caveats": [
       "Only entries under `verified` are established recalls of this exact product.",
       "`candidates` share a generic name and nothing more. They frequently belong to a different manufacturer, strength or dose form.",
-      "An empty `verified` list does not mean this product has never been recalled — enforcement records often omit structured NDCs, which makes confirmation impossible from this source alone.",
+      "An empty `verified` list does not mean this product has never been recalled. Enforcement records often omit structured NDCs, which makes confirmation impossible from this source alone.",
       "Recall status changes over time. Check the report date and openFDA's own last_updated."
     ]
   },
   "applicabilityCounts": {
-    "exact-product": 2,
-    "explicitly-shared": 18,
+    "exact-product": 4,
+    "explicitly-shared": 11,
     "document-level-unresolved": 37,
-    "not-applicable": 3
+    "not-applicable": 8
   },
   "productSpecificGuidance": {
     "sections": [
@@ -2559,45 +2548,6 @@
         "audience": "professional"
       },
       {
-        "loincCode": "43685-7",
-        "printedNumber": "5",
-        "title": "5 WARNINGS AND PRECAUTIONS",
-        "paragraphs": [],
-        "highlights": [
-          "5.2 Do not prescribe SINGULAIR to treat an acute asthma attack (). 5.2 Advise patients to have appropriate rescue medication available (). 5.3 Inhaled corticosteroid may be reduced gradually. Do not abruptly substitute SINGULAIR for inhaled or oral corticosteroids (). 5.4 Patients with known aspirin sensitivity should continue to avoid aspirin or non-steroidal anti-inflammatory agents while taking SINGULAIR (). 5.5 6.2 Systemic eosinophilia, sometimes presenting with clinical features of vasculitis consistent with Churg-Strauss syndrome, has been reported. These events have been sometimes associated with the reduction of oral corticosteroid therapy (and). 5.6 Inform patients with phenylketonuria that the 4-mg and 5-mg chewable tablets contain phenylalanine ()."
-        ],
-        "tables": [],
-        "subsections": [
-          {
-            "loincCode": "42229-5",
-            "printedNumber": "5.6",
-            "title": "5.6 Risk in Patients with Phenylketonuria",
-            "paragraphs": [
-              "SINGULAIR contains aspartame, a source of phenylalanine. Phenylalanine can be harmful to patients with phenylketonuria (PKU). Each 4 mg and 5 mg chewable tablet contains 0.674 mg and 0.842 mg of phenylalanine, respectively. Before prescribing SINGULAIR to a patient with PKU, consider the combined daily amount of phenylalanine from all sources, including SINGULAIR."
-            ],
-            "highlights": [],
-            "tables": [],
-            "subsections": [],
-            "applicability": "explicitly-shared",
-            "appliesToProducts": [
-              "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
-              "SINGULAIR 4mg GRANULE (NDC 78206-171)",
-              "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
-              "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
-            ],
-            "audience": "professional"
-          }
-        ],
-        "applicability": "explicitly-shared",
-        "appliesToProducts": [
-          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
-          "SINGULAIR 4mg GRANULE (NDC 78206-171)",
-          "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
-          "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
-        ],
-        "audience": "professional"
-      },
-      {
         "loincCode": "42229-5",
         "printedNumber": "6.1",
         "title": "6.1 Clinical Trials Experience",
@@ -2676,32 +2626,6 @@
         "applicability": "exact-product",
         "appliesToProducts": [
           "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)"
-        ],
-        "audience": "professional"
-      },
-      {
-        "loincCode": "34081-0",
-        "printedNumber": "8.4",
-        "title": "8.4 Pediatric Use",
-        "paragraphs": [
-          "Adverse Reactions (6.1) Clinical Pharmacology, Specific Populations (12.3) Clinical Studies (14.1 14.2 [see,, and,)]. Safety and effectiveness of SINGULAIR for asthma have been established in pediatric patients 6 to 14 years of age. Use of SINGULAIR for this indication is supported by evidence from well-controlled studies. Safety and efficacy data in this age group are similar to those seen in adults",
-          "The effectiveness of SINGULAIR for the treatment of seasonal allergic rhinitis in pediatric patients 2 to 14 years of age and for the treatment of perennial allergic rhinitis in pediatric patients 6 months to 14 years of age have been established and is supported by extrapolation from the demonstrated effectiveness in patients 15 years of age and older with allergic rhinitis as well as the assumption that the disease course, pathophysiology and the drug’s effect are substantially similar among these populations.",
-          "Adverse Reactions (6.1) [see]. The safety of SINGULAIR 4-mg chewable tablets in pediatric patients 2 to 5 years of age with asthma has been demonstrated by adequate and well-controlled dataEffectiveness of SINGULAIR in this age group is extrapolated from the demonstrated effectiveness in patients 6 years of age and older with asthma and is based on similar pharmacokinetic data, as well as the assumption that the disease course, pathophysiology and the drug’s effect are substantially similar among these populations. Effectiveness in this age group is supported by exploratory efficacy assessments from a large, well-controlled safety study conducted in patients 2 to 5 years of age.",
-          "Adverse Reactions (6.1) [see]. The safety of SINGULAIR 4-mg oral granules in pediatric patients 12 to 23 months of age with asthma has been demonstrated in an analysis of 172 pediatric patients, 124 of whom were treated with SINGULAIR, in a 6-week, double-blind, placebo-controlled studyEffectiveness of SINGULAIR in this age group is extrapolated from the demonstrated effectiveness in patients 6 years of age and older with asthma based on similar mean systemic exposure (AUC), and that the disease course, pathophysiology and the drug's effect are substantially similar among these populations, supported by efficacy data from a safety trial in which efficacy was an exploratory assessment.",
-          "Adverse Reactions (6.1) [see]. The safety of SINGULAIR 4-mg and 5-mg chewable tablets in pediatric patients aged 2 to 14 years with allergic rhinitis is supported by data from studies conducted in pediatric patients aged 2 to 14 years with asthma. A safety study in pediatric patients 2 to 14 years of age with seasonal allergic rhinitis demonstrated a similar safety profileThe safety of SINGULAIR 4-mg oral granules in pediatric patients as young as 6 months of age with perennial allergic rhinitis is supported by extrapolation from safety data obtained from studies conducted in pediatric patients 6 months to 23 months of age with asthma and from pharmacokinetic data comparing systemic exposures in patients 6 months to 23 months of age to systemic exposures in adults.",
-          "The safety and effectiveness in pediatric patients below the age of 12 months with asthma, 6 months with perennial allergic rhinitis, and 6 years with exercise-induced bronchoconstriction have not been established.",
-          "Growth Rate in Pediatric Patients",
-          "A 56-week, multi-center, double-blind, randomized, active- and placebo-controlled parallel group study was conducted to assess the effect of SINGULAIR on growth rate in 360 patients with mild asthma, aged 6 to 8 years. Treatment groups included SINGULAIR 5 mg once daily, placebo, and beclomethasone dipropionate administered as 168 mcg twice daily with a spacer device. For each subject, a growth rate was defined as the slope of a linear regression line fit to the height measurements over 56 weeks. The primary comparison was the difference in growth rates between SINGULAIR and placebo groups. Growth rates, expressed as least-squares (LS) mean (95% CI) in cm/year, for the SINGULAIR, placebo, and beclomethasone treatment groups were 5.67 (5.46, 5.88), 5.64 (5.42, 5.86), and 4.86 (4.64, 5.08), respectively. The differences in growth rates, expressed as least-squares (LS) mean (95% CI) in cm/year, for SINGULAIR minus placebo, beclomethasone minus placebo, and SINGULAIR minus beclomethasone treatment groups were 0.03 (-0.26, 0.31), -0.78 (-1.06, -0.49); and 0.81 (0.53, 1.09), respectively. Growth rate (expressed as mean change in height over time) for each treatment group is shown in FIGURE 1."
-        ],
-        "highlights": [],
-        "tables": [],
-        "subsections": [],
-        "applicability": "explicitly-shared",
-        "appliesToProducts": [
-          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
-          "SINGULAIR 4mg GRANULE (NDC 78206-171)",
-          "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
-          "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
         ],
         "audience": "professional"
       },
@@ -3065,11 +2989,9 @@
           }
         ],
         "subsections": [],
-        "applicability": "explicitly-shared",
+        "applicability": "exact-product",
         "appliesToProducts": [
-          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
-          "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
-          "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)"
         ],
         "audience": "professional"
       },
@@ -3124,55 +3046,6 @@
       {
         "loincCode": "51945-4",
         "printedNumber": null,
-        "title": "PRINCIPAL DISPLAY PANEL - 4 mg Tablet Bottle Label",
-        "paragraphs": [
-          "NDC 78206-170-01",
-          "Singulair (Montelukast Sodium)CHEWABLE Tablets ®",
-          "4 mg",
-          "Dispense the accompanying Medication Guideto each patient.",
-          "For Pediatric Patients 2-5 Years of Age",
-          "Phenylketonurics: contains phenylalanine(a component of aspartame) 0.674 mg per4-mg chewable tablet. Each tabletcontains 4.2 mg MontelukastSodium equivalent to4 mg Montelukast.",
-          "Rx only 30 Tablets"
-        ],
-        "highlights": [],
-        "tables": [],
-        "subsections": [],
-        "applicability": "explicitly-shared",
-        "appliesToProducts": [
-          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
-          "SINGULAIR 4mg GRANULE (NDC 78206-171)",
-          "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
-          "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
-        ],
-        "audience": "professional"
-      },
-      {
-        "loincCode": "51945-4",
-        "printedNumber": null,
-        "title": "PRINCIPAL DISPLAY PANEL - 5 mg Tablet Bottle Label",
-        "paragraphs": [
-          "NDC 78206-173-01",
-          "Singulair (Montelukast Sodium)CHEWABLE Tablets ®",
-          "5 mg",
-          "Dispense the accompanying Medication Guideto each patient.",
-          "For Pediatric Patients 6-14 Years of Age",
-          "Phenylketonurics: contains phenylalanine(a component of aspartame) 0.842 mg per5-mg chewable tablet. Each tabletcontains 5.2 mg MontelukastSodium equivalent to5 mg Montelukast.",
-          "Rx only 30 Tablets"
-        ],
-        "highlights": [],
-        "tables": [],
-        "subsections": [],
-        "applicability": "explicitly-shared",
-        "appliesToProducts": [
-          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
-          "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
-          "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
-        ],
-        "audience": "professional"
-      },
-      {
-        "loincCode": "51945-4",
-        "printedNumber": null,
         "title": "PRINCIPAL DISPLAY PANEL - 10 mg Tablet Bottle Label",
         "paragraphs": [
           "NDC 78206-172-01",
@@ -3187,18 +3060,15 @@
         "highlights": [],
         "tables": [],
         "subsections": [],
-        "applicability": "explicitly-shared",
+        "applicability": "exact-product",
         "appliesToProducts": [
-          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
-          "SINGULAIR 4mg GRANULE (NDC 78206-171)",
-          "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
-          "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)"
         ],
         "audience": "professional"
       }
     ],
     "excludedUnresolvedCount": 37,
-    "excludedNotApplicableCount": 3,
+    "excludedNotApplicableCount": 8,
     "note": "Only exact-product and explicitly-shared sections. Sections the document did not scope to a product are excluded and must not be used to generate dosing or patient instructions for this product; read them in professionalLabeling instead. An empty array means the document scoped nothing, not that there is no dosing information."
   },
   "conflicts": [],
@@ -3207,7 +3077,7 @@
     "note": "No clinician has reviewed this record. 'app-ready' means structurally consumable, NOT clinically approved."
   },
   "freshness": {
-    "ingestedAt": "2026-09-19T20:14:04.885Z",
+    "ingestedAt": "2026-09-19T23:10:51.047Z",
     "splEffectiveDate": "2025-04-30",
     "sourceEffectiveDate": "2025-04-30"
   },

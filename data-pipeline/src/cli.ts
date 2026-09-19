@@ -254,7 +254,7 @@ async function cmdReport(): Promise<void> {
       lines.push(`### ${r.productKey}`);
       lines.push("");
       for (const c of r.conflicts) {
-        lines.push(`- **${c.field}** — ${c.assessment}${c.blocksExport ? " (BLOCKS EXPORT)" : ""}`);
+        lines.push(`- **${c.field}**: ${c.assessment}${c.blocksExport ? " (BLOCKS EXPORT)" : ""}`);
         lines.push(`  - ${c.note}`);
         for (const claim of c.claims) {
           lines.push(
@@ -270,7 +270,7 @@ async function cmdReport(): Promise<void> {
   lines.push("");
   for (const r of records) {
     if (r.label.productsInDocument.length <= 1) continue;
-    lines.push(`- **${r.productKey}** — its SPL describes ${r.label.productsInDocument.length} products:`);
+    lines.push(`- **${r.productKey}**: its SPL describes ${r.label.productsInDocument.length} products:`);
     for (const p of r.label.productsInDocument) lines.push(`  - ${p}`);
   }
 

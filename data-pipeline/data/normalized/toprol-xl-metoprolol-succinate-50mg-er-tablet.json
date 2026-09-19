@@ -170,7 +170,7 @@
       }
     ],
     "rationale": "All 7 checkable critical dimensions agree across 5 sources.",
-    "resolvedAt": "2026-09-19T20:14:04.933Z"
+    "resolvedAt": "2026-09-19T23:10:51.939Z"
   },
   "identity": {
     "productKey": "toprol-xl-metoprolol-succinate-50mg-er-tablet",
@@ -398,23 +398,16 @@
             "highlights": [],
             "tables": [],
             "subsections": [],
-            "appliesToProducts": [
-              "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-              "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-              "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-              "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
-            ],
-            "applicability": "explicitly-shared",
+            "appliesToProducts": [],
+            "applicability": "document-level-unresolved",
             "audience": "professional"
           }
         ],
         "appliesToProducts": [
-          "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-          "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
           "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
           "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
         ],
-        "applicability": "explicitly-shared",
+        "applicability": "not-applicable",
         "audience": "professional"
       },
       {
@@ -548,13 +541,8 @@
             "highlights": [],
             "tables": [],
             "subsections": [],
-            "appliesToProducts": [
-              "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-              "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-              "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-              "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
-            ],
-            "applicability": "explicitly-shared",
+            "appliesToProducts": [],
+            "applicability": "document-level-unresolved",
             "audience": "professional"
           },
           {
@@ -614,13 +602,8 @@
             "audience": "professional"
           }
         ],
-        "appliesToProducts": [
-          "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-          "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-          "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-          "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
-        ],
-        "applicability": "explicitly-shared",
+        "appliesToProducts": [],
+        "applicability": "document-level-unresolved",
         "audience": "professional"
       },
       {
@@ -757,13 +740,8 @@
                 "audience": "professional"
               }
             ],
-            "appliesToProducts": [
-              "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-              "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-              "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-              "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
-            ],
-            "applicability": "explicitly-shared",
+            "appliesToProducts": [],
+            "applicability": "document-level-unresolved",
             "audience": "professional"
           }
         ],
@@ -1247,12 +1225,9 @@
         "tables": [],
         "subsections": [],
         "appliesToProducts": [
-          "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-          "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-          "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-          "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
+          "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)"
         ],
-        "applicability": "explicitly-shared",
+        "applicability": "not-applicable",
         "audience": "professional"
       },
       {
@@ -1340,8 +1315,7 @@
             "appliesToProducts": [
               "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
               "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-              "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-              "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
+              "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)"
             ],
             "applicability": "explicitly-shared",
             "audience": "professional"
@@ -1367,13 +1341,8 @@
                 "highlights": [],
                 "tables": [],
                 "subsections": [],
-                "appliesToProducts": [
-                  "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-                  "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-                  "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-                  "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
-                ],
-                "applicability": "explicitly-shared",
+                "appliesToProducts": [],
+                "applicability": "document-level-unresolved",
                 "audience": "professional"
               },
               {
@@ -1508,8 +1477,7 @@
                     "appliesToProducts": [
                       "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
                       "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-                      "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-                      "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
+                      "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)"
                     ],
                     "applicability": "explicitly-shared",
                     "audience": "professional"
@@ -1564,10 +1532,9 @@
             "tables": [],
             "subsections": [],
             "appliesToProducts": [
-              "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
               "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)"
             ],
-            "applicability": "explicitly-shared",
+            "applicability": "not-applicable",
             "audience": "professional"
           }
         ],
@@ -1595,12 +1562,9 @@
             "tables": [],
             "subsections": [],
             "appliesToProducts": [
-              "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-              "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-              "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-              "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
+              "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)"
             ],
-            "applicability": "explicitly-shared",
+            "applicability": "exact-product",
             "audience": "professional"
           },
           {
@@ -1613,13 +1577,8 @@
             "highlights": [],
             "tables": [],
             "subsections": [],
-            "appliesToProducts": [
-              "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-              "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-              "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-              "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
-            ],
-            "applicability": "explicitly-shared",
+            "appliesToProducts": [],
+            "applicability": "document-level-unresolved",
             "audience": "professional"
           },
           {
@@ -1843,12 +1802,9 @@
         "tables": [],
         "subsections": [],
         "appliesToProducts": [
-          "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-          "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-          "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-          "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
+          "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)"
         ],
-        "applicability": "explicitly-shared",
+        "applicability": "not-applicable",
         "audience": "professional"
       },
       {
@@ -1869,12 +1825,9 @@
         "tables": [],
         "subsections": [],
         "appliesToProducts": [
-          "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-          "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-          "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-          "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
+          "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)"
         ],
-        "applicability": "explicitly-shared",
+        "applicability": "not-applicable",
         "audience": "professional"
       },
       {
@@ -1895,12 +1848,9 @@
         "tables": [],
         "subsections": [],
         "appliesToProducts": [
-          "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-          "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-          "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-          "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
+          "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)"
         ],
-        "applicability": "explicitly-shared",
+        "applicability": "exact-product",
         "audience": "professional"
       },
       {
@@ -1921,12 +1871,9 @@
         "tables": [],
         "subsections": [],
         "appliesToProducts": [
-          "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-          "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-          "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
           "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
         ],
-        "applicability": "explicitly-shared",
+        "applicability": "not-applicable",
         "audience": "professional"
       }
     ],
@@ -1969,7 +1916,7 @@
         "sourceId": "dailymed",
         "sourceName": "DailyMed SPL Web Services v2",
         "url": "https://dailymed.nlm.nih.gov/dailymed/services/v2/spls/496ddfaa-7c9c-4888-b747-a210249b367a.xml",
-        "retrievedAt": "2026-09-19T19:40:30.004Z",
+        "retrievedAt": "2026-09-19T23:10:51.350Z",
         "sourceEffectiveDate": "2026-03-03",
         "sourceIdentifier": "496ddfaa-7c9c-4888-b747-a210249b367a",
         "sourceVersion": "7",
@@ -1983,7 +1930,7 @@
         "sourceId": "dailymed",
         "sourceName": "DailyMed SPL Web Services v2",
         "url": "https://dailymed.nlm.nih.gov/dailymed/services/v2/spls.json?setid=496ddfaa-7c9c-4888-b747-a210249b367a",
-        "retrievedAt": "2026-09-19T19:40:30.269Z",
+        "retrievedAt": "2026-09-19T23:10:51.595Z",
         "sourceEffectiveDate": "Mar 06, 2026",
         "sourceIdentifier": "496ddfaa-7c9c-4888-b747-a210249b367a",
         "sourceVersion": "7",
@@ -2128,7 +2075,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/866438/properties.json",
-        "retrievedAt": "2026-09-19T19:40:30.315Z",
+        "retrievedAt": "2026-09-19T23:10:51.638Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "866438",
         "sourceVersion": null,
@@ -2142,7 +2089,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/866438/historystatus.json",
-        "retrievedAt": "2026-09-19T19:40:30.392Z",
+        "retrievedAt": "2026-09-19T23:10:51.711Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "866438",
         "sourceVersion": null,
@@ -2156,7 +2103,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/866438/allrelated.json",
-        "retrievedAt": "2026-09-19T19:40:30.393Z",
+        "retrievedAt": "2026-09-19T23:10:51.711Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "866438",
         "sourceVersion": null,
@@ -2170,7 +2117,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/866438/ndcs.json",
-        "retrievedAt": "2026-09-19T19:40:30.438Z",
+        "retrievedAt": "2026-09-19T23:10:51.775Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "866438",
         "sourceVersion": null,
@@ -2457,7 +2404,7 @@
         "sourceId": "drugsfda",
         "sourceName": "Drugs@FDA (via openFDA drug/drugsfda)",
         "url": "https://api.fda.gov/drug/drugsfda.json?search=application_number%3A%22NDA019962%22&limit=10&skip=0",
-        "retrievedAt": "2026-09-19T19:40:30.973Z",
+        "retrievedAt": "2026-09-19T23:10:52.270Z",
         "sourceEffectiveDate": "2026-09-16",
         "sourceIdentifier": "NDA019962",
         "sourceVersion": null,
@@ -2624,7 +2571,7 @@
           "sourceId": "openfda",
           "sourceName": "openFDA Drug APIs",
           "url": "https://api.fda.gov/drug/enforcement.json?search=openfda.generic_name%3A%22Metoprolol%20Succinate%22&limit=50&skip=0",
-          "retrievedAt": "2026-09-19T19:40:31.308Z",
+          "retrievedAt": "2026-09-19T23:10:52.604Z",
           "sourceEffectiveDate": "2026-09-09",
           "sourceIdentifier": "Metoprolol Succinate",
           "sourceVersion": null,
@@ -3674,15 +3621,15 @@
     "caveats": [
       "Only entries under `verified` are established recalls of this exact product.",
       "`candidates` share a generic name and nothing more. They frequently belong to a different manufacturer, strength or dose form.",
-      "An empty `verified` list does not mean this product has never been recalled — enforcement records often omit structured NDCs, which makes confirmation impossible from this source alone.",
+      "An empty `verified` list does not mean this product has never been recalled. Enforcement records often omit structured NDCs, which makes confirmation impossible from this source alone.",
       "Recall status changes over time. Check the report date and openFDA's own last_updated."
     ]
   },
   "applicability": {
-    "exact-product": 0,
-    "explicitly-shared": 19,
-    "document-level-unresolved": 68,
-    "not-applicable": 8
+    "exact-product": 2,
+    "explicitly-shared": 5,
+    "document-level-unresolved": 74,
+    "not-applicable": 14
   },
   "conflicts": [],
   "readiness": "app-ready",
@@ -3692,6 +3639,6 @@
     "reviewedBy": null,
     "note": "No clinician has reviewed this record. 'app-ready' means structurally consumable, NOT clinically approved."
   },
-  "ingestedAt": "2026-09-19T20:14:04.952Z",
+  "ingestedAt": "2026-09-19T23:10:52.646Z",
   "parserVersion": "pipeline-0.1.0"
 }

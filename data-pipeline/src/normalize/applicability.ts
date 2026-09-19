@@ -21,19 +21,57 @@ import type { SplProduct } from "./spl.js";
  *   which is honest and is NOT an upgrade path to `exact-product`.
  */
 
-/** Normalises a dose-form string to comparable tokens. */
-function formTokens(form: string): string[] {
+/** Words in a dose-form string, long enough to carry meaning. */
+function formWords(form: string): string[] {
   return form
     .toLowerCase()
     .split(/[^a-z]+/)
-    .filter((t) => t.length > 3 && t !== "tablet" ? true : t.length > 3);
+    .filter((w) => w.length > 4);
 }
 
-/** Distinctive words for a dose form, e.g. "chewable", "granule", "extended". */
-function distinctiveFormWords(form: string): string[] {
-  const words = form.toLowerCase().split(/[^a-z]+/).filter(Boolean);
-  // "tablet" alone is not distinctive when several products are tablets.
-  return words.filter((w) => w.length > 4);
+/**
+ * Form words that can tell THESE TWO products apart.
+ *
+ * Distinctiveness is relative, not a property of the word. "tablet" says
+ * nothing when the other product is also a tablet, and everything when the
+ * other product is a granule. Filtering by word length alone got this wrong:
+ * "tablet" is six characters, so it survived, and every section mentioning
+ * the word matched both a 10 mg film-coated tablet and a 4 mg chewable one.
+ *
+ * That pushed sibling-only content into `explicitly-shared`, which is one of
+ * the two states treated as safe for product-specific guidance. On the real
+ * labels it placed the 4 mg CHEWABLE "For Pediatric Patients 2-5 Years of
+ * Age" panel into the 10 mg adult tablet's guidance set: precisely the merge
+ * this module exists to prevent.
+ *
+ * When two products share a dose form entirely, as Toprol XL's four strengths
+ * do, this correctly returns nothing and strength becomes the only
+ * discriminator. Fewer sections then qualify as product-specific, which is the
+ * honest result; `excludedUnresolvedCount` reports how many were held back.
+ */
+function discriminatingFormWords(form: string, comparedWith: string): string[] {
+  const other = new Set(formWords(comparedWith));
+  return formWords(form).filter((w) => !other.has(w));
+}
+
+/** Escapes a literal for use inside a RegExp. */
+function escapeRegex(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/**
+ * Matches a strength phrase on number boundaries.
+ *
+ * Plain substring matching lets "5 mg" match inside "15 mg", which would
+ * attribute a sibling's section to the wrong product. The leading lookbehind
+ * rejects a preceding digit or decimal point; the trailing boundary stops
+ * "1 mg" matching "1 mg/mL" as though it were the same strength.
+ */
+function strengthPattern(value: string, unit: string): RegExp {
+  return new RegExp(
+    `(?<![\\d.])${escapeRegex(value.trim())}\\s*-?\\s*${escapeRegex(unit.trim().toLowerCase())}\\b`,
+    "i"
+  );
 }
 
 export interface ApplicabilityInput {
@@ -78,28 +116,34 @@ export function classifySection(
     return { applicability: "document-level-unresolved", appliesToProducts: [] };
   }
 
-  const mentions = (p: SplProduct): boolean => {
-    const strength = p.activeIngredients[0];
-    const strengthPhrase =
-      strength?.numeratorValue && strength.numeratorUnit
-        ? `${strength.numeratorValue} ${strength.numeratorUnit}`.toLowerCase()
-        : null;
+  /**
+   * Does this section name `p`, in a way that distinguishes it from `versus`?
+   *
+   * Every comparison is against the OTHER side of the decision, because a
+   * signal shared by both products cannot resolve between them. For the
+   * selected product that means checking it against its siblings; for a
+   * sibling, against the selected product.
+   */
+  const mentions = (p: SplProduct, versus: SplProduct[]): boolean => {
+    const formHit = versus.length > 0 &&
+      versus.every((v) =>
+        discriminatingFormWords(p.formDisplay ?? "", v.formDisplay ?? "").some((w) =>
+          haystack.includes(w)
+        )
+      );
 
-    // A strength phrase plus a distinctive form word is a strong signal.
-    const formWords = distinctiveFormWords(p.formDisplay ?? "");
-    const formHit = formWords.some((w) => haystack.includes(w));
-    const strengthHit = strengthPhrase
-      ? haystack.includes(strengthPhrase) ||
-        haystack.includes(strengthPhrase.replace(" ", "-")) ||
-        haystack.includes(strengthPhrase.replace(" ", ""))
-      : false;
+    const strength = p.activeIngredients[0];
+    const strengthHit =
+      strength?.numeratorValue && strength.numeratorUnit
+        ? strengthPattern(strength.numeratorValue, strength.numeratorUnit).test(haystack)
+        : false;
 
     return formHit || strengthHit;
   };
 
-  const selectedMentioned = mentions(selected);
   const siblings = allProducts.filter((p) => p.ndc !== selected.ndc);
-  const siblingsMentioned = siblings.filter(mentions);
+  const selectedMentioned = mentions(selected, siblings);
+  const siblingsMentioned = siblings.filter((s) => mentions(s, [selected]));
 
   if (selectedMentioned && siblingsMentioned.length === 0) {
     return { applicability: "exact-product", appliesToProducts: [productLabel(selected)] };
@@ -189,4 +233,4 @@ export function applicabilityCounts(sections: LabelSection[]): Record<Applicabil
   return counts;
 }
 
-export { formTokens };
+

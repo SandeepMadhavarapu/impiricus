@@ -189,7 +189,7 @@
       }
     ],
     "rationale": "All 8 checkable critical dimensions agree across 4 sources.",
-    "resolvedAt": "2026-09-19T20:14:05.040Z"
+    "resolvedAt": "2026-09-19T23:10:53.544Z"
   },
   "identity": {
     "productKey": "ozempic-semaglutide-1_34mg-per-ml-injection",
@@ -326,17 +326,8 @@
             "highlights": [],
             "tables": [],
             "subsections": [],
-            "appliesToProducts": [
-              "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-              "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-              "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-              "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-              "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-              "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-              "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-              "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
-            ],
-            "applicability": "explicitly-shared",
+            "appliesToProducts": [],
+            "applicability": "document-level-unresolved",
             "audience": "professional"
           },
           {
@@ -812,16 +803,10 @@
             ],
             "subsections": [],
             "appliesToProducts": [
-              "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-              "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-              "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-              "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-              "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-              "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
               "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
               "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
             ],
-            "applicability": "explicitly-shared",
+            "applicability": "not-applicable",
             "audience": "professional"
           },
           {
@@ -1156,16 +1141,10 @@
             "tables": [],
             "subsections": [],
             "appliesToProducts": [
-              "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-              "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-              "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-              "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-              "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-              "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
               "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
               "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
             ],
-            "applicability": "explicitly-shared",
+            "applicability": "not-applicable",
             "audience": "professional"
           },
           {
@@ -2023,16 +2002,11 @@
         "tables": [],
         "subsections": [],
         "appliesToProducts": [
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
           "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
           "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-          "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
+          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)"
         ],
-        "applicability": "explicitly-shared",
+        "applicability": "not-applicable",
         "audience": "professional"
       },
       {
@@ -2059,10 +2033,6 @@
           "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
           "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
           "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-          "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-          "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
           "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
         ],
         "applicability": "explicitly-shared",
@@ -2089,16 +2059,9 @@
         "tables": [],
         "subsections": [],
         "appliesToProducts": [
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-          "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-          "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-          "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
+          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)"
         ],
-        "applicability": "explicitly-shared",
+        "applicability": "not-applicable",
         "audience": "professional"
       },
       {
@@ -2126,11 +2089,8 @@
           "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
           "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
           "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-          "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
           "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-          "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
+          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)"
         ],
         "applicability": "explicitly-shared",
         "audience": "professional"
@@ -2159,10 +2119,6 @@
           "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
           "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
           "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-          "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-          "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
           "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
         ],
         "applicability": "explicitly-shared",
@@ -2189,16 +2145,9 @@
         "tables": [],
         "subsections": [],
         "appliesToProducts": [
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-          "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-          "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-          "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
+          "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)"
         ],
-        "applicability": "explicitly-shared",
+        "applicability": "not-applicable",
         "audience": "professional"
       },
       {
@@ -2222,16 +2171,9 @@
         "tables": [],
         "subsections": [],
         "appliesToProducts": [
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-          "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-          "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-          "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
+          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)"
         ],
-        "applicability": "explicitly-shared",
+        "applicability": "not-applicable",
         "audience": "professional"
       },
       {
@@ -2255,16 +2197,9 @@
         "tables": [],
         "subsections": [],
         "appliesToProducts": [
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-          "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-          "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
           "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
         ],
-        "applicability": "explicitly-shared",
+        "applicability": "not-applicable",
         "audience": "professional"
       }
     ],
@@ -2403,17 +2338,8 @@
           }
         ],
         "subsections": [],
-        "appliesToProducts": [
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-          "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-          "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-          "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
-        ],
-        "applicability": "explicitly-shared",
+        "appliesToProducts": [],
+        "applicability": "document-level-unresolved",
         "audience": "patient"
       },
       {
@@ -2563,16 +2489,10 @@
         ],
         "subsections": [],
         "appliesToProducts": [
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-          "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
           "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-          "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
+          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)"
         ],
-        "applicability": "explicitly-shared",
+        "applicability": "not-applicable",
         "audience": "patient"
       },
       {
@@ -2722,16 +2642,9 @@
         ],
         "subsections": [],
         "appliesToProducts": [
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-          "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-          "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
           "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
         ],
-        "applicability": "explicitly-shared",
+        "applicability": "not-applicable",
         "audience": "patient"
       },
       {
@@ -2896,17 +2809,8 @@
           }
         ],
         "subsections": [],
-        "appliesToProducts": [
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-          "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
-          "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
-          "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
-          "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
-        ],
-        "applicability": "explicitly-shared",
+        "appliesToProducts": [],
+        "applicability": "document-level-unresolved",
         "audience": "patient"
       },
       {
@@ -3000,16 +2904,11 @@
         ],
         "subsections": [],
         "appliesToProducts": [
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)",
-          "Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)",
-          "Ozempic 2.68mg INJECTION, SOLUTION (NDC 0169-4772)",
-          "Ozempic 0.68mg INJECTION, SOLUTION (NDC 0169-4181)",
           "Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)",
           "Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)",
           "Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)"
         ],
-        "applicability": "explicitly-shared",
+        "applicability": "not-applicable",
         "audience": "patient"
       }
     ],
@@ -3018,7 +2917,7 @@
         "sourceId": "dailymed",
         "sourceName": "DailyMed SPL Web Services v2",
         "url": "https://dailymed.nlm.nih.gov/dailymed/services/v2/spls/adec4fd2-6858-4c99-91d4-531f5f2a2d79.xml",
-        "retrievedAt": "2026-09-19T19:40:31.708Z",
+        "retrievedAt": "2026-09-19T23:10:52.995Z",
         "sourceEffectiveDate": "2026-06-01",
         "sourceIdentifier": "adec4fd2-6858-4c99-91d4-531f5f2a2d79",
         "sourceVersion": "20",
@@ -3032,7 +2931,7 @@
         "sourceId": "dailymed",
         "sourceName": "DailyMed SPL Web Services v2",
         "url": "https://dailymed.nlm.nih.gov/dailymed/services/v2/spls.json?setid=adec4fd2-6858-4c99-91d4-531f5f2a2d79",
-        "retrievedAt": "2026-09-19T19:40:31.924Z",
+        "retrievedAt": "2026-09-19T23:10:53.217Z",
         "sourceEffectiveDate": "Jun 10, 2026",
         "sourceIdentifier": "adec4fd2-6858-4c99-91d4-531f5f2a2d79",
         "sourceVersion": "20",
@@ -3135,7 +3034,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/2398842/properties.json",
-        "retrievedAt": "2026-09-19T19:40:32.018Z",
+        "retrievedAt": "2026-09-19T23:10:53.304Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "2398842",
         "sourceVersion": null,
@@ -3149,7 +3048,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/2398842/historystatus.json",
-        "retrievedAt": "2026-09-19T19:40:32.114Z",
+        "retrievedAt": "2026-09-19T23:10:53.373Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "2398842",
         "sourceVersion": null,
@@ -3163,7 +3062,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/2398842/allrelated.json",
-        "retrievedAt": "2026-09-19T19:40:32.115Z",
+        "retrievedAt": "2026-09-19T23:10:53.372Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "2398842",
         "sourceVersion": null,
@@ -3177,7 +3076,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/2398842/ndcs.json",
-        "retrievedAt": "2026-09-19T19:40:32.114Z",
+        "retrievedAt": "2026-09-19T23:10:53.378Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "2398842",
         "sourceVersion": null,
@@ -3335,7 +3234,7 @@
         "sourceId": "drugsfda",
         "sourceName": "Drugs@FDA (via openFDA drug/drugsfda)",
         "url": "https://api.fda.gov/drug/drugsfda.json?search=application_number%3A%22NDA209637%22&limit=10&skip=0",
-        "retrievedAt": "2026-09-19T19:40:32.637Z",
+        "retrievedAt": "2026-09-19T23:10:53.868Z",
         "sourceEffectiveDate": "2026-09-16",
         "sourceIdentifier": "NDA209637",
         "sourceVersion": null,
@@ -3367,7 +3266,7 @@
           "sourceId": "openfda",
           "sourceName": "openFDA Drug APIs",
           "url": "https://api.fda.gov/drug/enforcement.json?search=openfda.generic_name%3A%22semaglutide%22&limit=50&skip=0",
-          "retrievedAt": "2026-09-19T19:40:32.972Z",
+          "retrievedAt": "2026-09-19T23:10:54.207Z",
           "sourceEffectiveDate": "2026-09-09",
           "sourceIdentifier": "semaglutide",
           "sourceVersion": null,
@@ -3548,15 +3447,15 @@
     "caveats": [
       "Only entries under `verified` are established recalls of this exact product.",
       "`candidates` share a generic name and nothing more. They frequently belong to a different manufacturer, strength or dose form.",
-      "An empty `verified` list does not mean this product has never been recalled — enforcement records often omit structured NDCs, which makes confirmation impossible from this source alone.",
+      "An empty `verified` list does not mean this product has never been recalled. Enforcement records often omit structured NDCs, which makes confirmation impossible from this source alone.",
       "Recall status changes over time. Check the report date and openFDA's own last_updated."
     ]
   },
   "applicability": {
     "exact-product": 0,
-    "explicitly-shared": 14,
-    "document-level-unresolved": 33,
-    "not-applicable": 9
+    "explicitly-shared": 6,
+    "document-level-unresolved": 34,
+    "not-applicable": 16
   },
   "conflicts": [],
   "readiness": "app-ready",
@@ -3566,6 +3465,6 @@
     "reviewedBy": null,
     "note": "No clinician has reviewed this record. 'app-ready' means structurally consumable, NOT clinically approved."
   },
-  "ingestedAt": "2026-09-19T20:14:05.051Z",
+  "ingestedAt": "2026-09-19T23:10:54.244Z",
   "parserVersion": "pipeline-0.1.0"
 }

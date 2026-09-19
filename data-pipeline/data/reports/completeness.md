@@ -1,6 +1,6 @@
 # Completeness and conflict report
 
-Generated 2026-09-19T20:16:36.677Z
+Generated 2026-09-19T23:10:54.800Z
 
 ## Completeness by product and source
 
@@ -15,7 +15,7 @@ Generated 2026-09-19T20:16:36.677Z
 No conflicts were detected across the ingested records.
 ## Products sharing a source document
 
-- **ozempic-semaglutide-1_34mg-per-ml-injection** — its SPL describes 8 products:
+- **ozempic-semaglutide-1_34mg-per-ml-injection**: its SPL describes 8 products:
   - Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4136)
   - Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4132)
   - Ozempic 1.34mg INJECTION, SOLUTION (NDC 0169-4130)
@@ -24,12 +24,12 @@ No conflicts were detected across the ingested records.
   - Ozempic 0.25mg INJECTION, SOLUTION (NDC 0169-1302)
   - Ozempic 0.5mg INJECTION, SOLUTION (NDC 0169-1305)
   - Ozempic 1mg INJECTION, SOLUTION (NDC 0169-1310)
-- **singulair-montelukast-10mg-tablet** — its SPL describes 4 products:
+- **singulair-montelukast-10mg-tablet**: its SPL describes 4 products:
   - SINGULAIR 4mg GRANULE (NDC 78206-171)
   - SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)
   - SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)
   - SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)
-- **toprol-xl-metoprolol-succinate-50mg-er-tablet** — its SPL describes 4 products:
+- **toprol-xl-metoprolol-succinate-50mg-er-tablet**: its SPL describes 4 products:
   - TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)
   - TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)
   - TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)

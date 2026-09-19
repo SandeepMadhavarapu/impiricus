@@ -32,12 +32,21 @@ schema change that a reviewer would see.
 Public formulary data (for example the CMS Part D files) **may** be evaluated,
 but it must be kept separate and must preserve one distinction:
 
-- **Formulary listing** — this plan's published drug list includes the product.
-- **Individual coverage** — this member, on this date, with this deductible, is covered.
+- **Formulary listing**: this plan's published drug list includes the product.
+- **Individual coverage**: this member, on this date, with this deductible, is covered.
 
 A listing is not coverage. Anything derived from formulary documents belongs in
 its own module with its own evidence states, never merged into
-`MedicationExport`. This pipeline currently ingests none.
+`MedicationExport`.
+
+**Status: this is now implemented, under exactly that constraint.** Medicare
+Part D formulary evidence lives in `src/insurance/` with its own schema
+(`contracts/insurance-export.d.ts`) and its own evidence states, and nothing
+from it is merged into `MedicationExport`. `memberBenefitVerified` is `false`
+on every result. A second market, Virginia Medicaid fee-for-service, is in
+`src/access/`. See [ACCESS.md](ACCESS.md) for the scope limits on both,
+including that Virginia findings are fee-for-service only and do not apply to
+managed care members.
 
 ---
 
@@ -51,7 +60,7 @@ cannot establish incidence, causation, or comparative safety. Counting them
 would manufacture a statistic that does not exist, and this pipeline feeds
 patient-facing content.
 
-If a future use case genuinely needs them — signal review, say — they belong in
+If a future use case genuinely needs them, signal review for instance, they belong in
 a separately labelled supplemental dataset, never in a patient-facing field.
 The policy is encoded as `FAERS_POLICY` in `src/sources/openfda.ts` so the
 omission is visible in code review rather than looking like an oversight.
@@ -63,10 +72,23 @@ omission is visible in code review rather than looking like an oversight.
 **Unavailable.** The RxNav Drug Interaction API was discontinued and returns
 HTTP 404 (verified; re-probed at run time by `interactionApiStatus()`).
 
-This pipeline produces **no interaction data**. An empty interactions field
-would be read as "no interactions", so no such field exists at all. A future
-interaction feature needs a licensed commercial knowledge base, and its
-licensing terms will likely restrict redistribution.
+This pipeline performs **no interaction checking**, and no field claims
+otherwise. A future checking feature needs a licensed commercial knowledge
+base, and its licensing terms will likely restrict redistribution.
+
+**What the export does carry** is the label's OWN Drug Interactions section,
+which is a different thing and is clearly separated from checking:
+
+- `interactions.sections` is the verbatim label text. This is the evidence.
+- `interactions.checkingServiceAvailable` is the literal `false`.
+- `interactions.availability: "no-label-section"` is a fact about the
+  DOCUMENT. It is not evidence that no interactions exist.
+- `mentions[]` carries a `direction`, because two negative directions exist
+  and are not interchangeable: `no-dose-adjustment-stated` says nothing about
+  whether an interaction exists, while `no-interaction-observed-stated` means
+  one was looked for and not found.
+- `completeness.level` is the literal `"index-only-not-exhaustive"`. There is
+  no "complete" value, because the extractor cannot reach completeness.
 
 ---
 
@@ -93,4 +115,4 @@ identifier (NDC, RXCUI, SPL set id, application number) and every output is
 public labeling.
 
 If a future feature needs patient data, it needs a different pipeline with an
-appropriate legal and technical basis — not an extension of this one.
+appropriate legal and technical basis, not an extension of this one.

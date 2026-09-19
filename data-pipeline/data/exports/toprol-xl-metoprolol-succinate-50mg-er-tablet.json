@@ -221,20 +221,13 @@
           "highlights": [],
           "tables": [],
           "subsections": [],
-          "applicability": "explicitly-shared",
-          "appliesToProducts": [
-            "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-            "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-            "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-            "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
-          ],
+          "applicability": "document-level-unresolved",
+          "appliesToProducts": [],
           "audience": "professional"
         }
       ],
-      "applicability": "explicitly-shared",
+      "applicability": "not-applicable",
       "appliesToProducts": [
-        "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-        "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
         "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
         "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
       ],
@@ -371,13 +364,8 @@
           "highlights": [],
           "tables": [],
           "subsections": [],
-          "applicability": "explicitly-shared",
-          "appliesToProducts": [
-            "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-            "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-            "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-            "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
-          ],
+          "applicability": "document-level-unresolved",
+          "appliesToProducts": [],
           "audience": "professional"
         },
         {
@@ -437,13 +425,8 @@
           "audience": "professional"
         }
       ],
-      "applicability": "explicitly-shared",
-      "appliesToProducts": [
-        "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-        "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-        "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-        "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
-      ],
+      "applicability": "document-level-unresolved",
+      "appliesToProducts": [],
       "audience": "professional"
     },
     {
@@ -580,13 +563,8 @@
               "audience": "professional"
             }
           ],
-          "applicability": "explicitly-shared",
-          "appliesToProducts": [
-            "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-            "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-            "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-            "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
-          ],
+          "applicability": "document-level-unresolved",
+          "appliesToProducts": [],
           "audience": "professional"
         }
       ],
@@ -1069,12 +1047,9 @@
       "highlights": [],
       "tables": [],
       "subsections": [],
-      "applicability": "explicitly-shared",
+      "applicability": "not-applicable",
       "appliesToProducts": [
-        "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-        "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-        "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-        "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
+        "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)"
       ],
       "audience": "professional"
     },
@@ -1164,8 +1139,7 @@
           "appliesToProducts": [
             "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
             "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-            "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-            "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
+            "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)"
           ],
           "audience": "professional"
         },
@@ -1190,13 +1164,8 @@
               "highlights": [],
               "tables": [],
               "subsections": [],
-              "applicability": "explicitly-shared",
-              "appliesToProducts": [
-                "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-                "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-                "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-                "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
-              ],
+              "applicability": "document-level-unresolved",
+              "appliesToProducts": [],
               "audience": "professional"
             },
             {
@@ -1332,8 +1301,7 @@
                   "appliesToProducts": [
                     "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
                     "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-                    "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-                    "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
+                    "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)"
                   ],
                   "audience": "professional"
                 }
@@ -1386,9 +1354,8 @@
           "highlights": [],
           "tables": [],
           "subsections": [],
-          "applicability": "explicitly-shared",
+          "applicability": "not-applicable",
           "appliesToProducts": [
-            "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
             "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)"
           ],
           "audience": "professional"
@@ -1417,12 +1384,9 @@
           "highlights": [],
           "tables": [],
           "subsections": [],
-          "applicability": "explicitly-shared",
+          "applicability": "exact-product",
           "appliesToProducts": [
-            "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-            "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-            "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-            "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
+            "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)"
           ],
           "audience": "professional"
         },
@@ -1436,13 +1400,8 @@
           "highlights": [],
           "tables": [],
           "subsections": [],
-          "applicability": "explicitly-shared",
-          "appliesToProducts": [
-            "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-            "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-            "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-            "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
-          ],
+          "applicability": "document-level-unresolved",
+          "appliesToProducts": [],
           "audience": "professional"
         },
         {
@@ -1665,12 +1624,9 @@
       "highlights": [],
       "tables": [],
       "subsections": [],
-      "applicability": "explicitly-shared",
+      "applicability": "not-applicable",
       "appliesToProducts": [
-        "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-        "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-        "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-        "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
+        "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)"
       ],
       "audience": "professional"
     },
@@ -1691,12 +1647,9 @@
       "highlights": [],
       "tables": [],
       "subsections": [],
-      "applicability": "explicitly-shared",
+      "applicability": "not-applicable",
       "appliesToProducts": [
-        "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-        "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-        "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-        "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
+        "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)"
       ],
       "audience": "professional"
     },
@@ -1717,12 +1670,9 @@
       "highlights": [],
       "tables": [],
       "subsections": [],
-      "applicability": "explicitly-shared",
+      "applicability": "exact-product",
       "appliesToProducts": [
-        "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-        "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-        "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-        "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
+        "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)"
       ],
       "audience": "professional"
     },
@@ -1743,11 +1693,8 @@
       "highlights": [],
       "tables": [],
       "subsections": [],
-      "applicability": "explicitly-shared",
+      "applicability": "not-applicable",
       "appliesToProducts": [
-        "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-        "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-        "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
         "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
       ],
       "audience": "professional"
@@ -2375,73 +2322,34 @@
     "caveats": [
       "Only entries under `verified` are established recalls of this exact product.",
       "`candidates` share a generic name and nothing more. They frequently belong to a different manufacturer, strength or dose form.",
-      "An empty `verified` list does not mean this product has never been recalled — enforcement records often omit structured NDCs, which makes confirmation impossible from this source alone.",
+      "An empty `verified` list does not mean this product has never been recalled. Enforcement records often omit structured NDCs, which makes confirmation impossible from this source alone.",
       "Recall status changes over time. Check the report date and openFDA's own last_updated."
     ]
   },
   "applicabilityCounts": {
-    "exact-product": 0,
-    "explicitly-shared": 19,
-    "document-level-unresolved": 68,
-    "not-applicable": 8
+    "exact-product": 2,
+    "explicitly-shared": 5,
+    "document-level-unresolved": 74,
+    "not-applicable": 14
   },
   "productSpecificGuidance": {
     "sections": [
       {
-        "loincCode": "34068-7",
-        "printedNumber": "2",
-        "title": "2 DOSAGE AND ADMINISTRATION",
-        "paragraphs": [],
-        "highlights": [
-          "2 Administer once daily. Titrate at weekly or longer intervals as needed and tolerated. () 2.1 Hypertension: Starting dose is 25 to 100 mg. () 2.2 Angina Pectoris: Starting dose is 100 mg. () 2.3 Heart Failure: Starting dose is 12.5 or 25 mg. () 2 Switching from immediate-release metoprolol to TOPROL-XL: use the same total daily dose of TOPROL-XL. ()"
+        "loincCode": "42229-5",
+        "printedNumber": null,
+        "title": null,
+        "paragraphs": [
+          "Pediatric Hypertensive Patients ≥ 6 Years of age: The recommended starting dose of TOPROL-XL is 1 mg/kg once daily, but the maximum initial dose should not exceed 50 mg once daily. Adjust dosage according to blood pressure response.",
+          "Use in Specific Populations (8.4) Clinical Pharmacology (12.3) [seeand]. Doses above 2 mg/kg (or in excess of 200 mg) once daily have not been studied in pediatric patients",
+          "Use in Specific Populations (8.4) [see] TOPROL-XL has not been studied in pediatric patients < 6 years of age."
         ],
+        "highlights": [],
         "tables": [],
-        "subsections": [
-          {
-            "loincCode": "42229-5",
-            "printedNumber": null,
-            "title": null,
-            "paragraphs": [
-              "Pediatric Hypertensive Patients ≥ 6 Years of age: The recommended starting dose of TOPROL-XL is 1 mg/kg once daily, but the maximum initial dose should not exceed 50 mg once daily. Adjust dosage according to blood pressure response.",
-              "Use in Specific Populations (8.4) Clinical Pharmacology (12.3) [seeand]. Doses above 2 mg/kg (or in excess of 200 mg) once daily have not been studied in pediatric patients",
-              "Use in Specific Populations (8.4) [see] TOPROL-XL has not been studied in pediatric patients < 6 years of age."
-            ],
-            "highlights": [],
-            "tables": [],
-            "subsections": [],
-            "applicability": "explicitly-shared",
-            "appliesToProducts": [
-              "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-              "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)"
-            ],
-            "audience": "professional"
-          },
-          {
-            "loincCode": "42229-5",
-            "printedNumber": "2.4",
-            "title": "2.4 Administration",
-            "paragraphs": [
-              "TOPROL-XL tablets are scored and can be divided; however, do not crush or chew the whole or half tablet."
-            ],
-            "highlights": [],
-            "tables": [],
-            "subsections": [],
-            "applicability": "explicitly-shared",
-            "appliesToProducts": [
-              "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-              "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-              "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-              "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
-            ],
-            "audience": "professional"
-          }
-        ],
+        "subsections": [],
         "applicability": "explicitly-shared",
         "appliesToProducts": [
           "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-          "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-          "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-          "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
+          "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)"
         ],
         "audience": "professional"
       },
@@ -2458,91 +2366,6 @@
         "highlights": [
           "3 TOPROL-XL Extended-Release Tablets (metoprolol succinate): 25 mg, 50 mg, 100 mg, and 200 mg. ()"
         ],
-        "tables": [],
-        "subsections": [],
-        "applicability": "explicitly-shared",
-        "appliesToProducts": [
-          "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-          "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-          "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-          "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
-        ],
-        "audience": "professional"
-      },
-      {
-        "loincCode": "43685-7",
-        "printedNumber": "5",
-        "title": "5 WARNINGS AND PRECAUTIONS",
-        "paragraphs": [],
-        "highlights": [
-          "5.1 Abrupt cessation may exacerbate myocardial ischemia. () 5.2 Heart Failure: Worsening cardiac failure may occur. () 5.3 Bronchospastic Disease: Avoid beta-blockers. () 5.4 Concomitant use of glycosides, clonidine, diltiazem and verapamil with beta-blockers can increase the risk of bradycardia. () 5.5 Pheochromocytoma: Initiate therapy with an alpha-blocker. () 5.6 6.1 Major Surgery: Avoid initiation of high-dose extended-release metoprolol in patients undergoing non-cardiac surgery. Do not routinely withdraw chronic beta-blocker therapy prior to surgery. (,) 5.7 Hypoglycemia: May increase risk for hypoglycemia and mask early warning signs. () 5.8 Thyrotoxicosis: Abrupt withdrawal in patients with thyrotoxicosis might precipitate a thyroid storm. () 5.9 Peripheral Vascular Disease: Can aggravate symptoms of arterial insufficiency. () 5.10 Patients may be unresponsive to the usual doses of epinephrine used to treat allergic reaction. ()"
-        ],
-        "tables": [],
-        "subsections": [
-          {
-            "loincCode": "42229-5",
-            "printedNumber": "5.6",
-            "title": "5.6 Major Surgery",
-            "paragraphs": [
-              "Avoid initiation of a high-dose regimen of extended-release metoprolol in patients undergoing non-cardiac surgery, since such use in patients with cardiovascular risk factors has been associated with bradycardia, hypotension, stroke, and death.",
-              "Chronically administered beta-blocking therapy should not be routinely withdrawn prior to major surgery; however, the impaired ability of the heart to respond to reflex adrenergic stimuli may augment the risks of general anesthesia and surgical procedures."
-            ],
-            "highlights": [],
-            "tables": [],
-            "subsections": [],
-            "applicability": "explicitly-shared",
-            "appliesToProducts": [
-              "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-              "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-              "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-              "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
-            ],
-            "audience": "professional"
-          }
-        ],
-        "applicability": "explicitly-shared",
-        "appliesToProducts": [
-          "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-          "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-          "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-          "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
-        ],
-        "audience": "professional"
-      },
-      {
-        "loincCode": "90375-7",
-        "printedNumber": "6.2",
-        "title": "6.2 Post-Marketing Experience",
-        "paragraphs": [
-          "The following adverse reactions have been identified during post-approval use of TOPROL-XL or immediate-release metoprolol. Because these reactions are reported voluntarily from a population of uncertain size, it is not always possible to reliably estimate their frequency or establish a causal relationship to drug exposure.",
-          "Cardiovascular: Cold extremities, arterial insufficiency (usually of the Raynaud type), palpitations, peripheral edema, syncope, chest pain, hypotension.",
-          "Respiratory: Wheezing (bronchospasm), dyspnea.",
-          "Central Nervous System: Confusion, short-term memory loss, headache, somnolence, nightmares, insomnia, anxiety/nervousness, hallucinations, paresthesia.",
-          "Gastrointestinal: Nausea, dry mouth, constipation, flatulence, heartburn, hepatitis, vomiting.",
-          "Hypersensitive Reactions: Pruritus.",
-          "Miscellaneous: Musculoskeletal pain, arthralgia, blurred vision, decreased libido, male impotence, tinnitus, reversible alopecia, agranulocytosis, dry eyes, worsening of psoriasis, Peyronie's disease, sweating, photosensitivity, taste disturbance."
-        ],
-        "highlights": [],
-        "tables": [],
-        "subsections": [],
-        "applicability": "explicitly-shared",
-        "appliesToProducts": [
-          "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-          "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-          "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-          "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
-        ],
-        "audience": "professional"
-      },
-      {
-        "loincCode": "34089-3",
-        "printedNumber": "11",
-        "title": "11 DESCRIPTION",
-        "paragraphs": [
-          "1 TOPROL-XL, metoprolol succinate, is a beta-selective (cardioselective) adrenoceptor blocking agent, for oral administration, available as extended-release tablets. TOPROL-XL has been formulated to provide a controlled and predictable release of metoprolol for once-daily administration. The tablets comprise a multiple unit system containing metoprolol succinate in a multitude of controlled release pellets. Each pellet acts as a separate drug delivery unit and is designed to deliver metoprolol continuously over the dosage interval. The tablets contain 23.75, 47.5, 95 and 190 mg of metoprolol succinate equivalent to 25, 50, 100 and 200 mg of metoprolol tartrate, USP, respectively. Its chemical name is (±)1- (isopropyl amino)-3-[p-(2-methoxyethyl) phenoxy]-2-propanol succinate (2:1) (salt). Its structural formula is:",
-          "Metoprolol succinate, USP is a white crystalline powder with a molecular weight of 652.8. It is freely soluble in water; soluble in methanol; sparingly soluble in ethanol; slightly soluble in dichloromethane and 2-propanol; practically insoluble in ethyl acetate, acetone, diethyl ether, and heptane. Inactive ingredients: silicon dioxide, cellulose compounds, sodium stearyl fumarate, polyethylene glycol, titanium dioxide, paraffin."
-        ],
-        "highlights": [],
         "tables": [],
         "subsections": [],
         "applicability": "explicitly-shared",
@@ -2573,30 +2396,7 @@
         "appliesToProducts": [
           "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
           "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-          "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-          "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
-        ],
-        "audience": "professional"
-      },
-      {
-        "loincCode": "42229-5",
-        "printedNumber": null,
-        "title": null,
-        "paragraphs": [
-          "Absorption",
-          "The peak plasma levels following once-daily administration of TOPROL-XL average one-fourth to one-half the peak plasma levels obtained following a corresponding dose of conventional metoprolol, administered once daily or in divided doses. At steady state the average bioavailability of metoprolol following administration of TOPROL-XL, across the dosage range of 50 to 400 mg once daily, was 77% relative to the corresponding single or divided doses of conventional metoprolol.",
-          "The bioavailability of metoprolol shows a dose-related, although not directly proportional, increase with dose and is not significantly affected by food following TOPROL-XL administration.",
-          "The peak plasma levels following oral administration of conventional metoprolol tablets, however, approximate 50% of levels following intravenous administration, indicating about 50% first-pass metabolism."
-        ],
-        "highlights": [],
-        "tables": [],
-        "subsections": [],
-        "applicability": "explicitly-shared",
-        "appliesToProducts": [
-          "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-          "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-          "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-          "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
+          "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)"
         ],
         "audience": "professional"
       },
@@ -2615,27 +2415,7 @@
         "appliesToProducts": [
           "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
           "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-          "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-          "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
-        ],
-        "audience": "professional"
-      },
-      {
-        "loincCode": "34083-6",
-        "printedNumber": "13.1",
-        "title": "13.1 Carcinogenesis, Mutagenesis, Impairment of Fertility",
-        "paragraphs": [
-          "2 2 Long-term studies in animals have been conducted to evaluate the carcinogenic potential of metoprolol tartrate. In 2-year studies in rats at three oral dosage levels of up to 800 mg/kg/day (41 times, on a mg/mbasis, the daily dose of 200 mg for a 60-kg patient), there was no increase in the development of spontaneously occurring benign or malignant neoplasms of any type. The only histologic changes that appeared to be drug related were an increased incidence of generally mild focal accumulation of foamy macrophages in pulmonary alveoli and a slight increase in biliary hyperplasia. In a 21-month study in Swiss albino mice at three oral dosage levels of up to 750 mg/kg/day (18 times, on a mg/mbasis, the daily dose of 200 mg for a 60-kg patient), benign lung tumors (small adenomas) occurred more frequently in female mice receiving the highest dose than in untreated control animals. There was no increase in malignant or total (benign plus malignant) lung tumors, nor in the overall incidence of tumors or malignant tumors. This 21-month study was repeated in CD-1 mice, and no statistically or biologically significant differences were observed between treated and control mice of either sex for any type of tumor.",
-          "Salmonella Salmonella All genotoxicity tests performed on metoprolol tartrate (a dominant lethal study in mice, chromosome studies in somatic cells, a/mammalian-microsome mutagenicity test, and a nucleus anomaly test in somatic interphase nuclei) and metoprolol succinate (a/mammalian-microsome mutagenicity test) were negative.",
-          "2 No evidence of impaired fertility due to metoprolol tartrate was observed in a study performed in rats at doses up to 22 times, on a mg/mbasis, the daily dose of 200 mg in a 60-kg patient."
-        ],
-        "highlights": [],
-        "tables": [],
-        "subsections": [],
-        "applicability": "explicitly-shared",
-        "appliesToProducts": [
-          "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-          "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)"
+          "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)"
         ],
         "audience": "professional"
       },
@@ -2650,31 +2430,9 @@
         "highlights": [],
         "tables": [],
         "subsections": [],
-        "applicability": "explicitly-shared",
+        "applicability": "exact-product",
         "appliesToProducts": [
-          "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-          "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-          "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-          "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
-        ],
-        "audience": "professional"
-      },
-      {
-        "loincCode": "42229-5",
-        "printedNumber": "14.2",
-        "title": "14.2 Angina Pectoris",
-        "paragraphs": [
-          "In controlled clinical trials, an immediate-release formulation of metoprolol has been shown to be an effective antianginal agent, reducing the number of angina attacks and increasing exercise tolerance. The dosage used in these studies ranged from 100 to 400 mg daily. TOPROL-XL, in dosages of 100 to 400 mg once daily, has been shown to possess beta- blockade similar to conventional metoprolol tablets administered two to four times daily."
-        ],
-        "highlights": [],
-        "tables": [],
-        "subsections": [],
-        "applicability": "explicitly-shared",
-        "appliesToProducts": [
-          "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-          "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-          "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-          "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
+          "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)"
         ],
         "audience": "professional"
       },
@@ -2743,58 +2501,6 @@
       {
         "loincCode": "51945-4",
         "printedNumber": null,
-        "title": "PRINCIPAL DISPLAY PANEL - 200 mg Tablet Bottle Label",
-        "paragraphs": [
-          "NDC 70842-113-02",
-          "100 tablets",
-          "® TOPROL-XL",
-          "(metoprolol succinate)extended-release tablets",
-          "200 mg*",
-          "Rx only",
-          "CAUTIONVerify ProductDispensed",
-          "melintatherapeutics"
-        ],
-        "highlights": [],
-        "tables": [],
-        "subsections": [],
-        "applicability": "explicitly-shared",
-        "appliesToProducts": [
-          "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-          "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-          "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-          "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
-        ],
-        "audience": "professional"
-      },
-      {
-        "loincCode": "51945-4",
-        "printedNumber": null,
-        "title": "PRINCIPAL DISPLAY PANEL - 100 mg Tablet Bottle Label",
-        "paragraphs": [
-          "NDC 70842-112-02",
-          "100 tablets",
-          "® TOPROL-XL",
-          "(metoprolol succinate)extended-release tablets",
-          "100 mg*",
-          "Rx only",
-          "CAUTIONVerify ProductDispensed",
-          "melintatherapeutics"
-        ],
-        "highlights": [],
-        "tables": [],
-        "subsections": [],
-        "applicability": "explicitly-shared",
-        "appliesToProducts": [
-          "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-          "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-          "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-          "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
-        ],
-        "audience": "professional"
-      },
-      {
-        "loincCode": "51945-4",
-        "printedNumber": null,
         "title": "PRINCIPAL DISPLAY PANEL - 50 mg Tablet Bottle Label",
         "paragraphs": [
           "NDC 70842-111-02",
@@ -2809,44 +2515,15 @@
         "highlights": [],
         "tables": [],
         "subsections": [],
-        "applicability": "explicitly-shared",
+        "applicability": "exact-product",
         "appliesToProducts": [
-          "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-          "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-          "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-          "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
-        ],
-        "audience": "professional"
-      },
-      {
-        "loincCode": "51945-4",
-        "printedNumber": null,
-        "title": "PRINCIPAL DISPLAY PANEL - 25 mg Tablet Bottle Label",
-        "paragraphs": [
-          "NDC 70842-110-02",
-          "100 tablets",
-          "® TOPROL-XL",
-          "(metoprolol succinate)extended-release tablets",
-          "25 mg*",
-          "Rx only",
-          "CAUTIONVerify ProductDispensed",
-          "melintatherapeutics"
-        ],
-        "highlights": [],
-        "tables": [],
-        "subsections": [],
-        "applicability": "explicitly-shared",
-        "appliesToProducts": [
-          "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)",
-          "TOPROL XL 200mg TABLET, EXTENDED RELEASE (NDC 70842-113)",
-          "TOPROL XL 100mg TABLET, EXTENDED RELEASE (NDC 70842-112)",
-          "TOPROL XL 25mg TABLET, EXTENDED RELEASE (NDC 70842-110)"
+          "TOPROL XL 50mg TABLET, EXTENDED RELEASE (NDC 70842-111)"
         ],
         "audience": "professional"
       }
     ],
-    "excludedUnresolvedCount": 68,
-    "excludedNotApplicableCount": 8,
+    "excludedUnresolvedCount": 74,
+    "excludedNotApplicableCount": 14,
     "note": "Only exact-product and explicitly-shared sections. Sections the document did not scope to a product are excluded and must not be used to generate dosing or patient instructions for this product; read them in professionalLabeling instead. An empty array means the document scoped nothing, not that there is no dosing information."
   },
   "conflicts": [],
@@ -2855,7 +2532,7 @@
     "note": "No clinician has reviewed this record. 'app-ready' means structurally consumable, NOT clinically approved."
   },
   "freshness": {
-    "ingestedAt": "2026-09-19T20:14:04.952Z",
+    "ingestedAt": "2026-09-19T23:10:52.646Z",
     "splEffectiveDate": "2026-03-03",
     "sourceEffectiveDate": "2026-03-03"
   },
