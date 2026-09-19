@@ -1,7 +1,24 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-09-19T20:01:15.702Z",
+  "generatedAt": "2026-09-19T20:17:17.588Z",
   "note": "retrievalStatus separates DISCOVERY from RETRIEVAL. Only entries marked retrieved-validated or verified-against-original contributed data to any export. Entries marked discovered or not-attempted are documented leads, and nothing depends on them.",
+  "supportedScope": {
+    "products": "three-selected-products",
+    "formularyEvidence": "public-formulary-evidence-from-verified-cms-release",
+    "markets": "medicare-part-d-only",
+    "memberSpecificCoverage": false,
+    "copayVerification": false,
+    "comprehensiveInteractionChecker": false,
+    "clinicalReview": false,
+    "statements": [
+      "Three selected medication products.",
+      "Public formulary evidence from the verified CMS release.",
+      "Medicare Part D only.",
+      "No member-specific coverage or copay verification.",
+      "No comprehensive interaction checker.",
+      "No clinical review."
+    ]
+  },
   "entries": [
     {
       "id": "cms-part-d-monthly-formulary",

@@ -3,7 +3,7 @@
 What was verified against live sources, what was tested with fixtures, what is
 unavailable, and what remains unreviewed.
 
-Audit date: **2026-09-19** (second pass).
+Audit date: **2026-09-19** (third pass).
 
 ---
 
@@ -54,7 +54,7 @@ legitimately appears in both places. Block-level detail is in
 
 | # | Fix | Evidence after the change |
 |---|---|---|
-| A | Interactions | All three: `availability: "label-section-available"`, `checkingServiceAvailable: false`. Absence is typed as `no-label-section` with a caveat that it is a fact about the document, not about safety. **See the correction below — the substance list was itself misleading and has been replaced.** |
+| A | Interactions | All three: `availability: "label-section-available"`, `checkingServiceAvailable: false`. Absence is typed as `no-label-section` with a caveat that it is a fact about the document, not about safety. **See the corrections below — the substance list was misleading twice, in opposite directions, and both are fixed.** |
 | B | Applicability | Real states. Singulair: 2 exact-product, 18 explicitly-shared, 37 document-level-unresolved, **3 not-applicable** (sections belonging to the chewable/granule siblings). `productSpecificSections()` excludes unresolved content. |
 | C | Approval | **NDA209637 product 002** (4MG/3ML, Prescription). Products 001 and 002 both read 1.34 MG/ML; 001 is **Discontinued**. Package volume 3 mL, taken from RxNorm concept `2398842` ("3 ML … Pen Injector"), is what separates them. Without the volume the matcher returns `ambiguous` rather than guessing. |
 | D | Recalls | Tiered. **0 verified, 23 candidates** across the three products. No false "this product was recalled". An empty verified list is explicitly documented as not proving the absence of recalls. |
@@ -72,19 +72,82 @@ render as "interacts with warfarin". The source sentence says the opposite:
 > theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine,
 > digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones…"
 
-All 14 were statements of **no** clinically significant interaction. The flat
-list is replaced by classified `mentions`, each carrying the sentence it came
-from, preserved qualifiers, and an `isAdverseInteraction` flag:
-
-| Product | Mentions | No significant interaction stated | Interaction described |
-|---|---:|---:|---:|
-| singulair-montelukast-10mg-tablet | 14 | **14** | 0 |
-| toprol-xl-metoprolol-succinate-50mg-er-tablet | 2 | 0 | 1 (`other-affects-this`) |
-| ozempic-semaglutide-1_34mg-per-ml-injection | 1 | 0 | 1 (direction unclear) |
+The flat list is replaced by classified `mentions`, each carrying the sentence
+it came from, preserved qualifiers, and an `isAdverseInteraction` flag.
 
 Two extraction artifacts were also fixed: `"insulin secretagogue e"` (residue
 from stripping a parenthetical) and `"ozempic"` (the product listing itself as
 an interacting substance).
+
+### Correction to the correction: dosing guidance is not an observed absence
+
+The fix above then overreached in the opposite direction. It classified all 14
+substances as `no-significant-interaction-stated` and this document claimed
+"all 14 were statements of **no** clinically significant interaction."
+
+**That claim was wrong.** The source sentence is *dosing guidance*. A drug can
+interact measurably — a real change in exposure — and still require no dose
+adjustment, because the change is not large enough to matter for dosing. The
+label says the dose stands. It does not say the drugs do not interact.
+
+Inverting a warning and manufacturing a clearance are the same class of error:
+both assert something the source never said.
+
+The single direction is now split, and the two are never merged:
+
+| Direction | What the label claims | Interaction status |
+|---|---|---|
+| `no-dose-adjustment-stated` | The dose need not change | **Unknown** |
+| `no-interaction-observed-stated` | An interaction was not observed, or not clinically significant | Stated absent, for what was studied |
+
+Mentions also carry `assertsNoInteraction`, true only for the second, and
+`isDosingGuidanceOnly`, true only for the first.
+
+| Product | Mentions | No dose adjustment (status unknown) | No interaction observed | Interaction described |
+|---|---:|---:|---:|---:|
+| singulair-montelukast-10mg-tablet | 14 | **14** | 0 | 0 |
+| toprol-xl-metoprolol-succinate-50mg-er-tablet | 2 | 0 | 0 | 1 (`other-affects-this`) |
+| ozempic-semaglutide-1_34mg-per-ml-injection | 1 | 0 | 0 | 1 (direction unclear) |
+
+Across all three products, `assertsNoInteraction` is true for **nothing**. None
+of these labels states that an interaction is absent.
+
+### Extraction completeness is now exported
+
+"0 adverse mentions extracted" was readable as "no adverse interactions". It is
+not the same claim, and the export now says so in the data rather than in a
+caveat string.
+
+`interactions.completeness.level` is the literal `"index-only-not-exhaustive"`.
+There is no `"complete"` value, because the extractor cannot reach completeness:
+it only harvests names from explicit enumerations following a coadministration
+phrase, so prose, class-level and table-borne interactions are never counted.
+
+| Product | Sentences scanned | With coadministration phrase | Yielded substances | Unparsed |
+|---|---:|---:|---:|---:|
+| singulair-montelukast-10mg-tablet | 2 | 1 | 1 | 0 |
+| toprol-xl-metoprolol-succinate-50mg-er-tablet | 11 | 3 | 2 | 1 |
+| ozempic-semaglutide-1_34mg-per-ml-injection | 8 | 2 | 1 | 1 |
+
+`unparsed` is the blind spot, reported rather than hidden. The substance lists
+are incomplete indexes; `interactions.sections` — the full label sections,
+verbatim — remains the evidence.
+
+### Defect found this pass: unresolved sections leaked through nesting
+
+`productSpecificSections()` was documented as excluding
+`document-level-unresolved` content. It selected matching nodes and returned
+them **whole**, so an unresolved subsection rode along inside a safe parent. It
+also emitted safe subsections twice, once nested and once hoisted.
+
+Measured on the real exports before the fix, the "product-specific" trees
+contained 37, 68 and 33 unresolved sections respectively — the exact content
+the filter existed to withhold.
+
+The filter is now depth-aware: every node in the returned tree is itself
+`exact-product` or `explicitly-shared`, and a safe section under an unresolved
+parent is hoisted rather than dropped. Verified on all three exports: the only
+applicability states reachable through `productSpecificGuidance` are those two.
 
 ---
 
@@ -141,7 +204,7 @@ ingesting it.
 
 ## 3. Tested with synthetic fixtures
 
-**132 tests across 6 files, all passing, no network.** Fixtures are marked
+**159 tests across 7 files, all passing, no network.** Fixtures are marked
 `SYNTHETIC-FIXTURE-DO-NOT-USE-AS-DATA` and never written to `data/`.
 
 New coverage this pass, beyond the original 76:
@@ -190,7 +253,13 @@ interaction-API probe which logs `available=false http=404`.
 - **Named-substance extraction is conservative** and deliberately
   under-extracts. Toprol XL yields only one substance because its interactions
   live in prose subsections rather than enumerations. The full section text is
-  exported regardless; the list is a convenience, not the evidence.
+  exported regardless; the list is an incomplete index, not the evidence. This
+  is now stated in the data as `completeness.level`, not only in prose, so a
+  zero count cannot be misread as an absence.
+- **Applicability is not upgraded by the guidance filter.** Excluding
+  unresolved sections from `productSpecificGuidance` withholds them; it does
+  not make the remainder complete. An empty guidance array would mean the
+  document scoped nothing, not that no dosing information exists.
 - **Cost-sharing rules are committed for demo plans only.** The full 172,660-row
   file is re-fetchable with `npm run insurance:ingest`.
 - **No PDF extraction exists yet.** Every insurance source requiring it

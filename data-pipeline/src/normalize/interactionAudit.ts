@@ -24,8 +24,21 @@ import { walkSections } from "./spl.js";
  */
 
 export type InteractionDirection =
-  /** The label states no dose adjustment / no significant effect. */
-  | "no-significant-interaction-stated"
+  /**
+   * The label gives DOSING guidance: no dose adjustment is needed.
+   *
+   * This is NOT a statement that no interaction exists. A drug can interact
+   * measurably and still need no dose change. Inferring absence of an
+   * interaction from dosing guidance is exactly the inference this pipeline
+   * must not make.
+   */
+  | "no-dose-adjustment-stated"
+  /**
+   * The label states that no interaction or no significant effect was
+   * OBSERVED, e.g. "did not alter the pharmacokinetics of". This is an
+   * assertion about the interaction itself.
+   */
+  | "no-interaction-observed-stated"
   /** The other drug affects this drug. */
   | "other-affects-this"
   /** This drug affects the other drug. */
@@ -46,31 +59,93 @@ export interface InteractionMention {
   sectionTitle: string | null;
   loincCode: string | null;
   /**
-   * False when the label states no significant interaction. Consumers must
-   * not render these as warnings.
+   * True only when the label describes an interaction. False for dosing
+   * guidance and for observed-no-interaction statements. Consumers must not
+   * render a false value as a warning.
    */
   isAdverseInteraction: boolean;
+  /**
+   * True ONLY when the label states an interaction was not observed.
+   * Deliberately false for "no dose adjustment is needed" — that sentence
+   * says nothing about whether an interaction exists.
+   */
+  assertsNoInteraction: boolean;
+  /**
+   * True when the sentence is dosing guidance only. The interaction status
+   * is UNKNOWN from this sentence.
+   */
+  isDosingGuidanceOnly: boolean;
 }
 
 export interface InteractionAuditResult {
   mentions: InteractionMention[];
   /** Counts by direction, for the report. */
   counts: Record<InteractionDirection, number>;
-  /** Substances the label explicitly clears. */
-  statedNoInteraction: string[];
+  /**
+   * Substances for which the label states NO DOSE ADJUSTMENT is needed.
+   * Interaction status is unknown for these — dosing guidance is not a
+   * statement about interaction.
+   */
+  noDoseAdjustmentStated: string[];
+  /** Substances for which the label states no interaction was OBSERVED. */
+  noInteractionObservedStated: string[];
   /** Substances with a described interaction. */
   describedInteraction: string[];
+  /** How exhaustive this extraction is. Never "complete". */
+  completeness: ExtractionCompleteness;
   caveats: string[];
 }
 
-/** Sentences asserting absence of a clinically significant interaction. */
-const NO_INTERACTION_PATTERNS = [
-  /\bno (?:dose|dosage) adjustment is (?:needed|required|necessary)\b/i,
-  /\bno clinically (?:significant|relevant|meaningful) (?:effect|interaction|change)\b/i,
+/**
+ * Extraction completeness.
+ *
+ * A count of zero adverse mentions means the EXTRACTOR found none in the
+ * sentences it could parse. It does not mean the label describes no adverse
+ * interactions, and it certainly does not mean none exist. The full
+ * interactions section is exported alongside and is the evidence.
+ */
+export interface ExtractionCompleteness {
+  /** Always "index-only-not-exhaustive". There is no "complete" value. */
+  level: "index-only-not-exhaustive";
+  sentencesScanned: number;
+  /** Sentences containing a coadministration phrase the extractor recognises. */
+  sentencesWithCoadministrationPhrase: number;
+  /** Sentences that yielded at least one substance. */
+  sentencesYieldingSubstances: number;
+  /** Sentences with a coadministration phrase that yielded nothing. */
+  sentencesUnparsed: number;
+  /** Where the actual evidence lives. */
+  evidenceLocation: string;
+  note: string;
+}
+
+/**
+ * DOSING GUIDANCE. These sentences say a dose need not change.
+ *
+ * They do NOT say an interaction is absent, and must never be read that way.
+ * A drug can interact measurably -- a real change in exposure -- and still
+ * require no dose adjustment because the change is not large enough to matter
+ * for dosing. Inferring "no interaction" from "no dose adjustment" is the
+ * specific inference this module exists to prevent.
+ */
+const NO_DOSE_ADJUSTMENT_PATTERNS = [
+  /\bno (?:dose|dosage) (?:adjustment|modification)s? (?:is |are |was |were )?(?:needed|required|necessary|recommended|warranted)\b/i,
+  /\b(?:dose|dosage) (?:adjustment|modification)s? (?:is |are )?not (?:needed|required|necessary|recommended|warranted)\b/i,
+  /\bno adjustment (?:of|in) (?:the )?(?:dose|dosage)\b/i,
+];
+
+/**
+ * OBSERVED ABSENCE. These sentences assert something about the interaction
+ * itself: it was looked for and not found, or was found not to be clinically
+ * significant. This is the only family that supports "no interaction stated".
+ */
+const NO_INTERACTION_OBSERVED_PATTERNS = [
+  /\bno clinically (?:significant|relevant|meaningful|important) (?:effect|interaction|change|difference)\b/i,
   /\bdid not (?:significantly )?(?:alter|change|affect|influence)\b/i,
-  /\bwere not (?:significantly )?(?:altered|changed|affected)\b/i,
-  /\bhad no (?:significant )?effect\b/i,
-  /\bno interaction\b/i,
+  /\b(?:was|were) not (?:significantly )?(?:altered|changed|affected|influenced)\b/i,
+  /\bhad no (?:significant |clinically significant )?effect\b/i,
+  /\bno (?:significant )?interactions? (?:was|were|has been|have been|are|is) (?:observed|detected|reported|identified|found|seen|expected)\b/i,
+  /\bno (?:pharmacokinetic )?interaction was (?:observed|detected|seen|found)\b/i,
 ];
 
 /** The other drug acts on this one. */
@@ -157,9 +232,30 @@ function candidateSubstances(sentence: string, selfNames: string[] = []): string
   return [...found];
 }
 
+/** Directions that describe an actual interaction. */
+const ADVERSE_DIRECTIONS = new Set<InteractionDirection>([
+  "other-affects-this",
+  "this-affects-other",
+  "interaction-described-direction-unclear",
+  "mentioned-unclassified",
+]);
+
+/**
+ * Detects that a sentence TALKS about coadministration, independently of
+ * whether any substance could be pulled out of it. The gap between the two is
+ * the extractor's blind spot, and is reported rather than hidden.
+ */
+const COADMINISTRATION_PHRASE =
+  /co-?administered with|given with|used with|combination with|concomitant use (?:of|with)|coadministration with|administered with/i;
+
 function classify(sentence: string): InteractionDirection {
-  if (NO_INTERACTION_PATTERNS.some((p) => p.test(sentence))) {
-    return "no-significant-interaction-stated";
+  // Dosing guidance is checked FIRST and kept separate. "No dose adjustment is
+  // needed" is advice about dosing, not evidence about interaction.
+  if (NO_DOSE_ADJUSTMENT_PATTERNS.some((p) => p.test(sentence))) {
+    return "no-dose-adjustment-stated";
+  }
+  if (NO_INTERACTION_OBSERVED_PATTERNS.some((p) => p.test(sentence))) {
+    return "no-interaction-observed-stated";
   }
   if (OTHER_AFFECTS_THIS.some((p) => p.test(sentence))) return "other-affects-this";
   if (THIS_AFFECTS_OTHER.some((p) => p.test(sentence))) return "this-affects-other";
@@ -181,13 +277,21 @@ export function auditInteractions(
   const self = selfNames.map((n) => n.toLowerCase().trim()).filter(Boolean);
   const mentions: InteractionMention[] = [];
 
+  let sentencesScanned = 0;
+  let sentencesWithPhrase = 0;
+  let sentencesYielding = 0;
+
   for (const section of walkSections(sections)) {
     const text = [...section.paragraphs, ...section.highlights].join(" ");
     if (text.trim().length === 0) continue;
 
     for (const sentence of sentences(text)) {
+      sentencesScanned++;
+      if (COADMINISTRATION_PHRASE.test(sentence)) sentencesWithPhrase++;
+
       const substances = candidateSubstances(sentence, self);
       if (substances.length === 0) continue;
+      sentencesYielding++;
 
       const direction = classify(sentence);
       const qualifiers = qualifiersIn(sentence);
@@ -200,14 +304,19 @@ export function auditInteractions(
           qualifiers,
           sectionTitle: section.title,
           loincCode: section.loincCode,
-          isAdverseInteraction: direction !== "no-significant-interaction-stated",
+          isAdverseInteraction: ADVERSE_DIRECTIONS.has(direction),
+          // Only an OBSERVED absence asserts there is no interaction. Dosing
+          // guidance deliberately does not set this flag.
+          assertsNoInteraction: direction === "no-interaction-observed-stated",
+          isDosingGuidanceOnly: direction === "no-dose-adjustment-stated",
         });
       }
     }
   }
 
   const counts: Record<InteractionDirection, number> = {
-    "no-significant-interaction-stated": 0,
+    "no-dose-adjustment-stated": 0,
+    "no-interaction-observed-stated": 0,
     "other-affects-this": 0,
     "this-affects-other": 0,
     "interaction-described-direction-unclear": 0,
@@ -215,29 +324,46 @@ export function auditInteractions(
   };
   for (const m of mentions) counts[m.direction]++;
 
-  const statedNo = [
-    ...new Set(
-      mentions.filter((m) => m.direction === "no-significant-interaction-stated").map((m) => m.substance)
-    ),
-  ].sort();
-  const described = [
-    ...new Set(mentions.filter((m) => m.isAdverseInteraction).map((m) => m.substance)),
-  ].sort();
+  const uniq = (pred: (m: InteractionMention) => boolean) =>
+    [...new Set(mentions.filter(pred).map((m) => m.substance))].sort();
+
+  const completeness: ExtractionCompleteness = {
+    level: "index-only-not-exhaustive",
+    sentencesScanned,
+    sentencesWithCoadministrationPhrase: sentencesWithPhrase,
+    sentencesYieldingSubstances: sentencesYielding,
+    sentencesUnparsed: Math.max(0, sentencesWithPhrase - sentencesYielding),
+    evidenceLocation:
+      "interactions.sections[] - the full label interaction sections, verbatim.",
+    note:
+      "This extractor only harvests names from explicit enumerations that follow a " +
+      "coadministration phrase. Interactions written as prose, as a drug class, in a table, or " +
+      "in any other section are NOT counted. A count of zero adverse mentions therefore means " +
+      "ZERO WERE EXTRACTED. It does not mean the label describes no adverse interactions, and " +
+      "it is not evidence that none exist. Read the full sections.",
+  };
 
   return {
     mentions,
     counts,
-    statedNoInteraction: statedNo,
-    describedInteraction: described,
+    noDoseAdjustmentStated: uniq((m) => m.direction === "no-dose-adjustment-stated"),
+    noInteractionObservedStated: uniq((m) => m.direction === "no-interaction-observed-stated"),
+    describedInteraction: uniq((m) => m.isAdverseInteraction),
+    completeness,
     caveats: [
       "A substance appearing here is NOT automatically an adverse interaction. Check " +
-        "`isAdverseInteraction` and `direction` - labels frequently state that NO dose adjustment " +
-        "is needed, and that is the opposite of a warning.",
-      "`supportingText` is the sentence the substance came from. Render it; do not render the name alone.",
-      "Extraction is conservative and under-reports. The full interactions section is exported " +
-        "separately and is the evidence; this list is a convenience index.",
-      "This is the label's own content. It has not been checked against any other medicine a person " +
-        "takes, and no interaction-checking service is connected.",
+        "`direction` and `isAdverseInteraction` before rendering anything as a warning.",
+      "`no-dose-adjustment-stated` is DOSING GUIDANCE, not a statement that no interaction " +
+        "exists. The label says the dose need not change; it does not say the drugs do not " +
+        "interact. Do not render it as 'no interaction'.",
+      "`no-interaction-observed-stated` is the only direction where the label itself asserts an " +
+        "interaction was not observed, and even then only for what was studied.",
+      "`supportingText` is the sentence the substance came from. Render it; never render the " +
+        "name alone.",
+      "An empty list means nothing was EXTRACTED, not that there are no interactions. See " +
+        "`completeness`: this list is an incomplete index and the full sections are the evidence.",
+      "This is the label's own content. It has not been checked against any other medicine a " +
+        "person takes, and no interaction-checking service is connected.",
     ],
   };
 }
@@ -251,43 +377,123 @@ export function renderInteractionAudit(
   lines.push("");
   lines.push(
     "Every extracted substance is tied to the sentence it came from and classified by direction. " +
-      "The previous flat list inverted meaning: Singulair's substances come from a sentence stating " +
-      "**no dose adjustment is needed**, which a name-only list would render as a warning."
+      "Two kinds of negative statement are kept apart, because they are not the same claim:"
   );
   lines.push("");
-  lines.push("| Product | Mentions | No significant interaction stated | Other affects this | This affects other | Direction unclear |");
-  lines.push("|---|---:|---:|---:|---:|---:|");
+  lines.push(
+    "- **`no-dose-adjustment-stated`** - the label says the dose need not change. It says " +
+      "**nothing** about whether an interaction exists. Interaction status is UNKNOWN."
+  );
+  lines.push(
+    "- **`no-interaction-observed-stated`** - the label says an interaction was looked for and " +
+      "not observed, or was found not to be clinically significant."
+  );
+  lines.push("");
+  lines.push(
+    "Collapsing the first into the second would make this pipeline assert an absence the source " +
+      "never claimed. Singulair is exactly that case: all of its substances come from a dosing " +
+      "sentence."
+  );
+  lines.push("");
+  lines.push(
+    "| Product | Mentions | No dose adjustment (status unknown) | No interaction observed | Other affects this | This affects other | Direction unclear |"
+  );
+  lines.push("|---|---:|---:|---:|---:|---:|---:|");
   for (const { productKey, result } of perProduct) {
     const c = result.counts;
     lines.push(
-      `| ${productKey} | ${result.mentions.length} | ${c["no-significant-interaction-stated"]} | ${c["other-affects-this"]} | ${c["this-affects-other"]} | ${c["interaction-described-direction-unclear"]} |`
+      "| " +
+        productKey +
+        " | " +
+        result.mentions.length +
+        " | " +
+        c["no-dose-adjustment-stated"] +
+        " | " +
+        c["no-interaction-observed-stated"] +
+        " | " +
+        c["other-affects-this"] +
+        " | " +
+        c["this-affects-other"] +
+        " | " +
+        c["interaction-described-direction-unclear"] +
+        " |"
+    );
+  }
+  lines.push("");
+  lines.push("### Extraction completeness");
+  lines.push("");
+  lines.push(
+    "Zero extracted adverse mentions is a statement about the EXTRACTOR, not about the drug. " +
+      "`unparsed` counts sentences that discuss coadministration but yielded no name."
+  );
+  lines.push("");
+  lines.push(
+    "| Product | Sentences scanned | With coadministration phrase | Yielded substances | Unparsed | Level |"
+  );
+  lines.push("|---|---:|---:|---:|---:|---|");
+  for (const { productKey, result } of perProduct) {
+    const k = result.completeness;
+    lines.push(
+      "| " +
+        productKey +
+        " | " +
+        k.sentencesScanned +
+        " | " +
+        k.sentencesWithCoadministrationPhrase +
+        " | " +
+        k.sentencesYieldingSubstances +
+        " | " +
+        k.sentencesUnparsed +
+        " | " +
+        k.level +
+        " |"
     );
   }
   lines.push("");
   for (const { productKey, result } of perProduct) {
-    lines.push(`### ${productKey}`);
+    lines.push("### " + productKey);
     lines.push("");
-    if (result.statedNoInteraction.length > 0) {
+    if (result.noDoseAdjustmentStated.length > 0) {
       lines.push(
-        `**Label states NO significant interaction** (${result.statedNoInteraction.length}): ` +
-          result.statedNoInteraction.join(", ")
+        "**Label states no DOSE ADJUSTMENT needed** (" +
+          result.noDoseAdjustmentStated.length +
+          ") - interaction status unknown, NOT cleared: " +
+          result.noDoseAdjustmentStated.join(", ")
       );
-      const sample = result.mentions.find((m) => m.direction === "no-significant-interaction-stated");
-      if (sample) lines.push(`  - source: "${sample.supportingText.slice(0, 220)}"`);
+      const sample = result.mentions.find((m) => m.direction === "no-dose-adjustment-stated");
+      if (sample) lines.push('  - source: "' + sample.supportingText.slice(0, 260) + '"');
+      lines.push("");
+    }
+    if (result.noInteractionObservedStated.length > 0) {
+      lines.push(
+        "**Label states no interaction OBSERVED** (" +
+          result.noInteractionObservedStated.length +
+          "): " +
+          result.noInteractionObservedStated.join(", ")
+      );
+      const sample = result.mentions.find((m) => m.direction === "no-interaction-observed-stated");
+      if (sample) lines.push('  - source: "' + sample.supportingText.slice(0, 260) + '"');
       lines.push("");
     }
     if (result.describedInteraction.length > 0) {
       lines.push(
-        `**Interaction described** (${result.describedInteraction.length}): ` +
+        "**Interaction described** (" +
+          result.describedInteraction.length +
+          "): " +
           result.describedInteraction.join(", ")
       );
       for (const m of result.mentions.filter((x) => x.isAdverseInteraction).slice(0, 3)) {
-        lines.push(`  - ${m.substance} [${m.direction}]: "${m.supportingText.slice(0, 200)}"`);
+        lines.push(
+          "  - " + m.substance + " [" + m.direction + ']: "' + m.supportingText.slice(0, 200) + '"'
+        );
       }
       lines.push("");
     }
     if (result.mentions.length === 0) {
-      lines.push("No substances extracted. The full interactions section is still exported.");
+      lines.push(
+        "No substances extracted. This is not a finding of no interactions - the full " +
+          "interaction sections are exported and remain the evidence."
+      );
       lines.push("");
     }
   }

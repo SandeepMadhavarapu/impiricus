@@ -48,9 +48,27 @@ export interface ExportedTable {
 /**
  * How a section relates to the product this record describes.
  *
- * `document-level-unresolved` means the document did NOT scope the section. It
- * must not be rendered as product-specific dosing or patient instruction. One
- * SPL routinely covers several products with different doses.
+ * APPLICABILITY LIMITATION - read before generating any dosing text.
+ *
+ * One SPL routinely covers several products that share a label but not a dose:
+ * Singulair's label covers the 10 mg tablet, the chewable tablets and the oral
+ * granules, each dosed differently. Most sections in these documents are not
+ * structurally bound to any one of them.
+ *
+ * Consequently `document-level-unresolved` is the MAJORITY state, and it means
+ * only this: the document did not say which product the section is about. It
+ * is not a weak yes. It is not "probably this product". Nothing in the data
+ * upgrades it, because the information is absent from the source.
+ *
+ * Sections in that state MUST NOT be used to generate product-specific dosing
+ * instructions, administration steps or patient directions, automatically or
+ * otherwise. They remain available as source material to read and cite.
+ *
+ * Only `exact-product` and `explicitly-shared` sections are safe for
+ * product-specific guidance. The pipeline enforces this on its side via
+ * `productSpecificSections()`, which returns those two states and drops the
+ * rest; a consumer that walks `professionalLabeling` directly is bypassing
+ * that filter and must apply the same rule itself.
  */
 export type Applicability =
   | "exact-product"
@@ -203,32 +221,91 @@ export interface MedicationExport {
       | "not-retrieved";
     checkingServiceAvailable: false;
     checkingServiceNote: string;
+    /**
+     * The full interaction sections, verbatim. THIS IS THE EVIDENCE.
+     * `mentions` below is an index into it, not a replacement for it.
+     */
     sections: ExportedSection[];
     /**
      * Substances tied to the sentence they came from.
      *
-     * CHECK `isAdverseInteraction` BEFORE RENDERING. Singulair's substances all
-     * come from "No dose adjustment is needed when SINGULAIR is co-administered
-     * with ... warfarin ...", which is the OPPOSITE of a warning. A bare name
-     * list inverts the label's meaning.
+     * CHECK `direction` BEFORE RENDERING. Two negative directions exist and
+     * they are NOT interchangeable:
+     *
+     *   no-dose-adjustment-stated
+     *     The label says the dose need not change. It says NOTHING about
+     *     whether an interaction exists. Interaction status: UNKNOWN.
+     *     Rendering this as "no interaction" asserts something the label
+     *     never said.
+     *
+     *   no-interaction-observed-stated
+     *     The label says an interaction was looked for and not observed, or
+     *     was found not to be clinically significant.
+     *
+     * Singulair's substances are all the FIRST kind: they come from "No dose
+     * adjustment is needed when SINGULAIR is co-administered with ... warfarin
+     * ...". That sentence is dosing guidance. It neither warns about warfarin
+     * nor clears it.
      */
     mentions: Array<{
       substance: string;
       direction:
-        | "no-significant-interaction-stated"
+        | "no-dose-adjustment-stated"
+        | "no-interaction-observed-stated"
         | "other-affects-this"
         | "this-affects-other"
         | "interaction-described-direction-unclear"
         | "mentioned-unclassified";
-      /** The sentence, verbatim. Render this, not the name alone. */
+      /** The sentence, verbatim. Render this, never the name alone. */
       supportingText: string;
+      /** Qualifiers preserved from the sentence, e.g. "use with caution". */
       qualifiers: string[];
+      /** True when the label describes an interaction. */
       isAdverseInteraction: boolean;
+      /** True ONLY for an observed absence. Never true for dosing guidance. */
+      assertsNoInteraction: boolean;
+      /** True when the sentence is dosing guidance and status is unknown. */
+      isDosingGuidanceOnly: boolean;
     }>;
-    /** Substances the label explicitly clears. NOT warnings. */
-    statedNoInteraction: string[];
+    /**
+     * Substances for which the label states no DOSE ADJUSTMENT is needed.
+     *
+     * Not a clearance. Interaction status for these is unknown.
+     */
+    noDoseAdjustmentStated: string[];
+    /** Substances for which the label states no interaction was OBSERVED. */
+    noInteractionObservedStated: string[];
     /** Substances with a described interaction. */
     describedInteraction: string[];
+    /**
+     * EXTRACTION COMPLETENESS - read before interpreting any count as zero.
+     *
+     * "0 adverse mentions extracted" means the extractor found none in the
+     * sentences it could parse. It does NOT mean the label describes no
+     * adverse interactions, and it is NOT evidence that none exist.
+     *
+     * The extractor only harvests names from explicit enumerations following a
+     * coadministration phrase. Interactions written as prose, as a drug class,
+     * inside a table, or in any other section are not counted. Toprol XL is a
+     * live example: its interactions are largely prose, so the index is far
+     * shorter than the section.
+     *
+     * `level` is the literal "index-only-not-exhaustive". There is no
+     * "complete" value, because the extractor cannot reach completeness.
+     * Treat `mentions`, `noDoseAdjustmentStated`, `noInteractionObservedStated`
+     * and `describedInteraction` as INCOMPLETE INDEXES. `sections` is the
+     * evidence.
+     */
+    completeness: {
+      level: "index-only-not-exhaustive";
+      sentencesScanned: number;
+      sentencesWithCoadministrationPhrase: number;
+      sentencesYieldingSubstances: number;
+      /** Coadministration sentences that yielded nothing: the blind spot. */
+      sentencesUnparsed: number;
+      evidenceLocation: string;
+      note: string;
+    };
     caveats: string[];
   };
 
@@ -261,6 +338,28 @@ export interface MedicationExport {
 
   /** Section counts by applicability state. */
   applicabilityCounts: Record<string, number>;
+
+  /**
+   * The ONLY sections safe to turn into product-specific dosing or patient
+   * instructions. Pre-filtered by the pipeline to `exact-product` and
+   * `explicitly-shared`.
+   *
+   * `document-level-unresolved` sections are excluded by construction. See the
+   * APPLICABILITY LIMITATION note on `Applicability` for why. Generate dosing
+   * text from this array, never from `professionalLabeling`, which still
+   * carries every section so it can be read and cited.
+   *
+   * An empty `sections` array means the document scoped nothing to this
+   * product. It does NOT mean there is no dosing information, and it is not a
+   * licence to fall back to unresolved sections.
+   */
+  productSpecificGuidance: {
+    sections: ExportedSection[];
+    /** How many sections were held back. Makes the omission visible. */
+    excludedUnresolvedCount: number;
+    excludedNotApplicableCount: number;
+    note: string;
+  };
 
   /** Always false. Never render this record as clinically reviewed. */
   clinicalReview: { reviewed: false; note: string };
@@ -296,4 +395,33 @@ export interface ExportIndex {
     patientSections: number;
     tables: number;
   }>;
+}
+
+/* ------------------------------------------------------------------ scope */
+
+/**
+ * SUPPORTED SCOPE
+ *
+ * What this pipeline covers, stated once, plainly:
+ *
+ *   - Three selected medication products. Not a drug database.
+ *   - Public formulary evidence from the verified CMS release.
+ *   - Medicare Part D only. No Marketplace, Medicaid or commercial coverage.
+ *   - No member-specific coverage verification and no copay verification.
+ *   - No comprehensive interaction checker.
+ *   - No clinical review.
+ *
+ * Anything outside that list is not supported, not partially supported, and
+ * not approximated. The pipeline reports absence rather than filling it in.
+ */
+export interface SupportedScope {
+  products: "three-selected-products";
+  formularyEvidence: "public-formulary-evidence-from-verified-cms-release";
+  markets: "medicare-part-d-only";
+  memberSpecificCoverage: false;
+  copayVerification: false;
+  comprehensiveInteractionChecker: false;
+  clinicalReview: false;
+  /** The six statements above, as renderable sentences. */
+  statements: string[];
 }

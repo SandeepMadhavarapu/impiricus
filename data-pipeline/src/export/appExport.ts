@@ -1,4 +1,5 @@
 import { walkSections } from "../normalize/spl.js";
+import { productSpecificSections } from "../normalize/applicability.js";
 import { SCHEMA_VERSION, type LabelSection, type MedicationRecord } from "../schemas/index.js";
 
 /**
@@ -121,9 +122,24 @@ export interface MedicationExport {
       supportingText: string;
       qualifiers: string[];
       isAdverseInteraction: boolean;
+      assertsNoInteraction: boolean;
+      isDosingGuidanceOnly: boolean;
     }>;
-    statedNoInteraction: string[];
+    /** No DOSE ADJUSTMENT needed. Interaction status unknown, not cleared. */
+    noDoseAdjustmentStated: string[];
+    /** No interaction OBSERVED, per the label. */
+    noInteractionObservedStated: string[];
     describedInteraction: string[];
+    /** Why a zero here does not mean "no interactions". */
+    completeness: {
+      level: "index-only-not-exhaustive";
+      sentencesScanned: number;
+      sentencesWithCoadministrationPhrase: number;
+      sentencesYieldingSubstances: number;
+      sentencesUnparsed: number;
+      evidenceLocation: string;
+      note: string;
+    };
     caveats: string[];
   };
 
@@ -137,6 +153,27 @@ export interface MedicationExport {
 
   /** Section counts by applicability state. */
   applicabilityCounts: Record<string, number>;
+
+  /**
+   * The ONLY sections safe to turn into product-specific dosing or patient
+   * instructions, pre-filtered by the pipeline.
+   *
+   * Contains exclusively `exact-product` and `explicitly-shared` sections.
+   * `document-level-unresolved` sections are excluded by construction, because
+   * one SPL covers several products with different doses and the document did
+   * not say which one those sections describe.
+   *
+   * Build generated dosing text from THIS array, not from
+   * `professionalLabeling`, which deliberately still carries every section for
+   * reading and citation. `excludedUnresolvedCount` says how many were held
+   * back, so the omission is visible rather than silent.
+   */
+  productSpecificGuidance: {
+    sections: ExportedSection[];
+    excludedUnresolvedCount: number;
+    excludedNotApplicableCount: number;
+    note: string;
+  };
 
   /** Always false. Never render this record as clinically reviewed. */
   clinicalReview: { reviewed: false; note: string };
@@ -286,9 +323,13 @@ export function toExport(record: MedicationRecord): MedicationExport {
         supportingText: m.supportingText,
         qualifiers: m.qualifiers,
         isAdverseInteraction: m.isAdverseInteraction,
+        assertsNoInteraction: m.assertsNoInteraction,
+        isDosingGuidanceOnly: m.isDosingGuidanceOnly,
       })),
-      statedNoInteraction: record.interactions.statedNoInteraction,
+      noDoseAdjustmentStated: record.interactions.noDoseAdjustmentStated,
+      noInteractionObservedStated: record.interactions.noInteractionObservedStated,
       describedInteraction: record.interactions.describedInteraction,
+      completeness: record.interactions.completeness,
       caveats: record.interactions.caveats,
     },
 
@@ -314,6 +355,21 @@ export function toExport(record: MedicationRecord): MedicationExport {
       : null,
 
     applicabilityCounts: record.applicability,
+
+    productSpecificGuidance: {
+      // Enforced, not merely documented: unresolved sections cannot reach a
+      // consumer through this field.
+      sections: blocked
+        ? []
+        : productSpecificSections(record.label.sections).map(exportSection),
+      excludedUnresolvedCount: record.applicability["document-level-unresolved"] ?? 0,
+      excludedNotApplicableCount: record.applicability["not-applicable"] ?? 0,
+      note:
+        "Only exact-product and explicitly-shared sections. Sections the document did not scope " +
+        "to a product are excluded and must not be used to generate dosing or patient " +
+        "instructions for this product; read them in professionalLabeling instead. An empty " +
+        "array means the document scoped nothing, not that there is no dosing information.",
+    },
 
     conflicts: record.conflicts.map((c) => ({
       field: c.field,

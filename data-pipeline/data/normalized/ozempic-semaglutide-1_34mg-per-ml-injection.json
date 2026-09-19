@@ -189,7 +189,7 @@
       }
     ],
     "rationale": "All 8 checkable critical dimensions agree across 4 sources.",
-    "resolvedAt": "2026-09-19T20:01:13.856Z"
+    "resolvedAt": "2026-09-19T20:14:05.040Z"
   },
   "identity": {
     "productKey": "ozempic-semaglutide-1_34mg-per-ml-injection",
@@ -3446,17 +3446,31 @@
         ],
         "sectionTitle": "7.1 Concomitant Use with an Insulin Secretagogue (e.g., Sulfonylurea) or with Insulin",
         "loincCode": "34073-7",
-        "isAdverseInteraction": true
+        "isAdverseInteraction": true,
+        "assertsNoInteraction": false,
+        "isDosingGuidanceOnly": false
       }
     ],
-    "statedNoInteraction": [],
+    "noDoseAdjustmentStated": [],
+    "noInteractionObservedStated": [],
     "describedInteraction": [
       "insulin secretagogue"
     ],
+    "completeness": {
+      "level": "index-only-not-exhaustive",
+      "sentencesScanned": 8,
+      "sentencesWithCoadministrationPhrase": 2,
+      "sentencesYieldingSubstances": 1,
+      "sentencesUnparsed": 1,
+      "evidenceLocation": "interactions.sections[] - the full label interaction sections, verbatim.",
+      "note": "This extractor only harvests names from explicit enumerations that follow a coadministration phrase. Interactions written as prose, as a drug class, in a table, or in any other section are NOT counted. A count of zero adverse mentions therefore means ZERO WERE EXTRACTED. It does not mean the label describes no adverse interactions, and it is not evidence that none exist. Read the full sections."
+    },
     "caveats": [
-      "A substance appearing here is NOT automatically an adverse interaction. Check `isAdverseInteraction` and `direction` - labels frequently state that NO dose adjustment is needed, and that is the opposite of a warning.",
-      "`supportingText` is the sentence the substance came from. Render it; do not render the name alone.",
-      "Extraction is conservative and under-reports. The full interactions section is exported separately and is the evidence; this list is a convenience index.",
+      "A substance appearing here is NOT automatically an adverse interaction. Check `direction` and `isAdverseInteraction` before rendering anything as a warning.",
+      "`no-dose-adjustment-stated` is DOSING GUIDANCE, not a statement that no interaction exists. The label says the dose need not change; it does not say the drugs do not interact. Do not render it as 'no interaction'.",
+      "`no-interaction-observed-stated` is the only direction where the label itself asserts an interaction was not observed, and even then only for what was studied.",
+      "`supportingText` is the sentence the substance came from. Render it; never render the name alone.",
+      "An empty list means nothing was EXTRACTED, not that there are no interactions. See `completeness`: this list is an incomplete index and the full sections are the evidence.",
       "This is the label's own content. It has not been checked against any other medicine a person takes, and no interaction-checking service is connected.",
       "This is what THIS product's label describes. It is not a complete list of possible interactions.",
       "It has not been checked against any other medication a person may be taking.",
@@ -3552,6 +3566,6 @@
     "reviewedBy": null,
     "note": "No clinician has reviewed this record. 'app-ready' means structurally consumable, NOT clinically approved."
   },
-  "ingestedAt": "2026-09-19T20:01:13.862Z",
+  "ingestedAt": "2026-09-19T20:14:05.051Z",
   "parserVersion": "pipeline-0.1.0"
 }

@@ -5,6 +5,29 @@ run it, or call any API from the browser.
 
 ---
 
+## Supported scope
+
+- **Three selected medication products.** Not a drug database.
+- **Public formulary evidence from the verified CMS release.**
+- **Medicare Part D only.** No Marketplace, Medicaid or commercial coverage.
+- **No member-specific coverage or copay verification.**
+- **No comprehensive interaction checker.**
+- **No clinical review.**
+
+Anything outside that list is unsupported: not partially supported, not
+approximated. Where a question falls outside it the pipeline reports the
+absence rather than filling it in.
+
+The same statement ships as data, so the app can render it instead of
+restating it:
+
+```
+data-pipeline/data/exports/index.json                     -> supportedScope
+data-pipeline/data/exports/insurance/source-register.json -> supportedScope
+```
+
+---
+
 ## Exact paths
 
 ### Contracts (TypeScript types, zero dependencies)
@@ -129,7 +152,7 @@ if (result.found.length > 0 && exact.length === 0) {
 }
 ```
 
-### `Applicability` on label sections
+### `Applicability` on label sections — the limitation, stated plainly
 
 | State | Meaning | Safe as product-specific guidance? |
 |---|---|---|
@@ -138,22 +161,99 @@ if (result.found.length > 0 && exact.length === 0) {
 | `document-level-unresolved` | The document did not scope it | **No.** Source material only |
 | `not-applicable` | Belongs to a sibling product | **No.** Do not show as this product's |
 
-Most sections are `document-level-unresolved`. That is honest, not a bug —
-these SPLs simply do not scope sections structurally.
+**One SPL routinely covers several products that share a label but not a dose.**
+Singulair's label covers the 10 mg tablet, the chewable tablets and the oral
+granules, dosed differently. Most sections are not structurally bound to any one
+of them.
+
+So `document-level-unresolved` is the **majority state**, and it means exactly
+one thing: *the document did not say which product this section is about.* It is
+not a weak yes. It is not "probably this product". Nothing in the data upgrades
+it, because the information is absent from the source.
+
+**The limitation:** unresolved sections must not be used to generate
+product-specific dosing instructions, administration steps or patient
+directions — automatically or otherwise. They stay available to read and cite.
+
+This is enforced in the data, not left to you:
+
+```ts
+// SAFE: exact-product and explicitly-shared only, at every depth.
+export.productSpecificGuidance.sections
+
+// NOT SAFE as generated dosing: every section, including unresolved ones.
+export.professionalLabeling
+```
+
+`productSpecificGuidance` also reports `excludedUnresolvedCount` and
+`excludedNotApplicableCount` so the omission is visible rather than silent. On
+the three real labels:
+
+| Product | Guidance sections | Unresolved, excluded | Not applicable, excluded |
+|---|---:|---:|---:|
+| singulair-montelukast-10mg-tablet | 20 | 37 | 3 |
+| toprol-xl-metoprolol-succinate-50mg-er-tablet | 19 | 68 | 8 |
+| ozempic-semaglutide-1_34mg-per-ml-injection | 14 | 33 | 9 |
+
+An empty `sections` array would mean the document scoped nothing to this
+product. It would **not** mean there is no dosing information, and it is not a
+licence to fall back to unresolved sections.
 
 ### `interactions.mentions[].direction` — check before warning
 
-| Direction | Meaning | `isAdverseInteraction` |
-|---|---|---|
-| `no-significant-interaction-stated` | Label says **no** dose adjustment needed | `false` |
-| `other-affects-this` | The other drug affects this one | `true` |
-| `this-affects-other` | This drug affects the other | `true` |
-| `interaction-described-direction-unclear` | Interaction described, direction unclear | `true` |
-| `mentioned-unclassified` | Mentioned, no classifiable assertion | `true` |
+| Direction | Meaning | `isAdverseInteraction` | `assertsNoInteraction` |
+|---|---|---|---|
+| `no-dose-adjustment-stated` | Label says the **dose need not change**. Says nothing about whether an interaction exists | `false` | **`false`** |
+| `no-interaction-observed-stated` | Label says an interaction was **not observed** or not clinically significant | `false` | `true` |
+| `other-affects-this` | The other drug affects this one | `true` | `false` |
+| `this-affects-other` | This drug affects the other | `true` | `false` |
+| `interaction-described-direction-unclear` | Interaction described, direction unclear | `true` | `false` |
+| `mentioned-unclassified` | Mentioned, no classifiable assertion | `true` | `false` |
 
-**All 14 of Singulair's substances are `no-significant-interaction-stated`.**
-Rendering the bare names would say the opposite of the label. Always render
-`supportingText`, never the name alone.
+**The two negative directions are not interchangeable.** A drug can interact
+measurably — a real change in exposure — and still need no dose adjustment
+because the change is not large enough to matter for dosing. "No dose adjustment
+is needed" is dosing guidance; it neither warns nor clears.
+
+**All 14 of Singulair's substances are `no-dose-adjustment-stated`**, from:
+
+> "No dose adjustment is needed when SINGULAIR is co-administered with
+> theophylline, prednisone, … digoxin, warfarin, gemfibrozil …"
+
+So for warfarin the honest rendering is *"the label says no dose change is
+needed when taken together"* — not *"interacts with warfarin"* and not *"no
+interaction with warfarin"*. Across all three products,
+`assertsNoInteraction` is **true for nothing**: none of these labels states an
+absence.
+
+Always render `supportingText`. Never the name alone.
+
+### `interactions.completeness` — before you read a zero
+
+`0` extracted adverse mentions means **zero were extracted**. It does not mean
+the label describes no adverse interactions, and it is not evidence that none
+exist.
+
+The extractor only harvests names from explicit enumerations following a
+coadministration phrase. Interactions written as prose, as a drug class, inside
+a table, or in any other section are not counted.
+
+```ts
+interactions.completeness.level  // "index-only-not-exhaustive" — no "complete" value exists
+interactions.completeness.sentencesWithCoadministrationPhrase
+interactions.completeness.sentencesYieldingSubstances
+interactions.completeness.sentencesUnparsed  // the blind spot, reported
+```
+
+| Product | Scanned | With phrase | Yielded | Unparsed |
+|---|---:|---:|---:|---:|
+| singulair-montelukast-10mg-tablet | 2 | 1 | 1 | 0 |
+| toprol-xl-metoprolol-succinate-50mg-er-tablet | 11 | 3 | 2 | 1 |
+| ozempic-semaglutide-1_34mg-per-ml-injection | 8 | 2 | 1 | 1 |
+
+Treat `mentions`, `noDoseAdjustmentStated`, `noInteractionObservedStated` and
+`describedInteraction` as **incomplete indexes**. `interactions.sections` — the
+full label sections, verbatim — is the evidence. Render from it.
 
 ### `readiness` on medication records
 
@@ -193,7 +293,7 @@ cd data-pipeline && npm install
 | `npm run insurance:export` | Rewrite register, plans, coverage examples |
 | `npm run verify:report -- --live` | Regenerate accounting; check for a newer CMS release |
 | `npm run report` | Completeness and conflict report |
-| `npm test` | 140 fixture tests, no network |
+| `npm test` | fixture tests, no network |
 | `npm run test:live` | Opt-in live smoke checks |
 
 ---

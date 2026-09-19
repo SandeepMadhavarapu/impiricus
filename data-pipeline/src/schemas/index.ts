@@ -444,14 +444,19 @@ export const MedicationRecordSchema = z.object({
      * Substances with the sentence they came from and a classified direction.
      *
      * A bare name list inverted meaning: Singulair's substances all come from
-     * "No dose adjustment is needed when SINGULAIR is co-administered with...",
-     * which is the OPPOSITE of a warning. Check `isAdverseInteraction`.
+     * "No dose adjustment is needed when SINGULAIR is co-administered with...".
+     *
+     * That sentence is DOSING GUIDANCE. It is classified
+     * `no-dose-adjustment-stated`, kept distinct from
+     * `no-interaction-observed-stated`, and does NOT assert that no interaction
+     * exists. Check `direction` before rendering anything.
      */
     mentions: z.array(
       z.object({
         substance: z.string(),
         direction: z.enum([
-          "no-significant-interaction-stated",
+          "no-dose-adjustment-stated",
+          "no-interaction-observed-stated",
           "other-affects-this",
           "this-affects-other",
           "interaction-described-direction-unclear",
@@ -462,12 +467,34 @@ export const MedicationRecordSchema = z.object({
         sectionTitle: z.string().nullable(),
         loincCode: z.string().nullable(),
         isAdverseInteraction: z.boolean(),
+        /** True ONLY for an observed absence. Never for dosing guidance. */
+        assertsNoInteraction: z.boolean(),
+        /** True when the sentence is dosing guidance; status is unknown. */
+        isDosingGuidanceOnly: z.boolean(),
       })
     ),
-    /** Substances the label explicitly clears. NOT warnings. */
-    statedNoInteraction: z.array(z.string()),
+    /**
+     * Substances for which the label states no DOSE ADJUSTMENT is needed.
+     * Interaction status is UNKNOWN for these. Not a clearance.
+     */
+    noDoseAdjustmentStated: z.array(z.string()),
+    /** Substances for which the label states no interaction was OBSERVED. */
+    noInteractionObservedStated: z.array(z.string()),
     /** Substances with a described interaction. */
     describedInteraction: z.array(z.string()),
+    /**
+     * Extraction completeness. Exported so that an empty list can never be
+     * read as "no interactions" - it means "none extracted".
+     */
+    completeness: z.object({
+      level: z.literal("index-only-not-exhaustive"),
+      sentencesScanned: z.number(),
+      sentencesWithCoadministrationPhrase: z.number(),
+      sentencesYieldingSubstances: z.number(),
+      sentencesUnparsed: z.number(),
+      evidenceLocation: z.string(),
+      note: z.string(),
+    }),
     caveats: z.array(z.string()),
   }),
 

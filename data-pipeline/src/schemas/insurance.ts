@@ -327,10 +327,27 @@ export const SourceRegisterEntrySchema = z.object({
 });
 export type SourceRegisterEntry = z.infer<typeof SourceRegisterEntrySchema>;
 
+/**
+ * Supported scope, carried in the exports so consumers do not have to trust a
+ * doc that may drift from the data.
+ */
+export const SupportedScopeSchema = z.object({
+  products: z.literal("three-selected-products"),
+  formularyEvidence: z.literal("public-formulary-evidence-from-verified-cms-release"),
+  markets: z.literal("medicare-part-d-only"),
+  memberSpecificCoverage: z.literal(false),
+  copayVerification: z.literal(false),
+  comprehensiveInteractionChecker: z.literal(false),
+  clinicalReview: z.literal(false),
+  statements: z.array(z.string()),
+});
+
 export const SourceRegisterSchema = z.object({
   schemaVersion: z.literal(INSURANCE_SCHEMA_VERSION),
   generatedAt: z.string(),
   note: z.string(),
+  /** What this pipeline covers. Medicare Part D only; no member benefit. */
+  supportedScope: SupportedScopeSchema,
   entries: z.array(SourceRegisterEntrySchema),
 });
 export type SourceRegister = z.infer<typeof SourceRegisterSchema>;

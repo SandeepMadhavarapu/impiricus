@@ -96,8 +96,12 @@ describe("highlights accounting", () => {
 });
 
 describe("interaction direction", () => {
-  /** The headline case: a "no dose adjustment" sentence is not a warning. */
-  it("classifies a no-dose-adjustment sentence as no-significant-interaction", () => {
+  /**
+   * The headline case: a "no dose adjustment" sentence is not a warning AND
+   * not a clearance. It is dosing guidance, and the interaction status stays
+   * unknown.
+   */
+  it("classifies a no-dose-adjustment sentence as dosing guidance, not absence", () => {
     const r = auditInteractions([
       section({
         paragraphs: [
@@ -106,10 +110,63 @@ describe("interaction direction", () => {
       }),
     ]);
     expect(r.mentions.length).toBeGreaterThan(0);
-    expect(r.mentions.every((m) => m.direction === "no-significant-interaction-stated")).toBe(true);
+    expect(r.mentions.every((m) => m.direction === "no-dose-adjustment-stated")).toBe(true);
     expect(r.mentions.every((m) => m.isAdverseInteraction === false)).toBe(true);
-    expect(r.statedNoInteraction).toContain("warfarin");
+    // The critical assertion: dosing guidance never asserts absence.
+    expect(r.mentions.every((m) => m.assertsNoInteraction === false)).toBe(true);
+    expect(r.mentions.every((m) => m.isDosingGuidanceOnly === true)).toBe(true);
+    expect(r.noDoseAdjustmentStated).toContain("warfarin");
+    expect(r.noInteractionObservedStated).toHaveLength(0);
     expect(r.describedInteraction).toHaveLength(0);
+  });
+
+  /** An observed absence is a different claim and gets its own direction. */
+  it("classifies an observed absence separately from dosing guidance", () => {
+    const r = auditInteractions([
+      section({
+        paragraphs: [
+          "TESTDRUG did not alter the pharmacokinetics of medicines given with it, including digoxin and warfarin.",
+        ],
+      }),
+    ]);
+    expect(r.mentions.length).toBeGreaterThan(0);
+    expect(r.mentions.every((m) => m.direction === "no-interaction-observed-stated")).toBe(true);
+    expect(r.mentions.every((m) => m.assertsNoInteraction === true)).toBe(true);
+    expect(r.mentions.every((m) => m.isDosingGuidanceOnly === false)).toBe(true);
+    expect(r.noInteractionObservedStated).toContain("warfarin");
+    expect(r.noDoseAdjustmentStated).toHaveLength(0);
+  });
+
+  /**
+   * Regression guard. The two negative directions must never collapse into
+   * one another, in either direction.
+   */
+  it("keeps the two negative directions disjoint", () => {
+    const dosing = auditInteractions([
+      section({
+        paragraphs: [
+          "No dosage adjustment is required when TESTDRUG is used with atorvastatin and metformin.",
+        ],
+      }),
+    ]);
+    const observed = auditInteractions([
+      section({
+        paragraphs: [
+          "No clinically significant effect was seen when TESTDRUG was used with atorvastatin and metformin.",
+        ],
+      }),
+    ]);
+    expect(dosing.counts["no-dose-adjustment-stated"]).toBeGreaterThan(0);
+    expect(dosing.counts["no-interaction-observed-stated"]).toBe(0);
+    expect(observed.counts["no-interaction-observed-stated"]).toBeGreaterThan(0);
+    expect(observed.counts["no-dose-adjustment-stated"]).toBe(0);
+  });
+
+  it("warns in its caveats against reading dosing guidance as absence", () => {
+    const r = auditInteractions([
+      section({ paragraphs: ["No dose adjustment is needed when X is given with warfarin."] }),
+    ]);
+    expect(r.caveats.join(" ")).toMatch(/DOSING GUIDANCE, not a statement that no interaction/i);
   });
 
   it("classifies the other drug acting on this one", () => {
@@ -177,21 +234,88 @@ describe("interaction direction", () => {
     const r = auditInteractions([section({ paragraphs: ["This section has no interaction list."] })]);
     expect(r.mentions).toHaveLength(0);
   });
+});
+
+describe("extraction completeness", () => {
+  /** Zero extracted must never be readable as zero existing. */
+  it("reports an empty extraction as index-only, never as complete", () => {
+    const r = auditInteractions([
+      section({ paragraphs: ["This section describes interactions only in prose."] }),
+    ]);
+    expect(r.mentions).toHaveLength(0);
+    expect(r.describedInteraction).toHaveLength(0);
+    expect(r.completeness.level).toBe("index-only-not-exhaustive");
+    expect(r.completeness.note).toMatch(/ZERO WERE EXTRACTED/);
+    expect(r.completeness.note).toMatch(/not evidence that none exist/i);
+    expect(r.completeness.evidenceLocation).toMatch(/sections/);
+  });
+
+  it("counts the sentences it could not parse rather than hiding them", () => {
+    const r = auditInteractions([
+      section({
+        paragraphs: [
+          // Has a coadministration phrase but no enumeration to harvest.
+          "Caution is advised when TESTDRUG is co-administered with agents that prolong the QT interval.",
+        ],
+      }),
+    ]);
+    expect(r.completeness.sentencesWithCoadministrationPhrase).toBeGreaterThan(0);
+    expect(r.completeness.sentencesYieldingSubstances).toBe(0);
+    expect(r.completeness.sentencesUnparsed).toBeGreaterThan(0);
+  });
+
+  it("accounts for every scanned sentence", () => {
+    const r = auditInteractions([
+      section({
+        paragraphs: [
+          "No dose adjustment is needed when TESTDRUG is co-administered with warfarin and digoxin.",
+          "This sentence is unrelated to any interaction whatsoever.",
+        ],
+      }),
+    ]);
+    const c = r.completeness;
+    expect(c.sentencesScanned).toBeGreaterThanOrEqual(c.sentencesWithCoadministrationPhrase);
+    expect(c.sentencesWithCoadministrationPhrase).toBeGreaterThanOrEqual(
+      c.sentencesYieldingSubstances
+    );
+    expect(c.sentencesUnparsed).toBe(
+      c.sentencesWithCoadministrationPhrase - c.sentencesYieldingSubstances
+    );
+  });
 
   it("carries caveats warning against rendering names alone", () => {
-    const r = auditInteractions([section({ paragraphs: ["No dose adjustment is needed when X is given with warfarin."] })]);
+    const r = auditInteractions([
+      section({ paragraphs: ["No dose adjustment is needed when X is given with warfarin."] }),
+    ]);
     expect(r.caveats.join(" ")).toMatch(/NOT automatically an adverse interaction/i);
+    expect(r.caveats.join(" ")).toMatch(/incomplete index/i);
   });
 });
 
 describe("the committed records carry corrected interaction semantics", () => {
-  it("Singulair's substances are all stated-no-interaction, not warnings", async () => {
+  it("Singulair's substances are dosing guidance, not warnings and not clearances", async () => {
     const file = path.join(process.cwd(), "data", "normalized", "singulair-montelukast-10mg-tablet.json");
     const r = JSON.parse(await readFile(file, "utf8"));
-    expect(r.interactions.statedNoInteraction.length).toBeGreaterThan(0);
+    expect(r.interactions.noDoseAdjustmentStated.length).toBeGreaterThan(0);
     expect(r.interactions.describedInteraction).toHaveLength(0);
-    expect(r.interactions.mentions.every((m: { isAdverseInteraction: boolean }) => !m.isAdverseInteraction)).toBe(true);
-    expect(r.interactions.mentions[0].supportingText).toMatch(/No dose adjustment is needed/i);
+    const mentions = r.interactions.mentions as Array<{
+      isAdverseInteraction: boolean;
+      assertsNoInteraction: boolean;
+      supportingText: string;
+    }>;
+    expect(mentions.every((m) => !m.isAdverseInteraction)).toBe(true);
+    // The label never asserts these do not interact; it says the dose stands.
+    expect(mentions.every((m) => !m.assertsNoInteraction)).toBe(true);
+    expect(mentions[0]!.supportingText).toMatch(/No dose adjustment is needed/i);
+  });
+
+  it("every record exports extraction completeness", async () => {
+    const dir = path.join(process.cwd(), "data", "normalized");
+    for (const f of (await readdir(dir)).filter((x) => x.endsWith(".json"))) {
+      const r = JSON.parse(await readFile(path.join(dir, f), "utf8"));
+      expect(r.interactions.completeness.level).toBe("index-only-not-exhaustive");
+      expect(r.interactions.completeness.note).toMatch(/not evidence that none exist/i);
+    }
   });
 
   it("no record exposes a bare namedSubstances list any more", async () => {
@@ -199,6 +323,8 @@ describe("the committed records carry corrected interaction semantics", () => {
     for (const f of (await readdir(dir)).filter((x) => x.endsWith(".json"))) {
       const r = JSON.parse(await readFile(path.join(dir, f), "utf8"));
       expect(r.interactions).not.toHaveProperty("namedSubstances");
+      // The conflated field must not come back.
+      expect(r.interactions).not.toHaveProperty("statedNoInteraction");
       expect(Array.isArray(r.interactions.mentions)).toBe(true);
     }
   });

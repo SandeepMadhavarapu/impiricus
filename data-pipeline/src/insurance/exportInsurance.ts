@@ -7,6 +7,8 @@ import { loadPartDSnapshot, snapshotProvenance } from "./snapshot.js";
 import { lookupCoverage } from "./lookup.js";
 import { rxcuisForProduct, listProductKeys } from "./cli.js";
 
+import { SUPPORTED_SCOPE } from "../config/scope.js";
+
 /**
  * Insurance exports for the app.
  *
@@ -32,6 +34,7 @@ export async function exportInsurance(): Promise<string[]> {
   const register = SourceRegisterSchema.parse({
     schemaVersion: INSURANCE_SCHEMA_VERSION,
     generatedAt: new Date().toISOString(),
+    supportedScope: SUPPORTED_SCOPE,
     note:
       "retrievalStatus separates DISCOVERY from RETRIEVAL. Only entries marked retrieved-validated or " +
       "verified-against-original contributed data to any export. Entries marked discovered or " +

@@ -2096,132 +2096,160 @@
     "mentions": [
       {
         "substance": "theophylline",
-        "direction": "no-significant-interaction-stated",
+        "direction": "no-dose-adjustment-stated",
         "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
         "qualifiers": [
           "no dose adjustment needed"
         ],
-        "isAdverseInteraction": false
+        "isAdverseInteraction": false,
+        "assertsNoInteraction": false,
+        "isDosingGuidanceOnly": true
       },
       {
         "substance": "prednisone",
-        "direction": "no-significant-interaction-stated",
+        "direction": "no-dose-adjustment-stated",
         "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
         "qualifiers": [
           "no dose adjustment needed"
         ],
-        "isAdverseInteraction": false
+        "isAdverseInteraction": false,
+        "assertsNoInteraction": false,
+        "isDosingGuidanceOnly": true
       },
       {
         "substance": "prednisolone",
-        "direction": "no-significant-interaction-stated",
+        "direction": "no-dose-adjustment-stated",
         "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
         "qualifiers": [
           "no dose adjustment needed"
         ],
-        "isAdverseInteraction": false
+        "isAdverseInteraction": false,
+        "assertsNoInteraction": false,
+        "isDosingGuidanceOnly": true
       },
       {
         "substance": "oral contraceptives",
-        "direction": "no-significant-interaction-stated",
+        "direction": "no-dose-adjustment-stated",
         "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
         "qualifiers": [
           "no dose adjustment needed"
         ],
-        "isAdverseInteraction": false
+        "isAdverseInteraction": false,
+        "assertsNoInteraction": false,
+        "isDosingGuidanceOnly": true
       },
       {
         "substance": "fexofenadine",
-        "direction": "no-significant-interaction-stated",
+        "direction": "no-dose-adjustment-stated",
         "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
         "qualifiers": [
           "no dose adjustment needed"
         ],
-        "isAdverseInteraction": false
+        "isAdverseInteraction": false,
+        "assertsNoInteraction": false,
+        "isDosingGuidanceOnly": true
       },
       {
         "substance": "digoxin",
-        "direction": "no-significant-interaction-stated",
+        "direction": "no-dose-adjustment-stated",
         "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
         "qualifiers": [
           "no dose adjustment needed"
         ],
-        "isAdverseInteraction": false
+        "isAdverseInteraction": false,
+        "assertsNoInteraction": false,
+        "isDosingGuidanceOnly": true
       },
       {
         "substance": "warfarin",
-        "direction": "no-significant-interaction-stated",
+        "direction": "no-dose-adjustment-stated",
         "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
         "qualifiers": [
           "no dose adjustment needed"
         ],
-        "isAdverseInteraction": false
+        "isAdverseInteraction": false,
+        "assertsNoInteraction": false,
+        "isDosingGuidanceOnly": true
       },
       {
         "substance": "gemfibrozil",
-        "direction": "no-significant-interaction-stated",
+        "direction": "no-dose-adjustment-stated",
         "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
         "qualifiers": [
           "no dose adjustment needed"
         ],
-        "isAdverseInteraction": false
+        "isAdverseInteraction": false,
+        "assertsNoInteraction": false,
+        "isDosingGuidanceOnly": true
       },
       {
         "substance": "itraconazole",
-        "direction": "no-significant-interaction-stated",
+        "direction": "no-dose-adjustment-stated",
         "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
         "qualifiers": [
           "no dose adjustment needed"
         ],
-        "isAdverseInteraction": false
+        "isAdverseInteraction": false,
+        "assertsNoInteraction": false,
+        "isDosingGuidanceOnly": true
       },
       {
         "substance": "thyroid hormones",
-        "direction": "no-significant-interaction-stated",
+        "direction": "no-dose-adjustment-stated",
         "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
         "qualifiers": [
           "no dose adjustment needed"
         ],
-        "isAdverseInteraction": false
+        "isAdverseInteraction": false,
+        "assertsNoInteraction": false,
+        "isDosingGuidanceOnly": true
       },
       {
         "substance": "sedative hypnotics",
-        "direction": "no-significant-interaction-stated",
+        "direction": "no-dose-adjustment-stated",
         "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
         "qualifiers": [
           "no dose adjustment needed"
         ],
-        "isAdverseInteraction": false
+        "isAdverseInteraction": false,
+        "assertsNoInteraction": false,
+        "isDosingGuidanceOnly": true
       },
       {
         "substance": "non-steroidal anti-inflammatory agents",
-        "direction": "no-significant-interaction-stated",
+        "direction": "no-dose-adjustment-stated",
         "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
         "qualifiers": [
           "no dose adjustment needed"
         ],
-        "isAdverseInteraction": false
+        "isAdverseInteraction": false,
+        "assertsNoInteraction": false,
+        "isDosingGuidanceOnly": true
       },
       {
         "substance": "benzodiazepines",
-        "direction": "no-significant-interaction-stated",
+        "direction": "no-dose-adjustment-stated",
         "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
         "qualifiers": [
           "no dose adjustment needed"
         ],
-        "isAdverseInteraction": false
+        "isAdverseInteraction": false,
+        "assertsNoInteraction": false,
+        "isDosingGuidanceOnly": true
       },
       {
         "substance": "decongestants",
-        "direction": "no-significant-interaction-stated",
+        "direction": "no-dose-adjustment-stated",
         "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
         "qualifiers": [
           "no dose adjustment needed"
         ],
-        "isAdverseInteraction": false
+        "isAdverseInteraction": false,
+        "assertsNoInteraction": false,
+        "isDosingGuidanceOnly": true
       }
     ],
-    "statedNoInteraction": [
+    "noDoseAdjustmentStated": [
       "benzodiazepines",
       "decongestants",
       "digoxin",
@@ -2237,11 +2265,23 @@
       "thyroid hormones",
       "warfarin"
     ],
+    "noInteractionObservedStated": [],
     "describedInteraction": [],
+    "completeness": {
+      "level": "index-only-not-exhaustive",
+      "sentencesScanned": 2,
+      "sentencesWithCoadministrationPhrase": 1,
+      "sentencesYieldingSubstances": 1,
+      "sentencesUnparsed": 0,
+      "evidenceLocation": "interactions.sections[] - the full label interaction sections, verbatim.",
+      "note": "This extractor only harvests names from explicit enumerations that follow a coadministration phrase. Interactions written as prose, as a drug class, in a table, or in any other section are NOT counted. A count of zero adverse mentions therefore means ZERO WERE EXTRACTED. It does not mean the label describes no adverse interactions, and it is not evidence that none exist. Read the full sections."
+    },
     "caveats": [
-      "A substance appearing here is NOT automatically an adverse interaction. Check `isAdverseInteraction` and `direction` - labels frequently state that NO dose adjustment is needed, and that is the opposite of a warning.",
-      "`supportingText` is the sentence the substance came from. Render it; do not render the name alone.",
-      "Extraction is conservative and under-reports. The full interactions section is exported separately and is the evidence; this list is a convenience index.",
+      "A substance appearing here is NOT automatically an adverse interaction. Check `direction` and `isAdverseInteraction` before rendering anything as a warning.",
+      "`no-dose-adjustment-stated` is DOSING GUIDANCE, not a statement that no interaction exists. The label says the dose need not change; it does not say the drugs do not interact. Do not render it as 'no interaction'.",
+      "`no-interaction-observed-stated` is the only direction where the label itself asserts an interaction was not observed, and even then only for what was studied.",
+      "`supportingText` is the sentence the substance came from. Render it; never render the name alone.",
+      "An empty list means nothing was EXTRACTED, not that there are no interactions. See `completeness`: this list is an incomplete index and the full sections are the evidence.",
       "This is the label's own content. It has not been checked against any other medicine a person takes, and no interaction-checking service is connected.",
       "This is what THIS product's label describes. It is not a complete list of possible interactions.",
       "It has not been checked against any other medication a person may be taking.",
@@ -2309,13 +2349,865 @@
     "document-level-unresolved": 37,
     "not-applicable": 3
   },
+  "productSpecificGuidance": {
+    "sections": [
+      {
+        "loincCode": "34068-7",
+        "printedNumber": "2",
+        "title": "2 DOSAGE AND ADMINISTRATION",
+        "paragraphs": [],
+        "highlights": [
+          "Administration (by indications):",
+          "Dosage (by age):",
+          "2.4 2.5 Patients with both asthma and allergic rhinitis should take only one dose daily in the evening (). For oral granules: Must administer within 15 minutes after opening the packet (with or without mixing with food) ().",
+          "2.1 Asthma: Once daily in the evening for patients 12 months and older (). 2.2 Acute prevention of EIB: One tablet at least 2 hours before exercise for patients 6 years of age and older (). 2.3 Seasonal allergic rhinitis: Once daily for patients 2 years and older (). 2.3 Perennial allergic rhinitis: Once daily for patients 6 months and older ().",
+          "2 15 years and older: one 10-mg tablet (). 2 6 to 14 years: one 5-mg chewable tablet (). 2 2 to 5 years: one 4-mg chewable tablet or one packet of 4-mg oral granules (). 2 6 to 23 months: one packet of 4-mg oral granules ()."
+        ],
+        "tables": [],
+        "subsections": [
+          {
+            "loincCode": "42229-5",
+            "printedNumber": "2.1",
+            "title": "2.1 Asthma",
+            "paragraphs": [
+              "For asthma, administer SINGULAIR orally once daily in the evening, with or without food. There have been no clinical trials in patients with asthma to evaluate the relative efficacy of morning versus evening dosing.",
+              "The following doses are recommended:",
+              "Patients who miss a dose should take the next dose at their regular time and should not take 2 doses at the same time."
+            ],
+            "highlights": [],
+            "tables": [
+              {
+                "caption": "Table 1: Recommended Dosage in Asthma",
+                "headers": [
+                  [
+                    "Age",
+                    "Dose"
+                  ]
+                ],
+                "rows": [
+                  [
+                    "Adult and adolescent patients 15 years of age and older",
+                    "one 10 mg tablet"
+                  ],
+                  [
+                    "Pediatric patients 6 to 14 years of age",
+                    "one 5 mg chewable tablet"
+                  ],
+                  [
+                    "Pediatric patients 2 to 5 years of age",
+                    "one 4 mg chewable tablet or one packet of oral granules"
+                  ],
+                  [
+                    "Safety and effectiveness in pediatric patients less than 12 months of age with asthma have not been established. Pediatric patients 12 to 23 months of age",
+                    "one packet 4 mg oral granules"
+                  ]
+                ]
+              }
+            ],
+            "subsections": [],
+            "applicability": "explicitly-shared",
+            "appliesToProducts": [
+              "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+              "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+              "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+              "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+            ],
+            "audience": "professional"
+          },
+          {
+            "loincCode": "42229-5",
+            "printedNumber": "2.2",
+            "title": "2.2 Exercise-Induced Bronchoconstriction (EIB)",
+            "paragraphs": [
+              "For prevention of EIB, administer a single dose of SINGULAIR orally at least 2 hours, before exercise. The following doses are recommended:",
+              "An additional dose of SINGULAIR should not be taken within 24 hours of a previous dose. Patients already taking SINGULAIR daily for another indication (including chronic asthma) should not take an additional dose to prevent EIB. All patients should have available for rescue a short-acting β-agonist.",
+              "Daily administration of SINGULAIR for the chronic treatment of asthma has not been established to prevent acute episodes of EIB."
+            ],
+            "highlights": [],
+            "tables": [
+              {
+                "caption": "Table 2: Recommended Dosage in Exercise-Induced Bronchoconstriction (EIB)",
+                "headers": [
+                  [
+                    "Age",
+                    "Dose"
+                  ]
+                ],
+                "rows": [
+                  [
+                    "Adult and adolescent patients 15 years of age and older",
+                    "one 10 mg tablet"
+                  ],
+                  [
+                    "Safety and effectiveness in patients younger than 6 years of age have not been established. Pediatric patients 6 to 14 years of age",
+                    "one 5 mg chewable tablet"
+                  ]
+                ]
+              }
+            ],
+            "subsections": [],
+            "applicability": "explicitly-shared",
+            "appliesToProducts": [
+              "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+              "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+              "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+            ],
+            "audience": "professional"
+          },
+          {
+            "loincCode": "42229-5",
+            "printedNumber": "2.3",
+            "title": "2.3 Allergic Rhinitis",
+            "paragraphs": [
+              "For allergic rhinitis, administer SINGULAIR orally once daily without regard to time of food ingestion. Time of administration in patients with allergic rhinitis can be individualized to suit patient needs.",
+              "The following doses for the treatment of symptoms of seasonal allergic rhinitis are recommended:",
+              "The following doses for the treatment of symptoms of perennial allergic rhinitis are recommended:",
+              "Patients who miss a dose should take the next dose at their regular time and should not take 2 doses at the same time."
+            ],
+            "highlights": [],
+            "tables": [
+              {
+                "caption": "Table 3: Recommended Dosage in Seasonal Allergic Rhinitis",
+                "headers": [
+                  [
+                    "Age",
+                    "Dose"
+                  ]
+                ],
+                "rows": [
+                  [
+                    "Adult and adolescent patients 15 years of age and older",
+                    "one 10 mg tablet"
+                  ],
+                  [
+                    "Pediatric patients 6 to 14 years of age",
+                    "one 5 mg chewable tablet"
+                  ],
+                  [
+                    "Safety and effectiveness in pediatric patients younger than 2 years of age with seasonal allergic rhinitis have not been established. Pediatric patients 2 to 5 years of age",
+                    "one 4 mg chewable tablet or one packet of 4 mg oral granules"
+                  ]
+                ]
+              },
+              {
+                "caption": "Table 4: Recommended Dosage in Perennial Allergic Rhinitis",
+                "headers": [
+                  [
+                    "Age",
+                    "Dose"
+                  ]
+                ],
+                "rows": [
+                  [
+                    "Adult and adolescent patients 15 years of age and older",
+                    "one 10 mg tablet"
+                  ],
+                  [
+                    "Pediatric patients 6 to 14 years of age",
+                    "one 5 mg chewable tablet"
+                  ],
+                  [
+                    "Pediatric patients 2 to 5 years of age",
+                    "one 4 mg chewable tablet or one packet of 4 mg oral granules"
+                  ],
+                  [
+                    "Safety and effectiveness in pediatric patients younger than 6 months of age with perennial allergic rhinitis have not been established. Pediatric patients 6 to 23 months of age",
+                    "one packet of 4 mg oral granules"
+                  ]
+                ]
+              }
+            ],
+            "subsections": [],
+            "applicability": "explicitly-shared",
+            "appliesToProducts": [
+              "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+              "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+              "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+              "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+            ],
+            "audience": "professional"
+          }
+        ],
+        "applicability": "explicitly-shared",
+        "appliesToProducts": [
+          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+          "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+          "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+          "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+        ],
+        "audience": "professional"
+      },
+      {
+        "loincCode": "43678-2",
+        "printedNumber": "3",
+        "title": "3 DOSAGE FORMS AND STRENGTHS",
+        "paragraphs": [
+          "Tablets: 10 mg, beige, rounded square-shaped, film-coated tablets, with code MSD 117 on one side and SINGULAIR on the other. Chewable Tablets: 5 mg, pink, round, bi-convex-shaped, with code MSD 275 on one side and SINGULAIR on the other. Chewable Tablets: 4 mg, pink, oval, bi-convex-shaped, with code MSD 711 on one side and SINGULAIR on the other. Oral Granules: 4 mg, white granules with 500 mg net weight, packed in a child-resistant foil packet."
+        ],
+        "highlights": [
+          "3 Tablets: 10 mg () 3 Chewable tablets: 5 mg and 4 mg () 3 Oral granules: 4 mg ()"
+        ],
+        "tables": [],
+        "subsections": [],
+        "applicability": "explicitly-shared",
+        "appliesToProducts": [
+          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+          "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+          "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+          "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+        ],
+        "audience": "professional"
+      },
+      {
+        "loincCode": "43685-7",
+        "printedNumber": "5",
+        "title": "5 WARNINGS AND PRECAUTIONS",
+        "paragraphs": [],
+        "highlights": [
+          "5.2 Do not prescribe SINGULAIR to treat an acute asthma attack (). 5.2 Advise patients to have appropriate rescue medication available (). 5.3 Inhaled corticosteroid may be reduced gradually. Do not abruptly substitute SINGULAIR for inhaled or oral corticosteroids (). 5.4 Patients with known aspirin sensitivity should continue to avoid aspirin or non-steroidal anti-inflammatory agents while taking SINGULAIR (). 5.5 6.2 Systemic eosinophilia, sometimes presenting with clinical features of vasculitis consistent with Churg-Strauss syndrome, has been reported. These events have been sometimes associated with the reduction of oral corticosteroid therapy (and). 5.6 Inform patients with phenylketonuria that the 4-mg and 5-mg chewable tablets contain phenylalanine ()."
+        ],
+        "tables": [],
+        "subsections": [
+          {
+            "loincCode": "42229-5",
+            "printedNumber": "5.6",
+            "title": "5.6 Risk in Patients with Phenylketonuria",
+            "paragraphs": [
+              "SINGULAIR contains aspartame, a source of phenylalanine. Phenylalanine can be harmful to patients with phenylketonuria (PKU). Each 4 mg and 5 mg chewable tablet contains 0.674 mg and 0.842 mg of phenylalanine, respectively. Before prescribing SINGULAIR to a patient with PKU, consider the combined daily amount of phenylalanine from all sources, including SINGULAIR."
+            ],
+            "highlights": [],
+            "tables": [],
+            "subsections": [],
+            "applicability": "explicitly-shared",
+            "appliesToProducts": [
+              "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+              "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+              "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+              "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+            ],
+            "audience": "professional"
+          }
+        ],
+        "applicability": "explicitly-shared",
+        "appliesToProducts": [
+          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+          "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+          "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+          "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+        ],
+        "audience": "professional"
+      },
+      {
+        "loincCode": "42229-5",
+        "printedNumber": "6.1",
+        "title": "6.1 Clinical Trials Experience",
+        "paragraphs": [
+          "Because clinical trials are conducted under widely varying conditions, adverse reaction rates observed in the clinical trials of a drug cannot be directly compared to rates in the clinical trials of another drug and may not reflect the rates observed in clinical practice. In the following description of clinical trials experience, adverse reactions are listed regardless of causality assessment.",
+          "The most common adverse reactions (incidence ≥5% and greater than placebo; listed in descending order of frequency) in controlled clinical trials were: upper respiratory infection, fever, headache, pharyngitis, cough, abdominal pain, diarrhea, otitis media, influenza, rhinorrhea, sinusitis, otitis.",
+          "Adults and Adolescents 15 Years of Age and Older with Asthma",
+          "SINGULAIR has been evaluated for safety in approximately 2950 adult and adolescent patients 15 years of age and older in clinical trials. In placebo-controlled clinical trials, the following adverse reactions reported with SINGULAIR occurred in greater than or equal to 1% of patients and at an incidence greater than that in patients treated with placebo:",
+          "The frequency of less common adverse reactions was comparable between SINGULAIR and placebo.",
+          "The safety profile of SINGULAIR, when administered as a single dose for prevention of EIB in adult and adolescent patients 15 years of age and older, was consistent with the safety profile previously described for SINGULAIR.",
+          "Cumulatively, 569 patients were treated with SINGULAIR for at least 6 months, 480 for one year, and 49 for two years in clinical trials. With prolonged treatment, the adverse reaction profile did not significantly change.",
+          "Pediatric Patients 6 to 14 Years of Age with Asthma",
+          "SINGULAIR has been evaluated for safety in 476 pediatric patients 6 to 14 years of age. Cumulatively, 289 pediatric patients were treated with SINGULAIR for at least 6 months, and 241 for one year or longer in clinical trials. The safety profile of SINGULAIR in the 8-week, double-blind, pediatric efficacy trial was generally similar to the adult safety profile. In pediatric patients 6 to 14 years of age receiving SINGULAIR, the following reactions occurred with a frequency ≥2% and more frequently than in pediatric patients who received placebo: pharyngitis, influenza, fever, sinusitis, nausea, diarrhea, dyspepsia, otitis, viral infection, and laryngitis. The frequency of less common adverse reactions was comparable between SINGULAIR and placebo. With prolonged treatment, the adverse reaction profile did not significantly change.",
+          "The safety profile of SINGULAIR, when administered as a single dose for prevention of EIB in pediatric patients 6 years of age and older, was consistent with the safety profile previously described for SINGULAIR.",
+          "In studies evaluating growth rate, the safety profile in these pediatric patients was consistent with the safety profile previously described for SINGULAIR. In a 56-week, double-blind study evaluating growth rate in pediatric patients 6 to 8 years of age receiving SINGULAIR, the following reactions not previously observed with the use of SINGULAIR in this age group occurred with a frequency ≥2% and more frequently than in pediatric patients who received placebo: headache, rhinitis (infective), varicella, gastroenteritis, atopic dermatitis, acute bronchitis, tooth infection, skin infection, and myopia.",
+          "Pediatric Patients 2 to 5 Years of Age with Asthma",
+          "SINGULAIR has been evaluated for safety in 573 pediatric patients 2 to 5 years of age in single- and multiple-dose studies. Cumulatively, 426 pediatric patients 2 to 5 years of age were treated with SINGULAIR for at least 3 months, 230 for 6 months or longer, and 63 patients for one year or longer in clinical trials. In pediatric patients 2 to 5 years of age receiving SINGULAIR, the following reactions occurred with a frequency ≥2% and more frequently than in pediatric patients who received placebo: fever, cough, abdominal pain, diarrhea, headache, rhinorrhea, sinusitis, otitis, influenza, rash, ear pain, gastroenteritis, eczema, urticaria, varicella, pneumonia, dermatitis, and conjunctivitis.",
+          "Pediatric Patients 6 to 23 Months of Age with Asthma",
+          "Safety and effectiveness in pediatric patients younger than 12 months of age with asthma have not been established.",
+          "SINGULAIR has been evaluated for safety in 175 pediatric patients 6 to 23 months of age. The safety profile of SINGULAIR in a 6-week, double-blind, placebo-controlled clinical study was generally similar to the safety profile in adults and pediatric patients 2 to 14 years of age. In pediatric patients 6 to 23 months of age receiving SINGULAIR, the following reactions occurred with a frequency ≥2% and more frequently than in pediatric patients who received placebo: upper respiratory infection, wheezing; otitis media; pharyngitis, tonsillitis, cough; and rhinitis. The frequency of less common adverse reactions was comparable between SINGULAIR and placebo.",
+          "Adults and Adolescents 15 Years of Age and Older with Seasonal Allergic Rhinitis",
+          "SINGULAIR has been evaluated for safety in 2199 adult and adolescent patients 15 years of age and older in clinical trials. SINGULAIR administered once daily in the morning or in the evening had a safety profile similar to that of placebo. In placebo-controlled clinical trials, the following reaction was reported with SINGULAIR with a frequency ≥1% and at an incidence greater than placebo: upper respiratory infection, 1.9% of patients receiving SINGULAIR vs. 1.5% of patients receiving placebo. In a 4-week, placebo-controlled clinical study, the safety profile was consistent with that observed in 2-week studies. The incidence of somnolence was similar to that of placebo in all studies.",
+          "Pediatric Patients 2 to 14 Years of Age with Seasonal Allergic Rhinitis",
+          "SINGULAIR has been evaluated in 280 pediatric patients 2 to 14 years of age in a 2-week, multicenter, double-blind, placebo-controlled, parallel-group safety study. SINGULAIR administered once daily in the evening had a safety profile similar to that of placebo. In this study, the following reactions occurred with a frequency ≥2% and at an incidence greater than placebo: headache, otitis media, pharyngitis, and upper respiratory infection.",
+          "Adults and Adolescents 15 Years of Age and Older with Perennial Allergic Rhinitis",
+          "SINGULAIR has been evaluated for safety in 3357 adult and adolescent patients 15 years of age and older with perennial allergic rhinitis of whom 1632 received SINGULAIR in two, 6-week, clinical studies. SINGULAIR administered once daily had a safety profile consistent with that observed in patients with seasonal allergic rhinitis and similar to that of placebo. In these two studies, the following reactions were reported with SINGULAIR with a frequency ≥1% and at an incidence greater than placebo: sinusitis, upper respiratory infection, sinus headache, cough, epistaxis, and increased ALT. The incidence of somnolence was similar to that of placebo.",
+          "Pediatric Patients 6 Months to 14 Years of Age with Perennial Allergic Rhinitis",
+          "The safety in patients 2 to 14 years of age with perennial allergic rhinitis is supported by the safety in patients 2 to 14 years of age with seasonal allergic rhinitis. The safety in patients 6 to 23 months of age is supported by data from pharmacokinetic and safety and efficacy studies in asthma in this pediatric population and from adult pharmacokinetic studies."
+        ],
+        "highlights": [],
+        "tables": [
+          {
+            "caption": "Table 5: Adverse Reactions Occurring in ≥1% of Patients with an Incidence Greater than that in Patients Treated with Placebo",
+            "headers": [
+              [
+                "",
+                "SINGULAIR 10 mg/day(%)(n=1955)",
+                "Placebo(%)(n=1180)"
+              ]
+            ],
+            "rows": [
+              [
+                "Body As A Whole Pain, abdominalAsthenia/fatigueFeverTrauma",
+                "2.91.81.51.0",
+                "2.51.20.90.8"
+              ],
+              [
+                "Digestive System Disorders DyspepsiaPain, dentalGastroenteritis, infectious",
+                "2.11.71.5",
+                "1.11.00.5"
+              ],
+              [
+                "Nervous System/Psychiatric HeadacheDizziness",
+                "18.41.9",
+                "18.11.4"
+              ],
+              [
+                "Respiratory System Disorders InfluenzaCoughCongestion, nasal",
+                "4.22.71.6",
+                "3.92.41.3"
+              ],
+              [
+                "Skin/Skin Appendages Disorder Rash",
+                "1.6",
+                "1.2"
+              ],
+              [
+                "Laboratory Adverse Reactions Number of patients tested (SINGULAIR and placebo, respectively): ALT and AST, 1935, 1170; pyuria, 1924, 1159. ALT increasedAST increasedPyuria",
+                "2.11.61.0",
+                "2.01.20.9"
+              ]
+            ]
+          }
+        ],
+        "subsections": [],
+        "applicability": "exact-product",
+        "appliesToProducts": [
+          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)"
+        ],
+        "audience": "professional"
+      },
+      {
+        "loincCode": "34081-0",
+        "printedNumber": "8.4",
+        "title": "8.4 Pediatric Use",
+        "paragraphs": [
+          "Adverse Reactions (6.1) Clinical Pharmacology, Specific Populations (12.3) Clinical Studies (14.1 14.2 [see,, and,)]. Safety and effectiveness of SINGULAIR for asthma have been established in pediatric patients 6 to 14 years of age. Use of SINGULAIR for this indication is supported by evidence from well-controlled studies. Safety and efficacy data in this age group are similar to those seen in adults",
+          "The effectiveness of SINGULAIR for the treatment of seasonal allergic rhinitis in pediatric patients 2 to 14 years of age and for the treatment of perennial allergic rhinitis in pediatric patients 6 months to 14 years of age have been established and is supported by extrapolation from the demonstrated effectiveness in patients 15 years of age and older with allergic rhinitis as well as the assumption that the disease course, pathophysiology and the drug’s effect are substantially similar among these populations.",
+          "Adverse Reactions (6.1) [see]. The safety of SINGULAIR 4-mg chewable tablets in pediatric patients 2 to 5 years of age with asthma has been demonstrated by adequate and well-controlled dataEffectiveness of SINGULAIR in this age group is extrapolated from the demonstrated effectiveness in patients 6 years of age and older with asthma and is based on similar pharmacokinetic data, as well as the assumption that the disease course, pathophysiology and the drug’s effect are substantially similar among these populations. Effectiveness in this age group is supported by exploratory efficacy assessments from a large, well-controlled safety study conducted in patients 2 to 5 years of age.",
+          "Adverse Reactions (6.1) [see]. The safety of SINGULAIR 4-mg oral granules in pediatric patients 12 to 23 months of age with asthma has been demonstrated in an analysis of 172 pediatric patients, 124 of whom were treated with SINGULAIR, in a 6-week, double-blind, placebo-controlled studyEffectiveness of SINGULAIR in this age group is extrapolated from the demonstrated effectiveness in patients 6 years of age and older with asthma based on similar mean systemic exposure (AUC), and that the disease course, pathophysiology and the drug's effect are substantially similar among these populations, supported by efficacy data from a safety trial in which efficacy was an exploratory assessment.",
+          "Adverse Reactions (6.1) [see]. The safety of SINGULAIR 4-mg and 5-mg chewable tablets in pediatric patients aged 2 to 14 years with allergic rhinitis is supported by data from studies conducted in pediatric patients aged 2 to 14 years with asthma. A safety study in pediatric patients 2 to 14 years of age with seasonal allergic rhinitis demonstrated a similar safety profileThe safety of SINGULAIR 4-mg oral granules in pediatric patients as young as 6 months of age with perennial allergic rhinitis is supported by extrapolation from safety data obtained from studies conducted in pediatric patients 6 months to 23 months of age with asthma and from pharmacokinetic data comparing systemic exposures in patients 6 months to 23 months of age to systemic exposures in adults.",
+          "The safety and effectiveness in pediatric patients below the age of 12 months with asthma, 6 months with perennial allergic rhinitis, and 6 years with exercise-induced bronchoconstriction have not been established.",
+          "Growth Rate in Pediatric Patients",
+          "A 56-week, multi-center, double-blind, randomized, active- and placebo-controlled parallel group study was conducted to assess the effect of SINGULAIR on growth rate in 360 patients with mild asthma, aged 6 to 8 years. Treatment groups included SINGULAIR 5 mg once daily, placebo, and beclomethasone dipropionate administered as 168 mcg twice daily with a spacer device. For each subject, a growth rate was defined as the slope of a linear regression line fit to the height measurements over 56 weeks. The primary comparison was the difference in growth rates between SINGULAIR and placebo groups. Growth rates, expressed as least-squares (LS) mean (95% CI) in cm/year, for the SINGULAIR, placebo, and beclomethasone treatment groups were 5.67 (5.46, 5.88), 5.64 (5.42, 5.86), and 4.86 (4.64, 5.08), respectively. The differences in growth rates, expressed as least-squares (LS) mean (95% CI) in cm/year, for SINGULAIR minus placebo, beclomethasone minus placebo, and SINGULAIR minus beclomethasone treatment groups were 0.03 (-0.26, 0.31), -0.78 (-1.06, -0.49); and 0.81 (0.53, 1.09), respectively. Growth rate (expressed as mean change in height over time) for each treatment group is shown in FIGURE 1."
+        ],
+        "highlights": [],
+        "tables": [],
+        "subsections": [],
+        "applicability": "explicitly-shared",
+        "appliesToProducts": [
+          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+          "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+          "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+          "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+        ],
+        "audience": "professional"
+      },
+      {
+        "loincCode": "34082-8",
+        "printedNumber": "8.5",
+        "title": "8.5 Geriatric Use",
+        "paragraphs": [
+          "Of the total number of subjects in clinical studies of montelukast, 3.5% were 65 years of age and over, and 0.4% were 75 years of age and over. No overall differences in safety or effectiveness were observed between these subjects and younger subjects, and other reported clinical experience has not identified differences in responses between the elderly and younger patients, but greater sensitivity of some older individuals cannot be ruled out. The pharmacokinetic profile and the oral bioavailability of a single 10-mg oral dose of montelukast are similar in elderly and younger adults. The plasma half-life of montelukast is slightly longer in the elderly. No dosage adjustment in the elderly is required."
+        ],
+        "highlights": [],
+        "tables": [],
+        "subsections": [],
+        "applicability": "exact-product",
+        "appliesToProducts": [
+          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)"
+        ],
+        "audience": "professional"
+      },
+      {
+        "loincCode": "34089-3",
+        "printedNumber": "11",
+        "title": "11 DESCRIPTION",
+        "paragraphs": [
+          "1 Montelukast sodium, the active ingredient in SINGULAIR, is a selective and orally active leukotriene receptor antagonist that inhibits the cysteinyl leukotriene CysLTreceptor.",
+          "R E Montelukast sodium is described chemically as [-()]-1-[[[1-[3-[2-(7-chloro-2-quinolinyl)ethenyl]phenyl]-3-[2-(1-hydroxy-1-methylethyl)phenyl]propyl]thio]methyl]cyclopropaneacetic acid, monosodium salt.",
+          "35 35 3 The empirical formula is CHClNNaOS, and its molecular weight is 608.18. The structural formula is:",
+          "Montelukast sodium is a hygroscopic, optically active, white to off-white powder. Montelukast sodium is freely soluble in ethanol, methanol, and water and practically insoluble in acetonitrile.",
+          "Each 10-mg film-coated SINGULAIR tablet contains 10.4 mg montelukast sodium, which is equivalent to 10 mg of montelukast, and the following inactive ingredients: microcrystalline cellulose, lactose monohydrate, croscarmellose sodium, hydroxypropyl cellulose, and magnesium stearate. The film coating consists of: hydroxypropyl methylcellulose, hydroxypropyl cellulose, titanium dioxide, red ferric oxide, yellow ferric oxide, and carnauba wax.",
+          "Each 4-mg and 5-mg chewable SINGULAIR tablet contains 4.2 and 5.2 mg montelukast sodium, respectively, which are equivalent to 4 and 5 mg of montelukast, respectively. Both chewable tablets contain the following inactive ingredients: mannitol, microcrystalline cellulose, hydroxypropyl cellulose, red ferric oxide, croscarmellose sodium, cherry flavor, aspartame, and magnesium stearate.",
+          "Each packet of SINGULAIR 4-mg oral granules contains 4.2 mg montelukast sodium, which is equivalent to 4 mg of montelukast. The oral granule formulation contains the following inactive ingredients: mannitol, hydroxypropyl cellulose, and magnesium stearate."
+        ],
+        "highlights": [],
+        "tables": [],
+        "subsections": [],
+        "applicability": "explicitly-shared",
+        "appliesToProducts": [
+          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+          "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+          "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+          "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+        ],
+        "audience": "professional"
+      },
+      {
+        "loincCode": "43682-4",
+        "printedNumber": "12.3",
+        "title": "12.3 Pharmacokinetics",
+        "paragraphs": [
+          "Absorption",
+          "max max max Montelukast is rapidly absorbed following oral administration. After administration of the 10-mg film-coated tablet to fasted adults, the mean peak montelukast plasma concentration (C) is achieved in 3 to 4 hours (T). The mean oral bioavailability is 64%. The oral bioavailability and Care not influenced by a standard meal in the morning.",
+          "max For the 5-mg chewable tablet, the mean Cis achieved in 2 to 2.5 hours after administration to adults in the fasted state. The mean oral bioavailability is 73% in the fasted state versus 63% when administered with a standard meal in the morning.",
+          "max For the 4-mg chewable tablet, the mean Cis achieved 2 hours after administration in pediatric patients 2 to 5 years of age in the fasted state.",
+          "max max The 4-mg oral granule formulation is bioequivalent to the 4-mg chewable tablet when administered to adults in the fasted state. The co-administration of the oral granule formulation with applesauce did not have a clinically significant effect on the pharmacokinetics of montelukast. A high fat meal in the morning did not affect the AUC of montelukast oral granules; however, the meal decreased Cby 35% and prolonged Tfrom 2.3 ± 1.0 hours to 6.4 ± 2.9 hours.",
+          "The safety and effectiveness of SINGULAIR in patients with asthma were demonstrated in clinical trials in which the 10-mg film-coated tablet and 5-mg chewable tablet formulations were administered in the evening without regard to the time of food ingestion. The safety of SINGULAIR in patients with asthma was also demonstrated in clinical trials in which the 4-mg chewable tablet and 4-mg oral granule formulations were administered in the evening without regard to the time of food ingestion. The safety and effectiveness of SINGULAIR in patients with seasonal allergic rhinitis were demonstrated in clinical trials in which the 10-mg film-coated tablet was administered in the morning or evening without regard to the time of food ingestion.",
+          "The comparative pharmacokinetics of montelukast when administered as two 5-mg chewable tablets versus one 10-mg film-coated tablet have not been evaluated.",
+          "Distribution",
+          "Montelukast is more than 99% bound to plasma proteins. The steady state volume of distribution of montelukast averages 8 to 11 liters. Orally administered montelukast distributes into the brain in rats.",
+          "Elimination",
+          "The plasma clearance of montelukast averages 45 mL/min in healthy adults. Following an oral dose of radiolabeled montelukast, 86% of the radioactivity was recovered in 5-day fecal collections and <0.2% was recovered in urine. Coupled with estimates of montelukast oral bioavailability, this indicates that montelukast and its metabolites are excreted almost exclusively via the bile.",
+          "In several studies, the mean plasma half-life of montelukast ranged from 2.7 to 5.5 hours in healthy young adults. The pharmacokinetics of montelukast are nearly linear for oral doses up to 50 mg. During once-daily dosing with 10-mg montelukast, there is little accumulation of the parent drug in plasma (14%).",
+          "Metabolism",
+          "Montelukast is extensively metabolized. In studies with therapeutic doses, plasma concentrations of metabolites of montelukast are undetectable at steady state in adults and pediatric patients.",
+          "In vitro studies using human liver microsomes indicate that CYP3A4, 2C8, and 2C9 are involved in the metabolism of montelukast. At clinically relevant concentrations, 2C8 appears to play a major role in the metabolism of montelukast.",
+          "Specific Populations",
+          "Patients with Hepatic Impairment Patients with mild-to-moderate hepatic insufficiency and clinical evidence of cirrhosis had evidence of decreased metabolism of montelukast resulting in 41% (90% CI=7%, 85%) higher mean montelukast AUC following a single 10-mg dose. The elimination of montelukast was slightly prolonged compared with that in healthy subjects (mean half-life, 7.4 hours). No dosage adjustment is required in patients with mild-to-moderate hepatic insufficiency. The pharmacokinetics of SINGULAIR in patients with more severe hepatic impairment or with hepatitis have not been evaluated.",
+          "Patients with Renal Impairment . Since montelukast and its metabolites are not excreted in the urine, the pharmacokinetics of montelukast were not evaluated in patients with renal insufficiency. No dosage adjustment is recommended in these patients",
+          "Male and Female Patients The pharmacokinetics of montelukast are similar in males and females.",
+          "Racial Groups Pharmacokinetic differences due to race have not been studied.",
+          "Adolescents and Pediatric Patients Pharmacokinetic studies evaluated the systemic exposure of the 4-mg oral granule formulation in pediatric patients 6 to 23 months of age, the 4-mg chewable tablets in pediatric patients 2 to 5 years of age, the 5-mg chewable tablets in pediatric patients 6 to 14 years of age, and the 10-mg film-coated tablets in young adults and adolescents ≥15 years of age.",
+          "The plasma concentration profile of montelukast following administration of the 10-mg film-coated tablet is similar in adolescents ≥15 years of age and young adults. The 10-mg film-coated tablet is recommended for use in patients ≥15 years of age.",
+          "The mean systemic exposure of the 4-mg chewable tablet in pediatric patients 2 to 5 years of age and the 5-mg chewable tablets in pediatric patients 6 to 14 years of age is similar to the mean systemic exposure of the 10-mg film-coated tablet in adults. The 5-mg chewable tablet should be used in pediatric patients 6 to 14 years of age and the 4-mg chewable tablet should be used in pediatric patients 2 to 5 years of age.",
+          "max max max Adverse Reactions (6.1) [see]. In children 6 to 11 months of age, the systemic exposure to montelukast and the variability of plasma montelukast concentrations were higher than those observed in adults. Based on population analyses, the mean AUC (4296 ng•hr/mL [range 1200 to 7153]) was 60% higher and the mean C(667 ng/mL [range 201 to 1058]) was 89% higher than those observed in adults (mean AUC 2689 ng•hr/mL [range 1521 to 4595]) and mean C(353 ng/mL [range 180 to 548]). The systemic exposure in children 12 to 23 months of age was less variable, but was still higher than that observed in adults. The mean AUC (3574 ng•hr/mL [range 2229 to 5408]) was 33% higher and the mean C(562 ng/mL [range 296 to 814]) was 60% higher than those observed in adults. Safety and tolerability of montelukast in a single-dose pharmacokinetic study in 26 children 6 to 23 months of age were similar to that of patients two years and aboveThe 4-mg oral granule formulation should be used for pediatric patients 12 to 23 months of age for the treatment of asthma, or for pediatric patients 6 to 23 months of age for the treatment of perennial allergic rhinitis. Since the 4-mg oral granule formulation is bioequivalent to the 4-mg chewable tablet, it can also be used as an alternative formulation to the 4-mg chewable tablet in pediatric patients 2 to 5 years of age.",
+          "Drug Interaction Studies",
+          "Theophylline, Prednisone, and Prednisolone SINGULAIR has been administered with other therapies routinely used in the prophylaxis and chronic treatment of asthma with no apparent increase in adverse reactions. In drug-interaction studies, the recommended clinical dose of montelukast did not have clinically important effects on the pharmacokinetics of the following drugs: theophylline, prednisone, and prednisolone.",
+          "Montelukast at a dose of 10 mg once daily dosed to pharmacokinetic steady state, did not cause clinically significant changes in the kinetics of a single intravenous dose of theophylline [predominantly a cytochrome P450 (CYP) 1A2 substrate]. Montelukast at doses of ≥100 mg daily dosed to pharmacokinetic steady state, did not cause any clinically significant change in plasma profiles of prednisone or prednisolone following administration of either oral prednisone or intravenous prednisolone.",
+          "Oral Contraceptives, fexofenadine, Digoxin, and Warfarin In drug interaction studies, the recommended clinical dose of montelukast did not have clinically important effects on the pharmacokinetics of the following drugs: oral contraceptives (norethindrone 1 mg/ethinyl estradiol 35 mcg), digoxin, and warfarin. Montelukast at doses of ≥100 mg daily dosed to pharmacokinetic steady state did not significantly alter the plasma concentrations of either component of an oral contraceptive containing norethindrone 1 mg/ethinyl estradiol 35 mcg. Montelukast at a dose of 10 mg once daily dosed to pharmacokinetic steady state did not change the plasma concentration profile of fexofenadine, did not change the pharmacokinetic profile or urinary excretion of immunoreactive digoxin; did not change the pharmacokinetic profile of warfarin (primarily a substrate of CYP2C9, 3A4 and 1A2) or influence the effect of a single 30-mg oral dose of warfarin on prothrombin time or the International Normalized Ratio (INR).",
+          "Thyroid Hormones, Sedative Hypnotics, Non-Steroidal Anti-Inflammatory Agents, Benzodiazepines, and Decongestants Although additional specific interaction studies were not performed, SINGULAIR was used concomitantly with a wide range of commonly prescribed drugs in clinical studies without evidence of clinical adverse interactions. These medications included thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, and decongestants.",
+          "Cytochrome P450 (CYP) Enzyme Inducers Phenobarbital, which induces hepatic metabolism, decreased the area under the plasma concentration curve (AUC) of montelukast approximately 40% following a single 10-mg dose of montelukast. No dosage adjustment for SINGULAIR is recommended. It is reasonable to employ appropriate clinical monitoring when potent CYP enzyme inducers, such as phenobarbital or rifampin, are co-administered with SINGULAIR.",
+          "Effect of Montelukast on Cytochrome P450 (CYP) Enzymes in vitro. in vivo in vitro Montelukast is a potent inhibitor of CYP2C8However, data from a clinical drug-drug interaction study involving montelukast and rosiglitazone (a probe substrate representative of drugs primarily metabolized by CYP2C8) in 12 healthy individuals demonstrated that the pharmacokinetics of rosiglitazone are not altered when the drugs are coadministered, indicating that montelukast does not inhibit CYP2C8. Therefore, montelukast is not anticipated to alter the metabolism of drugs metabolized by this enzyme (e.g., paclitaxel, rosiglitazone, and repaglinide). Based on furtherresults in human liver microsomes, therapeutic plasma concentrations of montelukast do not inhibit CYP 3A4, 2C9, 1A2, 2A6, 2C19, or 2D6.",
+          "Cytochrome P450 (CYP) Enzyme Inhibitors In vitro Overdosage (10) [see] studies have shown that montelukast is a substrate of CYP 2C8, 2C9, and 3A4. Co-administration of montelukast with itraconazole, a strong CYP 3A4 inhibitor, resulted in no significant increase in the systemic exposure of montelukast. Data from a clinical drug interaction study involving montelukast and gemfibrozil (an inhibitor of both CYP 2C8 and 2C9) demonstrated that gemfibrozil, at a therapeutic dose, increased the systemic exposure of montelukast by 4.4-fold. Co-administration of itraconazole, gemfibrozil, and montelukast did not further increase the systemic exposure of montelukast. Based on available clinical experience, no dosage adjustment of montelukast is required upon co-administration with gemfibrozil."
+        ],
+        "highlights": [],
+        "tables": [],
+        "subsections": [],
+        "applicability": "explicitly-shared",
+        "appliesToProducts": [
+          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+          "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+          "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+          "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+        ],
+        "audience": "professional"
+      },
+      {
+        "loincCode": "42229-5",
+        "printedNumber": "14.1",
+        "title": "14.1 Asthma",
+        "paragraphs": [
+          "Adults and Adolescents 15 Years of Age and Older with Asthma",
+          "Clinical trials in adults and adolescents 15 years of age and older demonstrated there is no additional clinical benefit to montelukast doses above 10 mg once daily.",
+          "1 1 The efficacy of SINGULAIR for the chronic treatment of asthma in adults and adolescents 15 years of age and older was demonstrated in two (U.S. and Multinational) similarly designed, randomized, 12-week, double-blind, placebo-controlled trials in 1576 patients (795 treated with SINGULAIR, 530 treated with placebo, and 251 treated with active control). The median age was 33 years (range 15 to 85); 56.8% were females and 43.2% were males. The ethnic/racial distribution in these studies was 71.6% Caucasian, 17.7% Hispanic, 7.2% other origins and 3.5% Black. Patients had mild or moderate asthma and were non-smokers who required approximately 5 puffs of inhaled β-agonist per day on an \"as-needed\" basis. The patients had a mean baseline percent of predicted forced expiratory volume in 1 second (FEV) of 66% (approximate range, 40 to 90%). The co-primary endpoints in these trials were FEVand daytime asthma symptoms. In both studies after 12 weeks, a random subset of patients receiving SINGULAIR was switched to placebo for an additional 3 weeks of double-blind treatment to evaluate for possible rebound effects.",
+          "1 1 1 1 The results of the U.S. trial on the primary endpoint, morning FEV, expressed as mean percent change from baseline averaged over the 12-week treatment period, are shown in FIGURE 2. Compared with placebo, treatment with one SINGULAIR 10-mg tablet daily in the evening resulted in a statistically significant increase in FEVpercent change from baseline (13.0%-change in the group treated with SINGULAIR vs. 4.2%-change in the placebo group, p<0.001); the change from baseline in FEVfor SINGULAIR was 0.32 liters compared with 0.10 liters for placebo, corresponding to a between-group difference of 0.22 liters (p<0.001, 95% CI 0.17 liters, 0.27 liters). The results of the Multinational trial on FEVwere similar.",
+          "TABLE 6 The effect of SINGULAIR on other primary and secondary endpoints, represented by the Multinational study is shown in. Results on these endpoints were similar in the US study.",
+          "Both studies evaluated the effect of SINGULAIR on secondary outcomes, including asthma attack (utilization of health-care resources such as an unscheduled visit to a doctor's office, emergency room, or hospital; or treatment with oral, intravenous, or intramuscular corticosteroid), and use of oral corticosteroids for asthma rescue. In the Multinational study, significantly fewer patients (15.6% of patients) on SINGULAIR experienced asthma attacks compared with patients on placebo (27.3%, p<0.001). In the US study, 7.8% of patients on SINGULAIR and 10.3% of patients on placebo experienced asthma attacks, but the difference between the two treatment groups was not significant (p=0.334). In the Multinational study, significantly fewer patients (14.8% of patients) on SINGULAIR were prescribed oral corticosteroids for asthma rescue compared with patients on placebo (25.7%, p<0.001). In the US study, 6.9% of patients on SINGULAIR and 9.9% of patients on placebo were prescribed oral corticosteroids for asthma rescue, but the difference between the two treatment groups was not significant (p=0.196).",
+          "Onset of Action and Maintenance of Effects",
+          "In each placebo-controlled trial in adults, the treatment effect of SINGULAIR, measured by daily diary card parameters, including symptom scores, \"as-needed\" β-agonist use, and PEFR measurements, was achieved after the first dose and was maintained throughout the dosing interval (24 hours). No significant change in treatment effect was observed during continuous once-daily evening administration in non-placebo-controlled extension trials for up to one year. Withdrawal of SINGULAIR in asthmatic patients after 12 weeks of continuous use did not cause rebound worsening of asthma.",
+          "Pediatric Patients 6 to 14 Years of Age with Asthma",
+          "1 The efficacy of SINGULAIR in pediatric patients 6 to 14 years of age was demonstrated in one 8-week, double-blind, placebo-controlled trial in 336 patients (201 treated with SINGULAIR and 135 treated with placebo) using an inhaled β-agonist on an \"as-needed\" basis. The patients had a mean baseline percent predicted FEVof 72% (approximate range, 45 to 90%) and a mean daily inhaled β-agonist requirement of 3.4 puffs of albuterol. Approximately 36% of the patients were on inhaled corticosteroids. The median age was 11 years (range 6 to 15); 35.4% were females and 64.6% were males. The ethnic/racial distribution in this study was 80.1% Caucasian, 12.8% Black, 4.5% Hispanic, and 2.7% other origins.",
+          "1 Compared with placebo, treatment with one 5-mg SINGULAIR chewable tablet daily resulted in a significant improvement in mean morning FEVpercent change from baseline (8.7% in the group treated with SINGULAIR vs. 4.2% change from baseline in the placebo group, p<0.001). There was a significant decrease in the mean percentage change in daily \"as-needed\" inhaled β-agonist use (11.7% decrease from baseline in the group treated with SINGULAIR vs. 8.2% increase from baseline in the placebo group, p<0.05). This effect represents a mean decrease from baseline of 0.56 and 0.23 puffs per day for the montelukast and placebo groups, respectively. Subgroup analyses indicated that younger pediatric patients aged 6 to 11 had efficacy results comparable to those of the older pediatric patients aged 12 to 14.",
+          "Similar to the adult studies, no significant change in the treatment effect was observed during continuous once-daily administration in one open-label extension trial without a concurrent placebo group for up to 6 months.",
+          "Pediatric Patients 2 to 5 Years of Age with Asthma",
+          "The efficacy of SINGULAIR for the chronic treatment of asthma in pediatric patients 2 to 5 years of age was explored in a 12-week, placebo-controlled safety and tolerability study in 689 patients, 461 of whom were treated with SINGULAIR. The median age was 4 years (range 2 to 6); 41.5% were females and 58.5% were males. The ethnic/racial distribution in this study was 56.5% Caucasian, 20.9% Hispanic, 14.4% other origins, and 8.3% Black.",
+          "While the primary objective was to determine the safety and tolerability of SINGULAIR in this age group, the study included exploratory efficacy evaluations, including daytime and overnight asthma symptom scores, β-agonist use, oral corticosteroid rescue, and the physician's global evaluation. The findings of these exploratory efficacy evaluations, along with pharmacokinetics and extrapolation of efficacy data from older patients, support the overall conclusion that SINGULAIR is efficacious in the maintenance treatment of asthma in patients 2 to 5 years of age.",
+          "Effects in Patients on Concomitant Inhaled Corticosteroids",
+          "Separate trials in adults evaluated the ability of SINGULAIR to add to the clinical effect of inhaled corticosteroids and to allow inhaled corticosteroid tapering when used concomitantly.",
+          "1 One randomized, placebo-controlled, parallel-group trial (n=226) enrolled adults with stable asthma with a mean FEVof approximately 84% of predicted who were previously maintained on various inhaled corticosteroids (delivered by metered-dose aerosol or dry powder inhalers). The median age was 41.5 years (range 16 to 70); 52.2% were females and 47.8% were males. The ethnic/racial distribution in this study was 92.0% Caucasian, 3.5% Black, 2.2% Hispanic, and 2.2% Asian. The types of inhaled corticosteroids and their mean baseline requirements included beclomethasone dipropionate (mean dose, 1203 mcg/day), triamcinolone acetonide (mean dose, 2004 mcg/day), flunisolide (mean dose, 1971 mcg/day), fluticasone propionate (mean dose, 1083 mcg/day), or budesonide (mean dose, 1192 mcg/day). Some of these inhaled corticosteroids were non-U.S.-approved formulations, and doses expressed may not be ex-actuator. The pre-study inhaled corticosteroid requirements were reduced by approximately 37% during a 5- to 7-week placebo run-in period designed to titrate patients toward their lowest effective inhaled corticosteroid dose. Treatment with SINGULAIR resulted in a further 47% reduction in mean inhaled corticosteroid dose compared with a mean reduction of 30% in the placebo group over the 12-week active treatment period (p≤0.05). It is not known whether the results of this study can be generalized to patients with asthma who require higher doses of inhaled corticosteroids or systemic corticosteroids.",
+          "1 1 In another randomized, placebo-controlled, parallel-group trial (n=642) in a similar population of adult patients previously maintained, but not adequately controlled, on inhaled corticosteroids (beclomethasone 336 mcg/day), the addition of SINGULAIR to beclomethasone resulted in statistically significant improvements in FEVcompared with those patients who were continued on beclomethasone alone or those patients who were withdrawn from beclomethasone and treated with montelukast or placebo alone over the last 10 weeks of the 16-week, blinded treatment period. Patients who were randomized to treatment arms containing beclomethasone had statistically significantly better asthma control than those patients randomized to SINGULAIR alone or placebo alone as indicated by FEV, daytime asthma symptoms, PEFR, nocturnal awakenings due to asthma, and \"as-needed\" β-agonist requirements.",
+          "Warnings and Precautions (5.4) [see]. In adult patients with asthma with documented aspirin sensitivity, nearly all of whom were receiving concomitant inhaled and/or oral corticosteroids, a 4-week, randomized, parallel-group trial (n=80) demonstrated that SINGULAIR, compared with placebo, resulted in significant improvement in parameters of asthma control. The magnitude of effect of SINGULAIR in aspirin-sensitive patients was similar to the effect observed in the general population of asthma patients studied. The effect of SINGULAIR on the bronchoconstrictor response to aspirin or other non-steroidal anti-inflammatory drugs in aspirin-sensitive asthmatic patients has not been evaluated"
+        ],
+        "highlights": [],
+        "tables": [
+          {
+            "caption": "Table 6: Effect of SINGULAIR on Primary and Secondary Endpoints in a Multinational Placebo-controlled Trial (ANOVA Model)",
+            "headers": [
+              [
+                "",
+                "SINGULAIR",
+                "Placebo"
+              ],
+              [
+                "Endpoint",
+                "N",
+                "Baseline",
+                "Mean Change from Baseline",
+                "N",
+                "Baseline",
+                "Mean Change from Baseline"
+              ]
+            ],
+            "rows": [
+              [
+                "Daytime Asthma Symptoms (0 to 6 scale)",
+                "372",
+                "2.35",
+                "p<0.001, compared with placebo -0.49",
+                "245",
+                "2.40",
+                "-0.26"
+              ],
+              [
+                "β-agonist (puffs per day)",
+                "371",
+                "5.35",
+                "-1.65",
+                "241",
+                "5.78",
+                "-0.42"
+              ],
+              [
+                "AM PEFR (L/min)",
+                "372",
+                "339.57",
+                "25.03",
+                "244",
+                "335.24",
+                "1.83"
+              ],
+              [
+                "PM PEFR (L/min)",
+                "372",
+                "355.23",
+                "20.13",
+                "244",
+                "354.02",
+                "-0.49"
+              ],
+              [
+                "Nocturnal Awakenings (#/week)",
+                "285",
+                "5.46",
+                "-2.03",
+                "195",
+                "5.57",
+                "-0.78"
+              ]
+            ]
+          }
+        ],
+        "subsections": [],
+        "applicability": "explicitly-shared",
+        "appliesToProducts": [
+          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+          "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+          "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+        ],
+        "audience": "professional"
+      },
+      {
+        "loincCode": "42229-5",
+        "printedNumber": "14.2",
+        "title": "14.2 Exercise-Induced Bronchoconstriction (EIB)",
+        "paragraphs": [
+          "Exercise-Induced Bronchoconstriction (Adults, Adolescents, and Pediatric Patients 6 years of age and older)",
+          "1 TABLE 7 The efficacy of SINGULAIR, 10 mg, when given as a single dose 2 hours before exercise for the prevention of EIB was investigated in three (U.S. and Multinational), randomized, double-blind, placebo-controlled crossover studies that included a total of 160 adult and adolescent patients 15 years of age and older with EIB. Exercise challenge testing was conducted at 2 hours, 8.5 or 12 hours, and 24 hours following administration of a single dose of study drug (SINGULAIR 10 mg or placebo). The primary endpoint was the mean maximum percent fall in FEVfollowing the 2 hours post-dose exercise challenge in all three studies (Study A, Study B, and Study C). In Study A, a single dose of SINGULAIR 10 mg demonstrated a statistically significant protective benefit against EIB when taken 2 hours prior to exercise. Some patients were protected from EIB at 8.5 and 24 hours after administration; however, some patients were not. The results for the mean maximum percent fall at each timepoint in Study A are shown inand are representative of the results from the other two studies.",
+          "1 TABLE 8 The efficacy of SINGULAIR 5-mg chewable tablets, when given as a single dose 2 hours before exercise for the prevention of EIB, was investigated in one multinational, randomized, double-blind, placebo-controlled crossover study that included a total of 64 pediatric patients 6 to 14 years of age with EIB. Exercise challenge testing was conducted at 2 hours and 24 hours following administration of a single dose of study drug (SINGULAIR 5 mg or placebo). The primary endpoint was the mean maximum percent fall in FEVfollowing the 2 hours post-dose exercise challenge. A single dose of SINGULAIR 5 mg demonstrated a statistically significant protective benefit against EIB when taken 2 hours prior to exercise (). Similar results were shown at 24 hours post-dose (a secondary endpoint). Some patients were protected from EIB at 24 hours after administration; however, some patients were not. No timepoints were assessed between 2 and 24 hours post-dose.",
+          "The efficacy of SINGULAIR for prevention of EIB in patients below 6 years of age has not been established.",
+          "Daily administration of SINGULAIR for the chronic treatment of asthma has not been established to prevent acute episodes of EIB.",
+          "1 1 1 1 In a 12-week, randomized, double-blind, parallel group study of 110 adult and adolescent asthmatics 15 years of age and older, with a mean baseline FEVpercent of predicted of 83% and with documented exercise-induced exacerbation of asthma, treatment with SINGULAIR, 10 mg, once daily in the evening, resulted in a statistically significant reduction in mean maximal percent fall in FEVand mean time to recovery to within 5% of the pre-exercise FEV. Exercise challenge was conducted at the end of the dosing interval (i.e., 20 to 24 hours after the preceding dose). This effect was maintained throughout the 12-week treatment period indicating that tolerance did not occur. SINGULAIR did not, however, prevent clinically significant deterioration in maximal percent fall in FEVafter exercise (i.e., ≥20% decrease from pre-exercise baseline) in 52% of patients studied. In a separate crossover study in adults, a similar effect was observed after two once-daily 10-mg doses of SINGULAIR.",
+          "In pediatric patients 6 to 14 years of age, using the 5-mg chewable tablet, a 2-day crossover study demonstrated effects similar to those observed in adults when exercise challenge was conducted at the end of the dosing interval (i.e., 20 to 24 hours after the preceding dose)."
+        ],
+        "highlights": [],
+        "tables": [
+          {
+            "caption": "1 Table 7: Mean Maximum Percent Fall in FEVFollowing Exercise Challenge in Study A (N=47) ANOVA Model",
+            "headers": [
+              [
+                "Time of exercise challenge following medication administration",
+                "1 Least squares-mean Mean Maximum percent fall in FEV",
+                "Treatment difference % for SINGULAIR versus Placebo (95% CI)"
+              ],
+              [
+                "",
+                "SINGULAIR",
+                "Placebo",
+                ""
+              ]
+            ],
+            "rows": [
+              [
+                "2 hours",
+                "13",
+                "22",
+                "-9 (-12, -5)"
+              ],
+              [
+                "8.5 hours",
+                "12",
+                "17",
+                "-5 (-9, -2)"
+              ],
+              [
+                "24 hours",
+                "10",
+                "14",
+                "-4 (-7, -1)"
+              ]
+            ]
+          },
+          {
+            "caption": "1 Table 8: Mean Maximum Percent Fall in FEVFollowing Exercise Challenge in Pediatric Patients (N=64) ANOVA Model",
+            "headers": [
+              [
+                "Time of exercise challenge following medication administration",
+                "1 Least squares-mean Mean Maximum percent fall in FEV",
+                "Treatment difference % for SINGULAIR versus Placebo (95% CI)"
+              ],
+              [
+                "",
+                "SINGULAIR",
+                "Placebo",
+                ""
+              ]
+            ],
+            "rows": [
+              [
+                "2 hours",
+                "15",
+                "20",
+                "-5 (-9, -1)"
+              ],
+              [
+                "24 hours",
+                "13",
+                "17",
+                "-4 (-7, -1)"
+              ]
+            ]
+          }
+        ],
+        "subsections": [],
+        "applicability": "explicitly-shared",
+        "appliesToProducts": [
+          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+          "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+          "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+        ],
+        "audience": "professional"
+      },
+      {
+        "loincCode": "42229-5",
+        "printedNumber": "14.3",
+        "title": "14.3 Allergic Rhinitis (Seasonal and Perennial)",
+        "paragraphs": [
+          "Seasonal Allergic Rhinitis",
+          "The efficacy of SINGULAIR tablets for the treatment of seasonal allergic rhinitis was investigated in 5 similarly designed, randomized, double-blind, parallel-group, placebo- and active-controlled (loratadine) trials conducted in North America. The 5 trials enrolled a total of 5029 patients, of whom 1799 were treated with SINGULAIR tablets. Patients were 15 to 82 years of age with a history of seasonal allergic rhinitis, a positive skin test to at least one relevant seasonal allergen, and active symptoms of seasonal allergic rhinitis at study entry.",
+          "The period of randomized treatment was 2 weeks in 4 trials and 4 weeks in one trial. The primary outcome variable was mean change from baseline in daytime nasal symptoms score (the average of individual scores of nasal congestion, rhinorrhea, nasal itching, sneezing) as assessed by patients on a 0-3 categorical scale.",
+          "TABLE 9 Four of the five trials showed a significant reduction in daytime nasal symptoms scores with SINGULAIR 10-mg tablets compared with placebo. The results of one trial are shown below. The median age in this trial was 35.0 years (range 15 to 81); 65.4% were females and 34.6% were males. The ethnic/racial distribution in this study was 83.1% Caucasian, 6.4% other origins, 5.8% Black, and 4.8% Hispanic. The mean changes from baseline in daytime nasal symptoms score in the treatment groups that received SINGULAIR tablets, loratadine, and placebo are shown in. The remaining three trials that demonstrated efficacy showed similar results. Efficacy was demonstrated for seasonal allergic rhinitis when montelukast was administered in the morning or the evening.",
+          "Perennial Allergic Rhinitis",
+          "The efficacy of SINGULAIR tablets for the treatment of perennial allergic rhinitis was investigated in 2 randomized, double-blind, placebo-controlled studies conducted in North America and Europe. The two studies enrolled a total of 3357 patients, of whom 1632 received SINGULAIR 10-mg tablets. Patients 15 to 82 years of age with perennial allergic rhinitis as confirmed by history and a positive skin test to at least one relevant perennial allergen (dust mites, animal dander, and/or mold spores), who had active symptoms at the time of study entry, were enrolled.",
+          "TABLE 10 In the study in which efficacy was demonstrated, the median age was 35 years (range 15 to 81); 64.1% were females and 35.9% were males. The ethnic/racial distribution in this study was 83.2% Caucasian, 8.1% Black, 5.4% Hispanic, 2.3% Asian, and 1.0% other origins. SINGULAIR 10-mg tablets once daily was shown to significantly reduce symptoms of perennial allergic rhinitis over a 6-week treatment period (); in this study the primary outcome variable was mean change from baseline in daytime nasal symptoms score (the average of individual scores of nasal congestion, rhinorrhea, and sneezing).",
+          "The other 6-week study evaluated SINGULAIR 10 mg (n=626), placebo (n=609), and an active-control (cetirizine 10 mg; n=120). The primary analysis compared the mean change from baseline in daytime nasal symptoms score for SINGULAIR vs. placebo over the first 4 weeks of treatment; the study was not designed for statistical comparison between SINGULAIR and the active-control. The primary outcome variable included nasal itching in addition to nasal congestion, rhinorrhea, and sneezing. The estimated difference between SINGULAIR and placebo was -0.04 with a 95% CI of (-0.09, 0.01). The estimated difference between the active-control and placebo was -0.10 with a 95% CI of (-0.19, -0.01)."
+        ],
+        "highlights": [],
+        "tables": [
+          {
+            "caption": "Average of individual scores of nasal congestion, rhinorrhea, nasal itching, sneezing as assessed by patients on a 0-3 categorical scale. Table 9: Effects of SINGULAIR on Daytime Nasal Symptoms Scorein a Placebo- and Active-controlled Trial in Patients with Seasonal Allergic Rhinitis (ANCOVA Model)",
+            "headers": [
+              [
+                "Treatment Group (N)",
+                "BaselineMean Score",
+                "Mean Change from Baseline",
+                "Difference Between Treatment and Placebo (95% CI) Least-Squares Mean"
+              ]
+            ],
+            "rows": [
+              [
+                "SINGULAIR 10 mg (344)",
+                "2.09",
+                "-0.39",
+                "Statistically different from placebo (p≤0.001). -0.13(-0.21, -0.06)"
+              ],
+              [
+                "Placebo (351)",
+                "2.10",
+                "-0.26",
+                "N.A."
+              ],
+              [
+                "The study was not designed for statistical comparison between SINGULAIR and the active control (loratadine). Active Control(Loratadine 10 mg) (599)",
+                "2.06",
+                "-0.46",
+                "-0.24(-0.31, -0.17)"
+              ]
+            ]
+          },
+          {
+            "caption": "Average of individual scores of nasal congestion, rhinorrhea, sneezing as assessed by patients on a 0-3 categorical scale. Table 10: Effects of SINGULAIR on Daytime Nasal Symptoms Scorein a Placebo-controlled Trial in Patients with Perennial Allergic Rhinitis (ANCOVA Model)",
+            "headers": [
+              [
+                "Treatment Group (N)",
+                "BaselineMean Score",
+                "Mean Change from Baseline",
+                "Difference Between Treatment and Placebo (95% CI) Least-Squares Mean"
+              ]
+            ],
+            "rows": [
+              [
+                "SINGULAIR 10 mg (1000)",
+                "2.09",
+                "-0.42",
+                "Statistically different from placebo (p≤0.001). -0.08(-0.12, -0.04)"
+              ],
+              [
+                "Placebo (980)",
+                "2.10",
+                "-0.35",
+                "N.A."
+              ]
+            ]
+          }
+        ],
+        "subsections": [],
+        "applicability": "explicitly-shared",
+        "appliesToProducts": [
+          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+          "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+          "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+        ],
+        "audience": "professional"
+      },
+      {
+        "loincCode": "34069-5",
+        "printedNumber": "16",
+        "title": "16 HOW SUPPLIED/STORAGE AND HANDLING",
+        "paragraphs": [
+          "SINGULAIR 4 mg Oral Granules: white granules with 500 mg net weight, packed in a child-resistant foil packet.",
+          "NDC 78206-171-01 unit of use carton with 30 packets.",
+          "SINGULAIR 4 mg Tablets: pink, oval, bi-convex-shaped chewable tablets, with code MSD 711 on one side and SINGULAIR on the other.",
+          "NDC 78206-170-01 unit of use high-density polyethylene (HDPE) bottles of 30 with a polypropylene child-resistant cap, an aluminum foil induction seal, and silica gel desiccant.",
+          "SINGULAIR 5 mg Tablets: pink, round, bi-convex-shaped chewable tablets, with code MSD 275 on one side and SINGULAIR on the other.",
+          "NDC 78206-173-01 unit of use high-density polyethylene (HDPE) bottles of 30 with a polypropylene child-resistant cap, an aluminum foil induction seal, and silica gel desiccant.",
+          "SINGULAIR 10 mg Tablets: beige, rounded square-shaped, film-coated tablets, with code MSD 117 on one side and SINGULAIR on the other.",
+          "NDC 78206-172-01 unit of use high-density polyethylene (HDPE) bottles of 30 with a polypropylene child-resistant cap, an aluminum foil induction seal, and silica gel desiccant",
+          "NDC 78206-172-02 unit of use high-density polyethylene (HDPE) bottles of 90 with a polypropylene child-resistant cap, an aluminum foil induction seal, and silica gel desiccant."
+        ],
+        "highlights": [],
+        "tables": [],
+        "subsections": [
+          {
+            "loincCode": "44425-7",
+            "printedNumber": null,
+            "title": null,
+            "paragraphs": [
+              "Storage",
+              "Store SINGULAIR 4-mg oral granules, 4-mg chewable tablets, 5-mg chewable tablets and 10-mg film-coated tablets at 20°C to 25°C (68°F to 77°F), excursions permitted to 15°C to 30°C (59°F to 86°F) [see USP Controlled Room Temperature]. Protect from moisture and light. Store in original package."
+            ],
+            "highlights": [],
+            "tables": [],
+            "subsections": [],
+            "applicability": "explicitly-shared",
+            "appliesToProducts": [
+              "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+              "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+              "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+              "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+            ],
+            "audience": "professional"
+          }
+        ],
+        "applicability": "explicitly-shared",
+        "appliesToProducts": [
+          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+          "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+          "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+          "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+        ],
+        "audience": "professional"
+      },
+      {
+        "loincCode": "51945-4",
+        "printedNumber": null,
+        "title": "PRINCIPAL DISPLAY PANEL - 4 mg Tablet Bottle Label",
+        "paragraphs": [
+          "NDC 78206-170-01",
+          "Singulair (Montelukast Sodium)CHEWABLE Tablets ®",
+          "4 mg",
+          "Dispense the accompanying Medication Guideto each patient.",
+          "For Pediatric Patients 2-5 Years of Age",
+          "Phenylketonurics: contains phenylalanine(a component of aspartame) 0.674 mg per4-mg chewable tablet. Each tabletcontains 4.2 mg MontelukastSodium equivalent to4 mg Montelukast.",
+          "Rx only 30 Tablets"
+        ],
+        "highlights": [],
+        "tables": [],
+        "subsections": [],
+        "applicability": "explicitly-shared",
+        "appliesToProducts": [
+          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+          "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+          "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+          "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+        ],
+        "audience": "professional"
+      },
+      {
+        "loincCode": "51945-4",
+        "printedNumber": null,
+        "title": "PRINCIPAL DISPLAY PANEL - 5 mg Tablet Bottle Label",
+        "paragraphs": [
+          "NDC 78206-173-01",
+          "Singulair (Montelukast Sodium)CHEWABLE Tablets ®",
+          "5 mg",
+          "Dispense the accompanying Medication Guideto each patient.",
+          "For Pediatric Patients 6-14 Years of Age",
+          "Phenylketonurics: contains phenylalanine(a component of aspartame) 0.842 mg per5-mg chewable tablet. Each tabletcontains 5.2 mg MontelukastSodium equivalent to5 mg Montelukast.",
+          "Rx only 30 Tablets"
+        ],
+        "highlights": [],
+        "tables": [],
+        "subsections": [],
+        "applicability": "explicitly-shared",
+        "appliesToProducts": [
+          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+          "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+          "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+        ],
+        "audience": "professional"
+      },
+      {
+        "loincCode": "51945-4",
+        "printedNumber": null,
+        "title": "PRINCIPAL DISPLAY PANEL - 10 mg Tablet Bottle Label",
+        "paragraphs": [
+          "NDC 78206-172-01",
+          "Singulair (Montelukast Sodium)Tablets ®",
+          "10 mg",
+          "Dispense the accompanying Medication Guideto each patient.",
+          "For Adults 15 Years of Age and Older",
+          "Each tablet contains 10.4 mg Montelukast Sodiumequivalent to 10 mg Montelukast.",
+          "Rx only",
+          "30 Tablets"
+        ],
+        "highlights": [],
+        "tables": [],
+        "subsections": [],
+        "applicability": "explicitly-shared",
+        "appliesToProducts": [
+          "SINGULAIR 10mg TABLET, FILM COATED (NDC 78206-172)",
+          "SINGULAIR 4mg GRANULE (NDC 78206-171)",
+          "SINGULAIR 4mg TABLET, CHEWABLE (NDC 78206-170)",
+          "SINGULAIR 5mg TABLET, CHEWABLE (NDC 78206-173)"
+        ],
+        "audience": "professional"
+      }
+    ],
+    "excludedUnresolvedCount": 37,
+    "excludedNotApplicableCount": 3,
+    "note": "Only exact-product and explicitly-shared sections. Sections the document did not scope to a product are excluded and must not be used to generate dosing or patient instructions for this product; read them in professionalLabeling instead. An empty array means the document scoped nothing, not that there is no dosing information."
+  },
   "conflicts": [],
   "clinicalReview": {
     "reviewed": false,
     "note": "No clinician has reviewed this record. 'app-ready' means structurally consumable, NOT clinically approved."
   },
   "freshness": {
-    "ingestedAt": "2026-09-19T20:01:13.768Z",
+    "ingestedAt": "2026-09-19T20:14:04.885Z",
     "splEffectiveDate": "2025-04-30",
     "sourceEffectiveDate": "2025-04-30"
   },

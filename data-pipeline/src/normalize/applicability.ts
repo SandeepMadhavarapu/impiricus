@@ -141,23 +141,36 @@ export function scopeSections(
   });
 }
 
+/** The only two states that may become product-specific guidance. */
+const SAFE_FOR_GUIDANCE: ReadonlySet<Applicability> = new Set<Applicability>([
+  "exact-product",
+  "explicitly-shared",
+]);
+
 /**
  * Sections safe to present as product-specific guidance.
  *
- * `document-level-unresolved` content is deliberately excluded: it remains
- * available as source material but must not silently become dosing or patient
- * instruction for this product.
+ * `document-level-unresolved` and `not-applicable` content is excluded: it
+ * stays available as source material but must never silently become dosing or
+ * patient instruction for this product.
+ *
+ * The exclusion is applied at EVERY depth. An earlier version selected
+ * matching nodes and returned them whole, which let an unresolved subsection
+ * ride along inside a safe parent -- on the real labels that leaked 33, 37 and
+ * 68 unresolved sections respectively into what callers were told was
+ * product-specific. It also emitted safe subsections twice, once nested and
+ * once hoisted.
+ *
+ * A safe section under an unresolved parent is kept, hoisted to the top level,
+ * so genuinely scoped content is not lost to its parent's ambiguity. Every
+ * node in the returned tree is itself safe.
  */
 export function productSpecificSections(sections: LabelSection[]): LabelSection[] {
-  const out: LabelSection[] = [];
-  const visit = (s: LabelSection) => {
-    if (s.applicability === "exact-product" || s.applicability === "explicitly-shared") {
-      out.push(s);
-    }
-    s.subsections.forEach(visit);
-  };
-  sections.forEach(visit);
-  return out;
+  const collect = (s: LabelSection): LabelSection[] =>
+    SAFE_FOR_GUIDANCE.has(s.applicability)
+      ? [{ ...s, subsections: s.subsections.flatMap(collect) }]
+      : s.subsections.flatMap(collect);
+  return sections.flatMap(collect);
 }
 
 /** Counts sections by applicability, for the completeness report. */

@@ -253,9 +253,36 @@ export interface SourceRegisterEntry {
   verificationNotes: string;
 }
 
+/**
+ * SUPPORTED SCOPE
+ *
+ *   - Three selected medication products.
+ *   - Public formulary evidence from the verified CMS release.
+ *   - Medicare Part D only.
+ *   - No member-specific coverage or copay verification.
+ *   - No comprehensive interaction checker.
+ *   - No clinical review.
+ *
+ * Anything outside that list is unsupported: not partially supported, not
+ * approximated. The pipeline reports absence rather than filling it in.
+ */
+export interface SupportedScope {
+  products: "three-selected-products";
+  formularyEvidence: "public-formulary-evidence-from-verified-cms-release";
+  markets: "medicare-part-d-only";
+  memberSpecificCoverage: false;
+  copayVerification: false;
+  comprehensiveInteractionChecker: false;
+  clinicalReview: false;
+  /** The six statements above, renderable as-is. */
+  statements: string[];
+}
+
 export interface SourceRegister {
   schemaVersion: string;
   generatedAt: string;
+  /** What this pipeline covers. Render it rather than restating it. */
+  supportedScope: SupportedScope;
   note: string;
   entries: SourceRegisterEntry[];
 }

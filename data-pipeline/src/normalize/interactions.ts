@@ -1,6 +1,7 @@
 import type { LabelSection } from "../schemas/index.js";
 import { walkSections } from "./spl.js";
 import { auditInteractions, type InteractionMention } from "./interactionAudit.js";
+import type { ExtractionCompleteness } from "./interactionAudit.js";
 
 /**
  * Drug interactions.
@@ -47,8 +48,16 @@ export interface InteractionEvidence {
   sections: LabelSection[];
   /** Substances with direction, qualification and supporting sentence. */
   mentions: InteractionMention[];
-  statedNoInteraction: string[];
+  /**
+   * The label states no DOSE ADJUSTMENT is needed for these. That is dosing
+   * guidance; whether an interaction exists is UNKNOWN. Not a clearance.
+   */
+  noDoseAdjustmentStated: string[];
+  /** The label states no interaction was OBSERVED for these. */
+  noInteractionObservedStated: string[];
   describedInteraction: string[];
+  /** How exhaustive the extraction is. Never "complete". */
+  completeness: ExtractionCompleteness;
   /** What a consumer must not conclude from this. */
   caveats: string[];
 }
@@ -128,8 +137,20 @@ export function buildInteractionEvidence(
       checkingServiceNote: CHECKING_SERVICE_NOTE,
       sections: [],
       mentions: [],
-      statedNoInteraction: [],
+      noDoseAdjustmentStated: [],
+      noInteractionObservedStated: [],
       describedInteraction: [],
+      completeness: {
+        level: "index-only-not-exhaustive" as const,
+        sentencesScanned: 0,
+        sentencesWithCoadministrationPhrase: 0,
+        sentencesYieldingSubstances: 0,
+        sentencesUnparsed: 0,
+        evidenceLocation: "No interaction section was available to scan.",
+        note:
+          "Nothing was extracted because there was nothing to extract from. This is not a " +
+          "finding that the drug has no interactions.",
+      },
       caveats: [
         "The label was not retrieved, so nothing is known about what it describes.",
         ...BASE_CAVEATS,
@@ -146,8 +167,20 @@ export function buildInteractionEvidence(
       checkingServiceNote: CHECKING_SERVICE_NOTE,
       sections: [],
       mentions: [],
-      statedNoInteraction: [],
+      noDoseAdjustmentStated: [],
+      noInteractionObservedStated: [],
       describedInteraction: [],
+      completeness: {
+        level: "index-only-not-exhaustive" as const,
+        sentencesScanned: 0,
+        sentencesWithCoadministrationPhrase: 0,
+        sentencesYieldingSubstances: 0,
+        sentencesUnparsed: 0,
+        evidenceLocation: "No interaction section was available to scan.",
+        note:
+          "Nothing was extracted because there was nothing to extract from. This is not a " +
+          "finding that the drug has no interactions.",
+      },
       caveats: [
         "This label does not contain a Drug Interactions section. That is a fact about the DOCUMENT, " +
           "not evidence that no interactions exist.",
@@ -168,8 +201,10 @@ export function buildInteractionEvidence(
     checkingServiceNote: CHECKING_SERVICE_NOTE,
     sections: found,
     mentions: audit.mentions,
-    statedNoInteraction: audit.statedNoInteraction,
+    noDoseAdjustmentStated: audit.noDoseAdjustmentStated,
+    noInteractionObservedStated: audit.noInteractionObservedStated,
     describedInteraction: audit.describedInteraction,
+    completeness: audit.completeness,
     caveats:
       textLength > 0
         ? [...audit.caveats, ...BASE_CAVEATS]

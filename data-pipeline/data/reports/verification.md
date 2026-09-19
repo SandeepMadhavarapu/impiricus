@@ -1,6 +1,6 @@
 # Verification report
 
-Generated 2026-09-19T20:01:17.495Z
+Generated 2026-09-19T20:17:25.659Z
 
 Every number here is produced by code in `src/verify/` and `src/normalize/*Audit.ts`, re-runnable with `npm run verify:report`.
 
@@ -19,13 +19,28 @@ The earlier figure of ~19,900 characters was a crude tag-strip that counted the 
 
 ## Interaction substance audit
 
-Every extracted substance is tied to the sentence it came from and classified by direction. The previous flat list inverted meaning: Singulair's substances come from a sentence stating **no dose adjustment is needed**, which a name-only list would render as a warning.
+Every extracted substance is tied to the sentence it came from and classified by direction. Two kinds of negative statement are kept apart, because they are not the same claim:
 
-| Product | Mentions | No significant interaction stated | Other affects this | This affects other | Direction unclear |
-|---|---:|---:|---:|---:|---:|
-| ozempic-semaglutide-1_34mg-per-ml-injection | 1 | 0 | 0 | 0 | 1 |
-| singulair-montelukast-10mg-tablet | 14 | 14 | 0 | 0 | 0 |
-| toprol-xl-metoprolol-succinate-50mg-er-tablet | 2 | 0 | 1 | 0 | 0 |
+- **`no-dose-adjustment-stated`** - the label says the dose need not change. It says **nothing** about whether an interaction exists. Interaction status is UNKNOWN.
+- **`no-interaction-observed-stated`** - the label says an interaction was looked for and not observed, or was found not to be clinically significant.
+
+Collapsing the first into the second would make this pipeline assert an absence the source never claimed. Singulair is exactly that case: all of its substances come from a dosing sentence.
+
+| Product | Mentions | No dose adjustment (status unknown) | No interaction observed | Other affects this | This affects other | Direction unclear |
+|---|---:|---:|---:|---:|---:|---:|
+| ozempic-semaglutide-1_34mg-per-ml-injection | 1 | 0 | 0 | 0 | 0 | 1 |
+| singulair-montelukast-10mg-tablet | 14 | 14 | 0 | 0 | 0 | 0 |
+| toprol-xl-metoprolol-succinate-50mg-er-tablet | 2 | 0 | 0 | 1 | 0 | 0 |
+
+### Extraction completeness
+
+Zero extracted adverse mentions is a statement about the EXTRACTOR, not about the drug. `unparsed` counts sentences that discuss coadministration but yielded no name.
+
+| Product | Sentences scanned | With coadministration phrase | Yielded substances | Unparsed | Level |
+|---|---:|---:|---:|---:|---|
+| ozempic-semaglutide-1_34mg-per-ml-injection | 8 | 2 | 1 | 1 | index-only-not-exhaustive |
+| singulair-montelukast-10mg-tablet | 2 | 1 | 1 | 0 | index-only-not-exhaustive |
+| toprol-xl-metoprolol-succinate-50mg-er-tablet | 11 | 3 | 2 | 1 | index-only-not-exhaustive |
 
 ### ozempic-semaglutide-1_34mg-per-ml-injection
 
@@ -34,8 +49,8 @@ Every extracted substance is tied to the sentence it came from and classified by
 
 ### singulair-montelukast-10mg-tablet
 
-**Label states NO significant interaction** (14): benzodiazepines, decongestants, digoxin, fexofenadine, gemfibrozil, itraconazole, non-steroidal anti-inflammatory agents, oral contraceptives, prednisolone, prednisone, sedative hypnotics, theophylline, thyroid hormones, warfarin
-  - source: "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypn"
+**Label states no DOSE ADJUSTMENT needed** (14) - interaction status unknown, NOT cleared: benzodiazepines, decongestants, digoxin, fexofenadine, gemfibrozil, itraconazole, non-steroidal anti-inflammatory agents, oral contraceptives, prednisolone, prednisone, sedative hypnotics, theophylline, thyroid hormones, warfarin
+  - source: "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory a"
 
 ### toprol-xl-metoprolol-succinate-50mg-er-tablet
 

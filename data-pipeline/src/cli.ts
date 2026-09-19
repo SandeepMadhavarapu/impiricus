@@ -3,6 +3,7 @@ import { mkdir, writeFile, readFile, readdir, rename } from "node:fs/promises";
 import path from "node:path";
 import { PRODUCTS, findProduct } from "./config/products.js";
 import { SOURCES } from "./config/sources.js";
+import { SUPPORTED_SCOPE } from "./config/scope.js";
 import { resolveProduct } from "./identity/resolve.js";
 import { buildRecord, summarize } from "./normalize/record.js";
 import { toExport, exportStats } from "./export/appExport.js";
@@ -192,6 +193,7 @@ async function cmdExport(): Promise<void> {
         note:
           "'app-ready' means structurally consumable, NOT clinically approved. " +
           "Blocked records intentionally contain no label content.",
+        supportedScope: SUPPORTED_SCOPE,
         products: index,
       },
       null,

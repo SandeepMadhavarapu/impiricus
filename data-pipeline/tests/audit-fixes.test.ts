@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { classifySection, applicabilityCounts, productSpecificSections } from "@pipeline/normalize/applicability.js";
+import type { Applicability } from "@pipeline/schemas/index.js";
 import { buildInteractionEvidence, extractNamedSubstances, findInteractionSections } from "@pipeline/normalize/interactions.js";
 import { classifyRecall, buildRecallEvidence } from "@pipeline/normalize/recalls.js";
 import { parseFdaStrength, volumeFromRxNormName, matchApprovalProduct } from "@pipeline/identity/approval.js";
@@ -174,6 +175,70 @@ describe("B. section applicability is explicit", () => {
       { ...spl.sections[0]!, applicability: "not-applicable" },
     ];
     expect(productSpecificSections(sections)).toHaveLength(1);
+  });
+
+  /**
+   * Regression: a safe parent must not smuggle an unresolved child through.
+   * This leaked on all three real labels before the depth-aware filter.
+   */
+  it("prunes unresolved subsections out of a safe parent", () => {
+    const child = (applicability: Applicability, title: string): LabelSection => ({
+      loincCode: null,
+      printedNumber: null,
+      title,
+      paragraphs: ["text"],
+      highlights: [],
+      tables: [],
+      subsections: [],
+      appliesToProducts: [],
+      applicability,
+      audience: "professional",
+    });
+    const parent: LabelSection = {
+      ...child("explicitly-shared", "2 DOSAGE"),
+      subsections: [
+        child("exact-product", "2.1 safe"),
+        child("document-level-unresolved", "2.2 unresolved"),
+        child("not-applicable", "2.3 sibling product"),
+      ],
+    };
+
+    const out = productSpecificSections([parent]);
+    expect(out).toHaveLength(1);
+    expect(out[0]!.subsections.map((x) => x.title)).toEqual(["2.1 safe"]);
+
+    const states: Applicability[] = [];
+    const walk = (xs: LabelSection[]) =>
+      xs.forEach((x) => {
+        states.push(x.applicability);
+        walk(x.subsections);
+      });
+    walk(out);
+    expect(states).not.toContain("document-level-unresolved");
+    expect(states).not.toContain("not-applicable");
+  });
+
+  /** A scoped section must survive an unresolved parent, hoisted. */
+  it("hoists a safe subsection out of an unresolved parent rather than dropping it", () => {
+    const base = {
+      loincCode: null,
+      printedNumber: null,
+      paragraphs: [],
+      highlights: [],
+      tables: [],
+      appliesToProducts: [],
+      audience: "professional" as const,
+    };
+    const parent: LabelSection = {
+      ...base,
+      title: "unresolved parent",
+      applicability: "document-level-unresolved",
+      subsections: [
+        { ...base, title: "scoped child", applicability: "exact-product", subsections: [] },
+      ],
+    };
+    const out = productSpecificSections([parent]);
+    expect(out.map((x) => x.title)).toEqual(["scoped child"]);
   });
 
   it("counts sections by state for reporting", () => {

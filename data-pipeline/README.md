@@ -11,6 +11,19 @@ route, schema, or root config is modified by this package. It has its own
 
 ---
 
+## Supported scope
+
+- Three selected medication products.
+- Public formulary evidence from the verified CMS release.
+- Medicare Part D only.
+- No member-specific coverage or copay verification.
+- No comprehensive interaction checker.
+- No clinical review.
+
+Anything outside that list is unsupported rather than approximated. The same
+statement ships as data in `data/exports/index.json` under `supportedScope`.
+
+
 ## Quick start
 
 ```bash
