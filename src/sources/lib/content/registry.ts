@@ -35,6 +35,36 @@ import {
  * The schema parse is the gate. A record missing a boxed-warning key point,
  * carrying a quote that is not in the source, or using promotional wording
  * fails here or in tests/content.test.ts rather than reaching a patient.
+ *
+ * ---------------------------------------------------------------------------
+ * CONNECTING THE data-pipeline EXPORT
+ * ---------------------------------------------------------------------------
+ * The sibling data-pipeline package emits a `MedicationExport` (see
+ * data-pipeline/src/export/appExport.ts). Its shape is NOT this shape, and the
+ * gap is deliberate: the pipeline reports what it found, this layer decides
+ * what a patient is shown. An adapter belongs here, not in the pipeline.
+ *
+ * Three fields on the export must survive that adapter, because dropping any
+ * of them turns a careful pipeline result into a confident wrong answer:
+ *
+ *   readiness      Only "app-ready" may be registered. "partial" and
+ *                  "blocked" carry no renderable label content, and a blocked
+ *                  record exists precisely because something about it could
+ *                  not be verified.
+ *
+ *   applicability  A section marked "document-level-unresolved" was not
+ *                  resolved to THIS product. It must never be rendered as
+ *                  product-specific dosing or patient instruction. One SPL
+ *                  covers several strengths and forms, which is the same
+ *                  hazard scopeNote exists to prevent.
+ *
+ *   clinicalReview `reviewed` is false on everything the pipeline can
+ *                  currently produce, and the UI already states that. It must
+ *                  not become "reviewed" by passing through an adapter.
+ *
+ * The authored plain-language layer stays hand-written per product. The
+ * pipeline supplies source text and provenance; it does not write the words a
+ * patient reads, and nothing here should start generating them.
  */
 
 const sourceRecords: SourceRecord[] = [
