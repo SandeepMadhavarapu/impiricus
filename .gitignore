@@ -28,3 +28,8 @@ Thumbs.db
 
 # Vercel CLI project link metadata (local to this machine's deployments).
 .vercel
+
+# Vendored pipeline output under src/sources/content/ IS committed, including
+# the 1.6 MB Part D plan directory. The app imports it directly, so the Vercel
+# build needs it present; regenerate with `npm run content:sync`, never by
+# hand. It changes only when CMS publishes a new monthly release.

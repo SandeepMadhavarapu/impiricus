@@ -11,8 +11,15 @@ import {
   type TriState,
 } from "@/patient/lib/coverage/types";
 
-interface DirectoryPayer { id: string; name: string }
-interface DirectoryPlan { id: string; name: string }
+interface DirectoryPayer { id: string; name: string; planCount: number }
+interface DirectoryPlan {
+  id: string;
+  name: string;
+  label: string;
+  contractId: string;
+  planId: string;
+  segmentId: string;
+}
 interface DirectoryPharmacy {
   id: string;
   name: string;
@@ -37,21 +44,29 @@ function useDirectory(insurer: string, zip: string) {
   const [pharmacies, setPharmacies] = useState<DirectoryPharmacy[]>([]);
   const [pharmacyError, setPharmacyError] = useState<string | null>(null);
 
+  // Narrows server-side as the person types: 525 organizations is more than
+  // a picker should ship at once.
   useEffect(() => {
     let cancelled = false;
-    fetch("/api/directory?kind=payers")
-      .then((r) => (r.ok ? r.json() : { payers: [] }))
-      .then((d) => {
-        if (!cancelled) setPayers(d.payers ?? []);
-      })
-      .catch(() => {
-        // An unreachable directory is not an error the person needs to see:
-        // the field still works as free text.
-      });
+    const t = setTimeout(() => {
+      fetch(`/api/directory?kind=payers&q=${encodeURIComponent(insurer)}`)
+        .then((r) => (r.ok ? r.json() : { payers: [] }))
+        .then((d) => {
+          if (!cancelled) setPayers(d.payers ?? []);
+        })
+        .catch(() => {
+          // An unreachable directory is not an error the person needs to see:
+          // the field still works as free text.
+        });
+    }, 150);
     return () => {
       cancelled = true;
+      clearTimeout(t);
     };
-  }, []);
+  }, [insurer]);
+
+  const matchedPayer =
+    payers.find((p) => p.name.toLowerCase() === insurer.trim().toLowerCase()) ?? null;
 
   useEffect(() => {
     const match = payers.find((p) => p.name.toLowerCase() === insurer.trim().toLowerCase());
@@ -93,7 +108,7 @@ function useDirectory(insurer: string, zip: string) {
     };
   }, [zip]);
 
-  return { payers, plans, pharmacies, pharmacyError };
+  return { payers, plans, pharmacies, pharmacyError, matchedPayer };
 }
 
 /**
@@ -132,6 +147,8 @@ export function CoverageSheet({
   const [pharmacyType, setPharmacyType] = useState("retail");
 
   const [zip, setZip] = useState("");
+  /** Exact contract-plan-segment key when the plan came from the directory. */
+  const [planKey, setPlanKey] = useState("");
   const directory = useDirectory(insurer, zip);
 
   const [result, setResult] = useState<CoverageResult | null>(null);
@@ -171,6 +188,9 @@ export function CoverageSheet({
           slug,
           insurer: insurer.trim(),
           planName: planName.trim(),
+          // Present only when the plan was chosen from the CMS directory. A
+          // typed name is not an identity, so the request says which it is.
+          planKey: planKey || undefined,
           planYear: year,
           state: stateCode.trim() || undefined,
           strength: defaultStrength,
@@ -257,6 +277,19 @@ export function CoverageSheet({
                       ))}
                     </datalist>
                   ) : null}
+                  {/*
+                    Several insurers share a brand: typing "humana" matches a
+                    dozen legal entities, each running different plans. The
+                    form will not guess which, so it says so rather than
+                    leaving the plan picker mysteriously inert.
+                  */}
+                  {directory.payers.length > 0 && !directory.matchedPayer && insurer.trim() ? (
+                    <p className="hint">
+                      {directory.payers.length} insurer
+                      {directory.payers.length === 1 ? "" : "s"} match that. Pick the exact one from
+                      the list to choose your plan.
+                    </p>
+                  ) : null}
                   {errors.insurer ? (
                     <p className="field-error" id="err-insurer">
                       {errors.insurer}
@@ -264,35 +297,67 @@ export function CoverageSheet({
                   ) : null}
                 </div>
 
-                <div className="field">
-                  <label htmlFor="cov-plan">Exact plan name</label>
-                  <p className="hint">
-                    Insurers run many plans with different drug lists. The name is printed on your
-                    card.
-                  </p>
-                  <input
-                    id="cov-plan"
-                    list={directory.plans.length > 0 ? "cov-plan-options" : undefined}
-                    value={planName}
-                    onChange={(e) => setPlanName(e.target.value)}
-                    autoComplete="off"
-                    aria-invalid={Boolean(errors.planName)}
-                    aria-describedby={errors.planName ? "err-plan" : undefined}
-                    placeholder="e.g. Blue Advantage PPO Gold"
-                  />
-                  {directory.plans.length > 0 ? (
-                    <datalist id="cov-plan-options">
-                      {directory.plans.map((p) => (
-                        <option key={p.id} value={p.name} />
-                      ))}
-                    </datalist>
-                  ) : null}
-                  {errors.planName ? (
-                    <p className="field-error" id="err-plan">
-                      {errors.planName}
+                {/*
+                  A plan NAME cannot identify a plan: 39 in the current CMS
+                  release share the name "AARP Medicare Rx Preferred from UHC
+                  (PDP)". Once an insurer is matched, this becomes a real
+                  picker whose value is the contract-plan-segment key, and
+                  every option shows those ids so someone can match the card
+                  in their hand. Free text stays available for an insurer we
+                  do not have, where a typed name is all there is.
+                */}
+                {directory.plans.length > 0 ? (
+                  <div className="field">
+                    <label htmlFor="cov-plan-select">Your plan</label>
+                    <p className="hint">
+                      {directory.plans.length} plan
+                      {directory.plans.length === 1 ? "" : "s"} from this insurer. The codes in
+                      brackets are printed on your card.
                     </p>
-                  ) : null}
-                </div>
+                    <select
+                      id="cov-plan-select"
+                      value={planKey}
+                      onChange={(e) => {
+                        setPlanKey(e.target.value);
+                        const hit = directory.plans.find((p) => p.id === e.target.value);
+                        // The name still travels for display, but the key is
+                        // what identifies the plan.
+                        setPlanName(hit ? hit.name : "");
+                      }}
+                      aria-invalid={Boolean(errors.planName)}
+                    >
+                      <option value="">Select your plan</option>
+                      {directory.plans.map((p) => (
+                        <option key={p.id} value={p.id}>
+                          {p.label}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.planName ? <p className="field-error">{errors.planName}</p> : null}
+                  </div>
+                ) : (
+                  <div className="field">
+                    <label htmlFor="cov-plan">Exact plan name</label>
+                    <p className="hint">
+                      Insurers run many plans with different drug lists. The name is printed on your
+                      card.
+                    </p>
+                    <input
+                      id="cov-plan"
+                      value={planName}
+                      onChange={(e) => setPlanName(e.target.value)}
+                      autoComplete="off"
+                      aria-invalid={Boolean(errors.planName)}
+                      aria-describedby={errors.planName ? "err-plan" : undefined}
+                      placeholder="e.g. Blue Advantage PPO Gold"
+                    />
+                    {errors.planName ? (
+                      <p className="field-error" id="err-plan">
+                        {errors.planName}
+                      </p>
+                    ) : null}
+                  </div>
+                )}
 
                 <div className="field-row">
                   <div className="field">

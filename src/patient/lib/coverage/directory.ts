@@ -1,55 +1,57 @@
 import "server-only";
+import plansData from "@/sources/content/insurance/plans.json";
 
 /**
  * Directory of payers, their plans, and pharmacies near a ZIP code.
  *
- * This is the lookup layer behind the coverage form's three pickers: choose an
- * insurer, then one of that insurer's plans, then a pharmacy near you. It is
- * deliberately EMPTY right now. No payer directory, plan list or pharmacy
- * dataset has been licensed for this prototype, and inventing one would put
- * plausible-looking plan names in front of someone deciding whether they can
- * afford a medication.
- *
- * Empty is a supported state, not a broken one: the UI falls back to free-text
- * entry and says the list is not connected yet.
+ * This is the lookup layer behind the coverage form's pickers. Payers and
+ * plans are REAL: 5,517 exact Medicare Part D plan identities from the
+ * verified CMS release, synced by `npm run content:sync`. Pharmacies are not,
+ * because no pharmacy dataset has been licensed, and that stays an honest
+ * empty rather than a plausible invention.
  *
  * ---------------------------------------------------------------------------
- * WIRING THIS UP
+ * A PLAN NAME IS NOT AN IDENTIFIER
  * ---------------------------------------------------------------------------
- * Replace the three loader bodies below. Each returns a plain array, so the
- * source can be a bundled JSON file, a database, or a licensed API:
+ * 39 plans in the 2026-08 release share the name "AARP Medicare Rx Preferred
+ * from UHC (PDP)". A name therefore produces CANDIDATES, never an answer.
  *
- *   listPayers()                -> every insurer offered in the first picker
- *   listPlans(payerId)          -> that insurer's plans, for the second
- *   findPharmacies(zip)         -> pharmacies near a ZIP, nearest first
+ * Every plan here is keyed by contractId + planId + segmentId + year, and the
+ * form submits that key rather than a typed string. The label shown next to
+ * it carries the identifiers too, so someone can match it against the card in
+ * their hand instead of guessing from a name that repeats.
  *
- * Keep the shapes below. The form, the request schema and the adapters all
- * read these fields, so a loader that fills them needs no UI change.
- *
- * Two rules survive whatever you connect:
- *   - A pharmacy distance is only shown when the data source actually gives
- *     one. Never estimate it.
- *   - A plan appearing in this directory says nothing about whether it covers
- *     a drug. Coverage answers come from the formulary adapters, and a missing
- *     plan is "unable to verify", never "not covered".
+ * ---------------------------------------------------------------------------
+ * SIZE AND PLACEMENT
+ * ---------------------------------------------------------------------------
+ * The plan file is ~1.6 MB. This module is "server-only" so it can never be
+ * pulled into a client bundle; the browser talks to /api/directory, which
+ * returns at most a page of results.
  */
 
 export interface Payer {
-  /** Stable id used as the form value, e.g. a HIOS issuer id. */
+  /** Stable id used as the form value. The CMS organization name. */
   id: string;
   name: string;
-  /** Optional alternate spellings, so search matches what people type. */
-  aliases?: string[];
+  /** How many plans this organization offers in the loaded release. */
+  planCount: number;
 }
 
 export interface Plan {
+  /** contractId-planId-segmentId-year. The only safe way to name a plan. */
   id: string;
   payerId: string;
   name: string;
-  /** e.g. "Medicare Part D", "Commercial", "Medicaid". */
-  planType?: string;
-  /** Plan years this plan's formulary is known to cover. */
-  years?: number[];
+  contractId: string;
+  planId: string;
+  segmentId: string;
+  formularyId: string;
+  year: number;
+  /**
+   * Name plus identifiers, for a picker. Two plans can share `name`, so a
+   * label without the identifiers would be genuinely ambiguous on screen.
+   */
+  label: string;
 }
 
 export interface Pharmacy {
@@ -57,37 +59,145 @@ export interface Pharmacy {
   name: string;
   address: string;
   zip: string;
-  /** Miles from the searched ZIP. Only set when the source provides it. */
+  /** Miles from the searched ZIP. Only set when the source provides one. */
   distanceMiles?: number;
   kind: "retail" | "mail-order" | "specialty";
 }
 
-/** True once a real directory is connected, which the UI surfaces honestly. */
+interface RawPlan {
+  planKey: string;
+  contractId: string;
+  planId: string;
+  segmentId: string;
+  formularyId: string;
+  organizationName: string;
+  planName: string;
+}
+
+interface PlansFile {
+  market: string;
+  sourceRelease: string;
+  /** CMS writes this as a string, e.g. "2026". Parsed once, below. */
+  contractYear: string;
+  planCount: number;
+  plans: RawPlan[];
+}
+
+const file = plansData as unknown as PlansFile;
+
+/**
+ * Plan year as a number.
+ *
+ * A coverage answer is only valid for the year its evidence came from, so a
+ * year that will not parse is a hard failure rather than a silent NaN that
+ * would later compare unequal to every requested year and look like a
+ * mismatch in the data.
+ */
+const contractYear: number = (() => {
+  const n = Number.parseInt(file.contractYear, 10);
+  if (!Number.isInteger(n) || n < 2000 || n > 2100) {
+    throw new Error(`Part D plan data has an unusable contractYear: ${file.contractYear}`);
+  }
+  return n;
+})();
+
+/** Which CMS release the pickers are showing. Surfaced, never implied. */
+export function directoryRelease(): { market: string; sourceRelease: string; contractYear: number } {
+  return {
+    market: file.market,
+    sourceRelease: file.sourceRelease,
+    contractYear,
+  };
+}
+
+const payers: Payer[] = (() => {
+  const counts = new Map<string, number>();
+  for (const p of file.plans) {
+    counts.set(p.organizationName, (counts.get(p.organizationName) ?? 0) + 1);
+  }
+  return [...counts.entries()]
+    .map(([name, planCount]) => ({ id: name, name, planCount }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+})();
+
+const plansByPayer = (() => {
+  const map = new Map<string, Plan[]>();
+  for (const p of file.plans) {
+    const plan: Plan = {
+      id: p.planKey,
+      payerId: p.organizationName,
+      name: p.planName,
+      contractId: p.contractId,
+      planId: p.planId,
+      segmentId: p.segmentId,
+      formularyId: p.formularyId,
+      year: contractYear,
+      label: `${p.planName} (${p.contractId}-${p.planId}-${p.segmentId})`,
+    };
+    const list = map.get(p.organizationName);
+    if (list) list.push(plan);
+    else map.set(p.organizationName, [plan]);
+  }
+  for (const list of map.values()) list.sort((a, b) => a.label.localeCompare(b.label));
+  return map;
+})();
+
+/** True once a real directory is loaded, which the UI surfaces honestly. */
 export function isDirectoryConnected(): boolean {
-  return listPayers().length > 0;
+  return payers.length > 0;
 }
 
 export function listPayers(): Payer[] {
-  // Connect a payer directory here.
-  return [];
+  return payers;
 }
 
 export function listPlans(payerId: string): Plan[] {
-  // Connect a plan directory here, filtered to this payer.
-  void payerId;
-  return [];
+  return plansByPayer.get(payerId) ?? [];
+}
+
+/** One plan by its exact key, or null. Never a best guess. */
+export function getPlan(planKey: string): Plan | null {
+  for (const list of plansByPayer.values()) {
+    const hit = list.find((p) => p.id === planKey);
+    if (hit) return hit;
+  }
+  return null;
+}
+
+/**
+ * Plans matching a name, as CANDIDATES.
+ *
+ * Returns every match, because returning one would be asserting an identity
+ * the name cannot establish. A caller with more than one result must ask for
+ * the contract, plan and segment ids rather than pick.
+ */
+export function planCandidatesByName(name: string): Plan[] {
+  const q = normalise(name);
+  if (q.length === 0) return [];
+  const out: Plan[] = [];
+  for (const list of plansByPayer.values()) {
+    for (const p of list) if (normalise(p.name) === q) out.push(p);
+  }
+  return out;
 }
 
 /**
  * Pharmacies near a ZIP code, nearest first.
  *
- * The ZIP is used to run this lookup and is not stored or logged. A 5-digit
- * ZIP is coarse enough not to identify a person on its own, and nothing here
+ * No pharmacy dataset has been licensed for this prototype, so this returns
+ * empty and the form falls back to asking for a pharmacy type and says the
+ * search is not connected. Inventing nearby pharmacies would put fictional
+ * addresses in front of someone deciding where to fill a prescription.
+ *
+ * The ZIP is used to run the lookup and is not stored or logged. Five digits
+ * is coarse enough not to identify a person on its own, and nothing here
  * pairs it with anything that would.
+ *
+ * To connect one: return real rows here. Set `distanceMiles` only when the
+ * source provides a distance. Never estimate it.
  */
 export function findPharmacies(zip: string): Pharmacy[] {
   if (!isValidZip(zip)) return [];
-  // Connect a pharmacy dataset here.
   return [];
 }
 
@@ -97,12 +207,10 @@ export function isValidZip(zip: string): boolean {
 }
 
 /** Case- and punctuation-insensitive match for the insurer type-ahead. */
-export function searchPayers(query: string, payers: Payer[] = listPayers()): Payer[] {
+export function searchPayers(query: string, source: Payer[] = payers): Payer[] {
   const q = normalise(query);
-  if (q.length === 0) return payers;
-  return payers.filter((p) =>
-    [p.name, ...(p.aliases ?? [])].some((n) => normalise(n).includes(q))
-  );
+  if (q.length === 0) return source;
+  return source.filter((p) => normalise(p.name).includes(q));
 }
 
 function normalise(s: string): string {

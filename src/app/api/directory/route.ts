@@ -6,6 +6,7 @@ import {
   isDirectoryConnected,
   isValidZip,
   searchPayers,
+  directoryRelease,
 } from "@/patient/lib/coverage/directory";
 import { rateLimit, clientKey } from "@/shared/lib/security/ratelimit";
 
@@ -41,8 +42,14 @@ export async function GET(req: Request) {
 
   if (kind === "payers") {
     const q = url.searchParams.get("q") ?? "";
+    // Capped: 525 organizations is more than a picker should ship at once,
+    // and the client narrows as the person types.
     return NextResponse.json(
-      { connected: isDirectoryConnected(), payers: searchPayers(q).slice(0, 50) },
+      {
+        connected: isDirectoryConnected(),
+        release: directoryRelease(),
+        payers: searchPayers(q).slice(0, 50),
+      },
       { headers: NO_STORE }
     );
   }
@@ -52,6 +59,9 @@ export async function GET(req: Request) {
     if (!payerId) {
       return NextResponse.json({ error: "payerId required" }, { status: 400, headers: NO_STORE });
     }
+    // Every plan for the chosen organization, each carrying its contract,
+    // plan and segment ids. A name alone cannot identify a plan: 39 share
+    // one name in this release, so the form submits the key, not the name.
     return NextResponse.json({ plans: listPlans(payerId) }, { headers: NO_STORE });
   }
 
