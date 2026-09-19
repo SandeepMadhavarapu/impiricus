@@ -3,7 +3,9 @@ import { useEffect, useRef, useState } from "react";
 import { requestSession, type ShareSession } from "@/shared/lib/nearby-share/client";
 import { prepareTransmitter } from "@/shared/lib/nearby-share/transmitter";
 
-export function NearbyShare({ slug, blocked }: { slug: string; blocked: boolean }) {
+// The doctor flow mounts this only for a registered medication. Nearby sharing
+// uses same-origin APIs and an opaque token, not the configured public share URL.
+export function NearbyShare({ slug }: { slug: string }) {
   const [session, setSession] = useState<ShareSession | null>(null);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
@@ -32,7 +34,7 @@ export function NearbyShare({ slug, blocked }: { slug: string; blocked: boolean 
     <p className="eyebrow">Send Nearby · Experimental</p><h3>Send with sound</h3>
     <p>Hold the patient’s phone nearby. Open <a href="/receive" target="_blank" rel="noreferrer">MedBridge Receive</a> on that phone and press Listen for guide before sending.</p>
     <p className="tiny">Sound sharing sends a temporary code, not your medical information. Turn up speaker volume. The signal lasts about 11 seconds.</p>
-    <button type="button" className="btn btn--primary" disabled={busy || (blocked && process.env.NODE_ENV !== "development")} onClick={() => void send()}>{busy ? "Sending…" : session ? "Send again" : "Send Nearby"}</button>
+    <button type="button" className="btn btn--primary" disabled={busy} onClick={() => void send()}>{busy ? "Sending…" : session ? "Send again" : "Send Nearby"}</button>
     {busy ? <button className="btn" type="button" onClick={() => { cleanup.current?.(); setBusy(false); setMessage("Sending cancelled."); }}>Cancel</button> : null}
     <p role="status" aria-live="polite">{message}</p>
     {process.env.NODE_ENV === "development" ? <details><summary>Demo / developer tools</summary><button type="button" className="btn" disabled={busy} onClick={() => void send(true)}>Create token without sound</button>{session ? <><p>Expires {session.expiresAt}</p><label>Copy temporary token<input readOnly value={session.token} onFocus={e => e.target.select()} /></label><p><a href={session.receiveUrl}>Open Receive page</a></p></> : null}</details> : null}

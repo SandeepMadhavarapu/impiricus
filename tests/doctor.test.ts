@@ -16,6 +16,7 @@ describe("doctor workflow", () => {
     expect(html).toContain("Create a patient medication guide");
     expect(html).toContain("Singulair (montelukast sodium) 10 mg tablet, film coated");
     expect(html).toContain("Start with a medication");
+    expect(html).not.toContain(">Send Nearby</button>");
     expect(html).toMatch(/disabled="">Share with Patient/);
     expect(html).not.toContain('id="sec-boxed-warning"');
   });
@@ -40,6 +41,7 @@ describe("doctor workflow", () => {
   it.each(["unknown-drug", "singulair-montelukast-5mg-chewable", [slug, "other"]])("never substitutes a drug for invalid selection %j", async (selection) => {
     const html = await render(selection);
     expect(html).toContain("Medication unavailable");
+    expect(html).not.toContain(">Send Nearby</button>");
     expect(html).not.toContain('id="sec-boxed-warning"');
     expect(html).toMatch(/disabled="">Share with Patient/);
   });
@@ -60,4 +62,14 @@ describe("doctor workflow", () => {
     expect(html).toContain("Sharing needs a public HTTPS deployment");
     expect(html).toMatch(/disabled="">Share with Patient/);
   });
+});
+
+it.each(["", "http://localhost:3000", "http://unsafe.example", "https://preview.example"])("enables nearby sharing for a selected medication in production regardless of public origin %j", async (origin) => {
+  vi.stubEnv("NODE_ENV", "production");
+  vi.stubEnv("PUBLIC_ORIGIN", origin);
+  vi.stubEnv("NEXT_PUBLIC_SITE_ORIGIN", "");
+  const html = await render(slug);
+  const button = html.match(/<button[^>]*>Send Nearby<\/button>/)?.[0];
+  expect(button).toBeDefined();
+  expect(button).not.toContain("disabled");
 });

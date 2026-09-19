@@ -28,3 +28,4 @@ Thumbs.db
 
 # Vercel CLI project link metadata (local to this machine's deployments).
 .vercel
+.env*
