@@ -1,14 +1,27 @@
 # MedBridge
 
-A mobile-first, link-based medication education experience. Someone shares an
-HTTPS link; the recipient opens it and immediately gets plain-language
-information about one specific medication — what it is, what it treats, what it
-might help with, and what the risks are — sourced from the FDA-approved label,
+A mobile-first, link-based medication education experience. A clinician builds
+a patient guide from the FDA-approved label and shares it; the patient opens
+the link and gets plain-language information about one specific medication:
+what it is, what it treats, what it might help with, and what the risks are,
 with every claim traceable to the exact text it came from.
 
+## Live demo
+
+Two deployments of this same repo, one per audience:
+
+| | Link | What it is |
+|---|---|---|
+| **Patient guide** | **<https://impiricus.vercel.app>** | The real link a patient opens. Lands on the medication guide. |
+| **Clinician demo** | **<https://impiricus-nmsb.vercel.app>** | The HCP workspace, shown as it would sit inside DocUpdate's app. Lands on `/doctor`. |
+
+Both are open to anyone with the link, and neither collects a patient record.
+They run the same build and differ only by the `APP_MODE` environment
+variable. See [Two Vercel domains](#two-vercel-domains-patient-link-vs-doctor-demo).
+
 **This is an independent hackathon prototype.** It is not affiliated with,
-endorsed by, or connected to Impiricus, Organon, the FDA, or any insurer. No
-clinician has reviewed its content.
+endorsed by, or connected to Impiricus, DocUpdate, Organon, the FDA, or any
+insurer. No clinician has reviewed its content.
 
 ---
 
@@ -18,19 +31,39 @@ clinician has reviewed its content.
 |---|---|
 | Public medication page from a real FDA label, with provenance | **Working** |
 | Native share sheet (`navigator.share`), copy link, QR code | **Working** |
-| Medication assistant — deterministic label-excerpt search | **Working, no credential needed** |
-| Medication assistant — conversational answers | **Awaiting `ANTHROPIC_API_KEY`** (code complete, tested with a stub adapter) |
+| Medication assistant: deterministic label-excerpt search | **Working, no credential needed** |
+| Medication assistant: conversational answers | **Awaiting `ANTHROPIC_API_KEY`** (code complete, tested with a stub adapter) |
 | Crisis / overdose / emergency routing | **Working** |
 | Provider connection via verified public destinations | **Working** |
-| Provider referral *submission* | **Not implemented** — no authorised integration; no personal data is collected |
+| Provider referral *submission* | **Not implemented**, no authorised integration; no personal data is collected |
 | Follow-up questions (conversation-aware retrieval) | **Working** |
 | Unresolved question preserved across the provider handoff | **Working** |
 | Insurance coverage input + result states | **Working** |
-| Insurance coverage — real CMS Part D formulary evidence | **Integration complete; awaiting data ingest** (`npm run coverage:ingest`) |
-| Insurance coverage against a member-specific payer API | **Not implemented** — no credential exists |
+| Insurance coverage: real CMS Part D formulary evidence | **Integration complete; awaiting data ingest** (`npm run coverage:ingest`) |
+| Insurance coverage against a member-specific payer API | **Not implemented**, no credential exists |
+| Insurer / plan / pharmacy-by-ZIP pickers | **Structure complete; awaiting a licensed directory.** Falls back to free text and says so |
+| Fair balance enforced in CI | **Working**, see below |
 
 Nothing in this app fabricates a medical answer, a coverage result, or a
 provider connection. Where something cannot be verified, it says so.
+
+### Fair balance
+
+The patient guide restates an FDA label. It is not promotional material, and
+the properties that keep it that way fail the build rather than depending on
+whoever reviews the next content change. `tests/fair-balance.test.ts` runs over
+**every** registered medication, so a product added later is held to the same
+rules without anyone remembering to add a test:
+
+- No superlatives, unsupported efficacy claims, comparative marketing, or
+  risk-minimisation wording. Quoted label text is exempt and never passed
+  through the check, since altering a quote would break its citation.
+- The headline states indications only, so it can be written neither to sell
+  nor to alarm. The balancing facts sit in `keyPoints` directly beneath it.
+- A product with a boxed warning must name it in a `critical` key point, and
+  critical points are ordered before any benefit point.
+- The patient-facing scope note is checked for readability, because it is read
+  by people in a second language and by people reading while unwell.
 
 ---
 
@@ -47,12 +80,15 @@ npm run dev
 Then open <http://localhost:3000>. The root path redirects to the featured
 medication.
 
-### Doctor → patient demo
+### Doctor to patient demo
 
-Open `/doctor` for the **DocUpdate Integration Preview**. Select Singulair
-10 mg film-coated tablet, preview the existing patient content and citations,
-then choose **Share with Patient** or **Copy Link**. The recipient opens the
-existing `/medications/singulair-montelukast-10mg-tablet` experience.
+Open `/doctor` for the clinician workspace, styled to sit inside DocUpdate's
+app. It runs in three steps: **Step 1** pick a medication, **Step 2** preview
+the guide (collapsed to headings, expandable per section, with the boxed
+warning first and flagged), **Step 3** share it. **Share with Patient** is the
+primary action; **Copy Link** and **QR code** sit beneath it as fallbacks. The
+recipient opens the same `/medications/singulair-montelukast-10mg-tablet`
+guide a patient would.
 
 This is an independent preview, with no DocUpdate or Impiricus integration or
 endorsement. No account, patient record, or prescription is created. Only the
@@ -83,7 +119,7 @@ patient workflows are unchanged.
 
 ### Configuration
 
-Copy `.env.example` to `.env.local`. **Every variable is optional** — the app
+Copy `.env.example` to `.env.local`. **Every variable is optional**. The app
 runs with none of them set and is explicit in the UI about what is not
 connected.
 
@@ -104,8 +140,8 @@ The vertical slice covers **SINGULAIR (montelukast sodium) 10 mg film-coated
 tablet**, NDC `78206-172`, NDA `020829`, labeled by Organon LLC.
 
 It was chosen for a public-awareness brief because it carries an FDA **boxed
-warning about serious neuropsychiatric events** — including suicidal thoughts
-and behaviour — that many people taking it do not know about. The label itself
+warning about serious neuropsychiatric events**, including suicidal thoughts
+and behaviour, that many people taking it do not know about. The label itself
 instructs prescribers to *reserve* the drug for allergic rhinitis patients who
 have not responded to alternatives, which fits a product that must not push
 anyone toward requesting a medication.
@@ -134,17 +170,19 @@ src/
     api/coverage/                 coverage lookup (rate-limited, no-store)
     api/qr/[slug]/                QR code for the public URL
     api/analytics/                sanitising analytics sink
+    api/directory/                insurer / plan / pharmacy-by-ZIP lookups
 
   patient/                         the patient-facing page and its dashboard
     components/                   MedicationSection, ChatSheet, CoverageSheet,
                                    ActionBar, PageOpenBeacon, the shared Sheet dialog
     lib/
       chat/                       orchestrator, grounding, model provider adapters
-      coverage/                   evidence states + CMS formulary adapters
+      coverage/                   evidence states, CMS formulary adapters,
+                                   and the payer/plan/pharmacy directory
       safety/                     crisis + urgent-situation routing
 
   doctor/                         the clinician side and the handoff/sending mechanism
-    components/                   ProviderSheet, ShareSection
+    components/                   ProviderSheet, ShareSection, AppChrome (tab bar)
     lib/
       handoff/                    carries the patient's unresolved question into the provider step
       providers/                  verified provider destinations
@@ -156,10 +194,12 @@ src/
       sources/*.json              fetched FDA label + provenance (generated)
       medications/*.ts            authored plain-language layer w/ citations
     lib/
-      content/                    schemas, registry, citation verification
+      content/                    schemas, registry, citation verification,
+                                   fair-balance checks
       retrieval/                  BM25 passage search over label sections
 
   shared/                         cross-cutting infrastructure used by more than one area above
+    components/                   AppBar, shared by both audiences
     lib/
       analytics/                 allow-listed event sanitisation
       security/                  rate limiting
@@ -173,7 +213,7 @@ than being forced into one of the three domain folders.
 ### The evidence model
 
 Retrieval is the truth layer. The model, when configured, is an *optional
-explainer* over retrieved passages — never the source of facts.
+explainer* over retrieved passages, never the source of facts.
 
 1. Label text is fetched from openFDA and DailyMed and stored with the SPL set
    id, version, effective date and retrieval timestamp.
@@ -182,8 +222,8 @@ explainer* over retrieved passages — never the source of facts.
    drifting quote fails the build.
 3. At query time, BM25 retrieves passages with stable ids
    (`adverse_reactions#0`).
-4. The model may cite only those ids. Any id it invents — or any real id that
-   was not supplied for *this* question — is rejected.
+4. The model may cite only those ids. Any id it invents, or any real id that
+   was not supplied for *this* question, is rejected.
 5. An answer whose every citation was fabricated is **withheld**, and the label
    text is shown instead.
 
@@ -195,7 +235,7 @@ explainer* over retrieved passages — never the source of facts.
 npm test
 ```
 
-216 tests across 13 files, all passing:
+222 tests across 14 files, all passing:
 
 | File | Tests | Covers |
 |---|---:|---|
@@ -206,27 +246,40 @@ npm test
 | `coverage.test.ts` | 23 | timeout/error never becomes positive; no fabricated copay; "not listed" ≠ "not covered" |
 | `privacy.test.ts` | 18 | analytics allow-listing; rate limiting; verified provider destinations |
 | `share.test.ts` | 8 | no private data in share URLs; slug rejection |
-| `handoff.test.ts` | 18 | the unresolved question survives the handoff; crisis turns never do; stays local |
+| `handoff.test.ts` | 14 | the unresolved question survives the handoff verbatim; crisis turns never do; stays local |
 | `followup.test.ts` | 23 | elliptical follow-ups resolved from context; pronouns with no antecedent ask instead of guessing |
 | `formulary.test.ts` | 18 | CMS formulary never becomes member coverage or a cost estimate; unmatched plan ≠ not covered |
-| `doctor.test.ts` | 10 | selection, unchanged preview content, provenance, invalid products, public HTTPS sharing configuration |
+| `doctor.test.ts` | 14 | step order; preview is complete and verbatim; boxed warning first and flagged; invalid products; public HTTPS sharing configuration |
 | `share-component.test.ts` | 8 | direct native-share invocation, cancellation, clipboard/manual fallback, public-only payload, patient behavior |
 | `config.test.ts` | 4 | `APP_MODE` defaults to patient; only an explicit, case-insensitive "doctor" switches it |
+| `fair-balance.test.ts` | 6 | no promotional or comparative wording; headline carries no risk claim; boxed warning named in a key point, ordered before benefits; patient scope note stays readable |
 
 ---
 
 ## Deployment
 
-**This app has not been deployed.** There is no public URL. To deploy:
+Deployed to two Vercel projects, both from `main`:
+
+- Patient guide: <https://impiricus.vercel.app>
+- Clinician demo: <https://impiricus-nmsb.vercel.app>
+
+To deploy your own:
 
 1. Set `PUBLIC_ORIGIN` to the real https origin.
 2. `npm run build`
 3. Serve with `npm run start`, or deploy to any Node host that runs a Next.js
    standalone server.
-4. Confirm HTTPS — `navigator.share` requires a secure context, and
+4. Confirm HTTPS. `navigator.share` requires a secure context, and
    `buildShareUrl` refuses non-https origins outside localhost.
 5. Re-run `npm run content:fetch` so the retrieval timestamp is current. Content
    older than 90 days renders a staleness warning.
+
+**Shipping a change to the live sites:** `vercel redeploy` rebuilds a previous
+deployment's source snapshot and will NOT pick up new commits. It only helps
+for environment-variable changes. To ship code, run `vercel link --yes
+--project <name>` then `vercel deploy --prod --yes`, once per project. When
+checking that a deploy landed, grep the served HTML for markup that exists
+only in the new version; a string present in both versions passes either way.
 
 Note that the in-process rate limiter is per-instance; a multi-instance
 deployment needs a shared store. See [docs/LIMITATIONS.md](docs/LIMITATIONS.md).
@@ -240,13 +293,13 @@ This is one codebase with two audiences that are meant to live at two
 different URLs: the real link a patient opens (which must land on the
 medication page, not a marketing splash or a workspace UI) and a separate demo
 URL for showing the `/doctor` workspace on its own. Both routes are always
-reachable directly on either domain — `APP_MODE` only decides what the bare
+reachable directly on either domain. `APP_MODE` only decides what the bare
 domain ("/") redirects to.
 
 Set this up as **two separate Vercel projects** pointing at the same GitHub
 repo:
 
-| | Project A — patient | Project B — doctor demo |
+| | Project A: patient | Project B: doctor demo |
 |---|---|---|
 | `APP_MODE` | unset (or `patient`) | `doctor` |
 | `PUBLIC_ORIGIN` | the patient project's own domain | the doctor project's own domain |
@@ -258,17 +311,17 @@ Steps, once per project:
 1. In Vercel, **Add New → Project**, import this repo.
 2. Under **Settings → Environment Variables**, set `APP_MODE` (`doctor` for
    the doctor-demo project, leave unset for the patient project) and
-   `PUBLIC_ORIGIN` to that project's own domain — every project needs its own
+   `PUBLIC_ORIGIN` to that project's own domain. Every project needs its own
    value here, since it's used to build absolute share URLs and QR codes for
    *that* domain specifically.
 3. Deploy. Vercel builds `/` as a static redirect, so `APP_MODE` must be set
-   **before** the build runs (project env vars, not a `.env` file) — the two
+   **before** the build runs (project env vars, not a `.env` file), so the two
    projects will end up with different static redirects from the same source.
 4. Attach whatever custom domain/subdomain you want to each project under
    **Settings → Domains**.
 
 Because `/doctor` is reachable on the patient domain too (and vice versa),
-nothing needs duplicating in code to keep both projects in sync — redeploying
+nothing needs duplicating in code to keep both projects in sync. Redeploying
 either one from the same `main` branch picks up the same routes and content.
 
 ### Troubleshooting
@@ -282,13 +335,13 @@ OneDrive-synced folders.
 
 ## Documentation
 
-- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — design decisions
-- [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md) — integration status and what each one needs
-- [docs/ACCEPTANCE.md](docs/ACCEPTANCE.md) — requirement → implementation → verification → limitation
-- [docs/PROVENANCE.md](docs/PROVENANCE.md) — medication source records
-- [docs/LIMITATIONS.md](docs/LIMITATIONS.md) — known limitations
-- [docs/DEVICE-CHECKLIST.md](docs/DEVICE-CHECKLIST.md) — physical-device tests (**none performed**)
-- [docs/DEMO-SCRIPT.md](docs/DEMO-SCRIPT.md) — 90-second demo
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): design decisions
+- [docs/INTEGRATIONS.md](docs/INTEGRATIONS.md): integration status and what each one needs
+- [docs/ACCEPTANCE.md](docs/ACCEPTANCE.md): requirement to implementation to verification to limitation
+- [docs/PROVENANCE.md](docs/PROVENANCE.md): medication source records
+- [docs/LIMITATIONS.md](docs/LIMITATIONS.md): known limitations
+- [docs/DEVICE-CHECKLIST.md](docs/DEVICE-CHECKLIST.md): physical-device tests (**none performed**)
+- [docs/DEMO-SCRIPT.md](docs/DEMO-SCRIPT.md): 90-second demo
 
 ---
 
