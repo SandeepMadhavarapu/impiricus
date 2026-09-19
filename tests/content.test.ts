@@ -7,8 +7,8 @@ import {
   productLabel,
   isStale,
   evidenceAgeDays,
-} from "@/lib/content/registry";
-import { verifyMedicationCitations, verifyCitation } from "@/lib/content/types";
+} from "@/sources/lib/content/registry";
+import { verifyMedicationCitations, verifyCitation } from "@/sources/lib/content/types";
 
 describe("content registry", () => {
   it("loads and schema-validates every medication record", () => {

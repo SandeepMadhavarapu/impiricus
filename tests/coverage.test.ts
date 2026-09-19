@@ -6,13 +6,13 @@ import {
   EVIDENCE_LABELS,
   type CoverageRequest,
   type CoverageResult,
-} from "@/lib/coverage/types";
+} from "@/patient/lib/coverage/types";
 import {
   unconfiguredAdapter,
   sampleAdapter,
   checkCoverageSafely,
   type CoverageAdapter,
-} from "@/lib/coverage/adapters";
+} from "@/patient/lib/coverage/adapters";
 
 const baseReq: CoverageRequest = {
   slug: "singulair-montelukast-10mg-tablet",

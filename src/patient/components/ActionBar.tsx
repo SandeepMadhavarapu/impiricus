@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { ChatSheet } from "./ChatSheet";
 import { CoverageSheet } from "./CoverageSheet";
-import { ProviderSheet } from "./ProviderSheet";
-import { track } from "@/lib/analytics/client";
-import type { UnresolvedQuestion } from "@/lib/handoff";
+import { ProviderSheet } from "@/doctor/components/ProviderSheet";
+import { track } from "@/shared/lib/analytics/client";
+import type { UnresolvedQuestion } from "@/doctor/lib/handoff";
 
 /**
  * The three primary actions, and the sheets they open.

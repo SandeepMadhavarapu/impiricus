@@ -33,15 +33,15 @@ optional explainer.**
 FDA label (openFDA + DailyMed)
         │  scripts/fetch-label.mjs — version-corroborated, provenance-stamped
         ▼
-src/content/sources/*.json          ← raw label text + SPL version + retrieved-at
+src/sources/content/sources/*.json          ← raw label text + SPL version + retrieved-at
         │
-        ├──► src/content/medications/*.ts   authored plain language,
+        ├──► src/sources/content/medications/*.ts   authored plain language,
         │       every claim carrying an exact quote                  [build-time verified]
         │
-        └──► src/lib/retrieval        BM25 over passages with stable ids
+        └──► src/sources/lib/retrieval        BM25 over passages with stable ids
                     │
                     ▼
-              src/lib/chat/orchestrator
+              src/patient/lib/chat/orchestrator
                     │
           ┌─────────┴─────────┐
           ▼                   ▼

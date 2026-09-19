@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { track } from "@/lib/analytics/client";
+import { track } from "@/shared/lib/analytics/client";
 
 /**
  * Sharing.

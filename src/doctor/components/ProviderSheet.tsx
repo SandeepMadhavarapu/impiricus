@@ -1,20 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { Sheet } from "./Sheet";
-import { track } from "@/lib/analytics/client";
+import { Sheet } from "@/patient/components/Sheet";
+import { track } from "@/shared/lib/analytics/client";
 import {
   PROVIDER_ROUTES,
   ADVERSE_EVENT_REPORTING,
   type ProviderIntent,
   type ProviderRoute,
-} from "@/lib/providers/routes";
+} from "@/doctor/lib/providers/routes";
 import {
   buildHandoffQuestions,
   handoffReasonLabel,
   normaliseQuestion,
   type UnresolvedQuestion,
-} from "@/lib/handoff";
+} from "@/doctor/lib/handoff";
 
 /**
  * Provider connection.

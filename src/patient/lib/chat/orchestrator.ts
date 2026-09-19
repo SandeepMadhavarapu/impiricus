@@ -1,8 +1,8 @@
 import "server-only";
-import { getMedication, productLabel } from "@/lib/content/registry";
-import { searchPassages, type ScoredPassage } from "@/lib/retrieval";
-import { buildContextualQuery, priorUserMessages } from "@/lib/retrieval/context";
-import { getAssistantConfig } from "@/lib/config";
+import { getMedication, productLabel } from "@/sources/lib/content/registry";
+import { searchPassages, type ScoredPassage } from "@/sources/lib/retrieval";
+import { buildContextualQuery, priorUserMessages } from "@/sources/lib/retrieval/context";
+import { getAssistantConfig } from "@/shared/lib/config";
 import { getAdapter, type ProviderMessage, type AssistantAdapter } from "./providers";
 import { validateCitations, stripCitationMarkers, toCitation } from "./grounding";
 import {
@@ -10,7 +10,7 @@ import {
   urgentGuidance,
   shouldOfferCrisisFooter,
   US_RESOURCES,
-} from "@/lib/safety/urgent";
+} from "@/patient/lib/safety/urgent";
 import type { ChatAnswer, ChatRequest, UrgentBlock } from "./types";
 
 /**

@@ -146,7 +146,7 @@ KNOWN TRAPS — DO NOT REDISCOVER THESE
    into a separate scope and a module-level const will be undefined there.
 2. In .gitignore, anchor build patterns: "/coverage/" not "coverage/". An
    unanchored pattern silently excludes src/app/api/coverage/ and
-   src/lib/coverage/ from the repo.
+   src/patient/lib/coverage/ from the repo.
 3. "server-only" throws under Vitest. Alias it to a stub in vitest.config.ts.
 4. Running `next build` while a dev server holds .next causes
    "EINVAL readlink .next/server/chunks". Stop the dev server first.

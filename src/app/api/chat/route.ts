@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { ChatRequestSchema } from "@/lib/chat/types";
-import { answerQuestion } from "@/lib/chat/orchestrator";
-import { rateLimit, clientKey } from "@/lib/security/ratelimit";
+import { ChatRequestSchema } from "@/patient/lib/chat/types";
+import { answerQuestion } from "@/patient/lib/chat/orchestrator";
+import { rateLimit, clientKey } from "@/shared/lib/security/ratelimit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

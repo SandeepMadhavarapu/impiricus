@@ -1,4 +1,4 @@
-import type { PlainSection, SourceRecord } from "@/lib/content/types";
+import type { PlainSection, SourceRecord } from "@/sources/lib/content/types";
 
 /**
  * Renders one plain-language section with its supporting citations.

@@ -107,29 +107,51 @@ Next.js 15 (App Router) + TypeScript, with plain CSS design tokens instead of a
 utility framework. Zod at every trust boundary. See
 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the reasoning.
 
+Non-routing code is grouped by who it serves, not by technical layer:
+
 ```
 src/
-  app/
+  app/                             Next.js routes only (must stay here for the router)
     medications/[slug]/page.tsx   public, statically generated medication page
     api/chat/                     assistant (rate-limited, no-store)
     api/coverage/                 coverage lookup (rate-limited, no-store)
     api/qr/[slug]/                QR code for the public URL
     api/analytics/                sanitising analytics sink
-  components/                     UI, incl. accessible Sheet dialog
-  content/
-    sources/*.json                fetched FDA label + provenance (generated)
-    medications/*.ts              authored plain-language layer w/ citations
-  lib/
-    content/                      schemas, registry, citation verification
-    retrieval/                    BM25 passage search over label sections
-    chat/                         orchestrator, grounding, provider adapters
-    coverage/                     evidence states + adapters
-    providers/                    verified provider destinations
-    safety/                       crisis + urgent-situation routing
-    security/                     rate limiting
-    share/                        share URL construction
-    analytics/                    allow-listed event sanitisation
+
+  patient/                         the patient-facing page and its dashboard
+    components/                   MedicationSection, ChatSheet, CoverageSheet,
+                                   ActionBar, PageOpenBeacon, the shared Sheet dialog
+    lib/
+      chat/                       orchestrator, grounding, model provider adapters
+      coverage/                   evidence states + CMS formulary adapters
+      safety/                     crisis + urgent-situation routing
+
+  doctor/                         the clinician side and the handoff/sending mechanism
+    components/                   ProviderSheet, ShareSection
+    lib/
+      handoff/                    carries the patient's unresolved question into the provider step
+      providers/                  verified provider destinations
+      share/                      share URL construction
+
+  sources/                        everything the app's claims are sourced from
+    components/                   ProvenancePanel
+    content/
+      sources/*.json              fetched FDA label + provenance (generated)
+      medications/*.ts            authored plain-language layer w/ citations
+    lib/
+      content/                    schemas, registry, citation verification
+      retrieval/                  BM25 passage search over label sections
+
+  shared/                         cross-cutting infrastructure used by more than one area above
+    lib/
+      analytics/                 allow-listed event sanitisation
+      security/                  rate limiting
+      config.ts                  integration-state flags (what's actually connected)
 ```
+
+`analytics`, `security` and `config` are used by patient, doctor *and* sources
+code alike (e.g. every sheet calls `track()`), so they live in `shared` rather
+than being forced into one of the three domain folders.
 
 ### The evidence model
 

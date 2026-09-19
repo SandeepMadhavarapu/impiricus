@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { searchPassages, getPassages, findPassageById, chunkSection, tokenize } from "@/lib/retrieval";
-import { getMedication } from "@/lib/content/registry";
+import { searchPassages, getPassages, findPassageById, chunkSection, tokenize } from "@/sources/lib/retrieval";
+import { getMedication } from "@/sources/lib/content/registry";
 
 const { source } = getMedication("singulair-montelukast-10mg-tablet")!;
 

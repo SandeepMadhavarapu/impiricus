@@ -1,4 +1,4 @@
-import type { MedicationRecord } from "@/lib/content/types";
+import type { MedicationRecord } from "@/sources/lib/content/types";
 
 /**
  * Plain-language layer for SINGULAIR (montelukast sodium) 10 mg film-coated

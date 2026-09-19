@@ -1,5 +1,5 @@
 import "server-only";
-import type { AssistantConfig } from "@/lib/config";
+import type { AssistantConfig } from "@/shared/lib/config";
 
 /**
  * Assistant provider adapters.

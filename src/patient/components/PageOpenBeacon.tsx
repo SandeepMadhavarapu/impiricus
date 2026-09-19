@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { track } from "@/lib/analytics/client";
+import { track } from "@/shared/lib/analytics/client";
 
 /**
  * Records that a medication page was opened.

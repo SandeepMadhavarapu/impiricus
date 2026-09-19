@@ -1,5 +1,5 @@
-import type { SourceRecord } from "@/lib/content/types";
-import { findPassageById, type ScoredPassage } from "@/lib/retrieval";
+import type { SourceRecord } from "@/sources/lib/content/types";
+import { findPassageById, type ScoredPassage } from "@/sources/lib/retrieval";
 import type { AnswerCitation } from "./types";
 
 /**

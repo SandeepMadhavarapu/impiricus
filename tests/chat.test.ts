@@ -1,10 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { answerQuestion, buildSystemPrompt, suggestsProviderStep } from "@/lib/chat/orchestrator";
-import { extractCitedIds, stripCitationMarkers, validateCitations } from "@/lib/chat/grounding";
-import { searchPassages } from "@/lib/retrieval";
-import { getMedication } from "@/lib/content/registry";
-import type { AssistantAdapter, CompletionInput } from "@/lib/chat/providers";
-import type { ChatRequest } from "@/lib/chat/types";
+import { answerQuestion, buildSystemPrompt, suggestsProviderStep } from "@/patient/lib/chat/orchestrator";
+import { extractCitedIds, stripCitationMarkers, validateCitations } from "@/patient/lib/chat/grounding";
+import { searchPassages } from "@/sources/lib/retrieval";
+import { getMedication } from "@/sources/lib/content/registry";
+import type { AssistantAdapter, CompletionInput } from "@/patient/lib/chat/providers";
+import type { ChatRequest } from "@/patient/lib/chat/types";
 
 const SLUG = "singulair-montelukast-10mg-tablet";
 const { source } = getMedication(SLUG)!;

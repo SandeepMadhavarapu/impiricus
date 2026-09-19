@@ -8,14 +8,14 @@ import {
   displayDosageForm,
   isStale,
   evidenceAgeDays,
-} from "@/lib/content/registry";
-import { getPublicOrigin, getIntegrationStates } from "@/lib/config";
-import { buildShareUrl } from "@/lib/share";
-import { MedicationSection } from "@/components/MedicationSection";
-import { ActionBar } from "@/components/ActionBar";
-import { ShareSection } from "@/components/ShareSection";
-import { ProvenancePanel } from "@/components/ProvenancePanel";
-import { PageOpenBeacon } from "@/components/PageOpenBeacon";
+} from "@/sources/lib/content/registry";
+import { getPublicOrigin, getIntegrationStates } from "@/shared/lib/config";
+import { buildShareUrl } from "@/doctor/lib/share";
+import { MedicationSection } from "@/patient/components/MedicationSection";
+import { ActionBar } from "@/patient/components/ActionBar";
+import { ShareSection } from "@/doctor/components/ShareSection";
+import { ProvenancePanel } from "@/sources/components/ProvenancePanel";
+import { PageOpenBeacon } from "@/patient/components/PageOpenBeacon";
 
 export const dynamic = "force-static";
 export const revalidate = 3600;

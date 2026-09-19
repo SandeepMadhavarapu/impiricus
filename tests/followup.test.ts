@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { buildContextualQuery, isElliptical, priorUserMessages } from "@/lib/retrieval/context";
-import { searchPassages } from "@/lib/retrieval";
-import { getMedication } from "@/lib/content/registry";
-import { answerQuestion } from "@/lib/chat/orchestrator";
+import { buildContextualQuery, isElliptical, priorUserMessages } from "@/sources/lib/retrieval/context";
+import { searchPassages } from "@/sources/lib/retrieval";
+import { getMedication } from "@/sources/lib/content/registry";
+import { answerQuestion } from "@/patient/lib/chat/orchestrator";
 
 const SLUG = "singulair-montelukast-10mg-tablet";
 const { source } = getMedication(SLUG)!;
