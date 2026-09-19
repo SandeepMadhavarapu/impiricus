@@ -27,8 +27,13 @@ export const SOURCE_REGISTER: SourceRegisterEntry[] = [
       "https://data.cms.gov/provider-characteristics/medicare-provider-supplier-enrollment",
     sourceType: "formulary-dataset",
     market: "medicare-part-d",
-    populationCovered: "All Medicare Part D and MA-PD enrollees nationwide",
-    geography: "United States, all states and territories",
+    populationCovered:
+      "Dataset scope: Medicare Part D and MA-PD plans in the CMS 2026-08 release. " +
+      "OUR RETRIEVED SCOPE: rows filtered to the RXCUIs of three products, yielding 979 formulary " +
+      "rows across 5,517 plans. This is not a statement about all Part D plans or all drugs.",
+    geography:
+      "Dataset covers plans filed with CMS for the 2026 contract year. We did not verify " +
+      "state-by-state service areas, so no geographic claim is made about our retained subset.",
     planYear: 2026,
     datasetVersion: "2026-08 release (file 2026_20260819.zip)",
     effectiveStart: "2026-01-01",

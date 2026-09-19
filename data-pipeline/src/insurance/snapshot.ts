@@ -68,6 +68,28 @@ export const PartDSnapshotSchema = z.object({
   /** sha256 per extracted member, so a re-run is checkable. */
   memberHashes: z.record(z.string(), z.string()),
   rxcuisFiltered: z.array(z.string()),
+  /** Row-level accounting: what was read, retained and rejected. */
+  scope: z.object({
+    membersFetched: z.array(z.object({ name: z.string(), compressedBytes: z.number(), uncompressedBytes: z.number() })),
+    membersSkipped: z.array(z.object({ name: z.string(), uncompressedBytes: z.number(), reason: z.string() })),
+    formularyRowsRead: z.number(),
+    formularyRowsRetained: z.number(),
+    formularyRowsRejectedRxcuiFilter: z.number(),
+    planRowsRead: z.number(),
+    planRowsUnique: z.number(),
+    planRowsRejectedIncomplete: z.number(),
+    costRowsRead: z.number(),
+    excludedRowsRead: z.number(),
+    rxcuisWithNoMatch: z.array(z.string()),
+    formularyIdsWithoutPlan: z.array(z.string()),
+    /** Plans retained after filtering to formularies carrying our drugs. */
+    plansRetained: z.number(),
+    /** Plans dropped because their formulary carries none of our drugs. */
+    plansDroppedNoMatchingFormulary: z.number(),
+    /** Cost rules retained (demo plans only) and the full file size. */
+    costRulesRetained: z.number(),
+    costRulesAvailable: z.number(),
+  }),
   plans: z.array(SnapshotPlanSchema),
   formulary: z.array(SnapshotFormularySchema),
   costs: z.array(SnapshotCostSchema),
@@ -179,6 +201,13 @@ export async function buildPartDSnapshot(
     archiveBytes: extract.release.totalBytes,
     memberHashes: extract.memberHashes,
     rxcuisFiltered: [...wanted].sort(),
+    scope: {
+      ...extract.scope,
+      plansRetained: plans.length,
+      plansDroppedNoMatchingFormulary: extract.planRows.length - plans.length,
+      costRulesRetained: costs.length,
+      costRulesAvailable: extract.costRows.length,
+    },
     plans,
     formulary: extract.formularyRows,
     costs,

@@ -50,9 +50,11 @@ export type CoverageState =
 /**
  * What the SOURCE actually listed.
  *
- * Verified in the 2026-08 CMS release: branded Singulair (RXCUI 153892) appears
- * on exactly ONE formulary nationwide, while generic montelukast concepts
- * appear on hundreds. A `clinical-drug` match is NOT a brand listing.
+ * Verified within the CMS 2026-08 release, filtered to our products' RXCUIs:
+ * branded Singulair (RXCUI 153892) appears on exactly ONE of the formularies
+ * retained, while generic montelukast concepts appear on hundreds. A
+ * `clinical-drug` match is NOT a brand listing. These counts describe that
+ * release and that filter, not Part D as a whole.
  */
 export type MatchGranularity =
   | "exact-product"

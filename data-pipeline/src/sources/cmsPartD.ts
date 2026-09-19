@@ -108,7 +108,9 @@ export interface PartDFormularyRow {
 
 export function parseFormularyFile(
   text: string,
-  wantedRxcuis: Set<string>
+  wantedRxcuis: Set<string>,
+  /** Optional counters, populated when supplied. */
+  counters?: { read: number; rejected: number }
 ): PartDFormularyRow[] {
   const { header, rows } = parsePipeDelimited(text);
   const idx = (name: string) => header.indexOf(name);
@@ -132,8 +134,12 @@ export function parseFormularyFile(
   const out: PartDFormularyRow[] = [];
 
   for (const r of rows) {
+    if (counters) counters.read++;
     const rxcui = r[iRxcui] ?? "";
-    if (!wantedRxcuis.has(rxcui)) continue;
+    if (!wantedRxcuis.has(rxcui)) {
+      if (counters) counters.rejected++;
+      continue;
+    }
     const tierRaw = iTier >= 0 ? Number(r[iTier]) : NaN;
     out.push({
       formularyId: r[iFormulary] ?? "",
@@ -163,7 +169,10 @@ export interface PartDPlanRow {
   deductible: string | null;
 }
 
-export function parsePlanFile(text: string): PartDPlanRow[] {
+export function parsePlanFile(
+  text: string,
+  counters?: { read: number; rejectedIncomplete: number }
+): PartDPlanRow[] {
   const { header, rows } = parsePipeDelimited(text);
   const idx = (n: string) => header.indexOf(n);
   const iContract = idx("CONTRACT_ID");
@@ -184,10 +193,14 @@ export function parsePlanFile(text: string): PartDPlanRow[] {
   const seen = new Set<string>();
   const out: PartDPlanRow[] = [];
   for (const r of rows) {
+    if (counters) counters.read++;
     const contractId = r[iContract] ?? "";
     const planId = r[iPlan] ?? "";
     const formularyId = r[iFormulary] ?? "";
-    if (!contractId || !planId || !formularyId) continue;
+    if (!contractId || !planId || !formularyId) {
+      if (counters) counters.rejectedIncomplete++;
+      continue;
+    }
     const segmentId = iSegment >= 0 ? (r[iSegment] || null) : null;
     const key = `${contractId}|${planId}|${segmentId ?? ""}|${formularyId}`;
     if (seen.has(key)) continue;
@@ -281,8 +294,29 @@ export function parseExcludedFile(
 
 /* --------------------------------------------------------------- fetchers -- */
 
+/** Row-level accounting so the scope of the extract is checkable. */
+export interface PartDScope {
+  /** ZIP members actually fetched, with their sizes. */
+  membersFetched: Array<{ name: string; compressedBytes: number; uncompressedBytes: number }>;
+  /** Members present in the archive but deliberately skipped. */
+  membersSkipped: Array<{ name: string; uncompressedBytes: number; reason: string }>;
+  formularyRowsRead: number;
+  formularyRowsRetained: number;
+  formularyRowsRejectedRxcuiFilter: number;
+  planRowsRead: number;
+  planRowsUnique: number;
+  planRowsRejectedIncomplete: number;
+  costRowsRead: number;
+  excludedRowsRead: number;
+  /** RXCUIs searched for that produced no formulary row anywhere. */
+  rxcuisWithNoMatch: string[];
+  /** Formulary ids referenced by retained rows but absent from the plan file. */
+  formularyIdsWithoutPlan: string[];
+}
+
 export interface PartDExtract {
   release: PartDRelease;
+  scope: PartDScope;
   formularyRows: PartDFormularyRow[];
   planRows: PartDPlanRow[];
   costRows: PartDCostRow[];
@@ -310,6 +344,7 @@ export async function extractPartD(wantedRxcuis: Set<string>): Promise<PartDExtr
 
   const texts: Record<string, string> = {};
   const memberHashes: Record<string, string> = {};
+  const fetchedMembers: Array<{ name: string; compressedBytes: number; uncompressedBytes: number }> = [];
   let bytesFetched = 0;
 
   for (const w of wanted) {
@@ -320,6 +355,11 @@ export async function extractPartD(wantedRxcuis: Set<string>): Promise<PartDExtr
     }
     const files = await fetchZipMemberFlattened(release.url, entry);
     bytesFetched += entry.compressedSize;
+    fetchedMembers.push({
+      name: entry.name,
+      compressedBytes: entry.compressedSize,
+      uncompressedBytes: entry.uncompressedSize,
+    });
     // The member is itself a zip containing one .txt.
     const txt = files.find((f) => /\.txt$/i.test(f.name)) ?? files[0];
     if (!txt) continue;
@@ -327,12 +367,47 @@ export async function extractPartD(wantedRxcuis: Set<string>): Promise<PartDExtr
     memberHashes[entry.name] = createHash("sha256").update(txt.data).digest("hex");
   }
 
+  const fCounters = { read: 0, rejected: 0 };
+  const pCounters = { read: 0, rejectedIncomplete: 0 };
+  const formularyRows = parseFormularyFile(texts.formulary ?? "", wantedRxcuis, fCounters);
+  const planRows = parsePlanFile(texts.plan ?? "", pCounters);
+  const costRows = texts.cost ? parseCostFile(texts.cost) : [];
+  const excludedRows = texts.excluded ? parseExcludedFile(texts.excluded, wantedRxcuis) : [];
+
+  const matchedRxcuis = new Set(formularyRows.map((r) => r.rxcui));
+  const planFormularyIds = new Set(planRows.map((p) => p.formularyId));
+  const scope: PartDScope = {
+    membersFetched: fetchedMembers,
+    membersSkipped: release.entries
+      .filter((e) => !fetchedMembers.some((m) => m.name === e.name))
+      .map((e) => ({
+        name: e.name,
+        uncompressedBytes: e.uncompressedSize,
+        reason: /pharmacy\s*network/i.test(e.name)
+          ? "Pharmacy network data: 2.18 GB of the archive and not needed for formulary membership."
+          : "Not required for formulary membership, utilisation management or plan mapping.",
+      })),
+    formularyRowsRead: fCounters.read,
+    formularyRowsRetained: formularyRows.length,
+    formularyRowsRejectedRxcuiFilter: fCounters.rejected,
+    planRowsRead: pCounters.read,
+    planRowsUnique: planRows.length,
+    planRowsRejectedIncomplete: pCounters.rejectedIncomplete,
+    costRowsRead: costRows.length,
+    excludedRowsRead: excludedRows.length,
+    rxcuisWithNoMatch: [...wantedRxcuis].filter((r) => !matchedRxcuis.has(r)).sort(),
+    formularyIdsWithoutPlan: [
+      ...new Set(formularyRows.map((r) => r.formularyId).filter((id) => !planFormularyIds.has(id))),
+    ].sort(),
+  };
+
   return {
     release,
-    formularyRows: parseFormularyFile(texts.formulary ?? "", wantedRxcuis),
-    planRows: parsePlanFile(texts.plan ?? ""),
-    costRows: texts.cost ? parseCostFile(texts.cost) : [],
-    excludedRows: texts.excluded ? parseExcludedFile(texts.excluded, wantedRxcuis) : [],
+    scope,
+    formularyRows,
+    planRows,
+    costRows,
+    excludedRows,
     bytesFetched,
     memberHashes,
     retrievedAt: new Date().toISOString(),

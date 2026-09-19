@@ -2093,14 +2093,142 @@
         "audience": "professional"
       }
     ],
-    "namedSubstances": [
+    "mentions": [
+      {
+        "substance": "theophylline",
+        "direction": "no-significant-interaction-stated",
+        "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
+        "qualifiers": [
+          "no dose adjustment needed"
+        ],
+        "isAdverseInteraction": false
+      },
+      {
+        "substance": "prednisone",
+        "direction": "no-significant-interaction-stated",
+        "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
+        "qualifiers": [
+          "no dose adjustment needed"
+        ],
+        "isAdverseInteraction": false
+      },
+      {
+        "substance": "prednisolone",
+        "direction": "no-significant-interaction-stated",
+        "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
+        "qualifiers": [
+          "no dose adjustment needed"
+        ],
+        "isAdverseInteraction": false
+      },
+      {
+        "substance": "oral contraceptives",
+        "direction": "no-significant-interaction-stated",
+        "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
+        "qualifiers": [
+          "no dose adjustment needed"
+        ],
+        "isAdverseInteraction": false
+      },
+      {
+        "substance": "fexofenadine",
+        "direction": "no-significant-interaction-stated",
+        "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
+        "qualifiers": [
+          "no dose adjustment needed"
+        ],
+        "isAdverseInteraction": false
+      },
+      {
+        "substance": "digoxin",
+        "direction": "no-significant-interaction-stated",
+        "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
+        "qualifiers": [
+          "no dose adjustment needed"
+        ],
+        "isAdverseInteraction": false
+      },
+      {
+        "substance": "warfarin",
+        "direction": "no-significant-interaction-stated",
+        "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
+        "qualifiers": [
+          "no dose adjustment needed"
+        ],
+        "isAdverseInteraction": false
+      },
+      {
+        "substance": "gemfibrozil",
+        "direction": "no-significant-interaction-stated",
+        "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
+        "qualifiers": [
+          "no dose adjustment needed"
+        ],
+        "isAdverseInteraction": false
+      },
+      {
+        "substance": "itraconazole",
+        "direction": "no-significant-interaction-stated",
+        "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
+        "qualifiers": [
+          "no dose adjustment needed"
+        ],
+        "isAdverseInteraction": false
+      },
+      {
+        "substance": "thyroid hormones",
+        "direction": "no-significant-interaction-stated",
+        "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
+        "qualifiers": [
+          "no dose adjustment needed"
+        ],
+        "isAdverseInteraction": false
+      },
+      {
+        "substance": "sedative hypnotics",
+        "direction": "no-significant-interaction-stated",
+        "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
+        "qualifiers": [
+          "no dose adjustment needed"
+        ],
+        "isAdverseInteraction": false
+      },
+      {
+        "substance": "non-steroidal anti-inflammatory agents",
+        "direction": "no-significant-interaction-stated",
+        "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
+        "qualifiers": [
+          "no dose adjustment needed"
+        ],
+        "isAdverseInteraction": false
+      },
+      {
+        "substance": "benzodiazepines",
+        "direction": "no-significant-interaction-stated",
+        "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
+        "qualifiers": [
+          "no dose adjustment needed"
+        ],
+        "isAdverseInteraction": false
+      },
+      {
+        "substance": "decongestants",
+        "direction": "no-significant-interaction-stated",
+        "supportingText": "No dose adjustment is needed when SINGULAIR is co-administered with theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine, digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones, sedative hypnotics, non-steroidal anti-inflammatory agents, benzodiazepines, decongestants, and Cytochrome P450 (CYP) enzyme inducers",
+        "qualifiers": [
+          "no dose adjustment needed"
+        ],
+        "isAdverseInteraction": false
+      }
+    ],
+    "statedNoInteraction": [
       "benzodiazepines",
       "decongestants",
       "digoxin",
       "fexofenadine",
       "gemfibrozil",
       "itraconazole",
-      "non-steroidal anti-inflammatory",
+      "non-steroidal anti-inflammatory agents",
       "oral contraceptives",
       "prednisolone",
       "prednisone",
@@ -2109,7 +2237,12 @@
       "thyroid hormones",
       "warfarin"
     ],
+    "describedInteraction": [],
     "caveats": [
+      "A substance appearing here is NOT automatically an adverse interaction. Check `isAdverseInteraction` and `direction` - labels frequently state that NO dose adjustment is needed, and that is the opposite of a warning.",
+      "`supportingText` is the sentence the substance came from. Render it; do not render the name alone.",
+      "Extraction is conservative and under-reports. The full interactions section is exported separately and is the evidence; this list is a convenience index.",
+      "This is the label's own content. It has not been checked against any other medicine a person takes, and no interaction-checking service is connected.",
       "This is what THIS product's label describes. It is not a complete list of possible interactions.",
       "It has not been checked against any other medication a person may be taking.",
       "Absence of a substance here does not mean an interaction is impossible.",
@@ -2182,7 +2315,7 @@
     "note": "No clinician has reviewed this record. 'app-ready' means structurally consumable, NOT clinically approved."
   },
   "freshness": {
-    "ingestedAt": "2026-09-19T19:40:29.695Z",
+    "ingestedAt": "2026-09-19T20:01:13.768Z",
     "splEffectiveDate": "2025-04-30",
     "sourceEffectiveDate": "2025-04-30"
   },

@@ -23,13 +23,30 @@ implementation. **One was wrong in a way that lost real data.**
 
 **FDA Highlights content was being silently dropped.** The parser read only a
 section's own `<text>`, but `<excerpt><highlight><text>` holds the "Highlights
-of Prescribing Information" summary. Measured across the three raw SPLs:
-**26 excerpt blocks holding ~19,900 characters**, including the entire summary
-of Toprol XL section 7, which is why that section exported 0 characters.
+of Prescribing Information" summary, including the entire summary of Toprol XL
+section 7 — which is why that section exported 0 characters.
 
 Fixed, and Highlights are kept in a **separate field** from `paragraphs`,
 because the label states they do not include all the information needed.
-Recovered: 4,635 + 3,466 + 2,799 = **10,900 characters** into the records.
+
+**Correction to this audit's earlier figure.** The "~19,900 characters" quoted
+in the first version of this document was a crude tag-strip that counted the
+SPL's raw pretty-print indentation and newlines. It overstated the content by
+about 80%. The reconciled accounting, produced by `npm run verify:report`:
+
+| Measure | Chars |
+|---|---:|
+| Raw tag-strip incl. indentation (the misleading figure) | 19,911 |
+| Source text, whitespace-collapsed | 11,012 |
+| Routed to `tables` rather than `highlights` | 150 |
+| Retained as highlights-only content | 2,426 |
+| Duplicate (also present in `paragraphs`) | 8,586 |
+| **Unaccounted for** | **0** |
+
+The large duplicate share is expected and not a defect: FDA Highlights are by
+design a summary of the full prescribing information, so most of that text
+legitimately appears in both places. Block-level detail is in
+`data/reports/verification.md`.
 
 ---
 
@@ -37,13 +54,37 @@ Recovered: 4,635 + 3,466 + 2,799 = **10,900 characters** into the records.
 
 | # | Fix | Evidence after the change |
 |---|---|---|
-| A | Interactions | All three: `availability: "label-section-available"`, `checkingServiceAvailable: false`. Singulair yields **14 named substances** (warfarin, digoxin, gemfibrozil, itraconazole, theophylline, …). Absence is typed as `no-label-section` with a caveat that it is a fact about the document, not about safety. |
+| A | Interactions | All three: `availability: "label-section-available"`, `checkingServiceAvailable: false`. Absence is typed as `no-label-section` with a caveat that it is a fact about the document, not about safety. **See the correction below — the substance list was itself misleading and has been replaced.** |
 | B | Applicability | Real states. Singulair: 2 exact-product, 18 explicitly-shared, 37 document-level-unresolved, **3 not-applicable** (sections belonging to the chewable/granule siblings). `productSpecificSections()` excludes unresolved content. |
 | C | Approval | **NDA209637 product 002** (4MG/3ML, Prescription). Products 001 and 002 both read 1.34 MG/ML; 001 is **Discontinued**. Package volume 3 mL, taken from RxNorm concept `2398842` ("3 ML … Pen Injector"), is what separates them. Without the volume the matcher returns `ambiguous` rather than guessing. |
 | D | Recalls | Tiered. **0 verified, 23 candidates** across the three products. No false "this product was recalled". An empty verified list is explicitly documented as not proving the absence of recalls. |
 
 Toprol XL also surfaced a real salt nuance: Drugs@FDA expresses its strength as
 `EQ 50MG TARTRATE` — the succinate salt stated as tartrate equivalent.
+
+### Correction: the interaction substance list inverted the label's meaning
+
+The previous pass exported `namedSubstances` as a flat list. Singulair's read
+*warfarin, digoxin, gemfibrozil, theophylline…* — which any consumer would
+render as "interacts with warfarin". The source sentence says the opposite:
+
+> "**No dose adjustment is needed** when SINGULAIR is co-administered with
+> theophylline, prednisone, prednisolone, oral contraceptives, fexofenadine,
+> digoxin, warfarin, gemfibrozil, itraconazole, thyroid hormones…"
+
+All 14 were statements of **no** clinically significant interaction. The flat
+list is replaced by classified `mentions`, each carrying the sentence it came
+from, preserved qualifiers, and an `isAdverseInteraction` flag:
+
+| Product | Mentions | No significant interaction stated | Interaction described |
+|---|---:|---:|---:|
+| singulair-montelukast-10mg-tablet | 14 | **14** | 0 |
+| toprol-xl-metoprolol-succinate-50mg-er-tablet | 2 | 0 | 1 (`other-affects-this`) |
+| ozempic-semaglutide-1_34mg-per-ml-injection | 1 | 0 | 1 (direction unclear) |
+
+Two extraction artifacts were also fixed: `"insulin secretagogue e"` (residue
+from stripping a parenthetical) and `"ozempic"` (the product listing itself as
+an interacting substance).
 
 ---
 
@@ -83,7 +124,7 @@ ingesting it.
 | Plan | Evidence |
 |---|---|
 | **S5820-034-000** AARP Medicare Rx Preferred from UHC (PDP), formulary 00026000 | Ozempic RXCUI 2398842: **exact-product match**, tier 3, **prior authorisation**, **quantity limit 3 per 28 days** |
-| **H0034-001-000** Hamaspik Medicare Select (HMO D-SNP), formulary 00026303 | The **only** formulary in the entire release listing branded Singulair (153892) and Toprol XL (866438), both tier 1, no restrictions |
+| **H0034-001-000** Hamaspik Medicare Select (HMO D-SNP), formulary 00026303 | The only formulary **among those we retained from the 2026-08 release** that lists branded Singulair (153892) and Toprol XL (866438), both tier 1, no restrictions |
 
 ### Counterexamples run against real data
 

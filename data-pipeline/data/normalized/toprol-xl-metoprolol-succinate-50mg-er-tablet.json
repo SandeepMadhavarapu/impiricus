@@ -170,7 +170,7 @@
       }
     ],
     "rationale": "All 7 checkable critical dimensions agree across 5 sources.",
-    "resolvedAt": "2026-09-19T19:40:30.607Z"
+    "resolvedAt": "2026-09-19T20:01:13.795Z"
   },
   "identity": {
     "productKey": "toprol-xl-metoprolol-succinate-50mg-er-tablet",
@@ -2706,10 +2706,39 @@
         "audience": "professional"
       }
     ],
-    "namedSubstances": [
-      "beta-blocking"
+    "mentions": [
+      {
+        "substance": "beta-blocking agents",
+        "direction": "other-affects-this",
+        "supportingText": "7.1 Catecholamine-depleting drugs may have an additive effect when given with beta-blocking agents. () 7.2 CYP2D6 Inhibitors are likely to increase metoprolol concentration. () 7.3 Beta-blockers including metoprolol, may exacerbate the rebound hypertension that can follow the withdrawal of clonidine. ()",
+        "qualifiers": [
+          "possibility, not certainty"
+        ],
+        "sectionTitle": "7 DRUG INTERACTIONS",
+        "loincCode": "34073-7",
+        "isAdverseInteraction": true
+      },
+      {
+        "substance": "beta-blocking agents",
+        "direction": "mentioned-unclassified",
+        "supportingText": "Catecholamine depleting drugs (e.g., reserpine, monoamine oxidase (MAO) inhibitors) may have an additive effect when given with beta-blocking agents",
+        "qualifiers": [
+          "possibility, not certainty"
+        ],
+        "sectionTitle": "7.1 Catecholamine Depleting Drugs",
+        "loincCode": "42229-5",
+        "isAdverseInteraction": true
+      }
+    ],
+    "statedNoInteraction": [],
+    "describedInteraction": [
+      "beta-blocking agents"
     ],
     "caveats": [
+      "A substance appearing here is NOT automatically an adverse interaction. Check `isAdverseInteraction` and `direction` - labels frequently state that NO dose adjustment is needed, and that is the opposite of a warning.",
+      "`supportingText` is the sentence the substance came from. Render it; do not render the name alone.",
+      "Extraction is conservative and under-reports. The full interactions section is exported separately and is the evidence; this list is a convenience index.",
+      "This is the label's own content. It has not been checked against any other medicine a person takes, and no interaction-checking service is connected.",
       "This is what THIS product's label describes. It is not a complete list of possible interactions.",
       "It has not been checked against any other medication a person may be taking.",
       "Absence of a substance here does not mean an interaction is impossible.",
@@ -3647,6 +3676,6 @@
     "reviewedBy": null,
     "note": "No clinician has reviewed this record. 'app-ready' means structurally consumable, NOT clinically approved."
   },
-  "ingestedAt": "2026-09-19T19:40:31.347Z",
+  "ingestedAt": "2026-09-19T20:01:13.802Z",
   "parserVersion": "pipeline-0.1.0"
 }

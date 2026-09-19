@@ -440,7 +440,34 @@ export const MedicationRecordSchema = z.object({
     checkingServiceAvailable: z.literal(false),
     checkingServiceNote: z.string(),
     sections: z.array(LabelSectionSchema),
-    namedSubstances: z.array(z.string()),
+    /**
+     * Substances with the sentence they came from and a classified direction.
+     *
+     * A bare name list inverted meaning: Singulair's substances all come from
+     * "No dose adjustment is needed when SINGULAIR is co-administered with...",
+     * which is the OPPOSITE of a warning. Check `isAdverseInteraction`.
+     */
+    mentions: z.array(
+      z.object({
+        substance: z.string(),
+        direction: z.enum([
+          "no-significant-interaction-stated",
+          "other-affects-this",
+          "this-affects-other",
+          "interaction-described-direction-unclear",
+          "mentioned-unclassified",
+        ]),
+        supportingText: z.string(),
+        qualifiers: z.array(z.string()),
+        sectionTitle: z.string().nullable(),
+        loincCode: z.string().nullable(),
+        isAdverseInteraction: z.boolean(),
+      })
+    ),
+    /** Substances the label explicitly clears. NOT warnings. */
+    statedNoInteraction: z.array(z.string()),
+    /** Substances with a described interaction. */
+    describedInteraction: z.array(z.string()),
     caveats: z.array(z.string()),
   }),
 

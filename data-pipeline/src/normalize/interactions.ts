@@ -1,5 +1,6 @@
 import type { LabelSection } from "../schemas/index.js";
 import { walkSections } from "./spl.js";
+import { auditInteractions, type InteractionMention } from "./interactionAudit.js";
 
 /**
  * Drug interactions.
@@ -44,8 +45,10 @@ export interface InteractionEvidence {
   checkingServiceNote: string;
   /** The label's Drug Interactions section tree, hierarchy preserved. */
   sections: LabelSection[];
-  /** Named interacting substances, extracted conservatively. */
-  namedSubstances: string[];
+  /** Substances with direction, qualification and supporting sentence. */
+  mentions: InteractionMention[];
+  statedNoInteraction: string[];
+  describedInteraction: string[];
   /** What a consumer must not conclude from this. */
   caveats: string[];
 }
@@ -114,7 +117,9 @@ export function findInteractionSections(sections: LabelSection[]): LabelSection[
 }
 
 export function buildInteractionEvidence(
-  sections: LabelSection[] | null
+  sections: LabelSection[] | null,
+  /** Brand/generic names of this product, excluded from its own list. */
+  selfNames: string[] = []
 ): InteractionEvidence {
   if (!sections) {
     return {
@@ -122,7 +127,9 @@ export function buildInteractionEvidence(
       checkingServiceAvailable: false,
       checkingServiceNote: CHECKING_SERVICE_NOTE,
       sections: [],
-      namedSubstances: [],
+      mentions: [],
+      statedNoInteraction: [],
+      describedInteraction: [],
       caveats: [
         "The label was not retrieved, so nothing is known about what it describes.",
         ...BASE_CAVEATS,
@@ -138,7 +145,9 @@ export function buildInteractionEvidence(
       checkingServiceAvailable: false,
       checkingServiceNote: CHECKING_SERVICE_NOTE,
       sections: [],
-      namedSubstances: [],
+      mentions: [],
+      statedNoInteraction: [],
+      describedInteraction: [],
       caveats: [
         "This label does not contain a Drug Interactions section. That is a fact about the DOCUMENT, " +
           "not evidence that no interactions exist.",
@@ -151,15 +160,19 @@ export function buildInteractionEvidence(
     .flatMap((s) => [...s.paragraphs, ...s.highlights])
     .join("").length;
 
+  const audit = auditInteractions(found, selfNames);
+
   return {
     availability: textLength > 0 ? "label-section-available" : "label-section-empty",
     checkingServiceAvailable: false,
     checkingServiceNote: CHECKING_SERVICE_NOTE,
     sections: found,
-    namedSubstances: extractNamedSubstances(found),
+    mentions: audit.mentions,
+    statedNoInteraction: audit.statedNoInteraction,
+    describedInteraction: audit.describedInteraction,
     caveats:
       textLength > 0
-        ? BASE_CAVEATS
+        ? [...audit.caveats, ...BASE_CAVEATS]
         : [
             "The Drug Interactions section exists but yielded no extractable text. Treat as unknown, " +
               "not as an absence of interactions.",

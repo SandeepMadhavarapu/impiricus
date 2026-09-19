@@ -12,6 +12,7 @@ import { interactionApiStatus } from "./sources/rxnav.js";
 import { SourceUnavailableError } from "./sources/http.js";
 import { cmdInsuranceIngest, cmdCoverage } from "./insurance/cli.js";
 import { exportInsurance } from "./insurance/exportInsurance.js";
+import { buildVerificationReport } from "./verify/report.js";
 
 /**
  * Pipeline CLI.
@@ -328,6 +329,7 @@ Commands:
   export                           Write app-consumable JSON to data/exports/
   report                           Write the completeness/conflict report
   nppes --lastName Smith --state CA [--taxonomy Pharmacist] [--limit 5]
+  verify:report [--live]           Highlights/interaction/scope accounting; --live checks for a newer CMS release
   insurance:ingest                 Fetch CMS Part D formulary evidence (range-fetches ~9 MB of a 2.1 GB archive)
   coverage --product <key> --contract S5820 --plan 034 --segment 000 [--year 2026]
   coverage --product <key> --planName "AARP"     Candidates only; a name never resolves a plan
@@ -366,6 +368,11 @@ async function main(): Promise<void> {
       return cmdInsuranceIngest();
     case "coverage":
       return cmdCoverage(rest);
+    case "verify:report": {
+      const out = await buildVerificationReport(rest.includes("--live"));
+      log(`wrote ${path.relative(process.cwd(), out)}`);
+      return;
+    }
     case "insurance:export": {
       const files = await exportInsurance();
       for (const f of files) log(`wrote ${path.relative(process.cwd(), f)}`);

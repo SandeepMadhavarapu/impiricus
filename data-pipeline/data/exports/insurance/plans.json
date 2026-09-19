@@ -3,7 +3,7 @@
   "market": "medicare-part-d",
   "sourceRelease": "2026-08",
   "contractYear": "2026",
-  "retrievedAt": "2026-09-19T19:45:00.435Z",
+  "retrievedAt": "2026-09-19T19:58:18.826Z",
   "note": "Plan identity requires contract id + plan id + segment id + year. A plan NAME is not an identifier: 39 plans in this release share the name 'AARP Medicare Rx Preferred from UHC (PDP)'.",
   "planCount": 5517,
   "plans": [

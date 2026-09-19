@@ -246,7 +246,11 @@ export async function buildRecord(
     ? scopeSections(spl.patientLabeling, { selected: splProduct, allProducts: spl.products })
     : spl.patientLabeling;
 
-  const interactions = buildInteractionEvidence(scopedSections);
+  const interactions = buildInteractionEvidence(scopedSections, [
+    resolution.identity.brandName ?? "",
+    resolution.identity.genericName,
+    resolution.identity.activeMoiety ?? "",
+  ]);
 
   return {
     schemaVersion: SCHEMA_VERSION,

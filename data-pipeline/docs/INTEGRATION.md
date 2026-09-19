@@ -248,8 +248,11 @@ Render `result.headline` — it is written to match the state.
 
 ### 3. Check `isExactProductMatch` before saying "your drug is covered"
 
-Branded Singulair appears on **one** formulary nationwide; generic montelukast
-on hundreds. A `clinical-drug` match is not a brand listing.
+In the CMS **2026-08** release, branded Singulair (RXCUI 153892) appears on
+**exactly one** of the formularies we retained, while generic montelukast
+clinical-drug concepts appear on hundreds. A `clinical-drug` match is not a
+brand listing. That count describes this release and this RXCUI filter, not
+Part D as a whole.
 
 ```ts
 const exact = result.found.filter((f) => f.isExactProductMatch);

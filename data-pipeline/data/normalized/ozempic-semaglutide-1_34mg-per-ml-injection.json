@@ -189,7 +189,7 @@
       }
     ],
     "rationale": "All 8 checkable critical dimensions agree across 4 sources.",
-    "resolvedAt": "2026-09-19T19:40:32.287Z"
+    "resolvedAt": "2026-09-19T20:01:13.856Z"
   },
   "identity": {
     "productKey": "ozempic-semaglutide-1_34mg-per-ml-injection",
@@ -3436,10 +3436,28 @@
         "audience": "professional"
       }
     ],
-    "namedSubstances": [
-      "insulin secretagogue e"
+    "mentions": [
+      {
+        "substance": "insulin secretagogue",
+        "direction": "interaction-described-direction-unclear",
+        "supportingText": "Patients receiving OZEMPIC in combination with an insulin secretagogue (e.g., sulfonylurea) or insulin may have an increased risk of hypoglycemia, including severe hypoglycemia",
+        "qualifiers": [
+          "possibility, not certainty"
+        ],
+        "sectionTitle": "7.1 Concomitant Use with an Insulin Secretagogue (e.g., Sulfonylurea) or with Insulin",
+        "loincCode": "34073-7",
+        "isAdverseInteraction": true
+      }
+    ],
+    "statedNoInteraction": [],
+    "describedInteraction": [
+      "insulin secretagogue"
     ],
     "caveats": [
+      "A substance appearing here is NOT automatically an adverse interaction. Check `isAdverseInteraction` and `direction` - labels frequently state that NO dose adjustment is needed, and that is the opposite of a warning.",
+      "`supportingText` is the sentence the substance came from. Render it; do not render the name alone.",
+      "Extraction is conservative and under-reports. The full interactions section is exported separately and is the evidence; this list is a convenience index.",
+      "This is the label's own content. It has not been checked against any other medicine a person takes, and no interaction-checking service is connected.",
       "This is what THIS product's label describes. It is not a complete list of possible interactions.",
       "It has not been checked against any other medication a person may be taking.",
       "Absence of a substance here does not mean an interaction is impossible.",
@@ -3534,6 +3552,6 @@
     "reviewedBy": null,
     "note": "No clinician has reviewed this record. 'app-ready' means structurally consumable, NOT clinically approved."
   },
-  "ingestedAt": "2026-09-19T19:40:33.030Z",
+  "ingestedAt": "2026-09-19T20:01:13.862Z",
   "parserVersion": "pipeline-0.1.0"
 }

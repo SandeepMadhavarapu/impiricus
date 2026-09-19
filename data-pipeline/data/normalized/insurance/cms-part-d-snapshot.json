@@ -5,7 +5,7 @@
   "sourceUrl": "https://data.cms.gov/sites/default/files/2026-08/d8c9b393-66f0-4973-a748-f66742fe0fd2/2026_20260819.zip",
   "modified": "2026-08-26",
   "contractYear": "2026",
-  "retrievedAt": "2026-09-19T19:45:00.435Z",
+  "retrievedAt": "2026-09-19T19:58:18.826Z",
   "bytesFetched": 9187683,
   "archiveBytes": 2294444179,
   "memberHashes": {
@@ -22,6 +22,98 @@
     "866436",
     "866438"
   ],
+  "scope": {
+    "membersFetched": [
+      {
+        "name": "basic drugs formulary file  20260831.zip",
+        "compressedBytes": 8296104,
+        "uncompressedBytes": 8577805
+      },
+      {
+        "name": "plan information  20260831.zip",
+        "compressedBytes": 399389,
+        "uncompressedBytes": 430948
+      },
+      {
+        "name": "beneficiary cost file  20260831.zip",
+        "compressedBytes": 464920,
+        "uncompressedBytes": 649798
+      },
+      {
+        "name": "excluded drugs formulary file  20260831.zip",
+        "compressedBytes": 27270,
+        "uncompressedBytes": 36176
+      }
+    ],
+    "membersSkipped": [
+      {
+        "name": "geographic locator file  20260831.zip",
+        "uncompressedBytes": 29609,
+        "reason": "Not required for formulary membership, utilisation management or plan mapping."
+      },
+      {
+        "name": "indication based coverage formulary file  20260831.zip",
+        "uncompressedBytes": 1739,
+        "reason": "Not required for formulary membership, utilisation management or plan mapping."
+      },
+      {
+        "name": "insulin beneficiary cost file  20260831.zip",
+        "uncompressedBytes": 163705,
+        "reason": "Not required for formulary membership, utilisation management or plan mapping."
+      },
+      {
+        "name": "pharmacy networks file  20260831 part 1.zip",
+        "uncompressedBytes": 409473211,
+        "reason": "Pharmacy network data: 2.18 GB of the archive and not needed for formulary membership."
+      },
+      {
+        "name": "pharmacy networks file  20260831 part 2.zip",
+        "uncompressedBytes": 409751060,
+        "reason": "Pharmacy network data: 2.18 GB of the archive and not needed for formulary membership."
+      },
+      {
+        "name": "pharmacy networks file  20260831 part 3.zip",
+        "uncompressedBytes": 409094432,
+        "reason": "Pharmacy network data: 2.18 GB of the archive and not needed for formulary membership."
+      },
+      {
+        "name": "pharmacy networks file  20260831 part 4.zip",
+        "uncompressedBytes": 406956372,
+        "reason": "Pharmacy network data: 2.18 GB of the archive and not needed for formulary membership."
+      },
+      {
+        "name": "pharmacy networks file  20260831 part 5.zip",
+        "uncompressedBytes": 403421858,
+        "reason": "Pharmacy network data: 2.18 GB of the archive and not needed for formulary membership."
+      },
+      {
+        "name": "pharmacy networks file  20260831 part 6.zip",
+        "uncompressedBytes": 246594746,
+        "reason": "Pharmacy network data: 2.18 GB of the archive and not needed for formulary membership."
+      },
+      {
+        "name": "sample files 20260831.zip",
+        "uncompressedBytes": 3860,
+        "reason": "Not required for formulary membership, utilisation management or plan mapping."
+      }
+    ],
+    "formularyRowsRead": 1125804,
+    "formularyRowsRetained": 979,
+    "formularyRowsRejectedRxcuiFilter": 1124825,
+    "planRowsRead": 112294,
+    "planRowsUnique": 5518,
+    "planRowsRejectedIncomplete": 0,
+    "costRowsRead": 172660,
+    "excludedRowsRead": 0,
+    "rxcuisWithNoMatch": [
+      "2398841"
+    ],
+    "formularyIdsWithoutPlan": [],
+    "plansRetained": 5517,
+    "plansDroppedNoMatchingFormulary": 1,
+    "costRulesRetained": 30,
+    "costRulesAvailable": 172660
+  },
   "plans": [
     {
       "contractId": "H0028",

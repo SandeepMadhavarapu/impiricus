@@ -115,7 +115,15 @@ export interface MedicationExport {
     checkingServiceAvailable: false;
     checkingServiceNote: string;
     sections: ExportedSection[];
-    namedSubstances: string[];
+    mentions: Array<{
+      substance: string;
+      direction: string;
+      supportingText: string;
+      qualifiers: string[];
+      isAdverseInteraction: boolean;
+    }>;
+    statedNoInteraction: string[];
+    describedInteraction: string[];
     caveats: string[];
   };
 
@@ -272,7 +280,15 @@ export function toExport(record: MedicationRecord): MedicationExport {
       checkingServiceAvailable: false,
       checkingServiceNote: record.interactions.checkingServiceNote,
       sections: blocked ? [] : record.interactions.sections.map(exportSection),
-      namedSubstances: record.interactions.namedSubstances,
+      mentions: record.interactions.mentions.map((m) => ({
+        substance: m.substance,
+        direction: m.direction,
+        supportingText: m.supportingText,
+        qualifiers: m.qualifiers,
+        isAdverseInteraction: m.isAdverseInteraction,
+      })),
+      statedNoInteraction: record.interactions.statedNoInteraction,
+      describedInteraction: record.interactions.describedInteraction,
       caveats: record.interactions.caveats,
     },
 

@@ -204,8 +204,31 @@ export interface MedicationExport {
     checkingServiceAvailable: false;
     checkingServiceNote: string;
     sections: ExportedSection[];
-    /** Conservatively extracted substance names. Not a complete list. */
-    namedSubstances: string[];
+    /**
+     * Substances tied to the sentence they came from.
+     *
+     * CHECK `isAdverseInteraction` BEFORE RENDERING. Singulair's substances all
+     * come from "No dose adjustment is needed when SINGULAIR is co-administered
+     * with ... warfarin ...", which is the OPPOSITE of a warning. A bare name
+     * list inverts the label's meaning.
+     */
+    mentions: Array<{
+      substance: string;
+      direction:
+        | "no-significant-interaction-stated"
+        | "other-affects-this"
+        | "this-affects-other"
+        | "interaction-described-direction-unclear"
+        | "mentioned-unclassified";
+      /** The sentence, verbatim. Render this, not the name alone. */
+      supportingText: string;
+      qualifiers: string[];
+      isAdverseInteraction: boolean;
+    }>;
+    /** Substances the label explicitly clears. NOT warnings. */
+    statedNoInteraction: string[];
+    /** Substances with a described interaction. */
+    describedInteraction: string[];
     caveats: string[];
   };
 
