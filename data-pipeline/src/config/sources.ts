@@ -35,7 +35,14 @@ export interface SourceSpec {
   cannotEstablish: string[];
 }
 
-export type SourceId = "rxnav" | "dailymed" | "openfda" | "drugsfda" | "nppes";
+export type SourceId =
+  | "rxnav"
+  | "dailymed"
+  | "openfda"
+  | "drugsfda"
+  | "nppes"
+  | "vamedicaid"
+  | "novocare";
 
 export const SOURCES: Record<SourceId, SourceSpec> = {
   rxnav: {
@@ -174,6 +181,79 @@ export const SOURCES: Record<SourceId, SourceSpec> = {
       "Any relationship between a provider and a patient",
     ],
   },
+  /**
+   * Virginia Medicaid pharmacy benefits, published as PDFs.
+   *
+   * Fee-for-service only. Virginia also contracts with managed care
+   * organisations that publish separate formularies; this source says nothing
+   * about those plans.
+   */
+  vamedicaid: {
+    id: "vamedicaid",
+    name: "Virginia Medicaid Preferred Drug List / Common Core Formulary",
+    publisher:
+      "Virginia Department of Medical Assistance Services (DMAS), via its pharmacy benefits administrator",
+    docs: "https://www.dmas.virginia.gov/for-providers/benefits-services-for-providers/pharmacy-and-drug-formularies/",
+    baseUrl: "https://www.virginiamedicaidpharmacyservices.com",
+    auth: "None. Public provider documents, no sign-in.",
+    maxRequestsPerSecond: 1,
+    maxConcurrency: 1,
+    documentedLimit:
+      "No published rate limit. Capped at 1 request/second because these are multi-megabyte PDFs served by a state contractor's portal.",
+    updateCadence:
+      "Quarterly effective dates (Jan/Apr/Jul/Oct) with interim revisions, each published as a separate versioned PDF. Superseded versions stay online in an archive section.",
+    licensing:
+      "Public documents published by a state agency for provider use. Retrieved as published; no redistribution of the PDFs themselves, only extracted assertions with citations.",
+    establishes: [
+      "Whether a drug name appears in the Preferred or Non-Preferred column of the Virginia Medicaid FFS PDL",
+      "The drug class heading a listing sits under",
+      "Service authorization criteria text printed alongside a class",
+      "The document's own effective date and version string",
+      "Page-level citations for every extracted assertion",
+    ],
+    cannotEstablish: [
+      "Coverage under a Virginia Medicaid MANAGED CARE plan - those publish their own formularies",
+      "Whether a specific person is enrolled, eligible, or would be approved",
+      "That a drug absent from the PDL is not covered - the list covers only selected drug classes",
+      "Any amount a member would pay",
+      "Coverage in any other state",
+    ],
+  },
+
+  /**
+   * Novo Nordisk patient-facing program pages for its own products.
+   *
+   * A manufacturer is authoritative about its OWN program terms and nothing
+   * else. It is not a source about coverage, and its eligibility statements
+   * apply only to the program described on the page retrieved.
+   */
+  novocare: {
+    id: "novocare",
+    name: "NovoCare / Novo Nordisk patient assistance and savings programs",
+    publisher: "Novo Nordisk Inc.",
+    docs: "https://www.novocare.com/",
+    baseUrl: "https://www.novocare.com",
+    auth: "None for the public program pages. Enrollment and eligibility checking require an account and are NOT used.",
+    maxRequestsPerSecond: 1,
+    maxConcurrency: 1,
+    documentedLimit: "No published rate limit. Capped at 1 request/second as a courtesy.",
+    updateCadence:
+      "Program terms change without notice and carry their own expiry dates. Treated as valid only as of the retrieval date.",
+    licensing:
+      "Manufacturer marketing and program pages. Terms are quoted with attribution, never paraphrased into a promise.",
+    establishes: [
+      "The program's own published eligibility terms, exclusions and expiry, as worded",
+      "Which products a program names",
+      "Official application and contact routes",
+      "Whether the program is a savings offer or a payment-spreading arrangement",
+    ],
+    cannotEstablish: [
+      "That any individual qualifies - only the operator can determine eligibility",
+      "Any amount a specific person would pay",
+      "That a program is still open or funded at any moment after retrieval",
+      "Anything about a competitor's product or program",
+    ],
+  },
 };
 
 /** Default request timeout, per request, in milliseconds. */
@@ -187,6 +267,7 @@ export const RETRY = {
   /** Status codes worth retrying. Everything else fails immediately. */
   retryableStatuses: [408, 425, 429, 500, 502, 503, 504] as const,
 };
+
 
 /** Pagination safety: never follow more pages than this for one query. */
 export const MAX_PAGES = 20;

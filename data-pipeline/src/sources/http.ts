@@ -263,6 +263,116 @@ export async function fetchSource<T = unknown>(
   );
 }
 
+
+/**
+ * Fetches a binary document (a PDF) with the same discipline as fetchSource.
+ *
+ * Kept separate rather than folded into fetchSource because the text path
+ * decodes bodies as UTF-8, which corrupts binary content silently. A PDF that
+ * round-trips through a string is not the document that was published, and its
+ * hash would not match the publisher's bytes.
+ *
+ * The raw bytes are written once and hashed. That hash is the evidence anchor
+ * for every assertion extracted from the document.
+ */
+export async function fetchBinary(
+  url: string,
+  options: { sourceId?: SourceId; label?: string; force?: boolean } = {}
+): Promise<Buffer> {
+  const sourceId = options.sourceId ?? "vamedicaid";
+  const sanitized = sanitizeUrl(url);
+  const captureId = sha256(`${sourceId}|${sanitized}|binary`).slice(0, 32);
+  const label = options.label ?? "doc";
+  const rawRel = path.join("data", "raw", sourceId, `${label}-${captureId}.bin`);
+  const rawAbs = path.join(process.cwd(), rawRel);
+  const metaAbs = `${rawAbs}.meta.json`;
+
+  if (!options.force) {
+    try {
+      const meta = await stat(metaAbs);
+      if (Date.now() - meta.mtimeMs < CACHE_TTL_MS) return await readFile(rawAbs);
+    } catch {
+      // No usable cache entry; fall through to the network.
+    }
+  }
+
+  let lastError = "";
+  let lastStatus: number | undefined;
+
+  for (let attempt = 1; attempt <= RETRY.maxAttempts; attempt++) {
+    const release = await acquire(sourceId);
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+    try {
+      const res = await fetch(url, {
+        headers: { "User-Agent": USER_AGENT, Accept: "application/pdf,*/*" },
+        signal: controller.signal,
+        redirect: "follow",
+      });
+      lastStatus = res.status;
+
+      if (!res.ok) {
+        const retryable = (RETRY.retryableStatuses as readonly number[]).includes(res.status);
+        if (!retryable || attempt === RETRY.maxAttempts) {
+          throw new SourceUnavailableError(
+            sourceId,
+            sanitized,
+            `HTTP ${res.status} from ${sanitized}`,
+            res.status
+          );
+        }
+        const retryAfter = res.headers.get("retry-after");
+        const waitMs = retryAfter
+          ? Math.min(Number(retryAfter) * 1000 || RETRY.baseDelayMs, RETRY.maxDelayMs)
+          : Math.min(RETRY.baseDelayMs * 2 ** (attempt - 1), RETRY.maxDelayMs);
+        lastError = `HTTP ${res.status}; waiting ${waitMs}ms`;
+        release();
+        clearTimeout(timer);
+        await sleep(waitMs);
+        continue;
+      }
+
+      const bytes = Buffer.from(await res.arrayBuffer());
+
+      const capture: RawCapture = {
+        captureId,
+        sourceId,
+        url: sanitized,
+        sanitizedUrl: sanitized,
+        httpStatus: res.status,
+        retrievedAt: new Date().toISOString(),
+        contentHash: sha256(bytes),
+        contentType: res.headers.get("content-type"),
+        byteLength: bytes.length,
+        rawPath: rawRel.replace(/\\/g, "/"),
+        sourceLastUpdated: res.headers.get("last-modified"),
+        fromCache: false,
+      };
+
+      await mkdir(path.dirname(rawAbs), { recursive: true });
+      await writeFile(rawAbs, bytes);
+      await writeFile(metaAbs, JSON.stringify(capture, null, 2), "utf8");
+      return bytes;
+    } catch (err) {
+      if (err instanceof SourceUnavailableError) throw err;
+      const aborted = err instanceof Error && err.name === "AbortError";
+      lastError = aborted ? `timed out after ${REQUEST_TIMEOUT_MS}ms` : String(err);
+      if (attempt === RETRY.maxAttempts) break;
+      await sleep(Math.min(RETRY.baseDelayMs * 2 ** (attempt - 1), RETRY.maxDelayMs));
+    } finally {
+      clearTimeout(timer);
+      release();
+    }
+  }
+
+  throw new SourceUnavailableError(
+    sourceId,
+    sanitized,
+    `failed after ${RETRY.maxAttempts} attempts: ${lastError}`,
+    lastStatus
+  );
+}
+
 /** Appends the openFDA key when configured. Never logged; see sanitizeUrl. */
 export function withOpenFdaKey(url: string): string {
   const key = process.env.OPENFDA_API_KEY?.trim();

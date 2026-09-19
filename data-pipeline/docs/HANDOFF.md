@@ -9,7 +9,8 @@ run it, or call any API from the browser.
 
 - **Three selected medication products.** Not a drug database.
 - **Public formulary evidence from the verified CMS release.**
-- **Medicare Part D only.** No Marketplace, Medicaid or commercial coverage.
+- **Medicare Part D**, plus **Virginia Medicaid fee-for-service** (see
+  [ACCESS.md](ACCESS.md)). No Marketplace, commercial, or Medicaid managed care.
 - **No member-specific coverage or copay verification.**
 - **No comprehensive interaction checker.**
 - **No clinical review.**
@@ -58,6 +59,41 @@ data-pipeline/data/exports/insurance/coverage-examples.json        real lookup r
 data-pipeline/data/reports/verification.md    highlights/interaction/scope accounting
 data-pipeline/data/reports/completeness.md    per-product source completeness
 ```
+
+---
+
+## Access data: restrictions and official next steps
+
+Added in the access layer, additively - nothing below this pipeline's existing
+exports changed shape.
+
+```
+data-pipeline/contracts/access-export.d.ts
+data-pipeline/data/exports/access/access-policies.json
+data-pipeline/data/exports/access/source-changes.json
+data-pipeline/data/exports/access/capability-manifest.json
+data-pipeline/data/exports/access/coverage-matrix.json
+```
+
+It answers: what the plan publishes, what restriction applies, the official
+next step with a verified form URL or phone number, and what is still unknown.
+
+Worked example - Singulair on Virginia Medicaid fee-for-service:
+
+```
+listingStatus:  non-preferred            (page 73, Non-Preferred Agents column)
+requirement:    "Non-preferred drugs require a SA"   - not a denial, not an approval
+next step:      prescriber submits a service authorization
+                fax 800-932-6651 | phone 800-932-6648 | WebPA / e-PA
+                urgent: "For urgent requests, please call 800-932-6648."
+also published: on denial a 34-day supply is authorised automatically
+                appeal within 30 days; decision within 21 days
+unknown:        enrolment, approval, and any amount this person would pay
+```
+
+Read [ACCESS.md](ACCESS.md) before rendering any of it: `non-preferred` is not
+excluded, `not-addressed-in-this-document` is not "not covered", and
+`pipeline-suggested-navigation` marks a step as **ours**, not the plan's.
 
 ---
 

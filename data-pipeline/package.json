@@ -20,10 +20,12 @@
     "insurance:ingest": "tsx src/cli.ts insurance:ingest",
     "coverage": "tsx src/cli.ts coverage",
     "insurance:export": "tsx src/cli.ts insurance:export",
-    "verify:report": "tsx src/cli.ts verify:report"
+    "verify:report": "tsx src/cli.ts verify:report",
+    "access:export": "tsx src/cli.ts access:export"
   },
   "dependencies": {
     "fast-xml-parser": "^4.5.1",
+    "pdfjs-dist": "^4.10.38",
     "zod": "^3.25.76"
   },
   "devDependencies": {

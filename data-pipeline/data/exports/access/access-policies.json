@@ -1,0 +1,2793 @@
+{
+  "schemaVersion": "access-1.0.0",
+  "generatedAt": "2026-09-19T20:51:21.433Z",
+  "supportedScope": {
+    "products": "three-selected-products",
+    "formularyEvidence": "public-formulary-evidence-from-verified-cms-release",
+    "markets": "medicare-part-d-only",
+    "memberSpecificCoverage": false,
+    "copayVerification": false,
+    "comprehensiveInteractionChecker": false,
+    "clinicalReview": false,
+    "statements": [
+      "Three selected medication products.",
+      "Public formulary evidence from the verified CMS release.",
+      "Medicare Part D only.",
+      "No member-specific coverage or copay verification.",
+      "No comprehensive interaction checker.",
+      "No clinical review."
+    ]
+  },
+  "note": "What each plan PUBLISHES about each product, plus the next steps its own policy documents describe. No member eligibility, no approval, no clinical review.",
+  "linkCheck": {
+    "checked": 10,
+    "failing": 0,
+    "results": [
+      {
+        "url": "https://www.cms.gov/medicare/appeals-and-grievances/medprescriptdrugapplgriev/downloads/modcovdetreqform-and-instrctns-feb-2019-508-.zip",
+        "checkedAt": "2026-09-19T20:51:17.513Z",
+        "httpStatus": 200,
+        "ok": true,
+        "note": "HTTP 200."
+      },
+      {
+        "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+        "checkedAt": "2026-09-19T20:51:17.676Z",
+        "httpStatus": 200,
+        "ok": true,
+        "note": "HTTP 200."
+      },
+      {
+        "url": "https://www.cms.gov/files/zip/model-redetermination-request-form-and-instructionseff010125v508.zip",
+        "checkedAt": "2026-09-19T20:51:17.767Z",
+        "httpStatus": 200,
+        "ok": true,
+        "note": "HTTP 200."
+      },
+      {
+        "url": "https://www.cms.gov/files/zip/request-reconsideration-prescription-drug-denial-eff-010125.zip",
+        "checkedAt": "2026-09-19T20:51:17.836Z",
+        "httpStatus": 200,
+        "ok": true,
+        "note": "HTTP 200."
+      },
+      {
+        "url": "https://www.cms.gov/medicare/cms-forms/cms-forms/cms-forms-items/cms012207",
+        "checkedAt": "2026-09-19T20:51:17.912Z",
+        "httpStatus": 200,
+        "ok": true,
+        "note": "HTTP 200."
+      },
+      {
+        "url": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+        "checkedAt": "2026-09-19T20:51:17.993Z",
+        "httpStatus": 200,
+        "ok": true,
+        "note": "HTTP 200."
+      },
+      {
+        "url": "https://www.virginiamedicaidpharmacyservices.com/provider/authorizations",
+        "checkedAt": "2026-09-19T20:51:18.228Z",
+        "httpStatus": 200,
+        "ok": true,
+        "note": "HTTP 200."
+      },
+      {
+        "url": "https://www.virginiamedicaidpharmacyservices.com/provider/preferred-drug-list",
+        "checkedAt": "2026-09-19T20:51:18.422Z",
+        "httpStatus": 200,
+        "ok": true,
+        "note": "HTTP 200."
+      },
+      {
+        "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAMPS_PDL_Appeal_Process.pdf",
+        "checkedAt": "2026-09-19T20:51:18.471Z",
+        "httpStatus": 200,
+        "ok": true,
+        "note": "HTTP 200."
+      },
+      {
+        "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAMPS_PDL_72_Hour_Supply_Policy.pdf",
+        "checkedAt": "2026-09-19T20:51:18.499Z",
+        "httpStatus": 200,
+        "ok": true,
+        "note": "HTTP 200."
+      }
+    ]
+  },
+  "policies": [
+    {
+      "schemaVersion": "access-1.0.0",
+      "policyId": "55f3bff50af726a1",
+      "productKey": "ozempic-semaglutide-1_34mg-per-ml-injection",
+      "benefitProgram": "medicare-part-d",
+      "planKey": "medicare-partd-2026-S5820-034-000",
+      "scopeLabel": "AARP Medicare Rx Preferred from UHC (PDP) (medicare-partd-2026-S5820-034-000)",
+      "geography": "United States (Medicare Part D)",
+      "planYear": 2026,
+      "applicability": "verified-for-this-plan",
+      "applicabilityRationale": "Formulary rows were selected by this plan's own FORMULARY_ID, taken from the plan record in the same CMS release. The restriction flags are the plan's own filing.",
+      "listingStatus": "listed-with-restrictions",
+      "listingStatusNote": "Listed on this plan's formulary, with 2 restriction(s).",
+      "requirements": [
+        {
+          "id": "bda0f7dce5ff733b",
+          "kind": "administrative",
+          "phase": "phase-not-stated",
+          "statedText": "Prior authorization is required. The prescriber must submit a request and the plan must approve it BEFORE the plan will pay. This is a requirement to ask, not an approval, and the release does not carry the clinical criteria the plan will apply.",
+          "logic": "standalone",
+          "children": [],
+          "exceptions": [],
+          "quantityAsStated": null,
+          "effectiveStart": null,
+          "effectiveEnd": null,
+          "evidence": {
+            "sourceId": "cms-part-d",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Prescription Drug Plan Formulary, Pharmacy Network, and Pricing Information Files",
+            "url": "https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers/monthly-prescription-drug-plan-formulary-and-pharmacy-network-information",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "basic drugs formulary file, formulary 00026000, RXCUI 2398842",
+            "quotation": "PRIOR_AUTH_YN = Y"
+          }
+        },
+        {
+          "id": "1aa8cdd5cec5388e",
+          "kind": "quantity",
+          "phase": "both",
+          "statedText": "Quantity limit: 3 per 28 days.",
+          "logic": "standalone",
+          "children": [],
+          "exceptions": [],
+          "quantityAsStated": "3 per 28 days",
+          "effectiveStart": null,
+          "effectiveEnd": null,
+          "evidence": {
+            "sourceId": "cms-part-d",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Prescription Drug Plan Formulary, Pharmacy Network, and Pricing Information Files",
+            "url": "https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers/monthly-prescription-drug-plan-formulary-and-pharmacy-network-information",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "basic drugs formulary file, formulary 00026000, RXCUI 2398842",
+            "quotation": "QUANTITY_LIMIT_AMOUNT 3 per QUANTITY_LIMIT_DAYS 28 days"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "id": "partd-coverage-determination",
+          "actor": "prescriber",
+          "basis": "source-directed",
+          "action": "Request a coverage determination from the plan, including an exception request when the drug is restricted or not on the formulary. CMS publishes a model form for this.",
+          "respondsToRequirementId": null,
+          "formTitle": "Model Coverage Determination Request Form (with instructions)",
+          "formUrl": "https://www.cms.gov/medicare/appeals-and-grievances/medprescriptdrugapplgriev/downloads/modcovdetreqform-and-instrctns-feb-2019-508-.zip",
+          "submissionUrl": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [
+            "Prescriber's supporting statement, where an exception is requested"
+          ],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Centers for Medicare & Medicaid Services",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+              "notes": null,
+              "evidence": {
+                "sourceId": "cms-part-d-forms",
+                "sourceOwner": "Centers for Medicare & Medicaid Services",
+                "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+                "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "CMS Part D coverage determination and appeal forms page",
+                "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a coverage determination, including an exception, from a plan sponsor."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.676Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "cms-part-d-forms",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+            "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS Part D coverage determination and appeal forms page",
+            "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a coverage determination, including an exception, from a plan sponsor."
+          }
+        },
+        {
+          "id": "partd-redetermination",
+          "actor": "patient",
+          "basis": "source-directed",
+          "action": "If the plan denies the coverage determination, request a redetermination - the first level of appeal, decided by the plan itself.",
+          "respondsToRequirementId": null,
+          "formTitle": "Model Redetermination Request Form (with instructions)",
+          "formUrl": "https://www.cms.gov/files/zip/model-redetermination-request-form-and-instructionseff010125v508.zip",
+          "submissionUrl": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Centers for Medicare & Medicaid Services",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+              "notes": null,
+              "evidence": {
+                "sourceId": "cms-part-d-forms",
+                "sourceOwner": "Centers for Medicare & Medicaid Services",
+                "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+                "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "CMS Part D coverage determination and appeal forms page",
+                "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a redetermination from a plan sponsor."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.676Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "cms-part-d-forms",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+            "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS Part D coverage determination and appeal forms page",
+            "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a redetermination from a plan sponsor."
+          }
+        },
+        {
+          "id": "partd-ire-reconsideration",
+          "actor": "patient",
+          "basis": "source-directed",
+          "action": "If the plan upholds its denial on redetermination, request reconsideration by the Independent Review Entity, which is outside the plan.",
+          "respondsToRequirementId": null,
+          "formTitle": "Request for Reconsideration of Medicare Prescription Drug Denial",
+          "formUrl": "https://www.cms.gov/files/zip/request-reconsideration-prescription-drug-denial-eff-010125.zip",
+          "submissionUrl": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Centers for Medicare & Medicaid Services",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+              "notes": null,
+              "evidence": {
+                "sourceId": "cms-part-d-forms",
+                "sourceOwner": "Centers for Medicare & Medicaid Services",
+                "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+                "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "CMS Part D coverage determination and appeal forms page",
+                "quotation": "An enrollee or an enrollee's representative may use this model form to request a reconsideration from the Independent Review Entity."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.676Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "cms-part-d-forms",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+            "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS Part D coverage determination and appeal forms page",
+            "quotation": "An enrollee or an enrollee's representative may use this model form to request a reconsideration from the Independent Review Entity."
+          }
+        },
+        {
+          "id": "partd-appoint-representative",
+          "actor": "patient",
+          "basis": "source-directed",
+          "action": "To let someone else act on the enrollee's behalf, file an Appointment of Representative form. Required before a representative can pursue a request or appeal.",
+          "respondsToRequirementId": null,
+          "formTitle": "CMS-1696 Appointment of Representative",
+          "formUrl": "https://www.cms.gov/medicare/cms-forms/cms-forms/cms-forms-items/cms012207",
+          "submissionUrl": null,
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [],
+          "evidence": {
+            "sourceId": "cms-1696",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Form CMS-1696, Appointment of Representative",
+            "url": "https://www.cms.gov/medicare/cms-forms/cms-forms/cms-forms-items/cms012207",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS forms catalogue, CMS-1696",
+            "quotation": "Form CMS-1696 is used to appoint a representative to file grievances, request coverage determinations, and file appeals."
+          }
+        },
+        {
+          "id": "partd-appeal-overview",
+          "actor": "patient",
+          "basis": "pipeline-suggested-navigation",
+          "action": "Read Medicare's own plain-language explanation of the appeal levels before starting. This is our navigation suggestion, not a step any plan document directs.",
+          "respondsToRequirementId": null,
+          "formTitle": null,
+          "formUrl": null,
+          "submissionUrl": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Medicare.gov (U.S. Department of Health and Human Services)",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+              "notes": null,
+              "evidence": {
+                "sourceId": "medicare-appeals",
+                "sourceOwner": "Medicare.gov (U.S. Department of Health and Human Services)",
+                "documentTitle": "How do I file an appeal?",
+                "url": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "Medicare.gov appeals section",
+                "quotation": "Medicare publishes a public explanation of how to file an appeal and what the levels are."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.993Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "medicare-appeals",
+            "sourceOwner": "Medicare.gov (U.S. Department of Health and Human Services)",
+            "documentTitle": "How do I file an appeal?",
+            "url": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "Medicare.gov appeals section",
+            "quotation": "Medicare publishes a public explanation of how to file an appeal and what the levels are."
+          }
+        }
+      ],
+      "extractionStatus": "verified-public-evidence",
+      "extractionLimitations": [
+        "The CMS release carries prior-authorization and step-therapy as FLAGS only. It does not contain the clinical criteria the plan applies, which are published separately by the insurer and are not included here.",
+        "The plan-defined meaning of the tier number is not in this dataset."
+      ],
+      "evidence": [
+        {
+          "sourceId": "cms-part-d",
+          "sourceOwner": "Centers for Medicare & Medicaid Services",
+          "documentTitle": "Prescription Drug Plan Formulary, Pharmacy Network, and Pricing Information Files",
+          "url": "https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers/monthly-prescription-drug-plan-formulary-and-pharmacy-network-information",
+          "documentVersion": "2026-08",
+          "effectiveDate": "2026-08-26",
+          "retrievedAt": "2026-09-19T19:58:18.826Z",
+          "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+          "locator": null,
+          "quotation": null
+        }
+      ],
+      "memberEligibilityDetermined": false,
+      "clinicallyReviewed": false,
+      "unknowns": [
+        "Member eligibility, enrolment and deductible status: not checked.",
+        "The actual amount this person would pay: not determined.",
+        "The plan-defined meaning of the tier number: not in this dataset."
+      ]
+    },
+    {
+      "schemaVersion": "access-1.0.0",
+      "policyId": "65fbb83d870dfaa2",
+      "productKey": "ozempic-semaglutide-1_34mg-per-ml-injection",
+      "benefitProgram": "medicare-part-d",
+      "planKey": "medicare-partd-2026-H0034-001-000",
+      "scopeLabel": "Hamaspik Medicare Select (HMO D-SNP) (medicare-partd-2026-H0034-001-000)",
+      "geography": "United States (Medicare Part D)",
+      "planYear": 2026,
+      "applicability": "verified-for-this-plan",
+      "applicabilityRationale": "Formulary rows were selected by this plan's own FORMULARY_ID, taken from the plan record in the same CMS release. The restriction flags are the plan's own filing.",
+      "listingStatus": "listed-with-restrictions",
+      "listingStatusNote": "Listed on this plan's formulary, with 2 restriction(s).",
+      "requirements": [
+        {
+          "id": "bda0f7dce5ff733b",
+          "kind": "administrative",
+          "phase": "phase-not-stated",
+          "statedText": "Prior authorization is required. The prescriber must submit a request and the plan must approve it BEFORE the plan will pay. This is a requirement to ask, not an approval, and the release does not carry the clinical criteria the plan will apply.",
+          "logic": "standalone",
+          "children": [],
+          "exceptions": [],
+          "quantityAsStated": null,
+          "effectiveStart": null,
+          "effectiveEnd": null,
+          "evidence": {
+            "sourceId": "cms-part-d",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Prescription Drug Plan Formulary, Pharmacy Network, and Pricing Information Files",
+            "url": "https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers/monthly-prescription-drug-plan-formulary-and-pharmacy-network-information",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "basic drugs formulary file, formulary 00026303, RXCUI 2398842",
+            "quotation": "PRIOR_AUTH_YN = Y"
+          }
+        },
+        {
+          "id": "1aa8cdd5cec5388e",
+          "kind": "quantity",
+          "phase": "both",
+          "statedText": "Quantity limit: 3 per 28 days.",
+          "logic": "standalone",
+          "children": [],
+          "exceptions": [],
+          "quantityAsStated": "3 per 28 days",
+          "effectiveStart": null,
+          "effectiveEnd": null,
+          "evidence": {
+            "sourceId": "cms-part-d",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Prescription Drug Plan Formulary, Pharmacy Network, and Pricing Information Files",
+            "url": "https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers/monthly-prescription-drug-plan-formulary-and-pharmacy-network-information",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "basic drugs formulary file, formulary 00026303, RXCUI 2398842",
+            "quotation": "QUANTITY_LIMIT_AMOUNT 3 per QUANTITY_LIMIT_DAYS 28 days"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "id": "partd-coverage-determination",
+          "actor": "prescriber",
+          "basis": "source-directed",
+          "action": "Request a coverage determination from the plan, including an exception request when the drug is restricted or not on the formulary. CMS publishes a model form for this.",
+          "respondsToRequirementId": null,
+          "formTitle": "Model Coverage Determination Request Form (with instructions)",
+          "formUrl": "https://www.cms.gov/medicare/appeals-and-grievances/medprescriptdrugapplgriev/downloads/modcovdetreqform-and-instrctns-feb-2019-508-.zip",
+          "submissionUrl": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [
+            "Prescriber's supporting statement, where an exception is requested"
+          ],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Centers for Medicare & Medicaid Services",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+              "notes": null,
+              "evidence": {
+                "sourceId": "cms-part-d-forms",
+                "sourceOwner": "Centers for Medicare & Medicaid Services",
+                "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+                "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "CMS Part D coverage determination and appeal forms page",
+                "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a coverage determination, including an exception, from a plan sponsor."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.676Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "cms-part-d-forms",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+            "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS Part D coverage determination and appeal forms page",
+            "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a coverage determination, including an exception, from a plan sponsor."
+          }
+        },
+        {
+          "id": "partd-redetermination",
+          "actor": "patient",
+          "basis": "source-directed",
+          "action": "If the plan denies the coverage determination, request a redetermination - the first level of appeal, decided by the plan itself.",
+          "respondsToRequirementId": null,
+          "formTitle": "Model Redetermination Request Form (with instructions)",
+          "formUrl": "https://www.cms.gov/files/zip/model-redetermination-request-form-and-instructionseff010125v508.zip",
+          "submissionUrl": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Centers for Medicare & Medicaid Services",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+              "notes": null,
+              "evidence": {
+                "sourceId": "cms-part-d-forms",
+                "sourceOwner": "Centers for Medicare & Medicaid Services",
+                "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+                "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "CMS Part D coverage determination and appeal forms page",
+                "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a redetermination from a plan sponsor."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.676Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "cms-part-d-forms",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+            "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS Part D coverage determination and appeal forms page",
+            "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a redetermination from a plan sponsor."
+          }
+        },
+        {
+          "id": "partd-ire-reconsideration",
+          "actor": "patient",
+          "basis": "source-directed",
+          "action": "If the plan upholds its denial on redetermination, request reconsideration by the Independent Review Entity, which is outside the plan.",
+          "respondsToRequirementId": null,
+          "formTitle": "Request for Reconsideration of Medicare Prescription Drug Denial",
+          "formUrl": "https://www.cms.gov/files/zip/request-reconsideration-prescription-drug-denial-eff-010125.zip",
+          "submissionUrl": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Centers for Medicare & Medicaid Services",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+              "notes": null,
+              "evidence": {
+                "sourceId": "cms-part-d-forms",
+                "sourceOwner": "Centers for Medicare & Medicaid Services",
+                "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+                "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "CMS Part D coverage determination and appeal forms page",
+                "quotation": "An enrollee or an enrollee's representative may use this model form to request a reconsideration from the Independent Review Entity."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.676Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "cms-part-d-forms",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+            "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS Part D coverage determination and appeal forms page",
+            "quotation": "An enrollee or an enrollee's representative may use this model form to request a reconsideration from the Independent Review Entity."
+          }
+        },
+        {
+          "id": "partd-appoint-representative",
+          "actor": "patient",
+          "basis": "source-directed",
+          "action": "To let someone else act on the enrollee's behalf, file an Appointment of Representative form. Required before a representative can pursue a request or appeal.",
+          "respondsToRequirementId": null,
+          "formTitle": "CMS-1696 Appointment of Representative",
+          "formUrl": "https://www.cms.gov/medicare/cms-forms/cms-forms/cms-forms-items/cms012207",
+          "submissionUrl": null,
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [],
+          "evidence": {
+            "sourceId": "cms-1696",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Form CMS-1696, Appointment of Representative",
+            "url": "https://www.cms.gov/medicare/cms-forms/cms-forms/cms-forms-items/cms012207",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS forms catalogue, CMS-1696",
+            "quotation": "Form CMS-1696 is used to appoint a representative to file grievances, request coverage determinations, and file appeals."
+          }
+        },
+        {
+          "id": "partd-appeal-overview",
+          "actor": "patient",
+          "basis": "pipeline-suggested-navigation",
+          "action": "Read Medicare's own plain-language explanation of the appeal levels before starting. This is our navigation suggestion, not a step any plan document directs.",
+          "respondsToRequirementId": null,
+          "formTitle": null,
+          "formUrl": null,
+          "submissionUrl": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Medicare.gov (U.S. Department of Health and Human Services)",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+              "notes": null,
+              "evidence": {
+                "sourceId": "medicare-appeals",
+                "sourceOwner": "Medicare.gov (U.S. Department of Health and Human Services)",
+                "documentTitle": "How do I file an appeal?",
+                "url": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "Medicare.gov appeals section",
+                "quotation": "Medicare publishes a public explanation of how to file an appeal and what the levels are."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.993Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "medicare-appeals",
+            "sourceOwner": "Medicare.gov (U.S. Department of Health and Human Services)",
+            "documentTitle": "How do I file an appeal?",
+            "url": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "Medicare.gov appeals section",
+            "quotation": "Medicare publishes a public explanation of how to file an appeal and what the levels are."
+          }
+        }
+      ],
+      "extractionStatus": "verified-public-evidence",
+      "extractionLimitations": [
+        "The CMS release carries prior-authorization and step-therapy as FLAGS only. It does not contain the clinical criteria the plan applies, which are published separately by the insurer and are not included here.",
+        "The plan-defined meaning of the tier number is not in this dataset."
+      ],
+      "evidence": [
+        {
+          "sourceId": "cms-part-d",
+          "sourceOwner": "Centers for Medicare & Medicaid Services",
+          "documentTitle": "Prescription Drug Plan Formulary, Pharmacy Network, and Pricing Information Files",
+          "url": "https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers/monthly-prescription-drug-plan-formulary-and-pharmacy-network-information",
+          "documentVersion": "2026-08",
+          "effectiveDate": "2026-08-26",
+          "retrievedAt": "2026-09-19T19:58:18.826Z",
+          "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+          "locator": null,
+          "quotation": null
+        }
+      ],
+      "memberEligibilityDetermined": false,
+      "clinicallyReviewed": false,
+      "unknowns": [
+        "Member eligibility, enrolment and deductible status: not checked.",
+        "The actual amount this person would pay: not determined.",
+        "The plan-defined meaning of the tier number: not in this dataset."
+      ]
+    },
+    {
+      "schemaVersion": "access-1.0.0",
+      "policyId": "a45e99430dd3d3c1",
+      "productKey": "singulair-montelukast-10mg-tablet",
+      "benefitProgram": "medicare-part-d",
+      "planKey": "medicare-partd-2026-S5820-034-000",
+      "scopeLabel": "AARP Medicare Rx Preferred from UHC (PDP) (medicare-partd-2026-S5820-034-000)",
+      "geography": "United States (Medicare Part D)",
+      "planYear": 2026,
+      "applicability": "verified-for-this-plan",
+      "applicabilityRationale": "Formulary rows were selected by this plan's own FORMULARY_ID, taken from the plan record in the same CMS release. The restriction flags are the plan's own filing.",
+      "listingStatus": "listed-with-restrictions",
+      "listingStatusNote": "Listed on this plan's formulary, with 1 restriction(s).",
+      "requirements": [
+        {
+          "id": "723d65b0af47eb9a",
+          "kind": "quantity",
+          "phase": "both",
+          "statedText": "Quantity limit: 30 per 30 days.",
+          "logic": "standalone",
+          "children": [],
+          "exceptions": [],
+          "quantityAsStated": "30 per 30 days",
+          "effectiveStart": null,
+          "effectiveEnd": null,
+          "evidence": {
+            "sourceId": "cms-part-d",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Prescription Drug Plan Formulary, Pharmacy Network, and Pricing Information Files",
+            "url": "https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers/monthly-prescription-drug-plan-formulary-and-pharmacy-network-information",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "basic drugs formulary file, formulary 00026000, RXCUI 200224",
+            "quotation": "QUANTITY_LIMIT_AMOUNT 30 per QUANTITY_LIMIT_DAYS 30 days"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "id": "partd-coverage-determination",
+          "actor": "prescriber",
+          "basis": "source-directed",
+          "action": "Request a coverage determination from the plan, including an exception request when the drug is restricted or not on the formulary. CMS publishes a model form for this.",
+          "respondsToRequirementId": null,
+          "formTitle": "Model Coverage Determination Request Form (with instructions)",
+          "formUrl": "https://www.cms.gov/medicare/appeals-and-grievances/medprescriptdrugapplgriev/downloads/modcovdetreqform-and-instrctns-feb-2019-508-.zip",
+          "submissionUrl": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [
+            "Prescriber's supporting statement, where an exception is requested"
+          ],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Centers for Medicare & Medicaid Services",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+              "notes": null,
+              "evidence": {
+                "sourceId": "cms-part-d-forms",
+                "sourceOwner": "Centers for Medicare & Medicaid Services",
+                "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+                "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "CMS Part D coverage determination and appeal forms page",
+                "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a coverage determination, including an exception, from a plan sponsor."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.676Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "cms-part-d-forms",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+            "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS Part D coverage determination and appeal forms page",
+            "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a coverage determination, including an exception, from a plan sponsor."
+          }
+        },
+        {
+          "id": "partd-redetermination",
+          "actor": "patient",
+          "basis": "source-directed",
+          "action": "If the plan denies the coverage determination, request a redetermination - the first level of appeal, decided by the plan itself.",
+          "respondsToRequirementId": null,
+          "formTitle": "Model Redetermination Request Form (with instructions)",
+          "formUrl": "https://www.cms.gov/files/zip/model-redetermination-request-form-and-instructionseff010125v508.zip",
+          "submissionUrl": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Centers for Medicare & Medicaid Services",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+              "notes": null,
+              "evidence": {
+                "sourceId": "cms-part-d-forms",
+                "sourceOwner": "Centers for Medicare & Medicaid Services",
+                "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+                "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "CMS Part D coverage determination and appeal forms page",
+                "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a redetermination from a plan sponsor."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.676Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "cms-part-d-forms",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+            "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS Part D coverage determination and appeal forms page",
+            "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a redetermination from a plan sponsor."
+          }
+        },
+        {
+          "id": "partd-ire-reconsideration",
+          "actor": "patient",
+          "basis": "source-directed",
+          "action": "If the plan upholds its denial on redetermination, request reconsideration by the Independent Review Entity, which is outside the plan.",
+          "respondsToRequirementId": null,
+          "formTitle": "Request for Reconsideration of Medicare Prescription Drug Denial",
+          "formUrl": "https://www.cms.gov/files/zip/request-reconsideration-prescription-drug-denial-eff-010125.zip",
+          "submissionUrl": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Centers for Medicare & Medicaid Services",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+              "notes": null,
+              "evidence": {
+                "sourceId": "cms-part-d-forms",
+                "sourceOwner": "Centers for Medicare & Medicaid Services",
+                "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+                "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "CMS Part D coverage determination and appeal forms page",
+                "quotation": "An enrollee or an enrollee's representative may use this model form to request a reconsideration from the Independent Review Entity."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.676Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "cms-part-d-forms",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+            "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS Part D coverage determination and appeal forms page",
+            "quotation": "An enrollee or an enrollee's representative may use this model form to request a reconsideration from the Independent Review Entity."
+          }
+        },
+        {
+          "id": "partd-appoint-representative",
+          "actor": "patient",
+          "basis": "source-directed",
+          "action": "To let someone else act on the enrollee's behalf, file an Appointment of Representative form. Required before a representative can pursue a request or appeal.",
+          "respondsToRequirementId": null,
+          "formTitle": "CMS-1696 Appointment of Representative",
+          "formUrl": "https://www.cms.gov/medicare/cms-forms/cms-forms/cms-forms-items/cms012207",
+          "submissionUrl": null,
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [],
+          "evidence": {
+            "sourceId": "cms-1696",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Form CMS-1696, Appointment of Representative",
+            "url": "https://www.cms.gov/medicare/cms-forms/cms-forms/cms-forms-items/cms012207",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS forms catalogue, CMS-1696",
+            "quotation": "Form CMS-1696 is used to appoint a representative to file grievances, request coverage determinations, and file appeals."
+          }
+        },
+        {
+          "id": "partd-appeal-overview",
+          "actor": "patient",
+          "basis": "pipeline-suggested-navigation",
+          "action": "Read Medicare's own plain-language explanation of the appeal levels before starting. This is our navigation suggestion, not a step any plan document directs.",
+          "respondsToRequirementId": null,
+          "formTitle": null,
+          "formUrl": null,
+          "submissionUrl": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Medicare.gov (U.S. Department of Health and Human Services)",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+              "notes": null,
+              "evidence": {
+                "sourceId": "medicare-appeals",
+                "sourceOwner": "Medicare.gov (U.S. Department of Health and Human Services)",
+                "documentTitle": "How do I file an appeal?",
+                "url": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "Medicare.gov appeals section",
+                "quotation": "Medicare publishes a public explanation of how to file an appeal and what the levels are."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.993Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "medicare-appeals",
+            "sourceOwner": "Medicare.gov (U.S. Department of Health and Human Services)",
+            "documentTitle": "How do I file an appeal?",
+            "url": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "Medicare.gov appeals section",
+            "quotation": "Medicare publishes a public explanation of how to file an appeal and what the levels are."
+          }
+        }
+      ],
+      "extractionStatus": "verified-public-evidence",
+      "extractionLimitations": [
+        "The CMS release carries prior-authorization and step-therapy as FLAGS only. It does not contain the clinical criteria the plan applies, which are published separately by the insurer and are not included here.",
+        "The plan-defined meaning of the tier number is not in this dataset."
+      ],
+      "evidence": [
+        {
+          "sourceId": "cms-part-d",
+          "sourceOwner": "Centers for Medicare & Medicaid Services",
+          "documentTitle": "Prescription Drug Plan Formulary, Pharmacy Network, and Pricing Information Files",
+          "url": "https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers/monthly-prescription-drug-plan-formulary-and-pharmacy-network-information",
+          "documentVersion": "2026-08",
+          "effectiveDate": "2026-08-26",
+          "retrievedAt": "2026-09-19T19:58:18.826Z",
+          "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+          "locator": null,
+          "quotation": null
+        }
+      ],
+      "memberEligibilityDetermined": false,
+      "clinicallyReviewed": false,
+      "unknowns": [
+        "No EXACT product match. The listing(s) found are for a broader concept (clinical drug or ingredient). A generic listing does not establish that the branded product is listed.",
+        "Member eligibility, enrolment and deductible status: not checked.",
+        "The actual amount this person would pay: not determined.",
+        "The plan-defined meaning of the tier number: not in this dataset."
+      ]
+    },
+    {
+      "schemaVersion": "access-1.0.0",
+      "policyId": "e2d949f60f11246e",
+      "productKey": "singulair-montelukast-10mg-tablet",
+      "benefitProgram": "medicare-part-d",
+      "planKey": "medicare-partd-2026-H0034-001-000",
+      "scopeLabel": "Hamaspik Medicare Select (HMO D-SNP) (medicare-partd-2026-H0034-001-000)",
+      "geography": "United States (Medicare Part D)",
+      "planYear": 2026,
+      "applicability": "verified-for-this-plan",
+      "applicabilityRationale": "Formulary rows were selected by this plan's own FORMULARY_ID, taken from the plan record in the same CMS release. The restriction flags are the plan's own filing.",
+      "listingStatus": "listed-without-preference-tiering",
+      "listingStatusNote": "Listed on this plan's published formulary with no restrictions recorded.",
+      "requirements": [],
+      "actions": [
+        {
+          "id": "partd-coverage-determination",
+          "actor": "prescriber",
+          "basis": "source-directed",
+          "action": "Request a coverage determination from the plan, including an exception request when the drug is restricted or not on the formulary. CMS publishes a model form for this.",
+          "respondsToRequirementId": null,
+          "formTitle": "Model Coverage Determination Request Form (with instructions)",
+          "formUrl": "https://www.cms.gov/medicare/appeals-and-grievances/medprescriptdrugapplgriev/downloads/modcovdetreqform-and-instrctns-feb-2019-508-.zip",
+          "submissionUrl": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [
+            "Prescriber's supporting statement, where an exception is requested"
+          ],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Centers for Medicare & Medicaid Services",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+              "notes": null,
+              "evidence": {
+                "sourceId": "cms-part-d-forms",
+                "sourceOwner": "Centers for Medicare & Medicaid Services",
+                "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+                "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "CMS Part D coverage determination and appeal forms page",
+                "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a coverage determination, including an exception, from a plan sponsor."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.676Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "cms-part-d-forms",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+            "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS Part D coverage determination and appeal forms page",
+            "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a coverage determination, including an exception, from a plan sponsor."
+          }
+        },
+        {
+          "id": "partd-redetermination",
+          "actor": "patient",
+          "basis": "source-directed",
+          "action": "If the plan denies the coverage determination, request a redetermination - the first level of appeal, decided by the plan itself.",
+          "respondsToRequirementId": null,
+          "formTitle": "Model Redetermination Request Form (with instructions)",
+          "formUrl": "https://www.cms.gov/files/zip/model-redetermination-request-form-and-instructionseff010125v508.zip",
+          "submissionUrl": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Centers for Medicare & Medicaid Services",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+              "notes": null,
+              "evidence": {
+                "sourceId": "cms-part-d-forms",
+                "sourceOwner": "Centers for Medicare & Medicaid Services",
+                "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+                "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "CMS Part D coverage determination and appeal forms page",
+                "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a redetermination from a plan sponsor."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.676Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "cms-part-d-forms",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+            "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS Part D coverage determination and appeal forms page",
+            "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a redetermination from a plan sponsor."
+          }
+        },
+        {
+          "id": "partd-ire-reconsideration",
+          "actor": "patient",
+          "basis": "source-directed",
+          "action": "If the plan upholds its denial on redetermination, request reconsideration by the Independent Review Entity, which is outside the plan.",
+          "respondsToRequirementId": null,
+          "formTitle": "Request for Reconsideration of Medicare Prescription Drug Denial",
+          "formUrl": "https://www.cms.gov/files/zip/request-reconsideration-prescription-drug-denial-eff-010125.zip",
+          "submissionUrl": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Centers for Medicare & Medicaid Services",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+              "notes": null,
+              "evidence": {
+                "sourceId": "cms-part-d-forms",
+                "sourceOwner": "Centers for Medicare & Medicaid Services",
+                "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+                "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "CMS Part D coverage determination and appeal forms page",
+                "quotation": "An enrollee or an enrollee's representative may use this model form to request a reconsideration from the Independent Review Entity."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.676Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "cms-part-d-forms",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+            "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS Part D coverage determination and appeal forms page",
+            "quotation": "An enrollee or an enrollee's representative may use this model form to request a reconsideration from the Independent Review Entity."
+          }
+        },
+        {
+          "id": "partd-appoint-representative",
+          "actor": "patient",
+          "basis": "source-directed",
+          "action": "To let someone else act on the enrollee's behalf, file an Appointment of Representative form. Required before a representative can pursue a request or appeal.",
+          "respondsToRequirementId": null,
+          "formTitle": "CMS-1696 Appointment of Representative",
+          "formUrl": "https://www.cms.gov/medicare/cms-forms/cms-forms/cms-forms-items/cms012207",
+          "submissionUrl": null,
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [],
+          "evidence": {
+            "sourceId": "cms-1696",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Form CMS-1696, Appointment of Representative",
+            "url": "https://www.cms.gov/medicare/cms-forms/cms-forms/cms-forms-items/cms012207",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS forms catalogue, CMS-1696",
+            "quotation": "Form CMS-1696 is used to appoint a representative to file grievances, request coverage determinations, and file appeals."
+          }
+        },
+        {
+          "id": "partd-appeal-overview",
+          "actor": "patient",
+          "basis": "pipeline-suggested-navigation",
+          "action": "Read Medicare's own plain-language explanation of the appeal levels before starting. This is our navigation suggestion, not a step any plan document directs.",
+          "respondsToRequirementId": null,
+          "formTitle": null,
+          "formUrl": null,
+          "submissionUrl": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Medicare.gov (U.S. Department of Health and Human Services)",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+              "notes": null,
+              "evidence": {
+                "sourceId": "medicare-appeals",
+                "sourceOwner": "Medicare.gov (U.S. Department of Health and Human Services)",
+                "documentTitle": "How do I file an appeal?",
+                "url": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "Medicare.gov appeals section",
+                "quotation": "Medicare publishes a public explanation of how to file an appeal and what the levels are."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.993Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "medicare-appeals",
+            "sourceOwner": "Medicare.gov (U.S. Department of Health and Human Services)",
+            "documentTitle": "How do I file an appeal?",
+            "url": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "Medicare.gov appeals section",
+            "quotation": "Medicare publishes a public explanation of how to file an appeal and what the levels are."
+          }
+        }
+      ],
+      "extractionStatus": "verified-public-evidence",
+      "extractionLimitations": [
+        "The CMS release carries prior-authorization and step-therapy as FLAGS only. It does not contain the clinical criteria the plan applies, which are published separately by the insurer and are not included here.",
+        "The plan-defined meaning of the tier number is not in this dataset."
+      ],
+      "evidence": [
+        {
+          "sourceId": "cms-part-d",
+          "sourceOwner": "Centers for Medicare & Medicaid Services",
+          "documentTitle": "Prescription Drug Plan Formulary, Pharmacy Network, and Pricing Information Files",
+          "url": "https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers/monthly-prescription-drug-plan-formulary-and-pharmacy-network-information",
+          "documentVersion": "2026-08",
+          "effectiveDate": "2026-08-26",
+          "retrievedAt": "2026-09-19T19:58:18.826Z",
+          "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+          "locator": null,
+          "quotation": null
+        }
+      ],
+      "memberEligibilityDetermined": false,
+      "clinicallyReviewed": false,
+      "unknowns": [
+        "Member eligibility, enrolment and deductible status: not checked.",
+        "The actual amount this person would pay: not determined.",
+        "The plan-defined meaning of the tier number: not in this dataset."
+      ]
+    },
+    {
+      "schemaVersion": "access-1.0.0",
+      "policyId": "af9d8f404b6f7e2a",
+      "productKey": "toprol-xl-metoprolol-succinate-50mg-er-tablet",
+      "benefitProgram": "medicare-part-d",
+      "planKey": "medicare-partd-2026-S5820-034-000",
+      "scopeLabel": "AARP Medicare Rx Preferred from UHC (PDP) (medicare-partd-2026-S5820-034-000)",
+      "geography": "United States (Medicare Part D)",
+      "planYear": 2026,
+      "applicability": "verified-for-this-plan",
+      "applicabilityRationale": "Formulary rows were selected by this plan's own FORMULARY_ID, taken from the plan record in the same CMS release. The restriction flags are the plan's own filing.",
+      "listingStatus": "listed-without-preference-tiering",
+      "listingStatusNote": "Listed on this plan's published formulary with no restrictions recorded.",
+      "requirements": [],
+      "actions": [
+        {
+          "id": "partd-coverage-determination",
+          "actor": "prescriber",
+          "basis": "source-directed",
+          "action": "Request a coverage determination from the plan, including an exception request when the drug is restricted or not on the formulary. CMS publishes a model form for this.",
+          "respondsToRequirementId": null,
+          "formTitle": "Model Coverage Determination Request Form (with instructions)",
+          "formUrl": "https://www.cms.gov/medicare/appeals-and-grievances/medprescriptdrugapplgriev/downloads/modcovdetreqform-and-instrctns-feb-2019-508-.zip",
+          "submissionUrl": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [
+            "Prescriber's supporting statement, where an exception is requested"
+          ],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Centers for Medicare & Medicaid Services",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+              "notes": null,
+              "evidence": {
+                "sourceId": "cms-part-d-forms",
+                "sourceOwner": "Centers for Medicare & Medicaid Services",
+                "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+                "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "CMS Part D coverage determination and appeal forms page",
+                "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a coverage determination, including an exception, from a plan sponsor."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.676Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "cms-part-d-forms",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+            "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS Part D coverage determination and appeal forms page",
+            "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a coverage determination, including an exception, from a plan sponsor."
+          }
+        },
+        {
+          "id": "partd-redetermination",
+          "actor": "patient",
+          "basis": "source-directed",
+          "action": "If the plan denies the coverage determination, request a redetermination - the first level of appeal, decided by the plan itself.",
+          "respondsToRequirementId": null,
+          "formTitle": "Model Redetermination Request Form (with instructions)",
+          "formUrl": "https://www.cms.gov/files/zip/model-redetermination-request-form-and-instructionseff010125v508.zip",
+          "submissionUrl": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Centers for Medicare & Medicaid Services",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+              "notes": null,
+              "evidence": {
+                "sourceId": "cms-part-d-forms",
+                "sourceOwner": "Centers for Medicare & Medicaid Services",
+                "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+                "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "CMS Part D coverage determination and appeal forms page",
+                "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a redetermination from a plan sponsor."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.676Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "cms-part-d-forms",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+            "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS Part D coverage determination and appeal forms page",
+            "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a redetermination from a plan sponsor."
+          }
+        },
+        {
+          "id": "partd-ire-reconsideration",
+          "actor": "patient",
+          "basis": "source-directed",
+          "action": "If the plan upholds its denial on redetermination, request reconsideration by the Independent Review Entity, which is outside the plan.",
+          "respondsToRequirementId": null,
+          "formTitle": "Request for Reconsideration of Medicare Prescription Drug Denial",
+          "formUrl": "https://www.cms.gov/files/zip/request-reconsideration-prescription-drug-denial-eff-010125.zip",
+          "submissionUrl": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Centers for Medicare & Medicaid Services",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+              "notes": null,
+              "evidence": {
+                "sourceId": "cms-part-d-forms",
+                "sourceOwner": "Centers for Medicare & Medicaid Services",
+                "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+                "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "CMS Part D coverage determination and appeal forms page",
+                "quotation": "An enrollee or an enrollee's representative may use this model form to request a reconsideration from the Independent Review Entity."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.676Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "cms-part-d-forms",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+            "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS Part D coverage determination and appeal forms page",
+            "quotation": "An enrollee or an enrollee's representative may use this model form to request a reconsideration from the Independent Review Entity."
+          }
+        },
+        {
+          "id": "partd-appoint-representative",
+          "actor": "patient",
+          "basis": "source-directed",
+          "action": "To let someone else act on the enrollee's behalf, file an Appointment of Representative form. Required before a representative can pursue a request or appeal.",
+          "respondsToRequirementId": null,
+          "formTitle": "CMS-1696 Appointment of Representative",
+          "formUrl": "https://www.cms.gov/medicare/cms-forms/cms-forms/cms-forms-items/cms012207",
+          "submissionUrl": null,
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [],
+          "evidence": {
+            "sourceId": "cms-1696",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Form CMS-1696, Appointment of Representative",
+            "url": "https://www.cms.gov/medicare/cms-forms/cms-forms/cms-forms-items/cms012207",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS forms catalogue, CMS-1696",
+            "quotation": "Form CMS-1696 is used to appoint a representative to file grievances, request coverage determinations, and file appeals."
+          }
+        },
+        {
+          "id": "partd-appeal-overview",
+          "actor": "patient",
+          "basis": "pipeline-suggested-navigation",
+          "action": "Read Medicare's own plain-language explanation of the appeal levels before starting. This is our navigation suggestion, not a step any plan document directs.",
+          "respondsToRequirementId": null,
+          "formTitle": null,
+          "formUrl": null,
+          "submissionUrl": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Medicare.gov (U.S. Department of Health and Human Services)",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+              "notes": null,
+              "evidence": {
+                "sourceId": "medicare-appeals",
+                "sourceOwner": "Medicare.gov (U.S. Department of Health and Human Services)",
+                "documentTitle": "How do I file an appeal?",
+                "url": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "Medicare.gov appeals section",
+                "quotation": "Medicare publishes a public explanation of how to file an appeal and what the levels are."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.993Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "medicare-appeals",
+            "sourceOwner": "Medicare.gov (U.S. Department of Health and Human Services)",
+            "documentTitle": "How do I file an appeal?",
+            "url": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "Medicare.gov appeals section",
+            "quotation": "Medicare publishes a public explanation of how to file an appeal and what the levels are."
+          }
+        }
+      ],
+      "extractionStatus": "verified-public-evidence",
+      "extractionLimitations": [
+        "The CMS release carries prior-authorization and step-therapy as FLAGS only. It does not contain the clinical criteria the plan applies, which are published separately by the insurer and are not included here.",
+        "The plan-defined meaning of the tier number is not in this dataset."
+      ],
+      "evidence": [
+        {
+          "sourceId": "cms-part-d",
+          "sourceOwner": "Centers for Medicare & Medicaid Services",
+          "documentTitle": "Prescription Drug Plan Formulary, Pharmacy Network, and Pricing Information Files",
+          "url": "https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers/monthly-prescription-drug-plan-formulary-and-pharmacy-network-information",
+          "documentVersion": "2026-08",
+          "effectiveDate": "2026-08-26",
+          "retrievedAt": "2026-09-19T19:58:18.826Z",
+          "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+          "locator": null,
+          "quotation": null
+        }
+      ],
+      "memberEligibilityDetermined": false,
+      "clinicallyReviewed": false,
+      "unknowns": [
+        "No EXACT product match. The listing(s) found are for a broader concept (clinical drug or ingredient). A generic listing does not establish that the branded product is listed.",
+        "Member eligibility, enrolment and deductible status: not checked.",
+        "The actual amount this person would pay: not determined.",
+        "The plan-defined meaning of the tier number: not in this dataset."
+      ]
+    },
+    {
+      "schemaVersion": "access-1.0.0",
+      "policyId": "f6126f0c7387796c",
+      "productKey": "toprol-xl-metoprolol-succinate-50mg-er-tablet",
+      "benefitProgram": "medicare-part-d",
+      "planKey": "medicare-partd-2026-H0034-001-000",
+      "scopeLabel": "Hamaspik Medicare Select (HMO D-SNP) (medicare-partd-2026-H0034-001-000)",
+      "geography": "United States (Medicare Part D)",
+      "planYear": 2026,
+      "applicability": "verified-for-this-plan",
+      "applicabilityRationale": "Formulary rows were selected by this plan's own FORMULARY_ID, taken from the plan record in the same CMS release. The restriction flags are the plan's own filing.",
+      "listingStatus": "listed-without-preference-tiering",
+      "listingStatusNote": "Listed on this plan's published formulary with no restrictions recorded.",
+      "requirements": [],
+      "actions": [
+        {
+          "id": "partd-coverage-determination",
+          "actor": "prescriber",
+          "basis": "source-directed",
+          "action": "Request a coverage determination from the plan, including an exception request when the drug is restricted or not on the formulary. CMS publishes a model form for this.",
+          "respondsToRequirementId": null,
+          "formTitle": "Model Coverage Determination Request Form (with instructions)",
+          "formUrl": "https://www.cms.gov/medicare/appeals-and-grievances/medprescriptdrugapplgriev/downloads/modcovdetreqform-and-instrctns-feb-2019-508-.zip",
+          "submissionUrl": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [
+            "Prescriber's supporting statement, where an exception is requested"
+          ],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Centers for Medicare & Medicaid Services",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+              "notes": null,
+              "evidence": {
+                "sourceId": "cms-part-d-forms",
+                "sourceOwner": "Centers for Medicare & Medicaid Services",
+                "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+                "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "CMS Part D coverage determination and appeal forms page",
+                "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a coverage determination, including an exception, from a plan sponsor."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.676Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "cms-part-d-forms",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+            "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS Part D coverage determination and appeal forms page",
+            "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a coverage determination, including an exception, from a plan sponsor."
+          }
+        },
+        {
+          "id": "partd-redetermination",
+          "actor": "patient",
+          "basis": "source-directed",
+          "action": "If the plan denies the coverage determination, request a redetermination - the first level of appeal, decided by the plan itself.",
+          "respondsToRequirementId": null,
+          "formTitle": "Model Redetermination Request Form (with instructions)",
+          "formUrl": "https://www.cms.gov/files/zip/model-redetermination-request-form-and-instructionseff010125v508.zip",
+          "submissionUrl": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Centers for Medicare & Medicaid Services",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+              "notes": null,
+              "evidence": {
+                "sourceId": "cms-part-d-forms",
+                "sourceOwner": "Centers for Medicare & Medicaid Services",
+                "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+                "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "CMS Part D coverage determination and appeal forms page",
+                "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a redetermination from a plan sponsor."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.676Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "cms-part-d-forms",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+            "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS Part D coverage determination and appeal forms page",
+            "quotation": "An enrollee, an enrollee's representative, or an enrollee's prescriber may use this model form to request a redetermination from a plan sponsor."
+          }
+        },
+        {
+          "id": "partd-ire-reconsideration",
+          "actor": "patient",
+          "basis": "source-directed",
+          "action": "If the plan upholds its denial on redetermination, request reconsideration by the Independent Review Entity, which is outside the plan.",
+          "respondsToRequirementId": null,
+          "formTitle": "Request for Reconsideration of Medicare Prescription Drug Denial",
+          "formUrl": "https://www.cms.gov/files/zip/request-reconsideration-prescription-drug-denial-eff-010125.zip",
+          "submissionUrl": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Centers for Medicare & Medicaid Services",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+              "notes": null,
+              "evidence": {
+                "sourceId": "cms-part-d-forms",
+                "sourceOwner": "Centers for Medicare & Medicaid Services",
+                "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+                "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "CMS Part D coverage determination and appeal forms page",
+                "quotation": "An enrollee or an enrollee's representative may use this model form to request a reconsideration from the Independent Review Entity."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.676Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "cms-part-d-forms",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Medicare Part D coverage determination, exception and appeal model forms",
+            "url": "https://www.cms.gov/medicare/appeals-grievances/prescription-drug/forms",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS Part D coverage determination and appeal forms page",
+            "quotation": "An enrollee or an enrollee's representative may use this model form to request a reconsideration from the Independent Review Entity."
+          }
+        },
+        {
+          "id": "partd-appoint-representative",
+          "actor": "patient",
+          "basis": "source-directed",
+          "action": "To let someone else act on the enrollee's behalf, file an Appointment of Representative form. Required before a representative can pursue a request or appeal.",
+          "respondsToRequirementId": null,
+          "formTitle": "CMS-1696 Appointment of Representative",
+          "formUrl": "https://www.cms.gov/medicare/cms-forms/cms-forms/cms-forms-items/cms012207",
+          "submissionUrl": null,
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [],
+          "evidence": {
+            "sourceId": "cms-1696",
+            "sourceOwner": "Centers for Medicare & Medicaid Services",
+            "documentTitle": "Form CMS-1696, Appointment of Representative",
+            "url": "https://www.cms.gov/medicare/cms-forms/cms-forms/cms-forms-items/cms012207",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "CMS forms catalogue, CMS-1696",
+            "quotation": "Form CMS-1696 is used to appoint a representative to file grievances, request coverage determinations, and file appeals."
+          }
+        },
+        {
+          "id": "partd-appeal-overview",
+          "actor": "patient",
+          "basis": "pipeline-suggested-navigation",
+          "action": "Read Medicare's own plain-language explanation of the appeal levels before starting. This is our navigation suggestion, not a step any plan document directs.",
+          "respondsToRequirementId": null,
+          "formTitle": null,
+          "formUrl": null,
+          "submissionUrl": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Medicare.gov (U.S. Department of Health and Human Services)",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+              "notes": null,
+              "evidence": {
+                "sourceId": "medicare-appeals",
+                "sourceOwner": "Medicare.gov (U.S. Department of Health and Human Services)",
+                "documentTitle": "How do I file an appeal?",
+                "url": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+                "documentVersion": "2026-08",
+                "effectiveDate": "2026-08-26",
+                "retrievedAt": "2026-09-19T19:58:18.826Z",
+                "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+                "locator": "Medicare.gov appeals section",
+                "quotation": "Medicare publishes a public explanation of how to file an appeal and what the levels are."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:17.993Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "medicare-appeals",
+            "sourceOwner": "Medicare.gov (U.S. Department of Health and Human Services)",
+            "documentTitle": "How do I file an appeal?",
+            "url": "https://www.medicare.gov/claims-appeals/how-do-i-file-an-appeal",
+            "documentVersion": "2026-08",
+            "effectiveDate": "2026-08-26",
+            "retrievedAt": "2026-09-19T19:58:18.826Z",
+            "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+            "locator": "Medicare.gov appeals section",
+            "quotation": "Medicare publishes a public explanation of how to file an appeal and what the levels are."
+          }
+        }
+      ],
+      "extractionStatus": "verified-public-evidence",
+      "extractionLimitations": [
+        "The CMS release carries prior-authorization and step-therapy as FLAGS only. It does not contain the clinical criteria the plan applies, which are published separately by the insurer and are not included here.",
+        "The plan-defined meaning of the tier number is not in this dataset."
+      ],
+      "evidence": [
+        {
+          "sourceId": "cms-part-d",
+          "sourceOwner": "Centers for Medicare & Medicaid Services",
+          "documentTitle": "Prescription Drug Plan Formulary, Pharmacy Network, and Pricing Information Files",
+          "url": "https://data.cms.gov/provider-summary-by-type-of-service/medicare-part-d-prescribers/monthly-prescription-drug-plan-formulary-and-pharmacy-network-information",
+          "documentVersion": "2026-08",
+          "effectiveDate": "2026-08-26",
+          "retrievedAt": "2026-09-19T19:58:18.826Z",
+          "contentHash": "c8da2b916d5594d3aea21f2c9ba4c0718a4c8db03155b5eca3f147fb19025073",
+          "locator": null,
+          "quotation": null
+        }
+      ],
+      "memberEligibilityDetermined": false,
+      "clinicallyReviewed": false,
+      "unknowns": [
+        "Member eligibility, enrolment and deductible status: not checked.",
+        "The actual amount this person would pay: not determined.",
+        "The plan-defined meaning of the tier number: not in this dataset."
+      ]
+    },
+    {
+      "schemaVersion": "access-1.0.0",
+      "policyId": "ae2f9ab690837ca1",
+      "productKey": "ozempic-semaglutide-1_34mg-per-ml-injection",
+      "benefitProgram": "medicaid-fee-for-service",
+      "planKey": null,
+      "scopeLabel": "Virginia Medicaid fee-for-service (statewide)",
+      "geography": "Virginia, United States",
+      "planYear": null,
+      "applicability": "verified-for-this-market-segment",
+      "applicabilityRationale": "The PDL is published by the state Medicaid agency and applies to fee-for-service statewide. It does NOT apply to Virginia Medicaid managed care plans, which publish their own formularies; those were not retrieved.",
+      "listingStatus": "not-addressed-in-this-document",
+      "listingStatusNote": "This drug does not appear anywhere in the PDL. The document states it covers only selected drug classes, and that drugs not on it are subject to Virginia's mandatory generic substitution requirements. That is NOT a finding that the drug is not covered.",
+      "requirements": [],
+      "actions": [
+        {
+          "id": "va-ffs-service-authorization",
+          "actor": "prescriber",
+          "basis": "source-directed",
+          "action": "Submit a service authorization (SA) request. Non-preferred drugs require one. Requests may be submitted by fax, by phone, or through WebPA / e-PA.",
+          "respondsToRequirementId": null,
+          "formTitle": null,
+          "formUrl": null,
+          "submissionUrl": "https://www.virginiamedicaidpharmacyservices.com/provider/authorizations",
+          "submissionFax": "800-932-6651",
+          "submissionPhone": "800-932-6648",
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": {
+            "available": true,
+            "statedText": "For urgent requests, please call 800-932-6648."
+          },
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Virginia Department of Medical Assistance Services",
+              "phone": "800-932-6648",
+              "fax": "800-932-6651",
+              "url": "https://www.virginiamedicaidpharmacyservices.com/provider/authorizations",
+              "notes": null,
+              "evidence": {
+                "sourceId": "va-pdl",
+                "sourceOwner": "Virginia Department of Medical Assistance Services",
+                "documentTitle": "Virginia's Medicaid Preferred Drug List (PDL) / Common Core Formulary",
+                "url": "https://www.virginiamedicaidpharmacyservices.com/provider/preferred-drug-list",
+                "documentVersion": "10/01/2026 v2",
+                "effectiveDate": "2026-10-01",
+                "retrievedAt": "2026-09-19T20:51:20.540Z",
+                "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+                "locator": "page 1, General Information",
+                "quotation": "Non-preferred drugs require a SA. SAs may be submitted by fax, phone or WebPA, e-PA. For urgent requests, please call 800-932-6648."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:18.228Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "va-pdl",
+            "sourceOwner": "Virginia Department of Medical Assistance Services",
+            "documentTitle": "Virginia's Medicaid Preferred Drug List (PDL) / Common Core Formulary",
+            "url": "https://www.virginiamedicaidpharmacyservices.com/provider/preferred-drug-list",
+            "documentVersion": "10/01/2026 v2",
+            "effectiveDate": "2026-10-01",
+            "retrievedAt": "2026-09-19T20:51:20.540Z",
+            "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+            "locator": "page 1, General Information",
+            "quotation": "Non-preferred drugs require a SA. SAs may be submitted by fax, phone or WebPA, e-PA. For urgent requests, please call 800-932-6648."
+          }
+        },
+        {
+          "id": "va-ffs-72-hour-supply",
+          "actor": "pharmacy",
+          "basis": "source-directed",
+          "action": "If the prescriber cannot be reached - including after hours, weekends and holidays - the pharmacist may dispense a 72-hour supply when, in their professional judgement, the patient's health would be compromised without it. Processing requires a phone call.",
+          "respondsToRequirementId": null,
+          "formTitle": null,
+          "formUrl": null,
+          "submissionUrl": null,
+          "submissionFax": null,
+          "submissionPhone": "800-932-6648",
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Virginia Department of Medical Assistance Services",
+              "phone": "800-932-6648",
+              "fax": null,
+              "url": null,
+              "notes": null,
+              "evidence": {
+                "sourceId": "va-72-hour",
+                "sourceOwner": "Virginia Department of Medical Assistance Services",
+                "documentTitle": "Preferred Drug List (PDL) Policy on 72 Hour Supply of Prescribed Medications",
+                "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAMPS_PDL_72_Hour_Supply_Policy.pdf",
+                "documentVersion": "10/01/2026 v2",
+                "effectiveDate": "2026-10-01",
+                "retrievedAt": "2026-09-19T20:51:20.540Z",
+                "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+                "locator": "page 1",
+                "quotation": "the pharmacist may dispense a 72-Hour Supply of the prescribed medication if the physician is not available to consult with the pharmacist, including after hours, weekends, holidays, and the pharmacist, in his professional judgment consistent with current standards of practice, feels that the patient's health would be compromised without the benefit of the drug."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:18.499Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "va-72-hour",
+            "sourceOwner": "Virginia Department of Medical Assistance Services",
+            "documentTitle": "Preferred Drug List (PDL) Policy on 72 Hour Supply of Prescribed Medications",
+            "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAMPS_PDL_72_Hour_Supply_Policy.pdf",
+            "documentVersion": "10/01/2026 v2",
+            "effectiveDate": "2026-10-01",
+            "retrievedAt": "2026-09-19T20:51:20.540Z",
+            "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+            "locator": "page 1",
+            "quotation": "the pharmacist may dispense a 72-Hour Supply of the prescribed medication if the physician is not available to consult with the pharmacist, including after hours, weekends, holidays, and the pharmacist, in his professional judgment consistent with current standards of practice, feels that the patient's health would be compromised without the benefit of the drug."
+          }
+        },
+        {
+          "id": "va-ffs-appeal",
+          "actor": "patient",
+          "basis": "source-directed",
+          "action": "If the service authorization is denied, file an appeal. A prescriber filing on the recipient's behalf needs the recipient's explicit written authorization.",
+          "respondsToRequirementId": null,
+          "formTitle": null,
+          "formUrl": null,
+          "submissionUrl": "https://www.virginiamedicaidpharmacyservices.com/provider/authorizations",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [
+            "Explicit written authorization from the recipient, if the prescriber files on their behalf"
+          ],
+          "statedTimeframes": [
+            {
+              "label": "Deadline to file an appeal",
+              "value": "30 days",
+              "appliesTo": "the physician or recipient filing"
+            },
+            {
+              "label": "Appeal decision",
+              "value": "21 days from receipt",
+              "appliesTo": "the Appeals division issuing an opinion"
+            }
+          ],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Virginia Department of Medical Assistance Services",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.virginiamedicaidpharmacyservices.com/provider/authorizations",
+              "notes": null,
+              "evidence": {
+                "sourceId": "va-appeal",
+                "sourceOwner": "Virginia Department of Medical Assistance Services",
+                "documentTitle": "Preferred Drug List (PDL) Appeal Process",
+                "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAMPS_PDL_Appeal_Process.pdf",
+                "documentVersion": "10/01/2026 v2",
+                "effectiveDate": "2026-10-01",
+                "retrievedAt": "2026-09-19T20:51:20.540Z",
+                "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+                "locator": "page 1, Appeal, item 1",
+                "quotation": "Physician/Recipient has 30 days to file an appeal, unless good cause is met for the untimely filing of the appeal. A physician must provide explicit written authorization from the recipient in order to file an appeal on the recipient's behalf"
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:18.228Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "va-appeal",
+            "sourceOwner": "Virginia Department of Medical Assistance Services",
+            "documentTitle": "Preferred Drug List (PDL) Appeal Process",
+            "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAMPS_PDL_Appeal_Process.pdf",
+            "documentVersion": "10/01/2026 v2",
+            "effectiveDate": "2026-10-01",
+            "retrievedAt": "2026-09-19T20:51:20.540Z",
+            "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+            "locator": "page 1, Appeal, item 1",
+            "quotation": "Physician/Recipient has 30 days to file an appeal, unless good cause is met for the untimely filing of the appeal. A physician must provide explicit written authorization from the recipient in order to file an appeal on the recipient's behalf"
+          }
+        },
+        {
+          "id": "va-ffs-interim-supply-on-denial",
+          "actor": "plan-or-insurer",
+          "basis": "source-directed",
+          "action": "On issuing a denial, the programme itself authorises any pharmacy to dispense up to a 34-day supply, without waiting for an appeal to be filed. The patient does not need to act for this to happen.",
+          "respondsToRequirementId": null,
+          "formTitle": null,
+          "formUrl": null,
+          "submissionUrl": null,
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [],
+          "evidence": {
+            "sourceId": "va-appeal",
+            "sourceOwner": "Virginia Department of Medical Assistance Services",
+            "documentTitle": "Preferred Drug List (PDL) Appeal Process",
+            "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAMPS_PDL_Appeal_Process.pdf",
+            "documentVersion": "10/01/2026 v2",
+            "effectiveDate": "2026-10-01",
+            "retrievedAt": "2026-09-19T20:51:20.540Z",
+            "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+            "locator": "page 1, Process, item 2",
+            "quotation": "At the time the Lead Pharmacist issues the PA denial, the Lead Pharmacist enters a PA in the system that authorizes any pharmacy to dispense the prescribed amount, up to a 34-day supply of the prescribed medication. Prime does not wait until an appeal is filed to authorize this dispensing."
+          }
+        }
+      ],
+      "extractionStatus": "verified-public-evidence",
+      "extractionLimitations": [],
+      "evidence": [
+        {
+          "sourceId": "vamedicaid",
+          "sourceOwner": "Virginia Department of Medical Assistance Services",
+          "documentTitle": "Virginia's Medicaid Preferred Drug List (PDL) / Common Core Formulary",
+          "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAmed-PDL-List-Criteria-20261001-v2.pdf",
+          "documentVersion": "10/01/2026 v2",
+          "effectiveDate": "2026-10-01",
+          "retrievedAt": "2026-09-19T20:51:20.540Z",
+          "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+          "locator": "whole document",
+          "quotation": null
+        }
+      ],
+      "memberEligibilityDetermined": false,
+      "clinicallyReviewed": false,
+      "unknowns": [
+        "Whether this person is enrolled in Virginia Medicaid fee-for-service or in a managed care plan.",
+        "Whether a service authorization would be approved for this person.",
+        "Any amount this person would pay.",
+        "Managed care plan coverage, which is published separately and was not retrieved."
+      ]
+    },
+    {
+      "schemaVersion": "access-1.0.0",
+      "policyId": "8ab1714f3f0770d5",
+      "productKey": "singulair-montelukast-10mg-tablet",
+      "benefitProgram": "medicaid-fee-for-service",
+      "planKey": null,
+      "scopeLabel": "Virginia Medicaid fee-for-service (statewide)",
+      "geography": "Virginia, United States",
+      "planYear": null,
+      "applicability": "verified-for-this-market-segment",
+      "applicabilityRationale": "The PDL is published by the state Medicaid agency and applies to fee-for-service statewide. It does NOT apply to Virginia Medicaid managed care plans, which publish their own formularies; those were not retrieved.",
+      "listingStatus": "non-preferred",
+      "listingStatusNote": "Listed in the Non-Preferred Agents column, which the document says requires a Service Authorization.",
+      "requirements": [
+        {
+          "id": "e64038439ea305e1",
+          "kind": "administrative",
+          "phase": "phase-not-stated",
+          "statedText": "Non-preferred drugs require a Service Authorization (SA). This product appears in the Non-Preferred Agents column, so an SA is required before the fee-for-service programme will pay. An SA requirement is not a denial and not an approval.",
+          "logic": "standalone",
+          "children": [],
+          "exceptions": [
+            "Page 1 states preferred drugs do not require an SA unless subject to additional clinical criteria, so a preferred alternative in the same class may avoid this requirement."
+          ],
+          "quantityAsStated": null,
+          "effectiveStart": "2026-10-01",
+          "effectiveEnd": null,
+          "evidence": {
+            "sourceId": "vamedicaid",
+            "sourceOwner": "Virginia Department of Medical Assistance Services",
+            "documentTitle": "Virginia's Medicaid Preferred Drug List (PDL) / Common Core Formulary",
+            "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAmed-PDL-List-Criteria-20261001-v2.pdf",
+            "documentVersion": "10/01/2026 v2",
+            "effectiveDate": "2026-10-01",
+            "retrievedAt": "2026-09-19T20:51:20.540Z",
+            "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+            "locator": "page 73, Non-Preferred Agents column",
+            "quotation": "Non-preferred drugs require a SA"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "id": "va-ffs-service-authorization",
+          "actor": "prescriber",
+          "basis": "source-directed",
+          "action": "Submit a service authorization (SA) request. Non-preferred drugs require one. Requests may be submitted by fax, by phone, or through WebPA / e-PA.",
+          "respondsToRequirementId": null,
+          "formTitle": null,
+          "formUrl": null,
+          "submissionUrl": "https://www.virginiamedicaidpharmacyservices.com/provider/authorizations",
+          "submissionFax": "800-932-6651",
+          "submissionPhone": "800-932-6648",
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": {
+            "available": true,
+            "statedText": "For urgent requests, please call 800-932-6648."
+          },
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Virginia Department of Medical Assistance Services",
+              "phone": "800-932-6648",
+              "fax": "800-932-6651",
+              "url": "https://www.virginiamedicaidpharmacyservices.com/provider/authorizations",
+              "notes": null,
+              "evidence": {
+                "sourceId": "va-pdl",
+                "sourceOwner": "Virginia Department of Medical Assistance Services",
+                "documentTitle": "Virginia's Medicaid Preferred Drug List (PDL) / Common Core Formulary",
+                "url": "https://www.virginiamedicaidpharmacyservices.com/provider/preferred-drug-list",
+                "documentVersion": "10/01/2026 v2",
+                "effectiveDate": "2026-10-01",
+                "retrievedAt": "2026-09-19T20:51:20.540Z",
+                "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+                "locator": "page 1, General Information",
+                "quotation": "Non-preferred drugs require a SA. SAs may be submitted by fax, phone or WebPA, e-PA. For urgent requests, please call 800-932-6648."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:18.228Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "va-pdl",
+            "sourceOwner": "Virginia Department of Medical Assistance Services",
+            "documentTitle": "Virginia's Medicaid Preferred Drug List (PDL) / Common Core Formulary",
+            "url": "https://www.virginiamedicaidpharmacyservices.com/provider/preferred-drug-list",
+            "documentVersion": "10/01/2026 v2",
+            "effectiveDate": "2026-10-01",
+            "retrievedAt": "2026-09-19T20:51:20.540Z",
+            "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+            "locator": "page 1, General Information",
+            "quotation": "Non-preferred drugs require a SA. SAs may be submitted by fax, phone or WebPA, e-PA. For urgent requests, please call 800-932-6648."
+          }
+        },
+        {
+          "id": "va-ffs-72-hour-supply",
+          "actor": "pharmacy",
+          "basis": "source-directed",
+          "action": "If the prescriber cannot be reached - including after hours, weekends and holidays - the pharmacist may dispense a 72-hour supply when, in their professional judgement, the patient's health would be compromised without it. Processing requires a phone call.",
+          "respondsToRequirementId": null,
+          "formTitle": null,
+          "formUrl": null,
+          "submissionUrl": null,
+          "submissionFax": null,
+          "submissionPhone": "800-932-6648",
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Virginia Department of Medical Assistance Services",
+              "phone": "800-932-6648",
+              "fax": null,
+              "url": null,
+              "notes": null,
+              "evidence": {
+                "sourceId": "va-72-hour",
+                "sourceOwner": "Virginia Department of Medical Assistance Services",
+                "documentTitle": "Preferred Drug List (PDL) Policy on 72 Hour Supply of Prescribed Medications",
+                "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAMPS_PDL_72_Hour_Supply_Policy.pdf",
+                "documentVersion": "10/01/2026 v2",
+                "effectiveDate": "2026-10-01",
+                "retrievedAt": "2026-09-19T20:51:20.540Z",
+                "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+                "locator": "page 1",
+                "quotation": "the pharmacist may dispense a 72-Hour Supply of the prescribed medication if the physician is not available to consult with the pharmacist, including after hours, weekends, holidays, and the pharmacist, in his professional judgment consistent with current standards of practice, feels that the patient's health would be compromised without the benefit of the drug."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:18.499Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "va-72-hour",
+            "sourceOwner": "Virginia Department of Medical Assistance Services",
+            "documentTitle": "Preferred Drug List (PDL) Policy on 72 Hour Supply of Prescribed Medications",
+            "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAMPS_PDL_72_Hour_Supply_Policy.pdf",
+            "documentVersion": "10/01/2026 v2",
+            "effectiveDate": "2026-10-01",
+            "retrievedAt": "2026-09-19T20:51:20.540Z",
+            "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+            "locator": "page 1",
+            "quotation": "the pharmacist may dispense a 72-Hour Supply of the prescribed medication if the physician is not available to consult with the pharmacist, including after hours, weekends, holidays, and the pharmacist, in his professional judgment consistent with current standards of practice, feels that the patient's health would be compromised without the benefit of the drug."
+          }
+        },
+        {
+          "id": "va-ffs-appeal",
+          "actor": "patient",
+          "basis": "source-directed",
+          "action": "If the service authorization is denied, file an appeal. A prescriber filing on the recipient's behalf needs the recipient's explicit written authorization.",
+          "respondsToRequirementId": null,
+          "formTitle": null,
+          "formUrl": null,
+          "submissionUrl": "https://www.virginiamedicaidpharmacyservices.com/provider/authorizations",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [
+            "Explicit written authorization from the recipient, if the prescriber files on their behalf"
+          ],
+          "statedTimeframes": [
+            {
+              "label": "Deadline to file an appeal",
+              "value": "30 days",
+              "appliesTo": "the physician or recipient filing"
+            },
+            {
+              "label": "Appeal decision",
+              "value": "21 days from receipt",
+              "appliesTo": "the Appeals division issuing an opinion"
+            }
+          ],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Virginia Department of Medical Assistance Services",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.virginiamedicaidpharmacyservices.com/provider/authorizations",
+              "notes": null,
+              "evidence": {
+                "sourceId": "va-appeal",
+                "sourceOwner": "Virginia Department of Medical Assistance Services",
+                "documentTitle": "Preferred Drug List (PDL) Appeal Process",
+                "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAMPS_PDL_Appeal_Process.pdf",
+                "documentVersion": "10/01/2026 v2",
+                "effectiveDate": "2026-10-01",
+                "retrievedAt": "2026-09-19T20:51:20.540Z",
+                "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+                "locator": "page 1, Appeal, item 1",
+                "quotation": "Physician/Recipient has 30 days to file an appeal, unless good cause is met for the untimely filing of the appeal. A physician must provide explicit written authorization from the recipient in order to file an appeal on the recipient's behalf"
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:18.228Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "va-appeal",
+            "sourceOwner": "Virginia Department of Medical Assistance Services",
+            "documentTitle": "Preferred Drug List (PDL) Appeal Process",
+            "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAMPS_PDL_Appeal_Process.pdf",
+            "documentVersion": "10/01/2026 v2",
+            "effectiveDate": "2026-10-01",
+            "retrievedAt": "2026-09-19T20:51:20.540Z",
+            "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+            "locator": "page 1, Appeal, item 1",
+            "quotation": "Physician/Recipient has 30 days to file an appeal, unless good cause is met for the untimely filing of the appeal. A physician must provide explicit written authorization from the recipient in order to file an appeal on the recipient's behalf"
+          }
+        },
+        {
+          "id": "va-ffs-interim-supply-on-denial",
+          "actor": "plan-or-insurer",
+          "basis": "source-directed",
+          "action": "On issuing a denial, the programme itself authorises any pharmacy to dispense up to a 34-day supply, without waiting for an appeal to be filed. The patient does not need to act for this to happen.",
+          "respondsToRequirementId": null,
+          "formTitle": null,
+          "formUrl": null,
+          "submissionUrl": null,
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [],
+          "evidence": {
+            "sourceId": "va-appeal",
+            "sourceOwner": "Virginia Department of Medical Assistance Services",
+            "documentTitle": "Preferred Drug List (PDL) Appeal Process",
+            "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAMPS_PDL_Appeal_Process.pdf",
+            "documentVersion": "10/01/2026 v2",
+            "effectiveDate": "2026-10-01",
+            "retrievedAt": "2026-09-19T20:51:20.540Z",
+            "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+            "locator": "page 1, Process, item 2",
+            "quotation": "At the time the Lead Pharmacist issues the PA denial, the Lead Pharmacist enters a PA in the system that authorizes any pharmacy to dispense the prescribed amount, up to a 34-day supply of the prescribed medication. Prime does not wait until an appeal is filed to authorize this dispensing."
+          }
+        }
+      ],
+      "extractionStatus": "incomplete-extraction",
+      "extractionLimitations": [
+        "The SA Criteria column is not aligned to the drug-class headings in the left column: a criteria block's header can appear above the heading of the class whose rows its bullets govern. No rule over the left column can therefore establish which criteria bind which drug, so this pipeline does not assert one.",
+        "Open the cited page of the published PDF and read the SA Criteria column beside the listing. Column membership, drug class and page number ARE verified and can be relied on."
+      ],
+      "evidence": [
+        {
+          "sourceId": "vamedicaid",
+          "sourceOwner": "Virginia Department of Medical Assistance Services",
+          "documentTitle": "Virginia's Medicaid Preferred Drug List (PDL) / Common Core Formulary",
+          "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAmed-PDL-List-Criteria-20261001-v2.pdf",
+          "documentVersion": "10/01/2026 v2",
+          "effectiveDate": "2026-10-01",
+          "retrievedAt": "2026-09-19T20:51:20.540Z",
+          "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+          "locator": "page 73, Non-Preferred Agents column, class \"Leukotriene Receptor Antagonists\"",
+          "quotation": "Singulair® tabs/chew tabs/"
+        }
+      ],
+      "memberEligibilityDetermined": false,
+      "clinicallyReviewed": false,
+      "unknowns": [
+        "Whether this person is enrolled in Virginia Medicaid fee-for-service or in a managed care plan.",
+        "Whether a service authorization would be approved for this person.",
+        "Any amount this person would pay.",
+        "Managed care plan coverage, which is published separately and was not retrieved."
+      ]
+    },
+    {
+      "schemaVersion": "access-1.0.0",
+      "policyId": "78d3723ca5e5640c",
+      "productKey": "toprol-xl-metoprolol-succinate-50mg-er-tablet",
+      "benefitProgram": "medicaid-fee-for-service",
+      "planKey": null,
+      "scopeLabel": "Virginia Medicaid fee-for-service (statewide)",
+      "geography": "Virginia, United States",
+      "planYear": null,
+      "applicability": "verified-for-this-market-segment",
+      "applicabilityRationale": "The PDL is published by the state Medicaid agency and applies to fee-for-service statewide. It does NOT apply to Virginia Medicaid managed care plans, which publish their own formularies; those were not retrieved.",
+      "listingStatus": "non-preferred",
+      "listingStatusNote": "Listed in the Non-Preferred Agents column, which the document says requires a Service Authorization.",
+      "requirements": [
+        {
+          "id": "d15a9899d3b3f624",
+          "kind": "administrative",
+          "phase": "phase-not-stated",
+          "statedText": "Non-preferred drugs require a Service Authorization (SA). This product appears in the Non-Preferred Agents column, so an SA is required before the fee-for-service programme will pay. An SA requirement is not a denial and not an approval.",
+          "logic": "standalone",
+          "children": [],
+          "exceptions": [
+            "Page 1 states preferred drugs do not require an SA unless subject to additional clinical criteria, so a preferred alternative in the same class may avoid this requirement."
+          ],
+          "quantityAsStated": null,
+          "effectiveStart": "2026-10-01",
+          "effectiveEnd": null,
+          "evidence": {
+            "sourceId": "vamedicaid",
+            "sourceOwner": "Virginia Department of Medical Assistance Services",
+            "documentTitle": "Virginia's Medicaid Preferred Drug List (PDL) / Common Core Formulary",
+            "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAmed-PDL-List-Criteria-20261001-v2.pdf",
+            "documentVersion": "10/01/2026 v2",
+            "effectiveDate": "2026-10-01",
+            "retrievedAt": "2026-09-19T20:51:20.540Z",
+            "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+            "locator": "page 21, Non-Preferred Agents column",
+            "quotation": "Non-preferred drugs require a SA"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "id": "va-ffs-service-authorization",
+          "actor": "prescriber",
+          "basis": "source-directed",
+          "action": "Submit a service authorization (SA) request. Non-preferred drugs require one. Requests may be submitted by fax, by phone, or through WebPA / e-PA.",
+          "respondsToRequirementId": null,
+          "formTitle": null,
+          "formUrl": null,
+          "submissionUrl": "https://www.virginiamedicaidpharmacyservices.com/provider/authorizations",
+          "submissionFax": "800-932-6651",
+          "submissionPhone": "800-932-6648",
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": {
+            "available": true,
+            "statedText": "For urgent requests, please call 800-932-6648."
+          },
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Virginia Department of Medical Assistance Services",
+              "phone": "800-932-6648",
+              "fax": "800-932-6651",
+              "url": "https://www.virginiamedicaidpharmacyservices.com/provider/authorizations",
+              "notes": null,
+              "evidence": {
+                "sourceId": "va-pdl",
+                "sourceOwner": "Virginia Department of Medical Assistance Services",
+                "documentTitle": "Virginia's Medicaid Preferred Drug List (PDL) / Common Core Formulary",
+                "url": "https://www.virginiamedicaidpharmacyservices.com/provider/preferred-drug-list",
+                "documentVersion": "10/01/2026 v2",
+                "effectiveDate": "2026-10-01",
+                "retrievedAt": "2026-09-19T20:51:20.540Z",
+                "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+                "locator": "page 1, General Information",
+                "quotation": "Non-preferred drugs require a SA. SAs may be submitted by fax, phone or WebPA, e-PA. For urgent requests, please call 800-932-6648."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:18.228Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "va-pdl",
+            "sourceOwner": "Virginia Department of Medical Assistance Services",
+            "documentTitle": "Virginia's Medicaid Preferred Drug List (PDL) / Common Core Formulary",
+            "url": "https://www.virginiamedicaidpharmacyservices.com/provider/preferred-drug-list",
+            "documentVersion": "10/01/2026 v2",
+            "effectiveDate": "2026-10-01",
+            "retrievedAt": "2026-09-19T20:51:20.540Z",
+            "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+            "locator": "page 1, General Information",
+            "quotation": "Non-preferred drugs require a SA. SAs may be submitted by fax, phone or WebPA, e-PA. For urgent requests, please call 800-932-6648."
+          }
+        },
+        {
+          "id": "va-ffs-72-hour-supply",
+          "actor": "pharmacy",
+          "basis": "source-directed",
+          "action": "If the prescriber cannot be reached - including after hours, weekends and holidays - the pharmacist may dispense a 72-hour supply when, in their professional judgement, the patient's health would be compromised without it. Processing requires a phone call.",
+          "respondsToRequirementId": null,
+          "formTitle": null,
+          "formUrl": null,
+          "submissionUrl": null,
+          "submissionFax": null,
+          "submissionPhone": "800-932-6648",
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Virginia Department of Medical Assistance Services",
+              "phone": "800-932-6648",
+              "fax": null,
+              "url": null,
+              "notes": null,
+              "evidence": {
+                "sourceId": "va-72-hour",
+                "sourceOwner": "Virginia Department of Medical Assistance Services",
+                "documentTitle": "Preferred Drug List (PDL) Policy on 72 Hour Supply of Prescribed Medications",
+                "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAMPS_PDL_72_Hour_Supply_Policy.pdf",
+                "documentVersion": "10/01/2026 v2",
+                "effectiveDate": "2026-10-01",
+                "retrievedAt": "2026-09-19T20:51:20.540Z",
+                "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+                "locator": "page 1",
+                "quotation": "the pharmacist may dispense a 72-Hour Supply of the prescribed medication if the physician is not available to consult with the pharmacist, including after hours, weekends, holidays, and the pharmacist, in his professional judgment consistent with current standards of practice, feels that the patient's health would be compromised without the benefit of the drug."
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:18.499Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "va-72-hour",
+            "sourceOwner": "Virginia Department of Medical Assistance Services",
+            "documentTitle": "Preferred Drug List (PDL) Policy on 72 Hour Supply of Prescribed Medications",
+            "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAMPS_PDL_72_Hour_Supply_Policy.pdf",
+            "documentVersion": "10/01/2026 v2",
+            "effectiveDate": "2026-10-01",
+            "retrievedAt": "2026-09-19T20:51:20.540Z",
+            "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+            "locator": "page 1",
+            "quotation": "the pharmacist may dispense a 72-Hour Supply of the prescribed medication if the physician is not available to consult with the pharmacist, including after hours, weekends, holidays, and the pharmacist, in his professional judgment consistent with current standards of practice, feels that the patient's health would be compromised without the benefit of the drug."
+          }
+        },
+        {
+          "id": "va-ffs-appeal",
+          "actor": "patient",
+          "basis": "source-directed",
+          "action": "If the service authorization is denied, file an appeal. A prescriber filing on the recipient's behalf needs the recipient's explicit written authorization.",
+          "respondsToRequirementId": null,
+          "formTitle": null,
+          "formUrl": null,
+          "submissionUrl": "https://www.virginiamedicaidpharmacyservices.com/provider/authorizations",
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [
+            "Explicit written authorization from the recipient, if the prescriber files on their behalf"
+          ],
+          "statedTimeframes": [
+            {
+              "label": "Deadline to file an appeal",
+              "value": "30 days",
+              "appliesTo": "the physician or recipient filing"
+            },
+            {
+              "label": "Appeal decision",
+              "value": "21 days from receipt",
+              "appliesTo": "the Appeals division issuing an opinion"
+            }
+          ],
+          "expedited": null,
+          "contacts": [
+            {
+              "label": "Submission route",
+              "organization": "Virginia Department of Medical Assistance Services",
+              "phone": null,
+              "fax": null,
+              "url": "https://www.virginiamedicaidpharmacyservices.com/provider/authorizations",
+              "notes": null,
+              "evidence": {
+                "sourceId": "va-appeal",
+                "sourceOwner": "Virginia Department of Medical Assistance Services",
+                "documentTitle": "Preferred Drug List (PDL) Appeal Process",
+                "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAMPS_PDL_Appeal_Process.pdf",
+                "documentVersion": "10/01/2026 v2",
+                "effectiveDate": "2026-10-01",
+                "retrievedAt": "2026-09-19T20:51:20.540Z",
+                "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+                "locator": "page 1, Appeal, item 1",
+                "quotation": "Physician/Recipient has 30 days to file an appeal, unless good cause is met for the untimely filing of the appeal. A physician must provide explicit written authorization from the recipient in order to file an appeal on the recipient's behalf"
+              },
+              "linkCheck": {
+                "checkedAt": "2026-09-19T20:51:18.228Z",
+                "httpStatus": 200,
+                "ok": true,
+                "note": "HTTP 200."
+              }
+            }
+          ],
+          "evidence": {
+            "sourceId": "va-appeal",
+            "sourceOwner": "Virginia Department of Medical Assistance Services",
+            "documentTitle": "Preferred Drug List (PDL) Appeal Process",
+            "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAMPS_PDL_Appeal_Process.pdf",
+            "documentVersion": "10/01/2026 v2",
+            "effectiveDate": "2026-10-01",
+            "retrievedAt": "2026-09-19T20:51:20.540Z",
+            "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+            "locator": "page 1, Appeal, item 1",
+            "quotation": "Physician/Recipient has 30 days to file an appeal, unless good cause is met for the untimely filing of the appeal. A physician must provide explicit written authorization from the recipient in order to file an appeal on the recipient's behalf"
+          }
+        },
+        {
+          "id": "va-ffs-interim-supply-on-denial",
+          "actor": "plan-or-insurer",
+          "basis": "source-directed",
+          "action": "On issuing a denial, the programme itself authorises any pharmacy to dispense up to a 34-day supply, without waiting for an appeal to be filed. The patient does not need to act for this to happen.",
+          "respondsToRequirementId": null,
+          "formTitle": null,
+          "formUrl": null,
+          "submissionUrl": null,
+          "submissionFax": null,
+          "submissionPhone": null,
+          "documentsMentioned": [],
+          "statedTimeframes": [],
+          "expedited": null,
+          "contacts": [],
+          "evidence": {
+            "sourceId": "va-appeal",
+            "sourceOwner": "Virginia Department of Medical Assistance Services",
+            "documentTitle": "Preferred Drug List (PDL) Appeal Process",
+            "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAMPS_PDL_Appeal_Process.pdf",
+            "documentVersion": "10/01/2026 v2",
+            "effectiveDate": "2026-10-01",
+            "retrievedAt": "2026-09-19T20:51:20.540Z",
+            "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+            "locator": "page 1, Process, item 2",
+            "quotation": "At the time the Lead Pharmacist issues the PA denial, the Lead Pharmacist enters a PA in the system that authorizes any pharmacy to dispense the prescribed amount, up to a 34-day supply of the prescribed medication. Prime does not wait until an appeal is filed to authorize this dispensing."
+          }
+        }
+      ],
+      "extractionStatus": "incomplete-extraction",
+      "extractionLimitations": [
+        "The SA Criteria column is not aligned to the drug-class headings in the left column: a criteria block's header can appear above the heading of the class whose rows its bullets govern. No rule over the left column can therefore establish which criteria bind which drug, so this pipeline does not assert one.",
+        "Open the cited page of the published PDF and read the SA Criteria column beside the listing. Column membership, drug class and page number ARE verified and can be relied on."
+      ],
+      "evidence": [
+        {
+          "sourceId": "vamedicaid",
+          "sourceOwner": "Virginia Department of Medical Assistance Services",
+          "documentTitle": "Virginia's Medicaid Preferred Drug List (PDL) / Common Core Formulary",
+          "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAmed-PDL-List-Criteria-20261001-v2.pdf",
+          "documentVersion": "10/01/2026 v2",
+          "effectiveDate": "2026-10-01",
+          "retrievedAt": "2026-09-19T20:51:20.540Z",
+          "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
+          "locator": "page 21, Non-Preferred Agents column, class \"Beta Blockers\"",
+          "quotation": "Toprol XL®"
+        }
+      ],
+      "memberEligibilityDetermined": false,
+      "clinicallyReviewed": false,
+      "unknowns": [
+        "Whether this person is enrolled in Virginia Medicaid fee-for-service or in a managed care plan.",
+        "Whether a service authorization would be approved for this person.",
+        "Any amount this person would pay.",
+        "Managed care plan coverage, which is published separately and was not retrieved."
+      ]
+    }
+  ]
+}

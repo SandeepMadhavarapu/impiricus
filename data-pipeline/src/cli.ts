@@ -4,6 +4,7 @@ import path from "node:path";
 import { PRODUCTS, findProduct } from "./config/products.js";
 import { SOURCES } from "./config/sources.js";
 import { SUPPORTED_SCOPE } from "./config/scope.js";
+import { exportAccess } from "./access/exportAccess.js";
 import { resolveProduct } from "./identity/resolve.js";
 import { buildRecord, summarize } from "./normalize/record.js";
 import { toExport, exportStats } from "./export/appExport.js";
@@ -377,6 +378,11 @@ async function main(): Promise<void> {
     }
     case "insurance:export": {
       const files = await exportInsurance();
+      for (const f of files) log(`wrote ${path.relative(process.cwd(), f)}`);
+      return;
+    }
+    case "access:export": {
+      const files = await exportAccess();
       for (const f of files) log(`wrote ${path.relative(process.cwd(), f)}`);
       return;
     }
