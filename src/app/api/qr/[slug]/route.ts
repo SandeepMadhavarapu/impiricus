@@ -3,6 +3,7 @@ import QRCode from "qrcode";
 import { getGuide } from "@/sources/lib/content/catalogue";
 import { getPublicOrigin } from "@/shared/lib/config";
 import { buildShareUrl } from "@/doctor/lib/share";
+import { rateLimit, clientKey } from "@/shared/lib/security/ratelimit";
 
 export const runtime = "nodejs";
 
@@ -16,9 +17,19 @@ export const runtime = "nodejs";
  * it exists.
  */
 export async function GET(
-  _request: Request,
+  request: Request,
   context: { params: Promise<{ slug: string }> }
 ) {
+  /*
+   * Rendering a QR is the most expensive thing any route here does per
+   * request, and it was the only one unmetered. A generous ceiling: a
+   * clinician regenerating a code a few times is ordinary.
+   */
+  const key = await clientKey(request.headers);
+  if (!rateLimit(`qr:${key}`, 30, 60_000).allowed) {
+    return new NextResponse("Too many requests", { status: 429 });
+  }
+
   const { slug } = await context.params;
 
   // Only render a code for a medication that actually exists, so a bad link
