@@ -59,7 +59,8 @@ DEVICE A — HCP
 1. Open deployed `/doctor`.
 2. Select Singulair.
 3. Locate the **Share with Patient** share area and its **Send Nearby** option.
-4. Wait until Device B is listening, then press **Send Nearby**.
+4. Press **Send Nearby** to prepare the sound. Wait until Device B is listening,
+   then tap **Play sound**. Use media volume and the built-in speaker, not headphones.
 
 DEVICE B — PATIENT
 
@@ -98,8 +99,13 @@ Permissions-Policy permits same-origin microphone access on `/receive` and
 `/medications/:slug`, where the embedded patient listener lives. Other routes
 keep microphone access disabled. No listener starts until the patient presses Listen.
 
-Browser microphone access requires explicit permission. AudioContext is resumed
-within the user gesture before asynchronous network work. See
+Browser microphone access requires explicit permission. The receiver resumes its
+AudioContext within the Listen gesture. The sender generates a PCM WAV and uses
+HTML media playback rather than Web Audio oscillators, because iPhone silent mode
+can mute Web Audio. Token preparation and playback are separate steps so
+`audio.play()` runs directly inside the Play sound gesture, without a network wait.
+The page permits local blob media through CSP and cleans up the audio and blob URL
+on cancellation or unmount. Startup and completion timeouts report stalled playback. See
 [Web Audio](https://developer.mozilla.org/en-US/docs/Web/API/AudioContext) and
 [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia).
 Safari cannot automatically listen while closed or locked. Background timer throttling,

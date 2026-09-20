@@ -3,40 +3,59 @@ import { useEffect, useRef, useState } from "react";
 import { requestSession, type ShareSession } from "@/shared/lib/nearby-share/client";
 import { prepareTransmitter } from "@/shared/lib/nearby-share/transmitter";
 
-// The doctor flow mounts this only for a registered medication. Nearby sharing
-// uses same-origin APIs and an opaque token, not the configured public share URL.
 export function NearbyShare({ slug }: { slug: string }) {
   const [session, setSession] = useState<ShareSession | null>(null);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
-  const cleanup = useRef<(() => void) | null>(null);
-  useEffect(() => () => cleanup.current?.(), []);
-  async function send(manual = false) {
-    cleanup.current?.();
-    let active = true;
-    const controller = new AbortController();
-    let audio: ReturnType<typeof prepareTransmitter> | undefined;
-    cleanup.current = () => { active = false; controller.abort(); audio?.close(); };
-    setBusy(true); setMessage("Preparing…");
+  const [prepared, setPrepared] = useState(false);
+  const audio = useRef<ReturnType<typeof prepareTransmitter> | null>(null);
+  const request = useRef<AbortController | null>(null);
+  const generation = useRef(0);
+  useEffect(() => () => { generation.current++; request.current?.abort(); audio.current?.close(); }, []);
+
+  async function prepare(manual = false) {
+    const run = ++generation.current;
+    request.current?.abort(); audio.current?.close(); audio.current = null;
+    const controller = new AbortController(); request.current = controller;
+    setBusy(true); setPrepared(false); setMessage("Preparing sound…");
     try {
-      if (!manual) audio = prepareTransmitter();
-      const current = session && Date.parse(session.expiresAt) > Date.now() + 15000 ? session : await requestSession(slug, controller.signal);
-      if (!active) return;
+      const current = await requestSession(slug, controller.signal);
+      if (controller.signal.aborted) return;
       setSession(current);
       if (manual) { setMessage("Temporary token ready for development testing."); return; }
-      setMessage("Sending… Keep both pages open.");
-      await audio!.send(current.token);
-      if (active) setMessage("Signal sent. Check the patient's screen; delivery is not confirmed.");
-    } catch (error) { if (active) setMessage(`${error instanceof Error ? error.message : "Unable to send."} Use Share normally below.`); }
-    finally { audio?.close(); if (active) setBusy(false); }
+      audio.current = prepareTransmitter(current.token);
+      setPrepared(true);
+      setMessage("Sound ready. When the patient is listening, tap Play sound.");
+    } catch (error) {
+      if (!controller.signal.aborted) setMessage(`${error instanceof Error ? error.message : "Unable to prepare sound."} Use Share normally below.`);
+    } finally { if (generation.current === run) setBusy(false); }
+  }
+  async function play() {
+    if (!audio.current || !session) return;
+    if (Date.parse(session.expiresAt) <= Date.now() + 20000) {
+      audio.current.close(); audio.current = null; setPrepared(false);
+      setMessage("This sound expired. Press Send Nearby to prepare a new one."); return;
+    }
+    const run = ++generation.current;
+    setBusy(true); setMessage("Starting playback…");
+    try {
+      await audio.current.play(() => { if (generation.current === run) setMessage("Playing sound… Keep both devices close and both pages open."); });
+      if (generation.current === run) setMessage("Playback finished. Check the patient’s screen; receipt is not confirmed. If you heard nothing, check media volume and disconnect headphones or Bluetooth speakers.");
+    } catch (error) {
+      if (generation.current === run) setMessage(error instanceof Error ? error.message : "Unable to play sound.");
+    } finally { if (generation.current === run) setBusy(false); }
+  }
+  function cancel() {
+    generation.current++; request.current?.abort(); audio.current?.close(); audio.current = null;
+    setBusy(false); setPrepared(false); setMessage("Sending cancelled.");
   }
   return <div className="card stack" style={{ marginTop: 16 }}>
     <p className="eyebrow">Send Nearby · Experimental</p><h3>Send with sound</h3>
-    <p>Hold the patient’s phone nearby. Open <a href="/receive" target="_blank" rel="noreferrer">MediZ Receive</a> on that phone and press Listen for guide before sending.</p>
-    <p className="tiny">Sound sharing sends a temporary code, not your medical information. Turn up speaker volume. The signal lasts about 11 seconds.</p>
-    <button type="button" className="btn btn--primary" disabled={busy} onClick={() => void send()}>{busy ? "Sending…" : session ? "Send again" : "Send Nearby"}</button>
-    {busy ? <button className="btn" type="button" onClick={() => { cleanup.current?.(); setBusy(false); setMessage("Sending cancelled."); }}>Cancel</button> : null}
+    <p>On the patient’s phone, open <a href="/receive" target="_blank" rel="noreferrer">MediZ Receive</a> and press Listen for guide. Here, press Send Nearby to prepare, then Play sound.</p>
+    <p className="tiny">Use two devices. Turn up media volume and disconnect headphones or Bluetooth speakers. Keep both screens open. The sound lasts about 11 seconds and contains a temporary code, not medical information.</p>
+    <button type="button" className="btn btn--primary" disabled={busy} onClick={() => { if (prepared) void play(); else void prepare(); }}>{busy ? "Sending…" : prepared ? "Play sound" : "Send Nearby"}</button>
+    {busy ? <button className="btn" type="button" onClick={cancel}>Cancel</button> : null}
     <p role="status" aria-live="polite">{message}</p>
-    {process.env.NODE_ENV === "development" ? <details><summary>Demo / developer tools</summary><button type="button" className="btn" disabled={busy} onClick={() => void send(true)}>Create token without sound</button>{session ? <><p>Expires {session.expiresAt}</p><label>Copy temporary token<input readOnly value={session.token} onFocus={e => e.target.select()} /></label><p><a href={session.receiveUrl}>Open Receive page</a></p></> : null}</details> : null}
+    {process.env.NODE_ENV === "development" ? <details><summary>Demo / developer tools</summary><button type="button" className="btn" disabled={busy} onClick={() => void prepare(true)}>Create token without sound</button>{session ? <><p>Expires {session.expiresAt}</p><label>Copy temporary token<input readOnly value={session.token} onFocus={e => e.target.select()} /></label><p><a href={session.receiveUrl}>Open Receive page</a></p></> : null}</details> : null}
   </div>;
 }

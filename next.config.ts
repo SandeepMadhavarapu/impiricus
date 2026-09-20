@@ -33,6 +33,7 @@ const nextConfig: NextConfig = {
                 : "script-src 'self' 'unsafe-inline'",
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data:",
+              "media-src 'self' blob:",
               "connect-src 'self'",
               "font-src 'self'",
               "form-action 'self'",

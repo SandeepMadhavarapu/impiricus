@@ -414,7 +414,9 @@ See [NFC setup, firmware, and demo steps](hardware/nfc-tap/README.md).
 
 ### Nearby Sound Sharing — Experimental
 
-Doctors can send a temporary opaque code using **Send Nearby / Send with sound**.
+Doctors press **Send Nearby** to prepare a temporary code, then **Play sound**
+to transmit it. Direct media playback supports iPhone Safari without relying on
+Web Audio’s silent-mode behavior.
 Patients can choose **Receive guide with sound** on any medication page or in
 the provider chooser. **My own doctor or prescriber** also includes the listener
 directly, below the disabled account controls; receiving does not require sign-in.
