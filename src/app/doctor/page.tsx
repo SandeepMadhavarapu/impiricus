@@ -3,7 +3,8 @@ import { createNfcTarget } from "@/doctor/lib/nfc/target";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { isStale } from "@/sources/lib/content/registry";
-import { getPublicOrigin } from "@/shared/lib/config";
+import { notFound } from "next/navigation";
+import { getPublicOrigin, servesClinicianWorkspace } from "@/shared/lib/config";
 import { buildShareUrl, medicationPath } from "@/doctor/lib/share";
 import { ProvenancePanel } from "@/sources/components/ProvenancePanel";
 import { patientGuide, guideSource } from "@/sources/lib/content/patient-guide";
@@ -12,6 +13,12 @@ import { ShareSection } from "@/doctor/components/ShareSection";
 import { DoctorBar, TabBar } from "@/doctor/components/AppChrome";
 import { listGuides, guideProductName, type Guide } from "@/sources/lib/content/catalogue";
 
+/**
+ * Rendered per request so the deployment gate reads the live APP_MODE rather
+ * than whatever was set when the build ran. See servesClinicianWorkspace().
+ */
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Patient Medication Guide | DocUpdate Integration Preview",
 };
@@ -19,6 +26,11 @@ export const metadata: Metadata = {
 export default async function DoctorPage({ searchParams }: {
   searchParams: Promise<{ medication?: string | string[] }>;
 }) {
+  // The clinician workspace is not served on the patient deployment. A patient
+  // following a shared link must not be able to walk into a screen built for a
+  // prescriber. See servesClinicianWorkspace().
+  if (!servesClinicianWorkspace()) notFound();
+
   const { medication } = await searchParams;
   const guides = listGuides();
   // Only a registered product can be selected, and only by exact slug. No

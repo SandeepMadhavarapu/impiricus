@@ -15,6 +15,7 @@ import { getPublicOrigin, getIntegrationStates } from "@/shared/lib/config";
 import { buildShareUrl } from "@/doctor/lib/share";
 import { MedicationSection } from "@/patient/components/MedicationSection";
 import { ActionBar } from "@/patient/components/ActionBar";
+import { ReadAloud } from "@/patient/components/ReadAloud";
 import { ShareSection } from "@/doctor/components/ShareSection";
 import { ProvenancePanel } from "@/sources/components/ProvenancePanel";
 import { PageOpenBeacon } from "@/patient/components/PageOpenBeacon";
@@ -112,6 +113,20 @@ function PatientGuideView({ guide, slug }: { guide: Guide; slug: string }) {
               ))}
             </ul>
           ) : null}
+
+          {/*
+            Optional read-aloud, for the summary and key points ONLY.
+            
+            The same words that are on the screen, in the order they appear. It
+            deliberately stops before the identity grid and the label sections:
+            a dosage table read as a sentence stops being a table, and the
+            professional labeling below is not written for a lay listener.
+          */}
+          <ReadAloud
+            lang="en-US"
+            label="this summary"
+            text={[view.headline, ...view.keyPoints.map((p) => p.text)].join(" ")}
+          />
         </header>
 
         <dl className="identity-grid">

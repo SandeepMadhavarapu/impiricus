@@ -231,9 +231,29 @@ export function buildPartDPolicy(input: PartDPolicyInput): AccessPolicy {
     });
   }
 
+  /*
+   * Whether anything found is actually THIS product.
+   *
+   * `coverage.found` can contain rows matched at a coarser granularity - the
+   * generic clinical drug, or the ingredient. Those are different products and
+   * this policy is about one product, so their presence must not become this
+   * product's listing status.
+   */
+  const exactMatch = coverage.found.some((f) => f.isExactProductMatch);
+  const exactRxcui = coverage.checked.medicationRxcui;
+  const relatedDescription =
+    coverage.found
+      .filter((f) => !f.isExactProductMatch)
+      .map((f) => `${f.matchedConceptName ?? "a related concept"} (RXCUI ${f.matchedRxcui}, ${f.granularity})`)
+      .join("; ") || "a related concept";
+
   const listingStatus: AccessPolicy["listingStatus"] =
-    coverage.state === "listed"
-      ? "listed-without-preference-tiering"
+    plan && !exactMatch && coverage.found.length > 0
+      ? // Found something, but not this product. The document does not address
+        // this product, and saying "listed" would be a claim about the wrong one.
+        "not-addressed-in-this-document"
+      : coverage.state === "listed"
+        ? "listed-without-preference-tiering"
       : coverage.state === "conditional"
         ? "listed-with-restrictions"
         : coverage.state === "explicitly-excluded"
@@ -270,11 +290,35 @@ export function buildPartDPolicy(input: PartDPolicyInput): AccessPolicy {
     scopeWarning:
       "Medicare Part D only. This says nothing about Medicaid, Marketplace, or commercial " +
       "coverage, and nothing about what this person is enrolled in or would pay.",
-    applicability: plan ? "verified-for-this-plan" : "policy-applicability-unresolved",
-    applicabilityRationale: plan
-      ? "Formulary rows were selected by this plan's own FORMULARY_ID, taken from the plan record " +
-        "in the same CMS release. The restriction flags are the plan's own filing."
-      : "No single plan was resolved, so nothing was checked.",
+    applicability: !plan
+      ? "policy-applicability-unresolved"
+      : exactMatch
+        ? "verified-for-this-plan"
+        : /*
+           * A row was found on this plan's filing, but for a RELATED RxNorm
+           * concept rather than this product. The plan is identified; what the
+           * plan says about THIS product is not.
+           *
+           * This field used to depend only on whether a plan was resolved, so
+           * a listing for the generic clinical drug was published as the
+           * BRANDED product's "verified-for-this-plan" status. Singulair was
+           * exported as "listed-with-restrictions, quantity limit 30 per 30
+           * days" from rxcui 200224 - montelukast 10 MG Oral Tablet, the
+           * generic. Brand Singulair (153892) has no row on that formulary.
+           *
+           * The lookup already computed `isExactProductMatch`; the policy
+           * simply did not read it.
+           */
+          "policy-applicability-unresolved",
+    applicabilityRationale: !plan
+      ? "No single plan was resolved, so nothing was checked."
+      : exactMatch
+        ? "Formulary rows were selected by this plan's own FORMULARY_ID, taken from the plan record " +
+          "in the same CMS release. The restriction flags are the plan's own filing."
+        : `This plan's filing was checked and carries no row for this exact product` +
+          `${exactRxcui ? ` (RXCUI ${exactRxcui})` : ""}. ` +
+          `A row exists for ${relatedDescription}, which is a DIFFERENT product. ` +
+          `Its restrictions are not this product's and must not be rendered as such.`,
     listingStatus,
     listingStatusNote: coverage.headline,
     requirements,

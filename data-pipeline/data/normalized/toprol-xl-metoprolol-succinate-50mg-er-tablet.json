@@ -170,7 +170,7 @@
       }
     ],
     "rationale": "All 7 checkable critical dimensions agree across 5 sources.",
-    "resolvedAt": "2026-09-19T23:10:51.939Z"
+    "resolvedAt": "2026-09-20T06:27:36.776Z"
   },
   "identity": {
     "productKey": "toprol-xl-metoprolol-succinate-50mg-er-tablet",
@@ -1916,7 +1916,7 @@
         "sourceId": "dailymed",
         "sourceName": "DailyMed SPL Web Services v2",
         "url": "https://dailymed.nlm.nih.gov/dailymed/services/v2/spls/496ddfaa-7c9c-4888-b747-a210249b367a.xml",
-        "retrievedAt": "2026-09-19T23:10:51.350Z",
+        "retrievedAt": "2026-09-19T19:40:30.004Z",
         "sourceEffectiveDate": "2026-03-03",
         "sourceIdentifier": "496ddfaa-7c9c-4888-b747-a210249b367a",
         "sourceVersion": "7",
@@ -1930,7 +1930,7 @@
         "sourceId": "dailymed",
         "sourceName": "DailyMed SPL Web Services v2",
         "url": "https://dailymed.nlm.nih.gov/dailymed/services/v2/spls.json?setid=496ddfaa-7c9c-4888-b747-a210249b367a",
-        "retrievedAt": "2026-09-19T23:10:51.595Z",
+        "retrievedAt": "2026-09-19T19:40:30.269Z",
         "sourceEffectiveDate": "Mar 06, 2026",
         "sourceIdentifier": "496ddfaa-7c9c-4888-b747-a210249b367a",
         "sourceVersion": "7",
@@ -2075,7 +2075,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/866438/properties.json",
-        "retrievedAt": "2026-09-19T23:10:51.638Z",
+        "retrievedAt": "2026-09-19T19:40:30.315Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "866438",
         "sourceVersion": null,
@@ -2089,7 +2089,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/866438/historystatus.json",
-        "retrievedAt": "2026-09-19T23:10:51.711Z",
+        "retrievedAt": "2026-09-19T19:40:30.392Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "866438",
         "sourceVersion": null,
@@ -2103,7 +2103,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/866438/allrelated.json",
-        "retrievedAt": "2026-09-19T23:10:51.711Z",
+        "retrievedAt": "2026-09-19T19:40:30.393Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "866438",
         "sourceVersion": null,
@@ -2117,7 +2117,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/866438/ndcs.json",
-        "retrievedAt": "2026-09-19T23:10:51.775Z",
+        "retrievedAt": "2026-09-19T19:40:30.438Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "866438",
         "sourceVersion": null,
@@ -2403,14 +2403,14 @@
       {
         "sourceId": "drugsfda",
         "sourceName": "Drugs@FDA (via openFDA drug/drugsfda)",
-        "url": "https://api.fda.gov/drug/drugsfda.json?search=application_number%3A%22NDA019962%22&limit=10&skip=0",
-        "retrievedAt": "2026-09-19T23:10:52.270Z",
+        "url": "https://api.fda.gov/drug/drugsfda.json?search=application_number%3A%22NDA019962%22&limit=10&skip=0&api_key=REDACTED",
+        "retrievedAt": "2026-09-20T06:27:36.769Z",
         "sourceEffectiveDate": "2026-09-16",
         "sourceIdentifier": "NDA019962",
         "sourceVersion": null,
-        "rawPath": "data/raw/openfda/drugsfda-NDA019962-p0-5fedcd30e6b1fc5a26d15191fa87aa36.json",
+        "rawPath": "data/raw/openfda/drugsfda-NDA019962-p0-441905a33e86a19fb681b306502c62f4.json",
         "contentHash": "9d7fa765dc46c7fae097e6aead4ce2462daae0b08eb404d8dca40568301c1354",
-        "captureId": "5fedcd30e6b1fc5a26d15191fa87aa36",
+        "captureId": "441905a33e86a19fb681b306502c62f4",
         "locator": "drug/drugsfda",
         "parserVersion": "pipeline-0.1.0"
       }
@@ -2570,14 +2570,14 @@
         {
           "sourceId": "openfda",
           "sourceName": "openFDA Drug APIs",
-          "url": "https://api.fda.gov/drug/enforcement.json?search=openfda.generic_name%3A%22Metoprolol%20Succinate%22&limit=50&skip=0",
-          "retrievedAt": "2026-09-19T23:10:52.604Z",
+          "url": "https://api.fda.gov/drug/enforcement.json?search=openfda.generic_name%3A%22Metoprolol+Succinate%22&limit=50&skip=0&api_key=REDACTED",
+          "retrievedAt": "2026-09-20T06:27:37.099Z",
           "sourceEffectiveDate": "2026-09-09",
           "sourceIdentifier": "Metoprolol Succinate",
           "sourceVersion": null,
-          "rawPath": "data/raw/openfda/enforcement-Metoprolol-Succinate-p0-0a4e0e9bfb0c95b79b17b50213f25c27.json",
+          "rawPath": "data/raw/openfda/enforcement-Metoprolol-Succinate-p0-73e1179645fb91b6c23f2872d71e0086.json",
           "contentHash": "03b565bf3947b8e7535defb58bd0a384c37ab630526d17000669e675798e7500",
-          "captureId": "0a4e0e9bfb0c95b79b17b50213f25c27",
+          "captureId": "73e1179645fb91b6c23f2872d71e0086",
           "locator": "drug/enforcement",
           "parserVersion": "pipeline-0.1.0"
         }
@@ -3639,6 +3639,6 @@
     "reviewedBy": null,
     "note": "No clinician has reviewed this record. 'app-ready' means structurally consumable, NOT clinically approved."
   },
-  "ingestedAt": "2026-09-19T23:10:52.646Z",
+  "ingestedAt": "2026-09-20T06:27:37.119Z",
   "parserVersion": "pipeline-0.1.0"
 }

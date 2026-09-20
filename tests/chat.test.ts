@@ -66,44 +66,66 @@ describe("no model configured", () => {
   });
 });
 
-describe("model path: citation validation", () => {
-  it("keeps citations that point at supplied passages", async () => {
+describe("model path: no model-authored medical text reaches a reader", () => {
+  /*
+   * These three tests used to assert the PROSE contract: a model wrote the
+   * answer, the server matched its citation markers afterwards, and prose
+   * survived as mode "assistant" when at least one marker checked out.
+   *
+   * That contract had a hole the tests themselves documented. The third one
+   * asserted that prose is KEPT when one citation is valid and another is
+   * fabricated - which is precisely "unsupported claims shipped alongside one
+   * good citation". And prose carrying no markers at all produced zero valid
+   * and zero rejected citations, so it passed every check and shipped.
+   *
+   * The model no longer writes the answer; it selects passage ids and the
+   * server returns its own stored text. So these now assert the stronger
+   * property: whatever prose a model emits, none of it is rendered.
+   *
+   * The citation-matching unit tests below are unchanged and still pass -
+   * `validateCitations` is still correct at what it does.
+   */
+  it("does not render prose, even when its citation is genuine", async () => {
     const passages = searchPassages(source, "What are the common side effects?", { limit: 6 });
     const realId = passages[0]!.id;
     const answer = await answerQuestion(req("What are the common side effects?"), {
       adapter: stubAdapter(`The label lists several common reactions. [[${realId}]]`),
     });
-    expect(answer.mode).toBe("assistant");
-    expect(answer.citations.map((c) => c.passageId)).toContain(realId);
-    expect(answer.validationNote).toBeUndefined();
+    expect(answer.mode).not.toBe("assistant");
+    expect(answer.paragraphs.join(" ")).not.toMatch(/The label lists several common reactions/);
+    // The reader still gets real label text, with real citations.
+    expect(answer.citations.length).toBeGreaterThan(0);
   });
 
   /**
    * The single most important test in this file: a model that invents a source
-   * must not be able to publish it.
+   * must not be able to publish it - and now, neither can one that invents a
+   * claim without citing anything at all.
    */
-  it("withholds an answer whose every citation was fabricated", async () => {
-    const answer = await answerQuestion(req("What are the common side effects?"), {
-      adapter: stubAdapter(
-        "This medication is completely safe and has no side effects. [[made_up_section#9]]"
-      ),
-    });
-    expect(answer.mode).not.toBe("assistant");
-    expect(answer.paragraphs.join(" ")).not.toMatch(/completely safe/i);
-    expect(answer.validationNote).toMatch(/could not be matched/i);
-    expect(answer.citations.every((c) => c.passageId.includes("#"))).toBe(true);
+  it("withholds a fabricated claim, cited or uncited", async () => {
+    for (const text of [
+      "This medication is completely safe and has no side effects. [[made_up_section#9]]",
+      "This medication is completely safe and has no side effects.",
+    ]) {
+      const answer = await answerQuestion(req("What are the common side effects?"), {
+        adapter: stubAdapter(text),
+      });
+      expect(answer.mode).not.toBe("assistant");
+      expect(answer.paragraphs.join(" ")).not.toMatch(/completely safe/i);
+      expect(answer.validationNote).toMatch(/did not return a usable selection/i);
+    }
   });
 
-  it("strips a fabricated citation but keeps a valid one, and says so", async () => {
+  it("does not keep prose when only some of its citations are fabricated", async () => {
     const passages = searchPassages(source, "What are the warnings?", { limit: 6 });
     const realId = passages[0]!.id;
     const answer = await answerQuestion(req("What are the warnings?"), {
       adapter: stubAdapter(`Real claim. [[${realId}]] Invented claim. [[fake_section#3]]`),
     });
-    expect(answer.mode).toBe("assistant");
-    expect(answer.citations).toHaveLength(1);
-    expect(answer.citations[0]!.passageId).toBe(realId);
-    expect(answer.validationNote).toMatch(/1 unverifiable citation/i);
+    expect(answer.mode).not.toBe("assistant");
+    // Neither half survives. Stripping only the bad marker used to leave the
+    // invented claim standing next to a valid citation.
+    expect(answer.paragraphs.join(" ")).not.toMatch(/Real claim|Invented claim/);
   });
 
   it("rejects a real passage id that was not supplied for this question", () => {

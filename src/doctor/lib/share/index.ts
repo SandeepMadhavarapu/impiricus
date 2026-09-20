@@ -1,3 +1,8 @@
+import {
+  resolveContentLocale,
+  localeIsBacked,
+  DEFAULT_CONTENT_LOCALE,
+} from "@/sources/lib/content/locales";
 import { SLUG_PATTERN } from "@/shared/lib/slug";
 /**
  * Share URL construction.
@@ -32,7 +37,7 @@ export function medicationPath(slug: string): string {
  *
  * `origin` must come from validated configuration, never from a request header.
  */
-export function buildShareUrl(origin: string, slug: string): string {
+export function buildShareUrl(origin: string, slug: string, locale?: unknown): string {
   const path = medicationPath(slug);
   const base = new URL(origin);
   if (base.protocol !== "https:" && base.hostname !== "localhost" && base.hostname !== "127.0.0.1") {
@@ -42,6 +47,26 @@ export function buildShareUrl(origin: string, slug: string): string {
   // Belt and braces: strip anything that could have ridden along.
   url.search = "";
   url.hash = "";
+
+  /*
+   * A shared link may carry ONE thing beyond the product: a language the app
+   * actually has reviewed content in.
+   *
+   * It is an allowlist of validated values, not preservation of whatever
+   * arrived. A public medication link must never carry a name, a note, a
+   * prescription, a member id or anything a page would act on - compressing
+   * such things into a URL is neither encryption nor access control, it is
+   * just publishing them in a less readable form.
+   *
+   * The default locale is deliberately NOT appended: English is what the link
+   * already resolves to, and a parameter that changes nothing is surface with
+   * no purpose. Today English is the only supported locale, so this branch
+   * never fires and every share URL is byte-identical to before.
+   */
+  const resolved = resolveContentLocale(locale);
+  if (resolved !== DEFAULT_CONTENT_LOCALE && localeIsBacked(resolved)) {
+    url.searchParams.set("lang", resolved);
+  }
   return url.toString();
 }
 

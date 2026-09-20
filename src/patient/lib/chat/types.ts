@@ -37,8 +37,17 @@ export type AnswerMode =
   | "label-excerpts"
   /** Urgent situation: help resources only. */
   | "urgent"
-  /** Retrieval found nothing relevant. */
+  /** Retrieval found nothing relevant: no passage was retrieved at all. */
   | "not-covered"
+  /**
+   * Passages WERE retrieved, but none was established as applicable to the
+   * question, so no label text is shown.
+   *
+   * Deliberately distinct from "not-covered". "Nothing was retrieved" and
+   * "what was retrieved does not apply" are different facts, and neither is
+   * "the label says this does not happen".
+   */
+  | "insufficient-evidence"
   /** A follow-up that depends on context we do not have. Ask, do not guess. */
   | "needs-clarification"
   /** The configured model failed. Honest failure, never a silent fallback. */

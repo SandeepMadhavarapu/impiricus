@@ -52,6 +52,34 @@ export function getAppMode(): AppMode {
   return env("APP_MODE")?.toLowerCase() === "doctor" ? "doctor" : "patient";
 }
 
+/**
+ * Whether this deployment serves the clinician workspace at all.
+ *
+ * `getAppMode()` above only decides where "/" sends someone, which left the
+ * clinician workspace fully reachable at /doctor on the patient domain. A
+ * patient following a shared link could walk into a screen built for a
+ * prescriber - prescriber-directed labeling, a share tool, an NFC tap point -
+ * with nothing marking it as not for them.
+ *
+ * The rule is asymmetric on purpose:
+ *
+ *   APP_MODE=doctor   clinician deployment. Serves BOTH, because the workspace
+ *                     previews the very patient pages it shares, and those
+ *                     pages are public patient information either way.
+ *   APP_MODE=patient  patient deployment, and the default, so a missing or
+ *                     misspelt value fails closed. /doctor is not served.
+ *   development       serves both, so one checkout can work on either side.
+ *                     Vercel preview builds run as production and are gated.
+ *
+ * A 404, not a redirect: "this deployment does not have that page" is true,
+ * and a redirect would imply the page exists somewhere the reader can get to,
+ * which for a clinician tool is not something to advertise.
+ */
+export function servesClinicianWorkspace(): boolean {
+  if (process.env.NODE_ENV !== "production") return true;
+  return getAppMode() === "doctor";
+}
+
 /* ------------------------------------------------------------------ origin */
 
 /**

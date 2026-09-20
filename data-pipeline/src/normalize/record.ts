@@ -252,11 +252,34 @@ export async function buildRecord(
     resolution.identity.activeMoiety ?? "",
   ]);
 
+  /*
+   * One product number, from the stronger of the two matchers.
+   *
+   * Drugs@FDA is matched TWICE against the same application. `resolveIdentity`
+   * uses an inline heuristic - dosage-form substring plus numerator equality -
+   * while `matchApprovalProduct` above does a real product match that
+   * understands package volume. For Ozempic, Drugs@FDA writes the strength as
+   * "4MG/3ML (1.34MG/ML)", so the heuristic compares 1.34 against a parsed
+   * numerator of 4, finds nothing, and records null. The real matcher resolved
+   * product 002.
+   *
+   * The export then published `identifiers.fdaProductNumber: null` beside
+   * `approval.productNumber: "002"` - the same fact, from the same record,
+   * disagreeing with itself.
+   *
+   * Nothing is invented here: the value is only adopted from a match that was
+   * already verified as exact, and only when the weaker path found nothing.
+   */
+  const identity =
+    resolution.identity.fdaProductNumber === null && approval.present
+      ? { ...resolution.identity, fdaProductNumber: approval.matchedProduct.productNumber }
+      : resolution.identity;
+
   return {
     schemaVersion: SCHEMA_VERSION,
     productKey: spec.productKey,
     resolution,
-    identity: resolution.identity,
+    identity,
     approvalEvidence,
     interactions,
     recalls: recallEvidence,

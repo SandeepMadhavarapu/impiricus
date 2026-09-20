@@ -145,11 +145,11 @@ export const SOURCE_REGISTER: SourceRegisterEntry[] = [
     populationCovered: "Virginia Medicaid members",
     geography: "Virginia",
     planYear: null,
-    datasetVersion: null,
-    effectiveStart: null,
+    datasetVersion: "07/01/2026 v4",
+    effectiveStart: "2026-07-01",
     effectiveEnd: null,
-    publishedDate: null,
-    retrievedAt: null,
+    publishedDate: "2026-07-01",
+    retrievedAt: "2026-09-20",
     access: "public-open",
     accessNotes: "Published as PDFs on the DMAS pharmacy pages.",
     updateCadence: "Periodic, with published effective dates",
@@ -161,13 +161,21 @@ export const SOURCE_REGISTER: SourceRegisterEntry[] = [
       "Fee-for-service and MCO coverage differ; each MCO may apply its own rules on top of the common core.",
       "Carve-outs exist and change.",
     ],
-    retrievalStatus: "discovered",
-    approximateSize: "Not measured",
+    retrievalStatus: "verified-against-original",
+    approximateSize: "PDL PDF, a few hundred KB per quarterly version",
     verificationNotes:
-      "NOT ingested. Virginia was the chosen demo jurisdiction, but a PDL PDF requires table extraction " +
-      "with footnote preservation and manual row-by-row verification before any restriction could be " +
-      "exported. Quarantining an uncertain extraction is required by the brief, so it is registered as " +
-      "discovered rather than parsed badly.",
+      "Retrieved, extracted and verified. This entry previously read 'NOT ingested ... registered as " +
+      "discovered rather than parsed badly', which stopped being true once the extraction landed: the " +
+      "pipeline now exports 3 Virginia policies and 94 classified changes between two genuinely " +
+      "retrieved published versions. A register that disagrees with the artifacts beside it is worse " +
+      "than no register. " +
+      "What was actually done: the 07/01/2026 v4 PDL was extracted with headers and footnotes " +
+      "preserved, and the preferred/non-preferred reading was corroborated against a SECOND document, " +
+      "the 2026-07-01 v3 QuickList, which lists preferred agents only. Policies carry " +
+      "extractionStatus 'verified-public-evidence' with zero unresolved extraction disputes. " +
+      "SCOPE: this is an OPERATOR export. The application does not read it. Its coverage flow is " +
+      "Medicare Part D only, and Virginia fee-for-service evidence must never be mixed into a Medicare " +
+      "or managed-care answer. Fee-for-service and MCO coverage still differ, and carve-outs change.",
   },
 
   /* ------------------------------------------- Commercial and PBM ------- */

@@ -242,6 +242,9 @@ const MODE_LABEL: Record<ChatAnswer["mode"], string> = {
   assistant: "AI answer · grounded in the label",
   "label-excerpts": "Label text · not AI",
   "not-covered": "Not covered by the label",
+  // Passages were retrieved but none was established as applicable. Worded so
+  // it cannot be read as "the label says this does not happen".
+  "insufficient-evidence": "No applicable label passage",
   "needs-clarification": "Needs clarification",
   unavailable: "Assistant unavailable",
   urgent: "Urgent",

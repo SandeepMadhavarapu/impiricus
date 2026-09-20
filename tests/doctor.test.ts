@@ -97,6 +97,10 @@ describe("doctor workflow", () => {
 
 it.each(["", "http://localhost:3000", "http://unsafe.example", "https://preview.example"])("enables nearby sharing for a selected medication in production regardless of public origin %j", async (origin) => {
   vi.stubEnv("NODE_ENV", "production");
+  // The clinician workspace is only served on the clinician deployment. This
+  // test is about nearby sharing, so it states that premise rather than
+  // relying on /doctor being reachable everywhere, which it no longer is.
+  vi.stubEnv("APP_MODE", "doctor");
   vi.stubEnv("PUBLIC_ORIGIN", origin);
   vi.stubEnv("NEXT_PUBLIC_SITE_ORIGIN", "");
   const html = await render(slug);

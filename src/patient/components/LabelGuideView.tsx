@@ -3,6 +3,7 @@ import type { IntegrationState } from "@/shared/lib/config";
 import { LabelSection } from "@/sources/components/LabelSection";
 import { ShareSection } from "@/doctor/components/ShareSection";
 import { PageOpenBeacon } from "@/patient/components/PageOpenBeacon";
+import { ReadAloud } from "@/patient/components/ReadAloud";
 import { AppBar } from "@/shared/components/AppBar";
 
 /**
@@ -63,6 +64,20 @@ export function LabelGuideView({
             This page shows what the official FDA label says about this medicine, in the label&rsquo;s
             own words. Nobody has rewritten it into simpler language yet.
           </p>
+
+          {/*
+            Read-aloud covers the scope note only on a label-sourced page.
+
+            There is no authored plain-language layer here, and the label's own
+            sections below are professional prose and tables. Reading those to
+            a lay listener would be worse than not offering it: a table read as
+            a sentence is no longer a table.
+          */}
+          <ReadAloud
+            lang="en-US"
+            label="what this page covers"
+            text={`${brand}. ${guide.scopeNote}`}
+          />
         </header>
 
         <dl className="identity-grid">

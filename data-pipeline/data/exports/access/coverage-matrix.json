@@ -1,6 +1,6 @@
 {
   "schemaVersion": "access-1.0.0",
-  "generatedAt": "2026-09-19T21:03:20.507Z",
+  "generatedAt": "2026-09-20T06:09:00.952Z",
   "note": "Exactly which source was checked for which product and plan, and what came back. A row with status not-addressed-in-this-document means the source did not mention the product; it does NOT mean the product is not covered.",
   "rows": [
     {
@@ -45,10 +45,10 @@
       "sourceDocument": "Prescription Drug Plan Formulary, Pharmacy Network, and Pricing Information Files",
       "documentVersion": "2026-08",
       "retrievedAt": "2026-09-19T19:58:18.826Z",
-      "listingStatus": "listed-with-restrictions",
+      "listingStatus": "not-addressed-in-this-document",
       "requirementCount": 1,
       "actionCount": 5,
-      "applicability": "verified-for-this-plan",
+      "applicability": "policy-applicability-unresolved",
       "extractionStatus": "verified-public-evidence"
     },
     {
@@ -77,10 +77,10 @@
       "sourceDocument": "Prescription Drug Plan Formulary, Pharmacy Network, and Pricing Information Files",
       "documentVersion": "2026-08",
       "retrievedAt": "2026-09-19T19:58:18.826Z",
-      "listingStatus": "listed-without-preference-tiering",
+      "listingStatus": "not-addressed-in-this-document",
       "requirementCount": 0,
       "actionCount": 5,
-      "applicability": "verified-for-this-plan",
+      "applicability": "policy-applicability-unresolved",
       "extractionStatus": "verified-public-evidence"
     },
     {
@@ -108,7 +108,7 @@
       "planYear": null,
       "sourceDocument": "Virginia's Medicaid Preferred Drug List (PDL) / Common Core Formulary",
       "documentVersion": "07/01/2026 v4",
-      "retrievedAt": "2026-09-19T21:03:19.046Z",
+      "retrievedAt": "2026-09-20T06:08:58.398Z",
       "listingStatus": "not-addressed-in-this-document",
       "requirementCount": 0,
       "actionCount": 4,
@@ -124,7 +124,7 @@
       "planYear": null,
       "sourceDocument": "Virginia's Medicaid Preferred Drug List (PDL) / Common Core Formulary",
       "documentVersion": "07/01/2026 v4",
-      "retrievedAt": "2026-09-19T21:03:19.046Z",
+      "retrievedAt": "2026-09-20T06:08:58.398Z",
       "listingStatus": "non-preferred",
       "requirementCount": 1,
       "actionCount": 4,
@@ -140,7 +140,7 @@
       "planYear": null,
       "sourceDocument": "Virginia's Medicaid Preferred Drug List (PDL) / Common Core Formulary",
       "documentVersion": "07/01/2026 v4",
-      "retrievedAt": "2026-09-19T21:03:19.046Z",
+      "retrievedAt": "2026-09-20T06:08:58.398Z",
       "listingStatus": "non-preferred",
       "requirementCount": 1,
       "actionCount": 4,

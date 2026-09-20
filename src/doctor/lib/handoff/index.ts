@@ -74,12 +74,17 @@ export function reasonForAnswerMode(
     | "assistant"
     | "label-excerpts"
     | "not-covered"
+    | "insufficient-evidence"
     | "needs-clarification"
     | "unavailable"
     | "urgent"
 ): UnresolvedReason | null {
   switch (mode) {
     case "not-covered":
+    // Passages existed but none applied. From a clinician's point of view this
+    // is the same actionable situation as nothing being retrieved - the label
+    // did not answer it - so it carries the same unresolved reason.
+    case "insufficient-evidence":
       return "not-covered";
     // An unresolved pronoun ("is that the same for her?") is not a question a
     // clinician can act on. Carrying it would hand over noise.

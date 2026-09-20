@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-09-19T20:17:17.715Z",
+  "generatedAt": "2026-09-20T06:11:17.065Z",
   "note": "Real responses produced from the committed CMS snapshot. memberBenefitVerified is false on every one: this pipeline has no authorised member-specific integration.",
   "examples": [
     {

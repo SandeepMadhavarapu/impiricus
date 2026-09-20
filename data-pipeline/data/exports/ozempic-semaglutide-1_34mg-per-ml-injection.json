@@ -26,7 +26,7 @@
     "rxnormTty": "SBD",
     "unii": [],
     "applicationNumber": "NDA209637",
-    "fdaProductNumber": null,
+    "fdaProductNumber": "002",
     "splSetId": "adec4fd2-6858-4c99-91d4-531f5f2a2d79",
     "splVersion": "20"
   },
@@ -3457,7 +3457,7 @@
     "note": "No clinician has reviewed this record. 'app-ready' means structurally consumable, NOT clinically approved."
   },
   "freshness": {
-    "ingestedAt": "2026-09-19T23:10:54.244Z",
+    "ingestedAt": "2026-09-20T06:27:38.123Z",
     "splEffectiveDate": "2026-06-01",
     "sourceEffectiveDate": "2026-06-01"
   },

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "access-1.0.0",
-  "generatedAt": "2026-09-19T21:03:20.500Z",
-  "asOfDate": "2026-09-19",
+  "generatedAt": "2026-09-20T06:09:00.947Z",
+  "asOfDate": "2026-09-20",
   "comparison": {
     "source": "Virginia Medicaid PDL / Common Core Formulary",
     "currentlyEffective": {
@@ -15,7 +15,7 @@
       "effectiveDate": "2026-10-01",
       "url": "https://www.virginiamedicaidpharmacyservices.com/provider/external/medicaid/vamps/doc/en-us/VAmed-PDL-List-Criteria-20261001-v2.pdf",
       "contentHash": "c31980bb856b27da5a893a89f727cae033f2be110b1b66fa5ca0714e49d0de98",
-      "daysUntilEffective": 12
+      "daysUntilEffective": 11
     },
     "allPublishedVersions": [
       {

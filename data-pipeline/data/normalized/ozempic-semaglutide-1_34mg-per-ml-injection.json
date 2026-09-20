@@ -189,7 +189,7 @@
       }
     ],
     "rationale": "All 8 checkable critical dimensions agree across 4 sources.",
-    "resolvedAt": "2026-09-19T23:10:53.544Z"
+    "resolvedAt": "2026-09-20T06:27:37.782Z"
   },
   "identity": {
     "productKey": "ozempic-semaglutide-1_34mg-per-ml-injection",
@@ -219,7 +219,7 @@
       "00169413013"
     ],
     "applicationNumber": "NDA209637",
-    "fdaProductNumber": null,
+    "fdaProductNumber": "002",
     "marketingCategory": "NDA",
     "rxcui": "2398842",
     "rxnormTty": "SBD",
@@ -2917,7 +2917,7 @@
         "sourceId": "dailymed",
         "sourceName": "DailyMed SPL Web Services v2",
         "url": "https://dailymed.nlm.nih.gov/dailymed/services/v2/spls/adec4fd2-6858-4c99-91d4-531f5f2a2d79.xml",
-        "retrievedAt": "2026-09-19T23:10:52.995Z",
+        "retrievedAt": "2026-09-19T19:40:31.708Z",
         "sourceEffectiveDate": "2026-06-01",
         "sourceIdentifier": "adec4fd2-6858-4c99-91d4-531f5f2a2d79",
         "sourceVersion": "20",
@@ -2931,7 +2931,7 @@
         "sourceId": "dailymed",
         "sourceName": "DailyMed SPL Web Services v2",
         "url": "https://dailymed.nlm.nih.gov/dailymed/services/v2/spls.json?setid=adec4fd2-6858-4c99-91d4-531f5f2a2d79",
-        "retrievedAt": "2026-09-19T23:10:53.217Z",
+        "retrievedAt": "2026-09-19T19:40:31.924Z",
         "sourceEffectiveDate": "Jun 10, 2026",
         "sourceIdentifier": "adec4fd2-6858-4c99-91d4-531f5f2a2d79",
         "sourceVersion": "20",
@@ -3034,7 +3034,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/2398842/properties.json",
-        "retrievedAt": "2026-09-19T23:10:53.304Z",
+        "retrievedAt": "2026-09-19T19:40:32.018Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "2398842",
         "sourceVersion": null,
@@ -3048,7 +3048,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/2398842/historystatus.json",
-        "retrievedAt": "2026-09-19T23:10:53.373Z",
+        "retrievedAt": "2026-09-19T19:40:32.114Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "2398842",
         "sourceVersion": null,
@@ -3062,7 +3062,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/2398842/allrelated.json",
-        "retrievedAt": "2026-09-19T23:10:53.372Z",
+        "retrievedAt": "2026-09-19T19:40:32.115Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "2398842",
         "sourceVersion": null,
@@ -3076,7 +3076,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/2398842/ndcs.json",
-        "retrievedAt": "2026-09-19T23:10:53.378Z",
+        "retrievedAt": "2026-09-19T19:40:32.114Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "2398842",
         "sourceVersion": null,
@@ -3233,14 +3233,14 @@
       {
         "sourceId": "drugsfda",
         "sourceName": "Drugs@FDA (via openFDA drug/drugsfda)",
-        "url": "https://api.fda.gov/drug/drugsfda.json?search=application_number%3A%22NDA209637%22&limit=10&skip=0",
-        "retrievedAt": "2026-09-19T23:10:53.868Z",
+        "url": "https://api.fda.gov/drug/drugsfda.json?search=application_number%3A%22NDA209637%22&limit=10&skip=0&api_key=REDACTED",
+        "retrievedAt": "2026-09-20T06:27:37.773Z",
         "sourceEffectiveDate": "2026-09-16",
         "sourceIdentifier": "NDA209637",
         "sourceVersion": null,
-        "rawPath": "data/raw/openfda/drugsfda-NDA209637-p0-37e4bc59063228a207522c72cad86e2a.json",
+        "rawPath": "data/raw/openfda/drugsfda-NDA209637-p0-debcb4956e4ce8d28eeda6738cb7856a.json",
         "contentHash": "c078b8c58e4cf34c8e4be265b1d973757ee77646fd66abb46cded99829a622d4",
-        "captureId": "37e4bc59063228a207522c72cad86e2a",
+        "captureId": "debcb4956e4ce8d28eeda6738cb7856a",
         "locator": "drug/drugsfda",
         "parserVersion": "pipeline-0.1.0"
       }
@@ -3265,14 +3265,14 @@
         {
           "sourceId": "openfda",
           "sourceName": "openFDA Drug APIs",
-          "url": "https://api.fda.gov/drug/enforcement.json?search=openfda.generic_name%3A%22semaglutide%22&limit=50&skip=0",
-          "retrievedAt": "2026-09-19T23:10:54.207Z",
+          "url": "https://api.fda.gov/drug/enforcement.json?search=openfda.generic_name%3A%22semaglutide%22&limit=50&skip=0&api_key=REDACTED",
+          "retrievedAt": "2026-09-20T06:27:38.109Z",
           "sourceEffectiveDate": "2026-09-09",
           "sourceIdentifier": "semaglutide",
           "sourceVersion": null,
-          "rawPath": "data/raw/openfda/enforcement-semaglutide-p0-730bf1059a7bed0cc7117eac3a489d65.json",
+          "rawPath": "data/raw/openfda/enforcement-semaglutide-p0-67aa824d004ffb2e5a9fdf95585857b1.json",
           "contentHash": "76f4f8c179ccb42c7c41cce0e0e6ff57209c75c028b4980825be0bb1ae737fee",
-          "captureId": "730bf1059a7bed0cc7117eac3a489d65",
+          "captureId": "67aa824d004ffb2e5a9fdf95585857b1",
           "locator": "drug/enforcement",
           "parserVersion": "pipeline-0.1.0"
         }
@@ -3465,6 +3465,6 @@
     "reviewedBy": null,
     "note": "No clinician has reviewed this record. 'app-ready' means structurally consumable, NOT clinically approved."
   },
-  "ingestedAt": "2026-09-19T23:10:54.244Z",
+  "ingestedAt": "2026-09-20T06:27:38.123Z",
   "parserVersion": "pipeline-0.1.0"
 }

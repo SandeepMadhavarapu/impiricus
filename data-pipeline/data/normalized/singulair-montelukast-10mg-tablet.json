@@ -179,7 +179,7 @@
       }
     ],
     "rationale": "All 8 checkable critical dimensions agree across 5 sources.",
-    "resolvedAt": "2026-09-19T23:10:50.319Z"
+    "resolvedAt": "2026-09-20T06:27:35.776Z"
   },
   "identity": {
     "productKey": "singulair-montelukast-10mg-tablet",
@@ -1824,7 +1824,7 @@
         "sourceId": "dailymed",
         "sourceName": "DailyMed SPL Web Services v2",
         "url": "https://dailymed.nlm.nih.gov/dailymed/services/v2/spls/482dcc92-b47f-4ea6-854a-f5ac2aea7842.xml",
-        "retrievedAt": "2026-09-19T23:10:49.686Z",
+        "retrievedAt": "2026-09-19T19:40:28.289Z",
         "sourceEffectiveDate": "2025-04-30",
         "sourceIdentifier": "482dcc92-b47f-4ea6-854a-f5ac2aea7842",
         "sourceVersion": "5",
@@ -1838,7 +1838,7 @@
         "sourceId": "dailymed",
         "sourceName": "DailyMed SPL Web Services v2",
         "url": "https://dailymed.nlm.nih.gov/dailymed/services/v2/spls.json?setid=482dcc92-b47f-4ea6-854a-f5ac2aea7842",
-        "retrievedAt": "2026-09-19T23:10:49.768Z",
+        "retrievedAt": "2026-09-19T19:40:28.488Z",
         "sourceEffectiveDate": "Jun 25, 2025",
         "sourceIdentifier": "482dcc92-b47f-4ea6-854a-f5ac2aea7842",
         "sourceVersion": "5",
@@ -1952,7 +1952,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/153892/properties.json",
-        "retrievedAt": "2026-09-19T23:10:49.998Z",
+        "retrievedAt": "2026-09-19T19:40:28.633Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "153892",
         "sourceVersion": null,
@@ -1966,7 +1966,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/153892/historystatus.json",
-        "retrievedAt": "2026-09-19T23:10:50.029Z",
+        "retrievedAt": "2026-09-19T19:40:28.669Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "153892",
         "sourceVersion": null,
@@ -1980,7 +1980,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/153892/allrelated.json",
-        "retrievedAt": "2026-09-19T23:10:50.096Z",
+        "retrievedAt": "2026-09-19T19:40:28.780Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "153892",
         "sourceVersion": null,
@@ -1994,7 +1994,7 @@
         "sourceId": "rxnav",
         "sourceName": "RxNav / RxNorm REST API",
         "url": "https://rxnav.nlm.nih.gov/REST/rxcui/153892/ndcs.json",
-        "retrievedAt": "2026-09-19T23:10:50.154Z",
+        "retrievedAt": "2026-09-19T19:40:28.730Z",
         "sourceEffectiveDate": null,
         "sourceIdentifier": "153892",
         "sourceVersion": null,
@@ -2366,14 +2366,14 @@
       {
         "sourceId": "drugsfda",
         "sourceName": "Drugs@FDA (via openFDA drug/drugsfda)",
-        "url": "https://api.fda.gov/drug/drugsfda.json?search=application_number%3A%22NDA020829%22&limit=10&skip=0",
-        "retrievedAt": "2026-09-19T23:10:50.677Z",
+        "url": "https://api.fda.gov/drug/drugsfda.json?search=application_number%3A%22NDA020829%22&limit=10&skip=0&api_key=REDACTED",
+        "retrievedAt": "2026-09-20T06:27:35.734Z",
         "sourceEffectiveDate": "2026-09-16",
         "sourceIdentifier": "NDA020829",
         "sourceVersion": null,
-        "rawPath": "data/raw/openfda/drugsfda-NDA020829-p0-8057d49ec9f3d112df73f69bc6db6c4c.json",
+        "rawPath": "data/raw/openfda/drugsfda-NDA020829-p0-6e8fefae6f896e2c6119b931f2672e76.json",
         "contentHash": "a5f338c11b6255c2741ab1f61ba55c64e5107741fc842711ebc912d06eeb5796",
-        "captureId": "8057d49ec9f3d112df73f69bc6db6c4c",
+        "captureId": "6e8fefae6f896e2c6119b931f2672e76",
         "locator": "drug/drugsfda",
         "parserVersion": "pipeline-0.1.0"
       }
@@ -2443,14 +2443,14 @@
         {
           "sourceId": "openfda",
           "sourceName": "openFDA Drug APIs",
-          "url": "https://api.fda.gov/drug/enforcement.json?search=openfda.generic_name%3A%22montelukast%20sodium%22&limit=50&skip=0",
-          "retrievedAt": "2026-09-19T23:10:51.009Z",
+          "url": "https://api.fda.gov/drug/enforcement.json?search=openfda.generic_name%3A%22montelukast+sodium%22&limit=50&skip=0&api_key=REDACTED",
+          "retrievedAt": "2026-09-20T06:27:36.095Z",
           "sourceEffectiveDate": "2026-09-09",
           "sourceIdentifier": "montelukast sodium",
           "sourceVersion": null,
-          "rawPath": "data/raw/openfda/enforcement-montelukast-sodium-p0-87e60abff8efd8551a11ad178c326d7d.json",
+          "rawPath": "data/raw/openfda/enforcement-montelukast-sodium-p0-9d607562eb2e01e574e9df54ec8f4ec0.json",
           "contentHash": "c489187e4dcc4de703a5e7e7a5fcb31585512845de42bce55796c29ebca1bbe8",
-          "captureId": "87e60abff8efd8551a11ad178c326d7d",
+          "captureId": "9d607562eb2e01e574e9df54ec8f4ec0",
           "locator": "drug/enforcement",
           "parserVersion": "pipeline-0.1.0"
         }
@@ -3061,6 +3061,6 @@
     "reviewedBy": null,
     "note": "No clinician has reviewed this record. 'app-ready' means structurally consumable, NOT clinically approved."
   },
-  "ingestedAt": "2026-09-19T23:10:51.047Z",
+  "ingestedAt": "2026-09-20T06:27:36.111Z",
   "parserVersion": "pipeline-0.1.0"
 }

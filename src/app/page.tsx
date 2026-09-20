@@ -12,6 +12,17 @@ import { getAppMode } from "@/shared/lib/config";
  * reachable directly regardless of mode; this only picks what "/" means. See
  * getAppMode() in src/shared/lib/config.ts.
  */
+/**
+ * Rendered per request, so the redirect reads the live APP_MODE.
+ *
+ * Next prerenders this by default, which freezes the redirect target into the
+ * build output: a clinician deployment built without APP_MODE present would
+ * send its own home page to the patient page and never reach /doctor. It works
+ * on a host that exposes the variable at build time and fails silently on one
+ * that does not, which is the worst combination to depend on.
+ */
+export const dynamic = "force-dynamic";
+
 export default function Home() {
   redirect(getAppMode() === "doctor" ? "/doctor" : `/medications/${DEFAULT_MEDICATION_SLUG}`);
 }

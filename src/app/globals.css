@@ -1616,3 +1616,59 @@ a:hover {
   display: grid;
   place-items: center;
 }
+
+/* Read-aloud control. Meets the same 44px tap target as every other control
+   here; it sits in narrative text where a small button is easy to miss. */
+.read-aloud {
+  min-height: var(--tap);
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ---------------------------------------------------- tap target floor ----
+
+   Three families of control sat under the 44px minimum on a phone: the
+   disclosure summaries that open every section (17 per page), the external
+   source links inside citations (38), and the plain links beside them. They
+   are the primary way anything on a medication page is opened or verified.
+
+   Vertical padding only. Horizontal padding would detach an inline link from
+   the sentence it belongs to. */
+
+.disclosure summary {
+  min-height: var(--tap);
+}
+
+.cite-source-link a,
+a.external-note {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding: 6px 0;
+  /* Long section titles wrap inside the link rather than overflowing 320px. */
+  overflow-wrap: anywhere;
+}
+
+/* Emergency numbers, and the key points that open a section.
+
+   A tel: link is the one control on the page somebody may be trying to hit in
+   a hurry and not at their best. Poison Control measured 38px and 988 measured
+   17px inline; both are now full-size targets. The key points were 43px - one
+   pixel short - because they collapse onto a single line on a wide screen.
+
+   Inline links inside a sentence (DailyMed, Medication Guide) are deliberately
+   left as they are: forcing 44px on them would break the line box around the
+   prose they sit in, and WCAG 2.5.8 exempts a link inside a block of text. */
+
+a[href^="tel:"] {
+  display: inline-block;
+  min-height: var(--tap);
+  padding: 8px 0;
+  font-weight: 650;
+}
+
+.key-points li a {
+  display: inline-block;
+  min-height: var(--tap);
+  padding: 2px 0;
+}
