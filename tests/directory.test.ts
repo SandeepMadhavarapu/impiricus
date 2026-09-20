@@ -108,12 +108,28 @@ describe("the plan directory", () => {
 
 describe("pharmacy search", () => {
   /**
-   * No pharmacy dataset is licensed, so this must stay empty. Inventing
-   * nearby pharmacies would put fictional addresses in front of someone
-   * deciding where to fill a prescription.
+   * Pharmacies now come from the CMS NPPES registry rather than an honest
+   * empty. The invariant that replaced "must stay empty" is stronger and is
+   * enforced in tests/pharmacy-lookup.test.ts: every row returned is one the
+   * registry published, filtered to the searched ZIP, and no row is ever
+   * synthesised or partly filled.
+   *
+   * What is asserted here is that no lookup leaves the process for input that
+   * was never a ZIP - checked without a network, so a failure means the guard
+   * broke rather than that a registry was slow.
    */
-  it("returns nothing rather than inventing pharmacies", () => {
-    expect(findPharmacies("22030")).toEqual([]);
+  it("does not reach the registry for a malformed ZIP", async () => {
+    let called = false;
+    const never: typeof fetch = async () => {
+      called = true;
+      throw new Error("the registry must not be called for a malformed ZIP");
+    };
+    for (const bad of ["abc", "", "2203", "220301", "22030-1234"]) {
+      const result = await findPharmacies(bad, never);
+      expect(result.status, bad).toBe("unavailable");
+      expect(result.pharmacies, bad).toEqual([]);
+    }
+    expect(called).toBe(false);
   });
 
   it("rejects anything that is not a 5-digit ZIP", () => {
@@ -124,8 +140,12 @@ describe("pharmacy search", () => {
     }
   });
 
-  it("does not run a lookup for a malformed ZIP", () => {
-    expect(findPharmacies("abc")).toEqual([]);
-    expect(findPharmacies("")).toEqual([]);
+  it("reports an invalid ZIP as unavailable, never as an empty neighbourhood", async () => {
+    // "We did not search" and "there are none near you" are different facts,
+    // and only one of them is an answer about the reader's neighbourhood.
+    const result = await findPharmacies("abc", async () => {
+      throw new Error("unreachable");
+    });
+    expect(result).toEqual({ status: "unavailable", pharmacies: [], reason: "invalid-zip" });
   });
 });

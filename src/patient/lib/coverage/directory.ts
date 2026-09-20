@@ -4,11 +4,12 @@ import plansData from "@/sources/content/insurance/plans.json";
 /**
  * Directory of payers, their plans, and pharmacies near a ZIP code.
  *
- * This is the lookup layer behind the coverage form's pickers. Payers and
- * plans are REAL: 5,517 exact Medicare Part D plan identities from the
- * verified CMS release, synced by `npm run content:sync`. Pharmacies are not,
- * because no pharmacy dataset has been licensed, and that stays an honest
- * empty rather than a plausible invention.
+ * This is the lookup layer behind the coverage form's pickers, and everything
+ * it returns is real. Payers and plans are 5,517 exact Medicare Part D plan
+ * identities from the verified CMS release, synced by `npm run content:sync`.
+ * Pharmacies are registered organisations from the CMS NPPES registry, looked
+ * up live in ./pharmacies - which documents what a registration does and does
+ * not prove. Nothing in either list is invented.
  *
  * ---------------------------------------------------------------------------
  * A PLAN NAME IS NOT AN IDENTIFIER
@@ -54,15 +55,14 @@ export interface Plan {
   label: string;
 }
 
-export interface Pharmacy {
-  id: string;
-  name: string;
-  address: string;
-  zip: string;
-  /** Miles from the searched ZIP. Only set when the source provides one. */
-  distanceMiles?: number;
-  kind: "retail" | "mail-order" | "specialty";
-}
+/*
+ * Pharmacies come from the CMS NPPES registry and live in ./pharmacies, which
+ * owns the lookup, the caveats about what a registration proves, and the
+ * strict filtering that keeps "near you" true. Re-exported here so this module
+ * stays the one place the coverage form's directory is reached through.
+ */
+export type { Pharmacy, PharmacyLookup } from "./pharmacies";
+export { findPharmacies, isValidZip } from "./pharmacies";
 
 interface RawPlan {
   planKey: string;
@@ -179,31 +179,6 @@ export function planCandidatesByName(name: string): Plan[] {
     for (const p of list) if (normalise(p.name) === q) out.push(p);
   }
   return out;
-}
-
-/**
- * Pharmacies near a ZIP code, nearest first.
- *
- * No pharmacy dataset has been licensed for this prototype, so this returns
- * empty and the form falls back to asking for a pharmacy type and says the
- * search is not connected. Inventing nearby pharmacies would put fictional
- * addresses in front of someone deciding where to fill a prescription.
- *
- * The ZIP is used to run the lookup and is not stored or logged. Five digits
- * is coarse enough not to identify a person on its own, and nothing here
- * pairs it with anything that would.
- *
- * To connect one: return real rows here. Set `distanceMiles` only when the
- * source provides a distance. Never estimate it.
- */
-export function findPharmacies(zip: string): Pharmacy[] {
-  if (!isValidZip(zip)) return [];
-  return [];
-}
-
-/** US ZIP, 5 digits. Rejects anything else rather than guessing. */
-export function isValidZip(zip: string): boolean {
-  return /^\d{5}$/.test(zip.trim());
 }
 
 /** Case- and punctuation-insensitive match for the insurer type-ahead. */

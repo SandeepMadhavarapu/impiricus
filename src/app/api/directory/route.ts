@@ -75,7 +75,23 @@ export async function GET(req: Request) {
         { status: 400, headers: NO_STORE }
       );
     }
-    return NextResponse.json({ pharmacies: findPharmacies(zip) }, { headers: NO_STORE });
+    const lookup = await findPharmacies(zip);
+    if (lookup.status === "unavailable") {
+      /*
+       * "We could not check" must never render as "there are none near you".
+       * The form falls back to the pharmacy-type question, which still lets
+       * the person finish, and says why rather than showing an empty picker.
+       */
+      return NextResponse.json(
+        {
+          pharmacies: [],
+          error:
+            "The pharmacy registry could not be reached just now. Pick a pharmacy type instead.",
+        },
+        { status: 200, headers: NO_STORE }
+      );
+    }
+    return NextResponse.json({ pharmacies: lookup.pharmacies }, { headers: NO_STORE });
   }
 
   return NextResponse.json(

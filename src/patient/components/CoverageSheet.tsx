@@ -462,13 +462,24 @@ export function CoverageSheet({
                         </option>
                       ))}
                     </select>
+                    {/*
+                      A registry listing proves the pharmacy registered with
+                      CMS at that address. It does not prove it is open, in
+                      network, or able to fill this prescription - and someone
+                      choosing where to go would otherwise reasonably assume
+                      all three.
+                    */}
+                    <p className="hint">
+                      From the federal pharmacy registry. Being listed does not mean a
+                      pharmacy is open, in network, or has this medication in stock.
+                    </p>
                   </div>
                 ) : (
                   <div className="field">
                     <label htmlFor="cov-pharm">Pharmacy type</label>
-                    {zip.length === 5 ? (
+                    {zip.length === 5 && !directory.pharmacyError ? (
                       <p className="hint">
-                        Pharmacy search is not connected yet, so pick a type for now.
+                        No pharmacy is registered in that ZIP code. Pick a type instead.
                       </p>
                     ) : null}
                     <select
