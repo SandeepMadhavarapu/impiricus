@@ -154,16 +154,35 @@ export type FormularyLookup =
   | { kind: "year-mismatch"; requestedYear: number; coveredYear: number }
   /** The plan could not be identified — do NOT infer anything from this. */
   | { kind: "plan-not-matched"; candidates: string[] }
+  /**
+   * The typed name fits several plans equally well.
+   *
+   * Distinct from "not matched": the name IS in the dataset, several times.
+   * Picking the first of them and reporting its tier as the reader's would be
+   * a coin flip presented as an answer.
+   */
+  | { kind: "plan-ambiguous"; candidates: string[] }
   /** Plan identified, no concept of this product on its formulary. */
-  | { kind: "drug-not-listed"; plan: PlanRow }
+  | { kind: "drug-not-listed"; plan: PlanRow; identification: PlanIdentification }
   | {
       kind: "listed";
       plan: PlanRow;
       row: FormularyRow;
       granularity: MatchGranularity;
+      identification: PlanIdentification;
       /** The concept the row matched, for the answer to name. */
       concept: { rxcui: string; name: string | null };
     };
+
+/**
+ * How confidently the plan behind an answer was established.
+ *
+ * `exact-key` means the reader chose this contract, plan and segment from the
+ * CMS directory. `sole-name-match` means a typed name fitted exactly one plan
+ * and nothing else came close - usable, but it is an inference about which
+ * plan someone holds, and the answer has to say so.
+ */
+export type PlanIdentification = "exact-key" | "sole-name-match";
 
 /* --------------------------------------------------------- plan matching */
 
@@ -207,16 +226,35 @@ function planByKey(snapshot: FormularySnapshot, key: string): PlanRow | null {
   );
 }
 
-/** Best fuzzy name match above the threshold, or null. */
-function planByName(snapshot: FormularySnapshot, insurer: string, planName: string): PlanRow | null {
+/**
+ * Every plan that fits a typed name equally well.
+ *
+ * Returns ALL plans tied at the best score rather than the first of them.
+ * Token overlap cannot separate "Humana Gold Plus H0028-007 (HMO D-SNP)" from
+ * the other Humana Gold Plus plans - the query's tokens appear in all of them,
+ * so they score identically - and taking the first produced a dual-eligible
+ * special needs plan's tier for anyone who typed the family name. Returning
+ * the tie lets the caller decline instead of guessing.
+ */
+function plansByName(
+  snapshot: FormularySnapshot,
+  insurer: string,
+  planName: string
+): PlanRow[] {
   const query = `${insurer} ${planName}`;
-  let best: { plan: PlanRow; score: number } | null = null;
+  let bestScore = 0;
+  let tied: PlanRow[] = [];
   for (const plan of snapshot.plans) {
     const candidate = `${plan.organizationName ?? ""} ${plan.planName}`;
     const score = matchScore(query, candidate);
-    if (!best || score > best.score) best = { plan, score };
+    if (score > bestScore) {
+      bestScore = score;
+      tied = [plan];
+    } else if (score === bestScore && score > 0) {
+      tied.push(plan);
+    }
   }
-  return best && best.score >= MATCH_THRESHOLD ? best.plan : null;
+  return bestScore >= MATCH_THRESHOLD ? tied : [];
 }
 
 /* ---------------------------------------------------------------- lookup */
@@ -248,9 +286,29 @@ export function lookupFormulary(
     return { kind: "year-mismatch", requestedYear: keyYear, coveredYear };
   }
 
-  const plan = selector.planKey
-    ? planByKey(snapshot, selector.planKey)
-    : planByName(snapshot, selector.insurer, selector.planName);
+  /*
+   * An exact key identifies a plan. A typed name does not.
+   *
+   * 39 plans in this release share one name, so a name yields candidates. Only
+   * a single unbeaten candidate is treated as the reader's plan, and even then
+   * the answer records that it was inferred rather than chosen.
+   */
+  let plan: PlanRow | null;
+  let identification: PlanIdentification;
+  if (selector.planKey) {
+    plan = planByKey(snapshot, selector.planKey);
+    identification = "exact-key";
+  } else {
+    const tied = plansByName(snapshot, selector.insurer, selector.planName);
+    if (tied.length > 1) {
+      return {
+        kind: "plan-ambiguous",
+        candidates: [...new Set(tied.map((p) => describePlan(p)))].slice(0, 5),
+      };
+    }
+    plan = tied[0] ?? null;
+    identification = "sole-name-match";
+  }
 
   if (!plan) {
     return {
@@ -265,14 +323,14 @@ export function lookupFormulary(
   // generic, and then as the generic.
   const exactRow = rows.find((f) => f.rxcui === concepts.exact.rxcui);
   if (exactRow) {
-    return { kind: "listed", plan, row: exactRow, granularity: "exact-product", concept: concepts.exact };
+    return { kind: "listed", plan, row: exactRow, granularity: "exact-product", identification, concept: concepts.exact };
   }
   for (const concept of concepts.clinicalDrug) {
     const row = rows.find((f) => f.rxcui === concept.rxcui);
-    if (row) return { kind: "listed", plan, row, granularity: "clinical-drug", concept };
+    if (row) return { kind: "listed", plan, row, granularity: "clinical-drug", identification, concept };
   }
 
-  return { kind: "drug-not-listed", plan };
+  return { kind: "drug-not-listed", plan, identification };
 }
 
 /**

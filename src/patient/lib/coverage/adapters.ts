@@ -9,6 +9,8 @@ import {
 } from "./formulary";
 import { loadFormularySnapshot } from "./snapshot";
 import { productConcepts } from "./concepts";
+import { getGuide, guideStrengthText, guideDosageForm } from "@/sources/lib/content/catalogue";
+import { strengthsEqual, dosageFormsEqual, formatStrength } from "@/sources/lib/content/strength";
 import {
   unknownField,
   type CoverageRequest,
@@ -281,6 +283,22 @@ export function cmsFormularyAdapter(
         adapter: "cms-part-d-formulary",
       });
 
+      /*
+       * The request must be about the product it names.
+       *
+       * `strength` and `dosageForm` arrive from the client, which prefills
+       * them from the product, so a mismatch means the pair no longer
+       * describes this medication. Until this check existed, they were echoed
+       * into the answer's scope and into its next steps but never validated,
+       * so "1", "mg" and "10 MG" all returned the real product's tier under a
+       * scope line quoting whatever had been submitted. That reads as a
+       * confirmed answer about a strength nobody dispenses.
+       */
+      const presentation = presentationMismatch(req);
+      if (presentation) {
+        return unverified(presentation.headline, presentation.why);
+      }
+
       // The product's own concepts, not every product's. Without them there is
       // nothing to look for, and the honest answer is that nothing was checked.
       const concepts = conceptsFor(req.slug);
@@ -323,16 +341,46 @@ export function cmsFormularyAdapter(
         );
       }
 
+      /*
+       * The typed name fits several plans equally well.
+       *
+       * Token overlap cannot separate them - the query's words appear in all
+       * of them - so the first was previously returned and its tier reported
+       * as the reader's. Typing "Humana Gold Plus" resolved to a dual-eligible
+       * special needs plan, whose tiers are not the tiers of the plan most
+       * people typing that name actually hold.
+       */
+      if (result.kind === "plan-ambiguous") {
+        return unverified("That plan name matches more than one plan", [
+          `"${req.planName}" fits several plans in the CMS file equally well, and their drug lists differ. Nothing was checked, because picking one of them would be a guess about which you hold.`,
+          `Plans it matches: ${result.candidates.join("; ")}.`,
+          "Choosing your plan from the list identifies it exactly, and the check can then run.",
+        ]);
+      }
+
       // From here on a specific plan was identified. Echo THAT plan, with its
       // identifiers, so the answer names what was checked rather than what was
       // typed. 39 plans share one name in this release.
       const checkedScope = { ...scope, plan: describePlan(result.plan) };
+
+      /*
+       * A plan inferred from a typed name is still an inference, even when it
+       * was the only candidate. The answer names the plan it checked so the
+       * reader can see whether it is theirs.
+       */
+      const identificationCaveats =
+        result.identification === "sole-name-match"
+          ? [
+              `This was matched from the name typed, not chosen from the plan list. It was checked against "${describePlan(result.plan)}". If that is not your plan, pick yours from the list and run the check again.`,
+            ]
+          : [];
 
       if (result.kind === "drug-not-listed") {
         return {
           state: "not-listed-on-checked-formulary",
           headline: `Not listed on the CMS formulary for ${result.plan.planName}`,
           caveats: [
+            ...identificationCaveats,
             `We checked the published CMS drug list for "${describePlan(result.plan)}". Neither this product nor its generic equivalent was on it.`,
             "Not being listed does not mean the medication is definitively not covered. A different strength or form may be listed, the plan may have updated its list, or an exception process may apply.",
             "Your prescriber can request a formulary exception, and member services can confirm.",
@@ -377,6 +425,7 @@ export function cmsFormularyAdapter(
         state: restricted ? "restrictions-indicated" : "formulary-listed",
         headline,
         caveats: [
+          ...identificationCaveats,
           ...genericCaveats,
           ...(restricted
             ? [
@@ -421,6 +470,51 @@ export function cmsFormularyAdapter(
  * Real data always wins over sample data, so an operator cannot accidentally
  * demo fiction while genuine evidence is available.
  */
+/**
+ * Whether the strength and form submitted still describe the product asked
+ * about. Returns null when they do, or the reason to decline when they do not.
+ *
+ * Coverage genuinely differs by strength and form - a plan can list the 25 mg
+ * and not the 50 mg - so answering about the product while quoting back a
+ * strength it does not come in is not a cosmetic mismatch. It is an answer to
+ * a question nobody asked, presented as an answer to the one they did.
+ *
+ * A product with no recorded presentation is not second-guessed: there is
+ * nothing to compare against, and inventing a comparison would be worse than
+ * making none.
+ */
+function presentationMismatch(
+  req: CoverageRequest
+): { headline: string; why: string[] } | null {
+  const guide = getGuide(req.slug);
+  if (!guide) return null;
+
+  const expectedStrength = guideStrengthText(guide);
+  const expectedForm = guideDosageForm(guide);
+
+  if (expectedStrength.trim().length > 0 && !strengthsEqual(req.strength, expectedStrength)) {
+    return {
+      headline: "The strength asked about is not the strength of this product",
+      why: [
+        `This page is about ${formatStrength(expectedStrength) ?? expectedStrength}, and the request asked about "${req.strength}". Coverage differs by strength, so nothing was checked rather than answering about a different one.`,
+        "Reopen the coverage check from the medication page to ask about the strength on this label.",
+      ],
+    };
+  }
+
+  if (expectedForm.trim().length > 0 && !dosageFormsEqual(req.dosageForm, expectedForm)) {
+    return {
+      headline: "The form asked about is not the form of this product",
+      why: [
+        `This page is about a ${expectedForm.toLowerCase()}, and the request asked about "${req.dosageForm}". A plan can list one form and not another, so nothing was checked.`,
+        "Reopen the coverage check from the medication page to ask about the form on this label.",
+      ],
+    };
+  }
+
+  return null;
+}
+
 export function getCoverageAdapter(): CoverageAdapter {
   const snapshot = loadFormularySnapshot();
   if (snapshot) return cmsFormularyAdapter(snapshot);

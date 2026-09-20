@@ -5,7 +5,7 @@ import { loadFormularySnapshot, resetFormularySnapshotCache } from "@/patient/li
 import { productConcepts } from "@/patient/lib/coverage/concepts";
 import { getCoverageAdapter, cmsFormularyAdapter } from "@/patient/lib/coverage/adapters";
 import { lookupFormulary } from "@/patient/lib/coverage/formulary";
-import { listGuideSlugs } from "@/sources/lib/content/catalogue";
+import { listGuideSlugs, getGuide, guideStrengthText, guideDosageForm } from "@/sources/lib/content/catalogue";
 import { directoryRelease, getPlan, listPayers } from "@/patient/lib/coverage/directory";
 import type { CoverageRequest } from "@/patient/lib/coverage/types";
 
@@ -86,13 +86,27 @@ const ORACLE = pipelineExamples
     };
   });
 
+/**
+ * The strength and form are read from the catalogue rather than written here.
+ *
+ * They used to be the placeholder "n/a", which the adapter ignored. It no
+ * longer does: a request whose strength is not the product's strength is
+ * refused, because coverage differs by strength. Deriving them keeps these
+ * requests the ones a reader's form would actually send, and keeps this
+ * fixture correct if a product's label is re-synced.
+ */
+function presentationOf(slug: string): { strength: string; dosageForm: string } {
+  const guide = getGuide(slug);
+  if (!guide) throw new Error(`no guide for ${slug}`);
+  return { strength: guideStrengthText(guide), dosageForm: guideDosageForm(guide) };
+}
+
 function req(slug: string, plan: typeof AARP): CoverageRequest {
   return {
     slug,
     ...plan,
     planYear: 2026,
-    strength: "n/a",
-    dosageForm: "n/a",
+    ...presentationOf(slug),
     quantity: 30,
     daysSupply: 30,
     pharmacyType: "unspecified",
