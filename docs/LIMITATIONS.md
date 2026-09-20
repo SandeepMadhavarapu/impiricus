@@ -101,10 +101,17 @@ requires physical-device testing.
 
 ## Added during the repair pass
 
-- **CMS formulary data is not ingested.** The integration is complete and
-  tested, but `src/sources/content/coverage/cms-part-d-snapshot.json` does not exist in
-  this environment, so coverage still reports "unable to verify". The source
-  archive is ~2.2 GB. Run `npm run coverage:ingest`.
+- **CMS formulary data is one monthly release.** The committed snapshot at
+  `src/sources/content/coverage/cms-part-d-snapshot.json` is the 2026-08 release
+  for contract year 2026. A request for any other plan year is refused as
+  "unable to verify" rather than answered from the wrong year's list. Refresh
+  with `cd data-pipeline && npm run insurance:ingest`, then `npm run content:sync`.
+- **A generic listing is reported as the generic.** Brand Singulair (RXCUI
+  153892) and brand Toprol XL (866438) each appear on exactly one formulary in
+  the 2026-08 release; their generic clinical drugs appear on hundreds. When
+  only the generic is listed the headline says so and `matchGranularity` is
+  `clinical-drug`. Whether the plan will pay for a brand prescription is a
+  question for the plan, and the result says that too.
 - **CMS data is Medicare Part D only.** Commercial and Medicaid plans are not in
   the dataset. Those plans return `unable-to-verify`, never "not covered".
 - **Plan matching is token-overlap, not authoritative.** A conservative

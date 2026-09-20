@@ -137,6 +137,15 @@ export interface CoverageResult {
   sourceTimestamp: string | null;
   /** Real, actionable steps the user can take regardless of the result. */
   nextSteps: NextStep[];
+  /**
+   * How closely the formulary row matched the product on the page, when a
+   * row was found. "clinical-drug" means the plan lists the GENERIC of this
+   * strength and form and not the brand itself; the headline and caveats say
+   * so, and this field lets callers tell the two apart without parsing prose.
+   * Null when nothing was found; absent from adapters that do not resolve
+   * RxNorm concepts.
+   */
+  matchGranularity?: "exact-product" | "clinical-drug" | null;
   /** True only in explicitly-labelled Sample mode. */
   isSample: boolean;
   /** Which adapter produced this. */

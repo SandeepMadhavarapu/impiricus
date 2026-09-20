@@ -8,7 +8,7 @@ import { z } from "zod";
  * domain data:
  *
  *   "Monthly Prescription Drug Plan Formulary and Pharmacy Network Information"
- *   https://data.cms.gov  (see scripts/ingest-formulary.mjs)
+ *   https://data.cms.gov
  *
  * Within it, two pipe-delimited files carry what we need:
  *   basic drugs formulary file -> FORMULARY_ID, RXCUI, TIER_LEVEL_VALUE,
@@ -30,11 +30,33 @@ import { z } from "zod";
  * never "member-benefit-response", and never a cost estimate. Only a pharmacy
  * claim produces a price.
  *
- * The dataset is ~2.2 GB compressed, so it is NOT committed. An operator runs
- * scripts/ingest-formulary.mjs, which downloads it, extracts only the rows
- * matching this product's RXCUIs, and writes a compact snapshot here. Until
- * that snapshot exists the adapter reports itself unconfigured — missing DATA,
- * not missing integration code.
+ * ---------------------------------------------------------------------------
+ * THREE THINGS THE LOOKUP MUST NOT CONFLATE
+ * ---------------------------------------------------------------------------
+ *
+ * 1. A PLAN NAME IS NOT A PLAN. 39 plans in the 2026-08 release are named
+ *    "AARP Medicare Rx Preferred from UHC (PDP)". When the form supplies an
+ *    exact identity (contract + plan + segment + year, chosen from the CMS
+ *    directory) the lookup uses ONLY that, and if that plan is absent it says
+ *    so rather than sliding to a similarly named one. Fuzzy name matching is
+ *    a fallback for a typed name, and it stays conservative.
+ *
+ * 2. A GENERIC LISTING IS NOT A BRAND LISTING. A formulary lists RxNorm
+ *    concepts, and a product has more than one: the exact branded product
+ *    (SBD) and the generic clinical drug of the same strength and form (SCD).
+ *    Brand Singulair (153892) is on ONE formulary in the 2026-08 release;
+ *    generic montelukast 10 mg (200224) is on hundreds. Both are searched,
+ *    exact first, and the result carries WHICH one was found so the answer
+ *    can say "the generic is listed; the brand is not" instead of "listed".
+ *
+ * 3. ONE PRODUCT'S RXCUIs, NOT EVERY PRODUCT'S. The snapshot holds rows for
+ *    every product the app knows. An earlier version of this lookup searched
+ *    all of them at once, so a Singulair check could match on an Ozempic row.
+ *    The caller passes the concepts for the one product on the page.
+ *
+ * The dataset is ~2.2 GB compressed. The data-pipeline package extracts the
+ * rows for our products and `npm run content:sync` converts that into the
+ * committed snapshot at src/sources/content/coverage/. See scripts/sync-label-exports.mjs.
  */
 
 export const FormularyRowSchema = z.object({
@@ -66,6 +88,11 @@ export const FormularySnapshotSchema = z.object({
   schemaVersion: z.literal(1),
   /** The CMS release this was extracted from, e.g. "2026-08". */
   cmsRelease: z.string().min(1),
+  /**
+   * The contract year the release describes. A formulary is only evidence
+   * for its own year; a request for another year is refused, not approximated.
+   */
+  contractYear: z.number().int().min(2000).max(2100),
   /** Source file URL, recorded so the claim is checkable. */
   sourceUrl: z.string().url(),
   retrievedAt: z.string().min(1),
@@ -76,17 +103,72 @@ export const FormularySnapshotSchema = z.object({
 });
 export type FormularySnapshot = z.infer<typeof FormularySnapshotSchema>;
 
+/* ------------------------------------------------------------- identity */
+
+/**
+ * How closely a formulary row matches the product on the page.
+ *
+ *   exact-product   The branded product concept itself (SBD).
+ *   clinical-drug   The generic clinical drug of the same strength and form
+ *                   (SCD). Real evidence, but about the generic, and the
+ *                   answer must say so.
+ */
+export type MatchGranularity = "exact-product" | "clinical-drug";
+
+/** The RxNorm concepts that identify ONE product, for the lookup. */
+export interface ProductConcepts {
+  exact: { rxcui: string; name: string | null };
+  clinicalDrug: Array<{ rxcui: string; name: string | null }>;
+}
+
+/**
+ * Which plan to check.
+ *
+ * `planKey` is the exact identity from the CMS directory picker, in the form
+ * the directory emits: "medicare-partd-<year>-<contract>-<plan>-<segment>".
+ * When present it is authoritative. `insurer` and `planName` are what the
+ * person typed, used only when no key was supplied.
+ */
+export interface PlanSelector {
+  planKey?: string;
+  insurer: string;
+  planName: string;
+  planYear: number;
+}
+
+const PLAN_KEY = /^medicare-partd-(\d{4})-([A-Za-z0-9]+)-([A-Za-z0-9]+)-([A-Za-z0-9]+)$/;
+
+/** Parses a directory plan key. Null for anything that is not one. */
+export function parsePlanKey(
+  key: string
+): { year: number; contractId: string; planId: string; segmentId: string } | null {
+  const m = PLAN_KEY.exec(key);
+  if (!m) return null;
+  return { year: Number(m[1]), contractId: m[2]!, planId: m[3]!, segmentId: m[4]! };
+}
+
 /** Result of looking one plan up in the snapshot. */
 export type FormularyLookup =
   | { kind: "no-snapshot" }
-  /** The plan name could not be matched — do NOT infer anything from this. */
+  /** The evidence is for a different contract year than was asked about. */
+  | { kind: "year-mismatch"; requestedYear: number; coveredYear: number }
+  /** The plan could not be identified — do NOT infer anything from this. */
   | { kind: "plan-not-matched"; candidates: string[] }
-  /** Plan matched, drug absent from its formulary. */
+  /** Plan identified, no concept of this product on its formulary. */
   | { kind: "drug-not-listed"; plan: PlanRow }
-  | { kind: "listed"; plan: PlanRow; row: FormularyRow };
+  | {
+      kind: "listed";
+      plan: PlanRow;
+      row: FormularyRow;
+      granularity: MatchGranularity;
+      /** The concept the row matched, for the answer to name. */
+      concept: { rxcui: string; name: string | null };
+    };
+
+/* --------------------------------------------------------- plan matching */
 
 /** Normalises a plan name for fuzzy comparison. */
-function planKey(s: string): string {
+function planNameKey(s: string): string {
   return s
     .toLowerCase()
     .replace(/\b(inc|llc|the|plan|plans|health|insurance|company|co)\b/g, " ")
@@ -100,8 +182,8 @@ function planKey(s: string): string {
  * nothing rather than guessing at someone's plan.
  */
 function matchScore(query: string, candidate: string): number {
-  const q = new Set(planKey(query).split(" ").filter((t) => t.length > 2));
-  const c = new Set(planKey(candidate).split(" ").filter((t) => t.length > 2));
+  const q = new Set(planNameKey(query).split(" ").filter((t) => t.length > 2));
+  const c = new Set(planNameKey(candidate).split(" ").filter((t) => t.length > 2));
   if (q.size === 0 || c.size === 0) return 0;
   let overlap = 0;
   for (const token of q) if (c.has(token)) overlap++;
@@ -111,21 +193,22 @@ function matchScore(query: string, candidate: string): number {
 /** A match below this is treated as no match at all. */
 export const MATCH_THRESHOLD = 0.6;
 
-/**
- * Looks up one plan's formulary entry for any of the product's RXCUIs.
- *
- * Returns a discriminated result so the caller can distinguish "we could not
- * find your plan" from "your plan does not list this drug" — conflating those
- * two is exactly how a coverage tool starts lying.
- */
-export function lookupFormulary(
-  snapshot: FormularySnapshot | null,
-  insurer: string,
-  planName: string,
-  rxcuis: string[]
-): FormularyLookup {
-  if (!snapshot) return { kind: "no-snapshot" };
+/** Exact identity, or null. Never falls back to a name. */
+function planByKey(snapshot: FormularySnapshot, key: string): PlanRow | null {
+  const parsed = parsePlanKey(key);
+  if (!parsed) return null;
+  return (
+    snapshot.plans.find(
+      (p) =>
+        p.contractId === parsed.contractId &&
+        p.planId === parsed.planId &&
+        (p.segmentId ?? "000") === parsed.segmentId
+    ) ?? null
+  );
+}
 
+/** Best fuzzy name match above the threshold, or null. */
+function planByName(snapshot: FormularySnapshot, insurer: string, planName: string): PlanRow | null {
   const query = `${insurer} ${planName}`;
   let best: { plan: PlanRow; score: number } | null = null;
   for (const plan of snapshot.plans) {
@@ -133,26 +216,74 @@ export function lookupFormulary(
     const score = matchScore(query, candidate);
     if (!best || score > best.score) best = { plan, score };
   }
+  return best && best.score >= MATCH_THRESHOLD ? best.plan : null;
+}
 
-  if (!best || best.score < MATCH_THRESHOLD) {
+/* ---------------------------------------------------------------- lookup */
+
+/**
+ * Looks up one plan's formulary entry for one product.
+ *
+ * Returns a discriminated result so the caller can distinguish "we could not
+ * find your plan" from "your plan does not list this drug" from "your plan
+ * lists the generic, not the brand" — conflating any two of those is exactly
+ * how a coverage tool starts lying.
+ */
+export function lookupFormulary(
+  snapshot: FormularySnapshot | null,
+  selector: PlanSelector,
+  concepts: ProductConcepts
+): FormularyLookup {
+  if (!snapshot) return { kind: "no-snapshot" };
+
+  // A 2026 formulary says nothing about 2025 or 2027 coverage. Checked before
+  // resolving the plan. A plan key carries its own year, and that must agree
+  // with the evidence too.
+  const coveredYear = snapshot.contractYear;
+  if (selector.planYear !== coveredYear) {
+    return { kind: "year-mismatch", requestedYear: selector.planYear, coveredYear };
+  }
+  const keyYear = selector.planKey ? parsePlanKey(selector.planKey)?.year : undefined;
+  if (keyYear !== undefined && keyYear !== coveredYear) {
+    return { kind: "year-mismatch", requestedYear: keyYear, coveredYear };
+  }
+
+  const plan = selector.planKey
+    ? planByKey(snapshot, selector.planKey)
+    : planByName(snapshot, selector.insurer, selector.planName);
+
+  if (!plan) {
     return {
       kind: "plan-not-matched",
       candidates: snapshot.plans.slice(0, 5).map((p) => p.planName),
     };
   }
 
-  const wanted = new Set(rxcuis);
-  const row = snapshot.formulary.find(
-    (f) => f.formularyId === best!.plan.formularyId && wanted.has(f.rxcui)
-  );
+  const rows = snapshot.formulary.filter((f) => f.formularyId === plan.formularyId);
 
-  return row
-    ? { kind: "listed", plan: best.plan, row }
-    : { kind: "drug-not-listed", plan: best.plan };
+  // Exact product first. Only if the brand itself is absent do we report the
+  // generic, and then as the generic.
+  const exactRow = rows.find((f) => f.rxcui === concepts.exact.rxcui);
+  if (exactRow) {
+    return { kind: "listed", plan, row: exactRow, granularity: "exact-product", concept: concepts.exact };
+  }
+  for (const concept of concepts.clinicalDrug) {
+    const row = rows.find((f) => f.rxcui === concept.rxcui);
+    if (row) return { kind: "listed", plan, row, granularity: "clinical-drug", concept };
+  }
+
+  return { kind: "drug-not-listed", plan };
 }
 
 /** Renders a published quantity limit, or null when CMS did not publish one. */
 export function describeQuantityLimit(row: FormularyRow): string | null {
   if (!row.quantityLimit) return "No limit published for this plan";
   return row.quantityLimitDescription;
+}
+
+/** "Organisation: Plan name (H1234-001-000)" — the identity that was checked. */
+export function describePlan(plan: PlanRow): string {
+  const id = [plan.contractId, plan.planId, plan.segmentId ?? "000"].join("-");
+  const org = plan.organizationName ? `${plan.organizationName}: ` : "";
+  return `${org}${plan.planName} (${id})`;
 }

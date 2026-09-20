@@ -40,7 +40,7 @@ insurer. No clinician has reviewed its content.
 | Follow-up questions (conversation-aware retrieval) | **Working** |
 | Unresolved question preserved across the provider handoff | **Working** |
 | Insurance coverage input + result states | **Working** |
-| Insurance coverage: real CMS Part D formulary evidence | **Integration complete; awaiting data ingest** (`npm run coverage:ingest`) |
+| Insurance coverage: real CMS Part D formulary evidence | **Working**, on the committed 2026-08 CMS snapshot: 979 formulary rows for the three products across 5,517 plans. Resolves the exact plan by key, searches the product's own brand and generic concepts, and says which one it found |
 | Insurance coverage against a member-specific payer API | **Not implemented**, no credential exists |
 | Insurer and plan pickers | **Working**, on 5,517 verified CMS Part D plan identities. A plan name is never treated as an identity |
 | Pharmacy-by-ZIP search | **Not implemented**, no pharmacy dataset is licensed. Falls back to a pharmacy type and says so |
@@ -148,9 +148,8 @@ patient workflows are unchanged.
 | `npm run verify` | typecheck → lint → test → build |
 | `npm run content:fetch` | Re-fetch the FDA label and rewrite the provenance-stamped source record |
 | `npm run content:verify` | Check the stored label is still the current SPL version |
-| `npm run coverage:ingest` | Download CMS Part D formulary data and write the plan-specific snapshot |
-| `npm run coverage:ingest -- --dry-run` | Resolve the current CMS release without downloading (~2.2 GB) |
-| `npm run content:sync` | Copy the pipeline's app-ready exports and Part D plan directory into `src/` |
+| `npm run content:sync` | Copy the pipeline's app-ready exports, Part D plan directory, formulary snapshot and product concept identities into `src/` |
+| `npm run coverage:ingest` | Retired. Prints the current path (`data-pipeline` → `insurance:ingest`, then `content:sync`) and exits |
 
 ### Configuration
 

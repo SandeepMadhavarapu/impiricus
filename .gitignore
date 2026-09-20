@@ -22,9 +22,13 @@ next-env.d.ts
 .DS_Store
 Thumbs.db
 
-# Ingested CMS formulary snapshot (regenerate with npm run coverage:ingest).
-# ~2.2 GB source; the extracted subset is operator-generated, not committed.
-/src/sources/content/coverage/
+# The CMS Part D formulary snapshot and product concept identities under
+# src/sources/content/coverage/ ARE committed, for the same reason as the plan
+# directory below: the app imports them, and the Vercel build has no CMS access
+# and no pipeline checkout, so an ignored file is simply absent in production.
+# That is what this rule used to do, and every coverage check answered "not
+# connected to any formulary database" while 979 real rows sat in the
+# pipeline's committed output. Regenerate with `npm run content:sync`.
 
 # Vercel CLI project link metadata (local to this machine's deployments).
 .vercel

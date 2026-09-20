@@ -3,9 +3,12 @@ import { getCoverageConfig } from "@/shared/lib/config";
 import {
   lookupFormulary,
   describeQuantityLimit,
+  describePlan,
   type FormularySnapshot,
+  type ProductConcepts,
 } from "./formulary";
 import { loadFormularySnapshot } from "./snapshot";
+import { productConcepts } from "./concepts";
 import {
   unknownField,
   type CoverageRequest,
@@ -232,8 +235,15 @@ function pickScenario(req: CoverageRequest): Scenario {
  * coverage, so a hit resolves to "formulary-listed" or
  * "restrictions-indicated" and NEVER to "member-benefit-response". No cost
  * estimate is ever produced: a formulary document does not know what you pay.
+ *
+ * `conceptsFor` resolves a slug to the RxNorm concepts that identify THAT
+ * product. It is a parameter so tests can supply synthetic identities; the
+ * app passes nothing and gets the committed ones.
  */
-export function cmsFormularyAdapter(snapshot: FormularySnapshot): CoverageAdapter {
+export function cmsFormularyAdapter(
+  snapshot: FormularySnapshot,
+  conceptsFor: (slug: string) => ProductConcepts | null = productConcepts
+): CoverageAdapter {
   return {
     id: "cms-part-d-formulary",
     displayName: `CMS Part D formulary (${snapshot.cmsRelease})`,
@@ -241,7 +251,6 @@ export function cmsFormularyAdapter(snapshot: FormularySnapshot): CoverageAdapte
       const scope = baseScope(req, productLabel);
       const steps = universalNextSteps(req);
       const stamp = `CMS Part D public formulary file, release ${snapshot.cmsRelease}, retrieved ${snapshot.retrievedAt}`;
-      const result = lookupFormulary(snapshot, req.insurer, req.planName, snapshot.rxcuis);
 
       const sharedCaveats = [
         "This is Medicare Part D formulary data published by CMS. It describes the plan's drug list, not your personal benefit.",
@@ -249,49 +258,87 @@ export function cmsFormularyAdapter(snapshot: FormularySnapshot): CoverageAdapte
         "The amount you pay is only final once a pharmacy submits a claim.",
       ];
 
-      // "no-snapshot" is unreachable — this adapter is only constructed with a
-      // snapshot — but both cases mean the same thing: nothing was checked.
-      if (result.kind === "plan-not-matched" || result.kind === "no-snapshot") {
-        return {
-          state: "unable-to-verify",
-          headline:
-            result.kind === "no-snapshot"
-              ? "No formulary data has been ingested"
-              : "Could not match that plan in the CMS dataset",
-          caveats: [
-            result.kind === "no-snapshot"
-              ? "No CMS formulary snapshot is present, so nothing was checked. Run: npm run coverage:ingest"
-              : "The plan name you entered did not confidently match any plan in the CMS Part D formulary file, so nothing was checked.",
-            "This is not a statement that the medication is uncovered. It means we could not identify your plan.",
-            "This dataset covers Medicare Part D plans only. Commercial and Medicaid plans are not in it.",
-          ],
-          scope,
-          formularyListing: unknownField(),
-          tier: unknownField(),
-          priorAuthorization: unknownField(),
-          stepTherapy: unknownField(),
-          quantityLimits: unknownField(),
-          pharmacyRestrictions: unknownField(),
-          effectiveDates: unknownField(),
-          costEstimate: null,
-          sourceTimestamp: stamp,
-          nextSteps: steps,
-          isSample: false,
-          adapter: "cms-part-d-formulary",
-        };
+      const unverified = (headline: string, why: string[]): CoverageResult => ({
+        state: "unable-to-verify",
+        headline,
+        caveats: [
+          ...why,
+          "This is not a statement that the medication is uncovered. It means nothing was checked.",
+          "This dataset covers Medicare Part D plans only. Commercial and Medicaid plans are not in it.",
+        ],
+        scope,
+        formularyListing: unknownField(),
+        tier: unknownField(),
+        priorAuthorization: unknownField(),
+        stepTherapy: unknownField(),
+        quantityLimits: unknownField(),
+        pharmacyRestrictions: unknownField(),
+        effectiveDates: unknownField(),
+        costEstimate: null,
+        sourceTimestamp: stamp,
+        nextSteps: steps,
+        isSample: false,
+        adapter: "cms-part-d-formulary",
+      });
+
+      // The product's own concepts, not every product's. Without them there is
+      // nothing to look for, and the honest answer is that nothing was checked.
+      const concepts = conceptsFor(req.slug);
+      if (!concepts) {
+        return unverified("Could not identify this product in the formulary data", [
+          "No RxNorm concept identity is on file for this medication, so its formulary rows could not be looked up.",
+        ]);
       }
+
+      const result = lookupFormulary(
+        snapshot,
+        { planKey: req.planKey, insurer: req.insurer, planName: req.planName, planYear: req.planYear },
+        concepts
+      );
+
+      // "no-snapshot" is unreachable — this adapter is only constructed with a
+      // snapshot — but it means the same thing: nothing was checked.
+      if (result.kind === "no-snapshot") {
+        return unverified("No formulary data has been ingested", [
+          "No CMS formulary snapshot is present, so nothing was checked. Run: npm run content:sync",
+        ]);
+      }
+
+      if (result.kind === "year-mismatch") {
+        return unverified(`The available formulary data is for ${result.coveredYear}, not ${result.requestedYear}`, [
+          `The CMS release on file describes plan year ${result.coveredYear}. A ${result.requestedYear} plan's drug list can differ, so it was not checked against this data.`,
+        ]);
+      }
+
+      if (result.kind === "plan-not-matched") {
+        return unverified(
+          req.planKey
+            ? "That plan is not in the CMS dataset on file"
+            : "Could not match that plan in the CMS dataset",
+          [
+            req.planKey
+              ? "The exact plan you selected was not found in the CMS Part D formulary file on record, so nothing was checked."
+              : "The plan name you entered did not confidently match any plan in the CMS Part D formulary file, so nothing was checked. Choosing your plan from the list avoids this.",
+          ]
+        );
+      }
+
+      // From here on a specific plan was identified. Echo THAT plan, with its
+      // identifiers, so the answer names what was checked rather than what was
+      // typed. 39 plans share one name in this release.
+      const checkedScope = { ...scope, plan: describePlan(result.plan) };
 
       if (result.kind === "drug-not-listed") {
         return {
           state: "not-listed-on-checked-formulary",
           headline: `Not listed on the CMS formulary for ${result.plan.planName}`,
           caveats: [
-            `We matched your plan to "${result.plan.planName}" and checked its published CMS drug list. This product's RXCUIs were not on it.`,
+            `We checked the published CMS drug list for "${describePlan(result.plan)}". Neither this product nor its generic equivalent was on it.`,
             "Not being listed does not mean the medication is definitively not covered. A different strength or form may be listed, the plan may have updated its list, or an exception process may apply.",
             "Your prescriber can request a formulary exception, and member services can confirm.",
             ...sharedCaveats.slice(1),
           ],
-          scope,
+          scope: checkedScope,
           formularyListing: { value: "no", source: stamp },
           tier: unknownField(),
           priorAuthorization: unknownField(),
@@ -304,25 +351,41 @@ export function cmsFormularyAdapter(snapshot: FormularySnapshot): CoverageAdapte
           nextSteps: steps,
           isSample: false,
           adapter: "cms-part-d-formulary",
+          matchGranularity: null,
         };
       }
 
       // result.kind === "listed"
-      const { row, plan } = result;
+      const { row, plan, granularity, concept } = result;
       const restricted = row.priorAuthorization || row.stepTherapy || row.quantityLimit;
+      const generic = granularity === "clinical-drug";
+
+      // A generic listing is real evidence, but about the generic. Say so in
+      // the headline, not in a caveat nobody reads.
+      const what = generic ? `The generic (${concept.name ?? "same strength and form"}) is listed` : "Listed";
+      const headline = restricted
+        ? `${what} on ${plan.planName}, with restrictions`
+        : `${what} on the CMS formulary for ${plan.planName}`;
+
+      const genericCaveats = generic
+        ? [
+            `The brand-name product itself is not on this plan's published list. The row found is for the generic clinical drug${concept.name ? ` "${concept.name}"` : ""}, which the plan may substitute or may require. Ask the pharmacy or the plan how a brand prescription is handled.`,
+          ]
+        : [];
 
       return {
         state: restricted ? "restrictions-indicated" : "formulary-listed",
-        headline: restricted
-          ? `Listed on ${plan.planName}, with restrictions`
-          : `Listed on the CMS formulary for ${plan.planName}`,
-        caveats: restricted
-          ? [
-              "Restrictions mean your prescriber may need to submit additional information, or try another medicine first, before the plan will pay.",
-              ...sharedCaveats,
-            ]
-          : sharedCaveats,
-        scope,
+        headline,
+        caveats: [
+          ...genericCaveats,
+          ...(restricted
+            ? [
+                "Restrictions mean your prescriber may need to submit additional information, or try another medicine first, before the plan will pay.",
+              ]
+            : []),
+          ...sharedCaveats,
+        ],
+        scope: checkedScope,
         formularyListing: { value: "yes", source: stamp },
         tier: { value: row.tier !== null ? `Tier ${row.tier}` : null, source: row.tier !== null ? stamp : null },
         priorAuthorization: { value: row.priorAuthorization ? "yes" : "no", source: stamp },
@@ -341,6 +404,7 @@ export function cmsFormularyAdapter(snapshot: FormularySnapshot): CoverageAdapte
         nextSteps: steps,
         isSample: false,
         adapter: "cms-part-d-formulary",
+        matchGranularity: granularity,
       };
     },
   };
@@ -350,7 +414,7 @@ export function cmsFormularyAdapter(snapshot: FormularySnapshot): CoverageAdapte
 
 /**
  * Adapter precedence:
- *   1. real CMS formulary data, when an ingested snapshot is present
+ *   1. real CMS formulary data, when the committed snapshot parses
  *   2. sample mode, only if the operator explicitly opted in
  *   3. unconfigured — honest "unable to verify"
  *
