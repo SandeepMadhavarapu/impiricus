@@ -47,6 +47,10 @@ const nextConfig: NextConfig = {
         source: "/receive",
         headers: [{ key: "Permissions-Policy", value: "geolocation=(), microphone=(self), camera=(), payment=()" }],
       },
+      {
+        source: "/medications/:slug",
+        headers: [{ key: "Permissions-Policy", value: "geolocation=(), microphone=(self), camera=(), payment=()" }],
+      },
     ];
   },
 };

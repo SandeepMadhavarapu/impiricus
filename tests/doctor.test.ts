@@ -75,9 +75,9 @@ describe("doctor workflow", () => {
   );
 
   it("uses only the configured public medication URL", async () => {
-    vi.stubEnv("PUBLIC_ORIGIN", "https://medbridge.example/doctor?session=private#patient");
+    vi.stubEnv("PUBLIC_ORIGIN", "https://mediz.example/doctor?session=private#patient");
     const html = await render(slug);
-    expect(html).toContain(`https://medbridge.example/medications/${slug}`);
+    expect(html).toContain(`https://mediz.example/medications/${slug}`);
     expect(html).not.toContain("session=private");
     expect(html).not.toContain("#patient");
     expect(html).not.toMatch(/disabled="">Share with Patient/);

@@ -31,7 +31,7 @@ it("resolves clocked audio and stops microphone before callback", async () => {
 });
 it("stops after timeout", async () => {
   const error = vi.fn(); listenForToken(vi.fn(), error); await vi.advanceTimersByTimeAsync(30001);
-  expect(error).toHaveBeenCalledWith("We couldn't hear a MedBridge signal."); expect(trackStop).toHaveBeenCalled();
+  expect(error).toHaveBeenCalledWith("We couldn't hear a MediZ signal."); expect(trackStop).toHaveBeenCalled();
 });
 it("stops on cancellation and late microphone permission", async () => {
   let grant!: (value: unknown) => void;

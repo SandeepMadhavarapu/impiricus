@@ -27,11 +27,11 @@ export function formatCommand(operation: Operation, id: string, url?: string): s
   return `${operation} ${id}\n`;
 }
 export function parseReply(line: string): Reply | null {
-  if (line === "READY MEDBRIDGE_NFC") return null; // Boot announcement is not a handshake or verification.
+  if (line === "READY MEDIZ_NFC") return null; // Boot announcement is not a handshake or verification.
   if (line.length > MAX_LINE_BYTES || /[^\x20-\x7e]/.test(line)) throw new Error("Malformed Arduino response.");
   const [type, id, value, ...rest] = line.split(" ");
   if (!id || !ID.test(id) || rest.length) throw new Error("Malformed Arduino response.");
-  if (type === "READY" && value === "MEDBRIDGE_NFC") return { type, id };
+  if (type === "READY" && value === "MEDIZ_NFC") return { type, id };
   if (type === "STATUS" && (value === "WRITING" || value === "READING")) return { type, id, value };
   if ((type === "VERIFIED" || type === "NDEF_URI") && value) return { type, id, url: validateNfcUrl(value) };
   if (type === "ERROR" && value && /^[A-Z_]+$/.test(value)) return { type, id, code: value };

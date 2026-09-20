@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { ChatSheet } from "./ChatSheet";
 import { CoverageSheet } from "./CoverageSheet";
 import { ProviderSheet } from "@/doctor/components/ProviderSheet";
@@ -63,6 +64,9 @@ export function ActionBar({
             Check coverage
           </button>
         </div>
+        <Link className="btn btn--block" href="/receive" style={{ marginTop: 10 }}>
+          Receive guide with sound
+        </Link>
       </div>
 
       <ChatSheet

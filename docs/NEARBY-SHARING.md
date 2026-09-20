@@ -63,7 +63,9 @@ DEVICE A — HCP
 
 DEVICE B — PATIENT
 
-1. Open deployed `/receive`.
+1. On any patient medication page, choose **Receive guide with sound**, or open
+   **Connect with a provider → My own doctor or prescriber** to use the embedded
+   listener. The standalone deployed `/receive` page also works. No sign-in is needed.
 2. Press **Listen for guide**.
 3. Allow microphone access.
 4. Hold the phone near Device A (start with 10–30 cm in a quiet room).
@@ -92,7 +94,9 @@ CRC detects corruption; server authentication is separate. No correction or auto
 retransmission exists. Listening times out after 30 seconds. Microphone tracks and
 AudioContext are stopped on success, error, timeout, cancel, page hiding, and unmount;
 late permission results after cancellation are immediately stopped. Microphone
-Permissions-Policy is enabled only for same-origin `/receive`.
+Permissions-Policy permits same-origin microphone access on `/receive` and
+`/medications/:slug`, where the embedded patient listener lives. Other routes
+keep microphone access disabled. No listener starts until the patient presses Listen.
 
 Browser microphone access requires explicit permission. AudioContext is resumed
 within the user gesture before asynchronous network work. See

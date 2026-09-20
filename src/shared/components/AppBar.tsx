@@ -3,7 +3,7 @@
  *
  * Both screens are presented as part of one product delivered through
  * DocUpdate's app — the clinician builds the guide there, the patient opens
- * what was sent — so they carry the same bar. It is MedBridge's own name and
+ * what was sent — so they carry the same bar. It is MediZ's own name and
  * mark: nothing here uses DocUpdate's logo, wordmark or any asset of theirs.
  *
  * `badge` is optional because the two screens qualify themselves differently.
@@ -18,7 +18,7 @@ export function AppBar({ subtitle, badge }: { subtitle: string; badge?: string }
           <GuideIcon />
         </span>
         <span className="du-appbar-titles">
-          <strong>MedBridge</strong>
+          <strong>MediZ</strong>
           <span>{subtitle}</span>
         </span>
       </div>

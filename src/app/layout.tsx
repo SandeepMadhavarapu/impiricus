@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "MedBridge: plain-language medication information",
+  title: "MediZ: plain-language medication information",
   description:
     "Understand a medication in plain language, sourced from its FDA-approved label, with benefits and risks shown side by side.",
   robots: { index: false, follow: false },

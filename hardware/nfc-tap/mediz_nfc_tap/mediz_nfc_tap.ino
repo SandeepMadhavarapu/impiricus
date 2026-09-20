@@ -1,4 +1,4 @@
-/* MedBridge NFC memory proof: UNO R4 WiFi + Grove ST25DV64 via standard Wire.
+/* MediZ NFC memory proof: UNO R4 WiFi + Grove ST25DV64 via standard Wire.
  * Dependency: STM32duino ST25DV 2.2.0 (STMicroelectronics).
  * No RF/phone-tap success is implied. See ../README.md before uploading.
  */
@@ -11,9 +11,9 @@ ST25DV_IO chip(-1, -1, &Wire);
 char line[301];
 size_t used = 0;
 bool overflow = false;
-uint8_t wanted[MedBridgeNdef::IMAGE_SIZE];
-uint8_t actual[MedBridgeNdef::IMAGE_SIZE];
-char readUrl[MedBridgeNdef::MAX_URL + 1];
+uint8_t wanted[MediZNdef::IMAGE_SIZE];
+uint8_t actual[MediZNdef::IMAGE_SIZE];
+char readUrl[MediZNdef::MAX_URL + 1];
 
 void reply(const char *kind, const char *id, const char *value) {
   Serial.print(kind); Serial.print(' '); Serial.print(id); Serial.print(' '); Serial.println(value);
@@ -48,7 +48,7 @@ bool writeChip(uint16_t address, const uint8_t *data, size_t length) {
 }
 bool readNdef() {
   readUrl[0] = 0;
-  return readChip(0, actual, sizeof(actual)) && MedBridgeNdef::decode(actual, readUrl);
+  return readChip(0, actual, sizeof(actual)) && MediZNdef::decode(actual, readUrl);
 }
 bool validId(const char *id) {
   if (strlen(id) != 8) return false;
@@ -63,7 +63,7 @@ void command(char *input) {
   if (url) { *url = 0; ++url; }
   if (!validId(id)) { reply("ERROR", "00000000", "MALFORMED_COMMAND"); return; }
   if (!strcmp(input, "HELLO") && !url) {
-    if (chipPresent()) reply("READY", id, "MEDBRIDGE_NFC"); else reply("ERROR", id, "INIT_FAILED");
+    if (chipPresent()) reply("READY", id, "MEDIZ_NFC"); else reply("ERROR", id, "INIT_FAILED");
     return;
   }
   if (!strcmp(input, "READ_NDEF") && !url) {
@@ -72,7 +72,7 @@ void command(char *input) {
     reply("NDEF_URI", id, readUrl); return;
   }
   if (strcmp(input, "PROGRAM_NDEF_URI") || !url) { reply("ERROR", id, "MALFORMED_COMMAND"); return; }
-  if (!MedBridgeNdef::encode(url, wanted)) { reply("ERROR", id, "INVALID_URL"); return; }
+  if (!MediZNdef::encode(url, wanted)) { reply("ERROR", id, "INVALID_URL"); return; }
   if (!chipPresent()) { reply("ERROR", id, "INIT_FAILED"); return; }
   reply("STATUS", id, "WRITING");
   // Invalidate the TLV length first; publish its valid length only after body write.
@@ -84,7 +84,7 @@ void command(char *input) {
   reply("STATUS", id, "READING");
   // Fresh I2C transactions populate a SEPARATE buffer, not a write-buffer echo.
   if (!readChip(0, actual, sizeof(actual))) { reply("ERROR", id, "READ_FAILED"); return; }
-  if (memcmp(wanted, actual, sizeof(actual)) || !MedBridgeNdef::decode(actual, readUrl) || strcmp(url, readUrl)) {
+  if (memcmp(wanted, actual, sizeof(actual)) || !MediZNdef::decode(actual, readUrl) || strcmp(url, readUrl)) {
     reply("ERROR", id, "VERIFY_MISMATCH"); return;
   }
   reply("VERIFIED", id, readUrl); // The only VERIFIED emission in this firmware.
@@ -95,7 +95,7 @@ void setup() {
   Wire.setClock(100000);
   const unsigned long start = millis();
   while (!Serial && millis() - start < 3000) { delay(10); }
-  if (chipPresent()) Serial.println("READY MEDBRIDGE_NFC");
+  if (chipPresent()) Serial.println("READY MEDIZ_NFC");
   else reply("ERROR", "00000000", "INIT_FAILED");
 }
 void loop() {

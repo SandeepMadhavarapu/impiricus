@@ -29,7 +29,7 @@ export function listenForToken(onToken: (token: string) => void, onError: (messa
     if (context.state !== "closed") void context.close().catch(() => {});
   };
   const fail = (message: string) => { if (stopped) return; stop(); onError(message); };
-  const timeout = setTimeout(() => fail(collector.heardPreamble ? "We heard a signal, but couldn't verify it." : "We couldn't hear a MedBridge signal."), 30000);
+  const timeout = setTimeout(() => fail(collector.heardPreamble ? "We heard a signal, but couldn't verify it." : "We couldn't hear a MediZ signal."), 30000);
   // Both permission and resume originate directly from the explicit Listen gesture.
   const ready = context.resume();
   void ready.catch(() => fail("Audio paused. Press Listen for guide again."));

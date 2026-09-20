@@ -11,7 +11,7 @@
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
-const UA = "medbridge-hackathon-prototype/0.1 (content verify script)";
+const UA = "mediz-hackathon-prototype/0.1 (content verify script)";
 const SOURCE_DIR = path.join(process.cwd(), "src", "content", "sources");
 const STALE_AFTER_DAYS = 90;
 

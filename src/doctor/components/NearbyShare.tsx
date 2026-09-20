@@ -32,7 +32,7 @@ export function NearbyShare({ slug }: { slug: string }) {
   }
   return <div className="card stack" style={{ marginTop: 16 }}>
     <p className="eyebrow">Send Nearby · Experimental</p><h3>Send with sound</h3>
-    <p>Hold the patient’s phone nearby. Open <a href="/receive" target="_blank" rel="noreferrer">MedBridge Receive</a> on that phone and press Listen for guide before sending.</p>
+    <p>Hold the patient’s phone nearby. Open <a href="/receive" target="_blank" rel="noreferrer">MediZ Receive</a> on that phone and press Listen for guide before sending.</p>
     <p className="tiny">Sound sharing sends a temporary code, not your medical information. Turn up speaker volume. The signal lasts about 11 seconds.</p>
     <button type="button" className="btn btn--primary" disabled={busy} onClick={() => void send()}>{busy ? "Sending…" : session ? "Send again" : "Send Nearby"}</button>
     {busy ? <button className="btn" type="button" onClick={() => { cleanup.current?.(); setBusy(false); setMessage("Sending cancelled."); }}>Cancel</button> : null}
