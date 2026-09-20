@@ -92,8 +92,9 @@ clock handles repeated symbols and avoids cumulative timing drift.
 
 The receiver uses a 2048-point AnalyserNode, 10 ms polling, two consistent detections,
 a ±35 Hz bin tolerance, a -65 dB threshold, and 7 dB separation from competing tones.
-CRC detects corruption; server authentication is separate. No correction or automatic
-retransmission exists. Listening times out after 30 seconds. Microphone tracks and
+CRC detects corruption; server authentication is separate. The sender repeats each
+packet, and the receiver waits for a valid repeat rather than correcting data.
+Listening times out 60 seconds after the microphone is ready. Microphone tracks and
 AudioContext are stopped on success, error, timeout, cancel, page hiding, and unmount;
 late permission results after cancellation are immediately stopped. Microphone
 Permissions-Policy permits same-origin microphone access on `/receive` and
