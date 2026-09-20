@@ -15,7 +15,13 @@ import { getPublicOrigin, getIntegrationStates } from "@/shared/lib/config";
 import { buildShareUrl } from "@/doctor/lib/share";
 import { MedicationSection } from "@/patient/components/MedicationSection";
 import { ActionBar } from "@/patient/components/ActionBar";
-import { ReadAloud } from "@/patient/components/ReadAloud";
+import { ReadAloud, type ReadAloudTranslation } from "@/patient/components/ReadAloud";
+import {
+  SPOKEN_LOCALES,
+  LOCALE_NAMES,
+  SPEECH_TAGS,
+  spokenTranslation,
+} from "@/sources/lib/content/locales";
 import { ShareSection } from "@/doctor/components/ShareSection";
 import { ProvenancePanel } from "@/sources/components/ProvenancePanel";
 import { PageOpenBeacon } from "@/patient/components/PageOpenBeacon";
@@ -125,7 +131,8 @@ function PatientGuideView({ guide, slug }: { guide: Guide; slug: string }) {
           <ReadAloud
             lang="en-US"
             label="this summary"
-            text={[view.headline, ...view.keyPoints.map((p) => p.text)].join(" ")}
+            text={spokenSummary(view)}
+            translations={readAloudTranslations(slug, spokenSummary(view))}
           />
         </header>
 
@@ -234,4 +241,36 @@ function PatientGuideView({ guide, slug }: { guide: Guide; slug: string }) {
       </main>
     </>
   );
+}
+
+/** Exactly what read-aloud speaks in English: the headline then the key points. */
+function spokenSummary(view: { headline: string; keyPoints: Array<{ text: string }> }): string {
+  return [view.headline, ...view.keyPoints.map((p) => p.text)].join(" ");
+}
+
+/**
+ * The stored translations of that summary, as the control needs them.
+ *
+ * A translation whose `originalText` no longer matches the English being
+ * spoken is DROPPED rather than offered. That happens when a label is
+ * re-synced and the summary changes: the Spanish would then describe a
+ * previous version of the medicine's guidance while presenting itself as this
+ * one. Offering English-only is a worse experience and a correct one.
+ */
+function readAloudTranslations(slug: string, english: string): ReadAloudTranslation[] {
+  const out: ReadAloudTranslation[] = [];
+  for (const locale of SPOKEN_LOCALES) {
+    const section = spokenTranslation(slug, locale);
+    if (!section) continue;
+    if (section.originalText.trim() !== english.trim()) continue;
+    out.push({
+      locale,
+      name: LOCALE_NAMES[locale] ?? locale,
+      speechTag: SPEECH_TAGS[locale] ?? locale,
+      text: section.translatedText,
+      machineTranslated: section.translationOrigin === "machine-translated",
+      reviewed: section.reviewStatus === "clinically-reviewed",
+    });
+  }
+  return out;
 }

@@ -1,18 +1,34 @@
 import { z } from "zod";
+import translationsFile from "@/sources/content/translations/read-aloud.json";
 
 /**
  * Which languages this product can present MEDICAL content in.
  *
  * ---------------------------------------------------------------------------
- * TODAY THE ANSWER IS: ENGLISH ONLY
+ * THE PAGE IS ENGLISH. THE SPOKEN SUMMARY IS NOT ONLY ENGLISH.
  * ---------------------------------------------------------------------------
- * The catalogue was inventoried on 2026-09-20. No label export declares a
- * language, no translated section exists, and there is no localisation
- * framework. `SUPPORTED_CONTENT_LOCALES` is therefore `["en-US"]`, and the
- * language control is NOT rendered - a picker listing languages that resolve
- * to English, or to machine output, is worse than no picker. Someone who
- * selects "Español" and receives English has been told their language is
- * supported when it is not.
+ * Two separate claims live in this module, and collapsing them would overstate
+ * one of them:
+ *
+ *   SUPPORTED_CONTENT_LOCALES  what the PAGE is available in. English only.
+ *                              No label export declares a language and no
+ *                              reviewed translation of any section exists.
+ *   SPOKEN_LOCALES             what the read-aloud SUMMARY can be heard in.
+ *                              English, Spanish and French, from
+ *                              src/sources/content/translations/read-aloud.json.
+ *
+ * That asymmetry is deliberate and must stay visible. Someone who selects
+ * "Español" hears the summary in Spanish and still sees an English page, so
+ * the control says what it covers rather than implying the product speaks
+ * Spanish. Widening SUPPORTED_CONTENT_LOCALES on the strength of a translated
+ * paragraph would put lang=es on a share link for an English page.
+ *
+ * Both translations are MACHINE-TRANSLATED and UNREVIEWED. No clinician has
+ * checked them. They are offered because a listener who reads no English gets
+ * nothing at all from an English-only control, and they are labelled as
+ * machine output at the point of use with the English original on the same
+ * screen - which is the only condition under which `machine-translated` is
+ * permitted below.
  *
  * This module exists so that adding a language is a data change with a
  * validated shape, rather than a UI change that quietly outruns the content.
@@ -21,7 +37,7 @@ import { z } from "zod";
  * TO ACTIVATE A LANGUAGE
  * ---------------------------------------------------------------------------
  * Add a `TranslatedSection` per section, each carrying real provenance, and
- * add the locale to `SUPPORTED_CONTENT_LOCALES`. `assertLocaleIsBacked` will
+ * add the locale to `SUPPORTED_CONTENT_LOCALES`. `assertLocalesAreBacked` will
  * refuse a locale that has no sections, so the two cannot drift apart.
  *
  * Required per section, and none of it may be invented:
@@ -104,17 +120,115 @@ export const TranslatedSectionSchema = z
 export type TranslatedSection = z.infer<typeof TranslatedSectionSchema>;
 
 /**
- * Locales the app may present medical content in.
+ * Locales the app may present PAGE content in.
  *
- * English is here because the labels are English. Nothing else is, because
- * nothing else has content behind it.
+ * English only. The labels are English, every section on the page is English,
+ * and no reviewed translation of any of it exists. This drives the share link
+ * and the (absent) page language control, and it must not be widened because
+ * some smaller piece of the page gained a translation - see SPOKEN_LOCALES.
  */
 export const SUPPORTED_CONTENT_LOCALES: readonly ContentLocale[] = ["en-US"] as const;
 
 export const DEFAULT_CONTENT_LOCALE: ContentLocale = "en-US";
 
-/** Every translated section the app holds. Empty, and honestly so. */
+/** Every translated PAGE section the app holds. Empty, and honestly so. */
 export const TRANSLATED_SECTIONS: readonly TranslatedSection[] = [];
+
+/* ------------------------------------------------- the spoken summary only */
+
+/**
+ * Locales the SPOKEN SUMMARY can be heard in.
+ *
+ * Deliberately separate from SUPPORTED_CONTENT_LOCALES, because they are
+ * different claims and collapsing them would overstate one of them. The page
+ * is English. One paragraph of it - the summary read-aloud speaks - also
+ * exists in Spanish and French.
+ *
+ * Keeping them apart is what stops a share link advertising `lang=es` for a
+ * page that is entirely in English, and stops a page-level language picker
+ * appearing on the strength of a translated paragraph.
+ *
+ * Both non-English entries are MACHINE-TRANSLATED and UNREVIEWED. They are
+ * offered because a listener who reads no English gets nothing at all from an
+ * English-only control, and they are labelled as machine output at the point
+ * of use with the English original on the same screen - the only condition
+ * under which `machine-translated` is permitted above.
+ */
+export const SPOKEN_LOCALES: readonly ContentLocale[] = ["en-US", "es", "fr"] as const;
+
+/**
+ * How each spoken locale should be voiced.
+ *
+ * A bare "es" leaves the engine to pick any Spanish voice; naming a region
+ * gets one that exists on most platforms. This is a speech hint only and makes
+ * no claim that the text is regionalised - it is not.
+ */
+export const SPEECH_TAGS: Readonly<Record<string, string>> = {
+  "en-US": "en-US",
+  es: "es-ES",
+  fr: "fr-FR",
+};
+
+/** Endonyms, so the choice is legible to the person who needs it. */
+export const LOCALE_NAMES: Readonly<Record<string, string>> = {
+  "en-US": "English",
+  es: "Español",
+  fr: "Français",
+};
+
+/**
+ * Every spoken translation the app holds, validated on load.
+ *
+ * Parsed rather than cast: the schema is what stops an entry claiming clinical
+ * review it never had, and a cast would skip exactly that check.
+ */
+export const SPOKEN_TRANSLATIONS: readonly TranslatedSection[] = (
+  translationsFile as { sections: unknown[] }
+).sections.map((s) => TranslatedSectionSchema.parse(s));
+
+/** Whether the spoken summary really exists in this locale. */
+export function spokenLocaleIsBacked(locale: ContentLocale): boolean {
+  if (locale === DEFAULT_CONTENT_LOCALE) return true;
+  return SPOKEN_TRANSLATIONS.some((t) => t.locale === locale);
+}
+
+/**
+ * Guard against the spoken locale list and its content drifting apart.
+ *
+ * Same reasoning as assertLocalesAreBacked: offering a language the app cannot
+ * deliver tells someone their language is supported when it is not.
+ */
+export function assertSpokenLocalesAreBacked(): void {
+  const unbacked = SPOKEN_LOCALES.filter((l) => !spokenLocaleIsBacked(l));
+  if (unbacked.length > 0) {
+    throw new Error(
+      `Spoken locale(s) ${unbacked.join(", ")} are listed but have no translation. ` +
+        `Either add one or remove them.`
+    );
+  }
+}
+
+/**
+ * The translated spoken summary for a product, or null.
+ *
+ * Null for English, which is not a translation, and null for any product or
+ * locale with nothing behind it. A caller that gets null must fall back to the
+ * English rather than to silence.
+ */
+export function spokenTranslation(
+  productKey: string,
+  locale: ContentLocale
+): TranslatedSection | null {
+  if (locale === DEFAULT_CONTENT_LOCALE) return null;
+  return (
+    SPOKEN_TRANSLATIONS.find(
+      (t) =>
+        t.productKey === productKey &&
+        t.locale === locale &&
+        t.sourceSectionId === "patient-summary-spoken"
+    ) ?? null
+  );
+}
 
 /** Whether medical content actually exists in this locale. */
 export function isSupportedContentLocale(value: unknown): value is ContentLocale {

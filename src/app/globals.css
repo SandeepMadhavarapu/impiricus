@@ -1625,6 +1625,33 @@ a:hover {
   align-items: center;
 }
 
+/* The language the summary is SPOKEN in. Same 44px floor as the button it
+   sits beside, because it is reached by the same thumb. */
+.read-aloud-lang {
+  min-height: var(--tap);
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+}
+
+/* The translated words, shown as well as spoken.
+
+   Set apart from the English above it so the two are never read as one
+   passage, and marked as the quieter of the two: the English is the reviewed
+   text, and this is machine output sitting beside it. */
+.read-aloud-translation {
+  border-left: 3px solid var(--border);
+  padding: 8px 0 2px 12px;
+}
+
+.read-aloud-translation p {
+  margin: 0 0 6px;
+}
+
 /* ---------------------------------------------------- tap target floor ----
 
    Three families of control sat under the 44px minimum on a phone: the

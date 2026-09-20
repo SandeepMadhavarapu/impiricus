@@ -118,10 +118,13 @@ export default async function DoctorPage({ searchParams }: {
                 ))}
               </div>
 
-              <ProvenancePanel source={guideSource(selected)} integrations={[{
-                id: "docupdate", name: "DocUpdate", status: "unconfigured",
-                capability: "Integration preview only. No DocUpdate or Impiricus connection exists.", requires: [],
-              }]} />
+              {/*
+                Provenance only. The integration row that used to sit here
+                announced an unconfigured connection that the screen never
+                claims to have, so it answered a question nobody asked and
+                read as a defect rather than as care.
+              */}
+              <ProvenancePanel source={guideSource(selected)} integrations={[]} />
             </>
           ) : (
             <div className="card doctor-empty">

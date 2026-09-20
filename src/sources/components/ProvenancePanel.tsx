@@ -83,25 +83,35 @@ export function ProvenancePanel({
         </details>
       </div>
 
-      <h3 className="section-title" style={{ fontSize: 17, marginTop: 22 }}>
-        What is actually connected
-      </h3>
-      <div className="card card--flat">
-        <dl className="prov-table">
-          {integrations.map((integration) => (
-            <div className="prov-row" key={integration.id}>
-              <dt>
-                <span className="status-dot" data-s={integration.status} aria-hidden="true" />
-                {integration.name}
-              </dt>
-              <dd>
-                <span className="visually-hidden">{integration.status}: </span>
-                {integration.capability}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </div>
+      {/*
+        Only when there is something to report. A heading reading "What is
+        actually connected" above an empty card asks the question and then
+        refuses to answer it, which reads worse than either a real answer or
+        saying nothing.
+      */}
+      {integrations.length > 0 ? (
+        <>
+          <h3 className="section-title" style={{ fontSize: 17, marginTop: 22 }}>
+            What is actually connected
+          </h3>
+          <div className="card card--flat">
+            <dl className="prov-table">
+              {integrations.map((integration) => (
+                <div className="prov-row" key={integration.id}>
+                  <dt>
+                    <span className="status-dot" data-s={integration.status} aria-hidden="true" />
+                    {integration.name}
+                  </dt>
+                  <dd>
+                    <span className="visually-hidden">{integration.status}: </span>
+                    {integration.capability}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </>
+      ) : null}
     </section>
   );
 }

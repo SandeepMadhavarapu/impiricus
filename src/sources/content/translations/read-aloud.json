@@ -1,0 +1,94 @@
+{
+  "_comment": [
+    "Translations of the spoken patient summary, one entry per product per locale.",
+    "",
+    "originalText is the EXACT English that was translated, not a paraphrase of it.",
+    "tests/read-aloud-locales.test.ts re-derives the spoken English from the",
+    "catalogue and fails if it no longer matches, so a re-synced label cannot",
+    "leave a stale translation in place saying something the source no longer says.",
+    "",
+    "translationOrigin is machine-translated and reviewStatus is unreviewed on",
+    "every entry, because that is what is true. Neither may be upgraded without a",
+    "named clinician and a date: the schema refuses it, and the UI states it."
+  ],
+  "sections": [
+    {
+      "productKey": "singulair-montelukast-10mg-tablet",
+      "locale": "es",
+      "sourceDocumentId": "singulair-montelukast-10mg-tablet",
+      "sourceSectionId": "patient-summary-spoken",
+      "sourceVersion": "spl-5",
+      "originalText": "A once-daily tablet used to help prevent asthma symptoms, prevent exercise-triggered breathing problems, and relieve allergy symptoms. This medication has an FDA boxed warning, the FDA's most serious warning. It is about serious changes in mood, thinking, or behavior. It is taken to prevent symptoms over time. It is not a rescue inhaler and does not work quickly to open the airways during an attack. For allergy symptoms, the label says to use it only when other treatments have not worked or cannot be taken.",
+      "translatedText": "Un comprimido de una vez al día que se usa para ayudar a prevenir los síntomas del asma, prevenir los problemas respiratorios provocados por el ejercicio y aliviar los síntomas de la alergia. Este medicamento tiene una advertencia de recuadro de la FDA, la advertencia más grave de la FDA. Se refiere a cambios graves en el estado de ánimo, el pensamiento o el comportamiento. Se toma para prevenir los síntomas con el tiempo. No es un inhalador de rescate y no actúa con rapidez para abrir las vías respiratorias durante una crisis. Para los síntomas de la alergia, la etiqueta indica usarlo solo cuando otros tratamientos no han funcionado o no se pueden tomar.",
+      "translationOrigin": "machine-translated",
+      "reviewStatus": "unreviewed",
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "productKey": "singulair-montelukast-10mg-tablet",
+      "locale": "fr",
+      "sourceDocumentId": "singulair-montelukast-10mg-tablet",
+      "sourceSectionId": "patient-summary-spoken",
+      "sourceVersion": "spl-5",
+      "originalText": "A once-daily tablet used to help prevent asthma symptoms, prevent exercise-triggered breathing problems, and relieve allergy symptoms. This medication has an FDA boxed warning, the FDA's most serious warning. It is about serious changes in mood, thinking, or behavior. It is taken to prevent symptoms over time. It is not a rescue inhaler and does not work quickly to open the airways during an attack. For allergy symptoms, the label says to use it only when other treatments have not worked or cannot be taken.",
+      "translatedText": "Un comprimé à prendre une fois par jour, utilisé pour aider à prévenir les symptômes de l'asthme, prévenir les troubles respiratoires déclenchés par l'exercice et soulager les symptômes allergiques. Ce médicament fait l'objet d'une mise en garde encadrée de la FDA, la mise en garde la plus grave de la FDA. Elle concerne des changements graves de l'humeur, de la pensée ou du comportement. Il se prend pour prévenir les symptômes sur la durée. Ce n'est pas un inhalateur de secours et il n'agit pas rapidement pour ouvrir les voies respiratoires pendant une crise. Pour les symptômes allergiques, l'étiquette indique de ne l'utiliser que lorsque d'autres traitements n'ont pas fonctionné ou ne peuvent pas être pris.",
+      "translationOrigin": "machine-translated",
+      "reviewStatus": "unreviewed",
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "productKey": "toprol-xl-metoprolol-succinate-50mg-er-tablet",
+      "locale": "es",
+      "sourceDocumentId": "toprol-xl-metoprolol-succinate-50mg-er-tablet",
+      "sourceSectionId": "patient-summary-spoken",
+      "sourceVersion": "spl-7",
+      "originalText": "Will be updated when more information is available. Read the important safety information and the full official label before relying on this guide.",
+      "translatedText": "Se actualizará cuando haya más información disponible. Lea la información de seguridad importante y la etiqueta oficial completa antes de basarse en esta guía.",
+      "translationOrigin": "machine-translated",
+      "reviewStatus": "unreviewed",
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "productKey": "toprol-xl-metoprolol-succinate-50mg-er-tablet",
+      "locale": "fr",
+      "sourceDocumentId": "toprol-xl-metoprolol-succinate-50mg-er-tablet",
+      "sourceSectionId": "patient-summary-spoken",
+      "sourceVersion": "spl-7",
+      "originalText": "Will be updated when more information is available. Read the important safety information and the full official label before relying on this guide.",
+      "translatedText": "Sera mis à jour lorsque plus d'informations seront disponibles. Lisez les informations de sécurité importantes et l'étiquette officielle complète avant de vous fier à ce guide.",
+      "translationOrigin": "machine-translated",
+      "reviewStatus": "unreviewed",
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "productKey": "ozempic-semaglutide-1_34mg-per-ml-injection",
+      "locale": "es",
+      "sourceDocumentId": "ozempic-semaglutide-1_34mg-per-ml-injection",
+      "sourceSectionId": "patient-summary-spoken",
+      "sourceVersion": "spl-20",
+      "originalText": "Will be updated when more information is available. This medication has an FDA boxed warning. Read the important safety information below.",
+      "translatedText": "Se actualizará cuando haya más información disponible. Este medicamento tiene una advertencia de recuadro de la FDA. Lea la información de seguridad importante que aparece a continuación.",
+      "translationOrigin": "machine-translated",
+      "reviewStatus": "unreviewed",
+      "reviewedBy": null,
+      "reviewedAt": null
+    },
+    {
+      "productKey": "ozempic-semaglutide-1_34mg-per-ml-injection",
+      "locale": "fr",
+      "sourceDocumentId": "ozempic-semaglutide-1_34mg-per-ml-injection",
+      "sourceSectionId": "patient-summary-spoken",
+      "sourceVersion": "spl-20",
+      "originalText": "Will be updated when more information is available. This medication has an FDA boxed warning. Read the important safety information below.",
+      "translatedText": "Sera mis à jour lorsque plus d'informations seront disponibles. Ce médicament fait l'objet d'une mise en garde encadrée de la FDA. Lisez les informations de sécurité importantes ci-dessous.",
+      "translationOrigin": "machine-translated",
+      "reviewStatus": "unreviewed",
+      "reviewedBy": null,
+      "reviewedAt": null
+    }
+  ]
+}
