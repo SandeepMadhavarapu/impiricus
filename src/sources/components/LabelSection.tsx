@@ -30,9 +30,19 @@ export function LabelSection({
   // Labels are inconsistent about this: some put the section number only in
   // printedNumber, others repeat it at the start of the title. Prefixing
   // blindly produced headings like "17 17 PATIENT COUNSELING INFORMATION".
+  //
+  // Compared as plain strings, never as a pattern. Section numbers contain
+  // dots ("5.1"), and building a RegExp from one made "." match any
+  // character, so a title beginning "571" counted as already carrying the
+  // number "5.1". A number containing a bracket would have thrown outright
+  // and taken the render down with it.
   const title = section.title?.trim() ?? "";
   const number = section.printedNumber?.trim() ?? "";
-  const alreadyNumbered = number.length > 0 && new RegExp(`^${number}\\b`).test(title);
+  const alreadyNumbered =
+    number.length > 0 &&
+    title.startsWith(number) &&
+    // Require a real boundary, so "5.1" does not count as numbering "5.10".
+    !/[0-9.]/.test(title.charAt(number.length));
   const heading = [alreadyNumbered ? "" : number, title].filter(Boolean).join(" ").trim();
   const Heading = depth === 0 ? "h3" : "h4";
 

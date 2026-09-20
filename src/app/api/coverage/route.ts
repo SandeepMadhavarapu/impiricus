@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { CoverageRequestSchema } from "@/patient/lib/coverage/types";
 import { getCoverageAdapter, checkCoverageSafely } from "@/patient/lib/coverage/adapters";
-import { getMedication, productLabel } from "@/sources/lib/content/registry";
+import {
+  getGuide,
+  guideProductName,
+  guideStrengthText,
+} from "@/sources/lib/content/catalogue";
 import { rateLimit, clientKey } from "@/shared/lib/security/ratelimit";
 
 export const runtime = "nodejs";
@@ -51,8 +55,11 @@ export async function POST(request: Request) {
     );
   }
 
-  const resolved = getMedication(parsed.data.slug);
-  if (!resolved) {
+  // The catalogue, not the authored-only registry: coverage is a generic
+  // question about a product, and it applies just as well to a product whose
+  // patient page shows label text.
+  const guide = getGuide(parsed.data.slug);
+  if (!guide) {
     return NextResponse.json(
       { error: "Unknown medication" },
       { status: 404, headers: { "cache-control": "no-store" } }
@@ -64,7 +71,7 @@ export async function POST(request: Request) {
    * page actually describes. Answering about a different strength or form would
    * be worse than not answering.
    */
-  const expectedStrength = resolved.source.product.strength.join(" ");
+  const expectedStrength = guideStrengthText(guide);
   if (!expectedStrength.toLowerCase().includes(parsed.data.strength.toLowerCase())) {
     return NextResponse.json(
       {
@@ -76,11 +83,7 @@ export async function POST(request: Request) {
   }
 
   const adapter = getCoverageAdapter();
-  const result = await checkCoverageSafely(
-    adapter,
-    parsed.data,
-    productLabel(resolved.source)
-  );
+  const result = await checkCoverageSafely(adapter, parsed.data, guideProductName(guide));
 
   return NextResponse.json(result, {
     headers: { "cache-control": "no-store, private", "x-robots-tag": "noindex" },

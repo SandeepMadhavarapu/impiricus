@@ -132,3 +132,24 @@ function toLabelGuide(label: MedicationExport): LabelGuide {
 export function guideProductName(guide: Guide): string {
   return guide.mode === "authored" ? productLabel(guide.authored.source) : guide.productName;
 }
+
+/**
+ * Strength text to check a coverage request against, for either kind.
+ *
+ * Coverage varies by strength, so a request naming a different one must be
+ * refused rather than answered about the wrong product. The authored path
+ * compares against the source record's own strength list; the label path
+ * against the pipeline's preformatted display string.
+ */
+export function guideStrengthText(guide: Guide): string {
+  return guide.mode === "authored"
+    ? guide.authored.source.product.strength.join(" ")
+    : guide.label.display.strengthDisplay;
+}
+
+/** Dose form for either kind, as the label writes it. */
+export function guideDosageForm(guide: Guide): string {
+  return guide.mode === "authored"
+    ? guide.authored.source.product.dosageForm
+    : guide.label.display.dosageForm;
+}

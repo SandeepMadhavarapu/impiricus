@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { SLUG_PATTERN, SLUG_MAX_LENGTH } from "@/shared/lib/slug";
 
 /**
  * Insurance coverage.
@@ -25,9 +26,28 @@ export const DOSAGE_FORMS = [
 ] as const;
 
 export const CoverageRequestSchema = z.object({
-  slug: z.string().min(1).max(120).regex(/^[a-z0-9-]+$/),
+  slug: z.string().min(1).max(SLUG_MAX_LENGTH).regex(SLUG_PATTERN),
   insurer: z.string().min(2, "Enter your insurer").max(120),
   planName: z.string().min(2, "Enter your exact plan name").max(160),
+  /**
+   * Exact plan identity, present ONLY when the plan was chosen from the CMS
+   * directory rather than typed.
+   *
+   * A plan name is not an identity: 39 plans in the 2026-08 release share the
+   * name "AARP Medicare Rx Preferred from UHC (PDP)". This field is what
+   * distinguishes "the person picked this exact contract, plan and segment"
+   * from "the person typed some words", and an adapter may only treat the
+   * former as resolved.
+   *
+   * It was previously sent by the form and silently dropped here, because zod
+   * strips unknown keys by default, so the identity the picker worked to
+   * collect never reached the server.
+   */
+  planKey: z
+    .string()
+    .max(64)
+    .regex(/^[A-Za-z0-9-]+$/, "Invalid plan key")
+    .optional(),
   planYear: z
     .number()
     .int()

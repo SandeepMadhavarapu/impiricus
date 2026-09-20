@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { SLUG_PATTERN } from "@/shared/lib/slug";
 
 /** Trust boundary: everything a browser posts to /api/chat is parsed by this. */
 export const ChatTurnSchema = z.object({
@@ -11,7 +12,7 @@ export const ChatRequestSchema = z.object({
     .string()
     .min(1)
     .max(120)
-    .regex(/^[a-z0-9-]+$/, "invalid medication slug"),
+    .regex(SLUG_PATTERN, "invalid medication slug"),
   message: z.string().min(1, "Enter a question").max(2000, "Question is too long"),
   /** Prior turns, bounded. Chat is ephemeral; the client holds the history. */
   history: z.array(ChatTurnSchema).max(12).default([]),

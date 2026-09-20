@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { SLUG_PATTERN } from "@/shared/lib/slug";
 
 /**
  * Trust boundary: the source record is produced by scripts/fetch-label.mjs from
@@ -113,9 +114,9 @@ export const MedicationRecordSchema = z.object({
   slug: z
     .string()
     .min(1)
-    // Matches SLUG_PATTERN in doctor/lib/share: the slug is the join key
-    // between the pipeline's productKey, the URL, and this record.
-    .regex(/^[a-z0-9_-]+$/, "slug must be lowercase alphanumeric with hyphens or underscores"),
+    // One definition, in shared/lib/slug.ts. The slug joins the pipeline's
+    // productKey, the URL, this record and every API request.
+    .regex(SLUG_PATTERN, "slug must be lowercase alphanumeric with hyphens or underscores"),
   sourceRecordId: z.string().min(1),
   /**
    * One-sentence answer to "what is this?", shown above the fold.

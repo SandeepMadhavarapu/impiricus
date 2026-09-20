@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import QRCode from "qrcode";
-import { getMedication } from "@/sources/lib/content/registry";
+import { getGuide } from "@/sources/lib/content/catalogue";
 import { getPublicOrigin } from "@/shared/lib/config";
 import { buildShareUrl } from "@/doctor/lib/share";
 
@@ -22,8 +22,11 @@ export async function GET(
   const { slug } = await context.params;
 
   // Only render a code for a medication that actually exists, so a bad link
-  // cannot be laundered into a legitimate-looking QR image.
-  if (!getMedication(slug)) {
+  // cannot be laundered into a legitimate-looking QR image. Checked against
+  // the catalogue, which holds both authored and label-sourced guides: using
+  // the authored-only registry here 404'd the QR button on every page that
+  // has no authored layer.
+  if (!getGuide(slug)) {
     return new NextResponse("Not found", { status: 404 });
   }
 
