@@ -12,7 +12,11 @@ import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
 const UA = "mediz-hackathon-prototype/0.1 (content verify script)";
-const SOURCE_DIR = path.join(process.cwd(), "src", "content", "sources");
+// Kept in step with scripts/fetch-label.mjs, which writes these records. The
+// domain reorganisation moved them under src/sources/ and this path was missed,
+// so the check ran against an empty directory and reported nothing to verify -
+// a staleness check that cannot see the records is not a staleness check.
+const SOURCE_DIR = path.join(process.cwd(), "src", "sources", "content", "sources");
 const STALE_AFTER_DAYS = 90;
 
 async function getJson(url) {
