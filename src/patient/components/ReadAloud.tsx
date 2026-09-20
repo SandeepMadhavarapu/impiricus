@@ -44,11 +44,59 @@ function speechAvailable(): boolean {
   return typeof window !== "undefined" && "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
 }
 
+/**
+ * One utterance per sentence.
+ *
+ * Chrome stops a long utterance after roughly 15 seconds. The Singulair
+ * summary measured 85 words - about 34 seconds - so as a single utterance it
+ * was cut off partway through, and the key points come LAST. The boxed warning
+ * is a key point. A medication summary that stops speaking before the warning
+ * is worse than one that never started.
+ *
+ * Queueing sentence by sentence keeps the whole text audible on every engine.
+ */
+function splitIntoSentences(text: string): string[] {
+  const parts = text
+    .replace(/\s+/g, " ")
+    .trim()
+    .split(/(?<=[.!?…])\s+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+  return parts.length > 0 ? parts : [text.trim()];
+}
+
+/**
+ * Best installed voice for a tag: exact region, then same language.
+ *
+ * Returns null when nothing matches, and the platform default then speaks for
+ * `utterance.lang`. Refusing to start because no voice matched would be worse
+ * than a default accent.
+ */
+function pickVoice(lang: string): SpeechSynthesisVoice | null {
+  const voices = window.speechSynthesis.getVoices();
+  if (voices.length === 0) return null;
+  const wanted = lang.replace("_", "-").toLowerCase();
+  const base = wanted.split("-")[0] ?? wanted;
+  const norm = (v: SpeechSynthesisVoice) => v.lang.replace("_", "-").toLowerCase();
+
+  const exact = voices.filter((v) => norm(v) === wanted);
+  const sameLanguage = voices.filter((v) => norm(v) === base || norm(v).startsWith(`${base}-`));
+  const pool = exact.length > 0 ? exact : sameLanguage;
+  if (pool.length === 0) return null;
+  return pool.find((v) => v.default) ?? pool[0] ?? null;
+}
+
 export function ReadAloud({ text, lang, label }: Props) {
   const [status, setStatus] = useState<Status>("idle");
-  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
-  /** Guards against a late voiceschanged event resuming a cancelled read. */
-  const cancelledRef = useRef(false);
+  /**
+   * Identifies the current playback.
+   *
+   * A cancelled run's utterances still fire their callbacks, and with several
+   * queued sentences there can be a handful in flight. Comparing against this
+   * counter makes a stale callback a no-op rather than something that resets
+   * the button under a read that has already been replaced.
+   */
+  const runRef = useRef(0);
 
   /*
    * Support is resolved after mount, never during render.
@@ -62,9 +110,8 @@ export function ReadAloud({ text, lang, label }: Props) {
   }, []);
 
   const stop = useCallback(() => {
-    cancelledRef.current = true;
+    runRef.current += 1;
     if (speechAvailable()) window.speechSynthesis.cancel();
-    utteranceRef.current = null;
     setStatus("idle");
   }, []);
 
@@ -77,7 +124,7 @@ export function ReadAloud({ text, lang, label }: Props) {
    */
   useEffect(() => {
     return () => {
-      cancelledRef.current = true;
+      runRef.current += 1;
       if (speechAvailable()) window.speechSynthesis.cancel();
     };
   }, [text, lang]);
@@ -103,37 +150,61 @@ export function ReadAloud({ text, lang, label }: Props) {
     const spoken = text.trim();
     if (spoken.length === 0) return;
 
+    const synth = window.speechSynthesis;
+
     // Always clear the queue first. Tapping twice must not layer two voices
     // reading different sentences over each other.
-    window.speechSynthesis.cancel();
-    cancelledRef.current = false;
-
-    const utterance = new SpeechSynthesisUtterance(spoken);
-    utterance.lang = lang;
+    synth.cancel();
+    runRef.current += 1;
+    const run = runRef.current;
 
     /*
-     * Voices load asynchronously and are often empty on the first call.
-     * A matching voice is preferred but never required: with none, the
-     * platform default still speaks, which is better than refusing to start.
+     * Voices load asynchronously and are often empty on the first call. A
+     * matching voice is preferred but never required: with none, the platform
+     * default still speaks for `utterance.lang`, which beats refusing to start.
      */
-    const voices = window.speechSynthesis.getVoices();
-    const match = voices.find((v) => v.lang?.toLowerCase().startsWith(lang.toLowerCase().slice(0, 2)));
-    if (match) utterance.voice = match;
+    const voice = pickVoice(lang);
+    const sentences = splitIntoSentences(spoken);
+    let remaining = sentences.length;
 
-    utterance.onend = () => {
-      utteranceRef.current = null;
-      setStatus("idle");
-    };
-    utterance.onerror = (event) => {
-      utteranceRef.current = null;
-      // A cancel we asked for surfaces as an error event too. That is not a
-      // failure, and reporting it as one would make every stop look broken.
-      setStatus(cancelledRef.current || event.error === "canceled" || event.error === "interrupted" ? "idle" : "error");
+    const finish = () => {
+      // A callback from a run that has been replaced must not touch the button.
+      if (runRef.current === run) setStatus("idle");
     };
 
-    utteranceRef.current = utterance;
+    for (const sentence of sentences) {
+      const utterance = new SpeechSynthesisUtterance(sentence);
+      utterance.lang = lang;
+      if (voice) utterance.voice = voice;
+
+      utterance.onend = () => {
+        remaining -= 1;
+        if (remaining <= 0) finish();
+      };
+      utterance.onerror = (event) => {
+        // A cancel we asked for surfaces as an error event too. Reporting that
+        // as a failure would make every Stop press look broken.
+        if (
+          runRef.current === run &&
+          event.error !== "canceled" &&
+          event.error !== "interrupted"
+        ) {
+          setStatus("error");
+          return;
+        }
+        finish();
+      };
+      synth.speak(utterance);
+    }
+
+    /*
+     * Chrome and Safari sometimes leave the engine paused after a cancel(), so
+     * the NEXT press queues utterances that never sound. Silence with the
+     * button showing "Stop reading" is the worst of both.
+     */
+    if (synth.paused) synth.resume();
+
     setStatus("speaking");
-    window.speechSynthesis.speak(utterance);
   }, [text, lang]);
 
   /*

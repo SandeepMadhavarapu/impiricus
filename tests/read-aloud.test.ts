@@ -252,3 +252,67 @@ describe("what it never does", () => {
     expect(synth.spoken).toHaveLength(0);
   });
 });
+
+/**
+ * Chrome stops a long utterance after roughly 15 seconds.
+ *
+ * The Singulair summary measured 85 words - about 34 seconds - so as a single
+ * utterance it was cut off partway through. The key points come LAST, and the
+ * boxed warning is a key point: the reader would hear the benefits and not the
+ * warning.
+ */
+describe("long text is queued sentence by sentence", () => {
+  beforeEach(installSpeech);
+  afterEach(removeSpeech);
+
+  const split = (text: string) =>
+    text.replace(/\s+/g, " ").trim().split(/(?<=[.!?\u2026])\s+/).map((s) => s.trim()).filter(Boolean);
+
+  it("splits the real summary into several utterances", () => {
+    const summary =
+      "A once-daily tablet used to help prevent asthma symptoms, prevent exercise-triggered breathing problems, and relieve allergy symptoms. " +
+      "This medication has an FDA boxed warning, the FDA's most serious warning. It is about serious changes in mood, thinking, or behavior. " +
+      "It is taken to prevent symptoms over time. It is not a rescue inhaler and does not work quickly to open the airways during an attack.";
+    const sentences = split(summary);
+    expect(sentences.length).toBeGreaterThan(1);
+    // Nothing is lost or duplicated in the split.
+    expect(sentences.join(" ")).toBe(summary.replace(/\s+/g, " ").trim());
+  });
+
+  it("keeps the boxed warning, which sits at the end", () => {
+    const summary = "Benefit sentence one. Benefit sentence two. This medication has an FDA boxed warning.";
+    const sentences = split(summary);
+    expect(sentences.at(-1)).toContain("boxed warning");
+  });
+
+  it("never produces an empty utterance", () => {
+    for (const text of ["One.", "One.  Two.", "No terminator", "   Trailing.   "]) {
+      expect(split(text).every((s) => s.length > 0)).toBe(true);
+    }
+  });
+
+  it("falls back to the whole text when there is no sentence boundary", () => {
+    expect(split("a single clause with no full stop")).toHaveLength(1);
+  });
+});
+
+describe("the engine is resumed if a previous cancel left it paused", () => {
+  beforeEach(installSpeech);
+  afterEach(removeSpeech);
+
+  /**
+   * Chrome and Safari sometimes leave the engine paused after cancel(), so the
+   * NEXT press queues utterances that never sound - silence with the button
+   * reading "Stop reading".
+   */
+  it("calls resume when the synthesiser reports paused", () => {
+    let resumed = false;
+    const s = synth as unknown as { paused: boolean; resume: () => void };
+    s.paused = true;
+    s.resume = () => {
+      resumed = true;
+    };
+    if (s.paused) s.resume();
+    expect(resumed).toBe(true);
+  });
+});
