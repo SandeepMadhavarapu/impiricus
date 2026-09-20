@@ -17,8 +17,8 @@
  *
  * The current path:
  *
- *   cd data-pipeline && npm run insurance:ingest   # fetch + normalize (needs network)
- *   cd .. && npm run content:sync                  # convert + vendor into src/
+ *   cd data-pipeline && npm run insurance:ingest && npm run app:snapshot   # fetch, normalize, emit app shape
+ *   cd .. && npm run content:sync                                          # vendor into src/
  *
  * The snapshot at src/sources/content/coverage/cms-part-d-snapshot.json IS
  * committed. See the comment in .gitignore and scripts/sync-label-exports.mjs.
@@ -30,7 +30,7 @@ console.error(
     "",
     "The formulary snapshot now comes from the data-pipeline package:",
     "",
-    "  cd data-pipeline && npm run insurance:ingest",
+    "  cd data-pipeline && npm run insurance:ingest && npm run app:snapshot",
     "  cd .. && npm run content:sync",
     "",
     "See scripts/ingest-formulary.mjs for why.",

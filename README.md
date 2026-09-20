@@ -45,6 +45,8 @@ insurer. No clinician has reviewed its content.
 | Insurer and plan pickers | **Working**, on 5,517 verified CMS Part D plan identities. A plan name is never treated as an identity |
 | Pharmacy-by-ZIP search | **Not implemented**, no pharmacy dataset is licensed. Falls back to a pharmacy type and says so |
 | Medications available | **3**: one with an authored plain-language guide, two shown as verbatim FDA label text |
+| Automatic source refresh (openFDA, DailyMed, RxNorm, CMS Part D, VA Medicaid) | **Working**: `pipeline-refresh` runs daily at 07:15 UTC, regenerates when a source changed or aged out, validates pipeline + app + build, and opens a review PR. Never merges on its own. `OPENFDA_API_KEY` is set as a repo secret; the run works without it at a lower rate limit |
+| Application checks in CI | **Working**: `app-tests` runs typecheck, lint, tests and the production build on every push and PR that touches the app |
 | Fair balance enforced in CI | **Working**, see below |
 
 Nothing in this app fabricates a medical answer, a coverage result, or a
@@ -149,7 +151,7 @@ patient workflows are unchanged.
 | `npm run content:fetch` | Re-fetch the FDA label and rewrite the provenance-stamped source record |
 | `npm run content:verify` | Check the stored label is still the current SPL version |
 | `npm run content:sync` | Copy the pipeline's app-ready exports, Part D plan directory, formulary snapshot and product concept identities into `src/` |
-| `npm run coverage:ingest` | Retired. Prints the current path (`data-pipeline` → `insurance:ingest`, then `content:sync`) and exits |
+| `npm run coverage:ingest` | Retired. Prints the current path (`data-pipeline` → `insurance:ingest` → `app:snapshot`, then `content:sync`) and exits |
 
 ### Configuration
 

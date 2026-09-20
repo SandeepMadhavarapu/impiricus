@@ -28,7 +28,8 @@ Thumbs.db
 # and no pipeline checkout, so an ignored file is simply absent in production.
 # That is what this rule used to do, and every coverage check answered "not
 # connected to any formulary database" while 979 real rows sat in the
-# pipeline's committed output. Regenerate with `npm run content:sync`.
+# pipeline's committed output. Regenerate with `cd data-pipeline && npm run
+# app:snapshot`, then `npm run content:sync` from the repo root.
 
 # Vercel CLI project link metadata (local to this machine's deployments).
 .vercel

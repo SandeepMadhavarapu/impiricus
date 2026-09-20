@@ -28,7 +28,10 @@
     "refresh:cadence": "tsx src/cli.ts refresh:cadence",
     "refresh:manifests": "tsx src/cli.ts refresh:manifests",
     "refresh:verify": "tsx src/cli.ts refresh:verify",
-    "refresh:rollback": "tsx src/cli.ts refresh:rollback"
+    "refresh:rollback": "tsx src/cli.ts refresh:rollback",
+    "refresh:decide": "tsx src/cli.ts refresh:decide",
+    "refresh:mark-retrieved": "tsx src/cli.ts refresh:mark-retrieved",
+    "app:snapshot": "tsx src/cli.ts app:snapshot"
   },
   "dependencies": {
     "fast-xml-parser": "^4.5.1",

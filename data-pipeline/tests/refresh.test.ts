@@ -278,19 +278,45 @@ describe("manifest integrity", () => {
 });
 
 describe("workflow safety", () => {
-  const wf = (name: string) =>
-    readFile(path.join(process.cwd(), "..", ".github", "workflows", name), "utf8");
+  /*
+   * Line endings are normalised before matching.
+   *
+   * These assertions are written against LF and the repository stores LF, but
+   * git's core.autocrlf checks the files out as CRLF on Windows - so every
+   * multi-line assertion below failed on a Windows clone while the workflows
+   * themselves were correct. The security properties asserted are unchanged;
+   * only the platform dependence is removed.
+   */
+  const wf = async (name: string) =>
+    (
+      await readFile(path.join(process.cwd(), "..", ".github", "workflows", name), "utf8")
+    ).replace(/\r\n/g, "\n");
 
   /**
    * The test workflow runs pull-request code. If it ever gains a secret or
    * write permission, submitted code could exfiltrate the credential.
    */
-  it("keeps secrets and write access out of the PR-triggered workflow", async () => {
-    const y = await wf("pipeline-tests.yml");
-    expect(y).toContain("permissions:\n  contents: read");
-    expect(y).not.toMatch(/secrets\./);
-    expect(y).not.toMatch(/pull_request_target/);
-    expect(y).not.toMatch(/contents:\s*write/);
+  it.each(["pipeline-tests.yml", "app-tests.yml"])(
+    "keeps secrets and write access out of the PR-triggered workflow %s",
+    async (name) => {
+      const y = await wf(name);
+      expect(y).toContain("permissions:\n  contents: read");
+      expect(y).not.toMatch(/secrets\./);
+      expect(y).not.toMatch(/pull_request_target/);
+      expect(y).not.toMatch(/contents:\s*write/);
+    }
+  );
+
+  /**
+   * The candidate PR changes src/sources/content/**. A CI that never looked
+   * at src/ would mark that PR green without running a single app test.
+   */
+  it("runs the application's checks on the paths a data refresh changes", async () => {
+    const y = await wf("app-tests.yml");
+    expect(y).toMatch(/pull_request:[\s\S]*- "src\/\*\*"/);
+    for (const step of ["npm run typecheck", "npm run lint", "npm test", "npm run build"]) {
+      expect(y).toContain(step);
+    }
   });
 
   it("grants write access only to the publication job", async () => {
@@ -317,7 +343,7 @@ describe("workflow safety", () => {
   });
 
   it("pins external actions to a commit sha rather than a moving tag", async () => {
-    for (const name of ["pipeline-tests.yml", "pipeline-refresh.yml"]) {
+    for (const name of ["pipeline-tests.yml", "app-tests.yml", "pipeline-refresh.yml"]) {
       const y = await wf(name);
       for (const use of y.match(/uses: \S+/g) ?? []) {
         expect(use).toMatch(/@[0-9a-f]{40}$/);
@@ -333,12 +359,145 @@ describe("workflow safety", () => {
   });
 
   /**
-   * Scheduled workflows only run from the default branch. The file must say so
-   * rather than letting a reader assume the cron is already firing.
+   * The scheduled run must be able to REFRESH, not only check.
+   *
+   * It used to require `github.event_name == workflow_dispatch`, so the daily
+   * cron checked for changes, reported them, and stopped. "Automatic source
+   * updates" therefore depended on somebody noticing a green run and clicking
+   * a button, which nobody did. A detector whose only output is a log nobody
+   * reads is not a detector.
    */
-  it("documents that the schedule is inactive until merged to the default branch", async () => {
+  it("delegates the trigger decision to the tested policy instead of restating it", async () => {
+    const y = await wf("pipeline-refresh.yml");
+    const refreshJob = y.slice(y.indexOf("  refresh:"));
+    const refreshIf = refreshJob.match(/^ {4}if: (.+)$/m);
+    expect(refreshIf, "the refresh job has no if: condition").not.toBeNull();
+    const cond = refreshIf![1]!.trim();
+
+    // It consumes the decision the pipeline computed.
+    expect(cond).toBe("needs.check.outputs.ingest == 'true'");
+
+    /*
+     * And it does NOT re-express the policy. Restating it in YAML is how the
+     * two drifted apart: the scheduled arm was excluded entirely and nothing
+     * could catch it, because a YAML expression is not reachable by any test.
+     * decideRefresh() is the one definition; see tests/decide.test.ts, which
+     * covers all 96 combinations including the scheduled ones.
+     */
+    expect(cond).not.toMatch(/event_name|inputs\.|changed|refresh_due/);
+
+    // The check job must actually produce that output, by running the policy.
+    expect(y).toMatch(/ingest: \$\{\{ steps\.check\.outputs\.ingest \}\}/);
+    expect(y).toMatch(/npm run refresh:decide/);
+    // The fragile report-grep that used to decide this must be gone.
+    expect(y).not.toMatch(/grep -qE "\^checked/);
+  });
+
+  /**
+   * A refresh that stops at the pipeline's own exports has refreshed nothing a
+   * reader can see: the app reads the vendored copies under src/sources/content.
+   */
+  it("regenerates the application snapshot and the vendored content", async () => {
+    const y = await wf("pipeline-refresh.yml");
+    expect(y).toMatch(/npm run app:snapshot/);
+    expect(y).toMatch(/node scripts\/sync-label-exports\.mjs/);
+    expect(y).toMatch(/add-paths:[\s\S]*src\/sources\/content/);
+  });
+
+  /**
+   * The vendored content is synced BEFORE the app is validated, and the
+   * validation includes the production build. A candidate that breaks the
+   * build must never be proposed as ready.
+   */
+  it("validates the application, including its build, against the synced content", async () => {
+    const y = await wf("pipeline-refresh.yml");
+    const syncAt = y.indexOf("sync-label-exports.mjs");
+    const validateAt = y.indexOf("Validate the application against the refreshed content");
+    expect(syncAt).toBeGreaterThan(-1);
+    expect(validateAt).toBeGreaterThan(syncAt);
+    const validateStep = y.slice(validateAt, y.indexOf("- name:", validateAt + 1));
+    expect(validateStep).toMatch(/npm run typecheck/);
+    expect(validateStep).toMatch(/npm run lint/);
+    expect(validateStep).toMatch(/npm test/);
+    expect(validateStep).toMatch(/npm run build/);
+  });
+
+  /**
+   * The allowlist must admit what the sync writes. The sync step was added
+   * while the allowlist still permitted only data-pipeline/data/**, so the
+   * job would have failed at this check on every refresh that changed
+   * anything the app reads - which is every refresh worth opening.
+   */
+  it("allows the vendored content paths the sync writes", async () => {
+    const y = await wf("pipeline-refresh.yml");
+    const allowAt = y.indexOf("Refuse to proceed if anything outside the allowlist changed");
+    expect(allowAt).toBeGreaterThan(-1);
+    const allowStep = y.slice(allowAt, y.indexOf("- name:", allowAt + 1));
+    expect(allowStep).toMatch(/src\/sources\/content\/\*\)/);
+    // And the PR carries them.
+    expect(y).toMatch(/add-paths:[\s\S]*src\/sources\/content\/\*\*/);
+  });
+
+  /**
+   * `refreshDue` is derived from lastSuccessfulRetrieval, and nothing set it:
+   * every source was "never retrieved" forever, so a scheduled run acting on
+   * refreshDue would regenerate and re-push its PR every day. The baseline is
+   * recorded ONLY after the bundle and the app have both been validated, so a
+   * failed run cannot advance it.
+   */
+  it("records the retrieval baseline after validation and before the PR", async () => {
+    const y = await wf("pipeline-refresh.yml");
+    const markAt = y.indexOf("npm run refresh:mark-retrieved");
+    const pipelineValidateAt = y.indexOf("Validate the regenerated bundle");
+    const appValidateAt = y.indexOf("Validate the application against the refreshed content");
+    const allowAt = y.indexOf("Refuse to proceed if anything outside the allowlist changed");
+    const prAt = y.indexOf("Open or update the data-refresh PR");
+    expect(markAt).toBeGreaterThan(-1);
+    expect(markAt).toBeGreaterThan(pipelineValidateAt);
+    expect(markAt).toBeGreaterThan(appValidateAt);
+    expect(markAt).toBeLessThan(allowAt);
+    expect(markAt).toBeLessThan(prAt);
+    // It is a distinct step, not folded into the regenerate command list where
+    // an ingest failure could not stop it.
+    const regenAt = y.indexOf("Regenerate exports");
+    const regenStep = y.slice(regenAt, y.indexOf("- name:", regenAt + 1));
+    expect(regenStep).not.toMatch(/mark-retrieved/);
+  });
+
+  /**
+   * Opening a PR from a schedule must not compound. The branch name is fixed,
+   * so the action revises the open PR instead of stacking new ones, and the
+   * push is made with GITHUB_TOKEN, which does not trigger further runs.
+   */
+  it("cannot stack duplicate PRs or trigger itself", async () => {
+    const y = await wf("pipeline-refresh.yml");
+    expect(y).toMatch(/branch: data-refresh\/automated/);
+    expect(y).toMatch(/token: \$\{\{ secrets\.GITHUB_TOKEN \}\}/);
+    // A personal access token here WOULD let the push start another run.
+    expect(y).not.toMatch(/secrets\.(PAT|GH_PAT|PERSONAL_ACCESS_TOKEN)/);
+  });
+
+  /** Still never merges on its own, whatever opened the PR. */
+  it("still requires a human to merge a scheduled refresh", async () => {
+    const y = await wf("pipeline-refresh.yml");
+    expect(y).not.toMatch(/gh pr merge|auto-merge|--auto/);
+    expect(y).toMatch(/labels: data-refresh, needs-review/);
+  });
+
+  /**
+   * Scheduled workflows only run from the default branch, and the file must
+   * say so, so nobody reads an edit on a feature branch as a live change.
+   *
+   * This used to additionally require the words "NOT running on a schedule
+   * yet". That was true while the workflow lived only on feat/data-pipeline
+   * and became false the moment it was merged to main - so the test was
+   * pinning a claim the repository had already outgrown, and would have kept
+   * pinning it forever. The durable property is the branch rule, not a
+   * snapshot of where the file happened to be.
+   */
+  it("documents that the schedule only runs from the default branch", async () => {
     const y = await wf("pipeline-refresh.yml");
     expect(y).toMatch(/ONLY from the DEFAULT\n#                      branch/);
-    expect(y).toMatch(/NOT running on a schedule yet/);
+    expect(y).toMatch(/feature branch does not run on\n#                      a schedule/);
   });
 });

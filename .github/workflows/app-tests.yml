@@ -1,0 +1,93 @@
+# Network-free checks for the web application.
+#
+# The sibling pipeline-tests.yml covers data-pipeline/ and is path-filtered to
+# it, so until this file existed a change to src/, tests/ or the vendored
+# content under src/sources/content/ ran NO checks at all - including the
+# candidate pull requests that pipeline-refresh.yml opens, whose entire
+# purpose is to change that content.
+#
+# Same rules as pipeline-tests.yml: no secrets, read-only, and it must never
+# gain either. It runs code from pull requests.
+name: app-tests
+
+on:
+  push:
+    branches: ["**"]
+    paths:
+      - "src/**"
+      - "tests/**"
+      - "scripts/**"
+      - "package.json"
+      - "package-lock.json"
+      - "tsconfig.json"
+      - "next.config.ts"
+      - "eslint.config.mjs"
+      - "vitest.config.ts"
+      - ".github/workflows/app-tests.yml"
+  pull_request:
+    paths:
+      - "src/**"
+      - "tests/**"
+      - "scripts/**"
+      - "package.json"
+      - "package-lock.json"
+      - "tsconfig.json"
+      - "next.config.ts"
+      - "eslint.config.mjs"
+      - "vitest.config.ts"
+      - ".github/workflows/app-tests.yml"
+
+# Read-only. No secrets are referenced anywhere in this file.
+permissions:
+  contents: read
+
+concurrency:
+  group: app-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: typecheck, lint, test and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      # actions/checkout v4.2.2
+      - name: Check out
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+
+      # actions/setup-node v4.1.0
+      - name: Set up Node
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install
+        run: npm ci
+        timeout-minutes: 5
+
+      - name: Typecheck
+        run: npm run typecheck
+        timeout-minutes: 5
+
+      - name: Lint
+        run: npm run lint
+        timeout-minutes: 5
+
+      # tests/coverage-snapshot.test.ts reads the pipeline's committed
+      # coverage-examples.json and checks the app agrees with it. Both files
+      # are in the checkout; nothing is fetched.
+      - name: Tests
+        run: npm test
+        timeout-minutes: 8
+
+      # The production build is the real gate for a deploy. It also proves the
+      # statically imported content (plan directory, coverage snapshot, label
+      # exports) parses, since a module-load failure fails the build.
+      - name: Build
+        run: npm run build
+        timeout-minutes: 10

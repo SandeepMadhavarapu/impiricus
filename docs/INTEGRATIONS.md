@@ -111,14 +111,24 @@ brand and generic RxNorm concepts plus the plan index, and `content:sync`
 converts that into the app's shape:
 
 ```bash
-cd data-pipeline && npm run insurance:ingest
+cd data-pipeline && npm run insurance:ingest && npm run app:snapshot
 cd .. && npm run content:sync
 ```
 
-That writes `src/sources/content/coverage/cms-part-d-snapshot.json` (~1.5 MB)
-and `product-concepts.json`. Both ARE committed: the app imports them, and the
-Vercel build has neither CMS access nor a pipeline checkout. They change only
-when CMS publishes a new monthly release.
+`app:snapshot` is the ONE place the pipeline's record becomes the app's shape
+(`data-pipeline/src/insurance/appSnapshot.ts`); `content:sync` copies its
+output and refuses anything else. That writes
+`src/sources/content/coverage/cms-part-d-snapshot.json` (~1.5 MB) and derives
+`product-concepts.json` from the normalized records. Both ARE committed: the
+app imports them, and the Vercel build has neither CMS access nor a pipeline
+checkout. They change only when CMS publishes a new monthly release.
+
+**Automatic refresh.** `.github/workflows/pipeline-refresh.yml` runs daily
+(07:15 UTC). It checks every source; when one has changed or aged out it runs
+the full regeneration above, validates the pipeline AND the app (typecheck,
+lint, tests, production build), records the retrieval baseline, and opens or
+updates a review PR on `data-refresh/automated`. It never merges. The trigger
+policy is `data-pipeline/src/refresh/decide.ts`, tested as a truth table.
 
 **How a plan is identified.** When the form's picker supplies a plan key
 (`medicare-partd-<year>-<contract>-<plan>-<segment>`), the lookup uses only

@@ -105,7 +105,9 @@ requires physical-device testing.
   `src/sources/content/coverage/cms-part-d-snapshot.json` is the 2026-08 release
   for contract year 2026. A request for any other plan year is refused as
   "unable to verify" rather than answered from the wrong year's list. Refresh
-  with `cd data-pipeline && npm run insurance:ingest`, then `npm run content:sync`.
+  with `cd data-pipeline && npm run insurance:ingest && npm run app:snapshot`, then
+  `npm run content:sync` — or let the scheduled `pipeline-refresh` workflow do it
+  and open a review PR.
 - **A generic listing is reported as the generic.** Brand Singulair (RXCUI
   153892) and brand Toprol XL (866438) each appear on exactly one formulary in
   the 2026-08 release; their generic clinical drugs appear on hundreds. When

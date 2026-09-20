@@ -275,10 +275,17 @@ export function lookupFormulary(
   return { kind: "drug-not-listed", plan };
 }
 
-/** Renders a published quantity limit, or null when CMS did not publish one. */
+/**
+ * Renders a quantity limit as published.
+ *
+ * Three cases, kept distinct: no limit flagged; a limit flagged with figures;
+ * a limit flagged WITHOUT figures. The last is real (CMS sets the Y/N and
+ * leaves amount and days blank), and it must not render as "Not available",
+ * which reads as "we do not know whether there is a limit". There is one.
+ */
 export function describeQuantityLimit(row: FormularyRow): string | null {
   if (!row.quantityLimit) return "No limit published for this plan";
-  return row.quantityLimitDescription;
+  return row.quantityLimitDescription ?? "Limit applies; amount not published";
 }
 
 /** "Organisation: Plan name (H1234-001-000)" — the identity that was checked. */

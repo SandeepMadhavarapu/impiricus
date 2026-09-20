@@ -8,8 +8,8 @@
       "contentHash": null,
       "method": "api-version-field"
     },
-    "lastSuccessfulCheck": "2026-09-19T23:08:42.918Z",
-    "lastSuccessfulRetrieval": null
+    "lastSuccessfulCheck": "2026-09-20T04:07:16.368Z",
+    "lastSuccessfulRetrieval": "2026-09-20T04:07:16.059Z"
   },
   "dailymed": {
     "version": {
@@ -20,8 +20,8 @@
       "contentHash": "5b64d575be26f93964f99684e2bcd3c9676b545ffb1a9189398d52b3c085f48e",
       "method": "api-version-field"
     },
-    "lastSuccessfulCheck": "2026-09-19T23:08:43.625Z",
-    "lastSuccessfulRetrieval": null
+    "lastSuccessfulCheck": "2026-09-20T04:07:17.084Z",
+    "lastSuccessfulRetrieval": "2026-09-20T04:07:16.059Z"
   },
   "rxnav": {
     "version": {
@@ -32,8 +32,8 @@
       "contentHash": null,
       "method": "api-version-field"
     },
-    "lastSuccessfulCheck": "2026-09-19T23:08:43.881Z",
-    "lastSuccessfulRetrieval": null
+    "lastSuccessfulCheck": "2026-09-20T04:07:17.227Z",
+    "lastSuccessfulRetrieval": "2026-09-20T04:07:16.059Z"
   },
   "cms-part-d": {
     "version": {
@@ -44,8 +44,8 @@
       "contentHash": null,
       "method": "document-catalogue"
     },
-    "lastSuccessfulCheck": "2026-09-19T23:08:44.027Z",
-    "lastSuccessfulRetrieval": null
+    "lastSuccessfulCheck": "2026-09-20T04:07:17.309Z",
+    "lastSuccessfulRetrieval": "2026-09-20T04:07:16.059Z"
   },
   "vamedicaid": {
     "version": {
@@ -56,8 +56,8 @@
       "contentHash": "812a92919f08910ab8da038142cd8cef00d82e75a593b647024b8f07e3ad9077",
       "method": "http-validator"
     },
-    "lastSuccessfulCheck": "2026-09-19T23:08:44.896Z",
-    "lastSuccessfulRetrieval": null
+    "lastSuccessfulCheck": "2026-09-20T04:07:17.731Z",
+    "lastSuccessfulRetrieval": "2026-09-20T04:07:16.059Z"
   },
   "vamedicaid-landing": {
     "version": {
@@ -68,7 +68,7 @@
       "contentHash": null,
       "method": "http-validator"
     },
-    "lastSuccessfulCheck": "2026-09-19T23:08:45.258Z",
-    "lastSuccessfulRetrieval": null
+    "lastSuccessfulCheck": "2026-09-20T04:07:17.862Z",
+    "lastSuccessfulRetrieval": "2026-09-20T04:07:16.059Z"
   }
 }

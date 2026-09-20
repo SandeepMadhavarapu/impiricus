@@ -381,4 +381,10 @@ describe("quantity limit rendering", () => {
   it("says no limit was published rather than implying none exists", () => {
     expect(describeQuantityLimit(snapshot.formulary[0]!)).toMatch(/no limit published/i);
   });
+
+  it("a limit flagged without figures still says a limit applies", () => {
+    const flaggedOnly = { ...snapshot.formulary[1]!, quantityLimitDescription: null };
+    expect(describeQuantityLimit(flaggedOnly)).toMatch(/limit applies/i);
+    expect(describeQuantityLimit(flaggedOnly)).not.toBeNull();
+  });
 });

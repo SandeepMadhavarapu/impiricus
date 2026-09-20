@@ -3,18 +3,20 @@
 # WHEN THIS ACTUALLY RUNS  -- read before assuming it is live
 #
 #   schedule:          GitHub runs scheduled workflows ONLY from the DEFAULT
-#                      branch. While this file exists only on
-#                      feat/data-pipeline, the cron below does NOT fire. It
-#                      starts firing once this file is merged into main.
+#                      branch. This file IS on main, so the cron below fires.
+#                      A copy of this file on a feature branch does not run on
+#                      a schedule, however recently it was edited - only what
+#                      main holds runs.
 #
-#   workflow_dispatch: the "Run workflow" button appears only once the
-#                      workflow exists on the default branch. After that you
-#                      may target any branch from the dropdown. Before the
-#                      merge, there is no button.
+#   workflow_dispatch: the "Run workflow" button exists, because the workflow
+#                      exists on the default branch. It can target any branch
+#                      from the dropdown.
 #
-#   So today: this file is verified by `actionlint` and by running the same
-#   commands locally. It is NOT running on a schedule yet, and this comment
-#   exists so nobody claims otherwise.
+#   So the version of this file that matters is the one on main. Editing it on
+#   a branch changes nothing until that branch is merged. This paragraph used
+#   to say the cron did not fire at all, which was true while the file lived
+#   only on feat/data-pipeline and became false the moment it was merged; a
+#   comment that stops being true is worse than no comment.
 #
 # WHAT IT DOES
 #
@@ -22,9 +24,16 @@
 #   refresh regenerates exports when a source changed, then opens a PULL
 #           REQUEST with the result
 #
-# It never publishes on its own. Medical and coverage content changes are
-# reviewed by a person before merge. A green check here is "a candidate is
-# ready to look at", not "the data is correct".
+# The scheduled run does BOTH. It used to run `check` and stop, because the
+# refresh job required `github.event_name == workflow_dispatch` - so "automatic
+# source updates" needed a person to notice the check and click Run workflow.
+# Nobody ever did, and the FDA label data went stale while the workflow
+# reported green every morning. A detector nobody reads is not a detector.
+#
+# It still never publishes on its own. A refresh opens a pull request and stops
+# there; medical and coverage content is reviewed by a person before merge. A
+# green check here means "a candidate is ready to look at", not "the data is
+# correct".
 name: pipeline-refresh
 
 on:
@@ -71,8 +80,12 @@ jobs:
     permissions:
       contents: read
     outputs:
+      # Produced by `npm run refresh:decide`, which applies the ONE definition
+      # of "should this run ingest" in data-pipeline/src/refresh/decide.ts.
+      ingest: ${{ steps.check.outputs.ingest }}
+      reason: ${{ steps.check.outputs.reason }}
       changed: ${{ steps.check.outputs.changed }}
-      report: ${{ steps.check.outputs.report_path }}
+      refresh_due: ${{ steps.check.outputs.refresh_due }}
     defaults:
       run:
         working-directory: data-pipeline
@@ -110,6 +123,9 @@ jobs:
           # rate limit - so a missing key degrades the run, it does not fail it.
           OPENFDA_API_KEY: ${{ secrets.OPENFDA_API_KEY }}
           SOURCES: ${{ inputs.sources }}
+          EVENT: ${{ github.event_name }}
+          MODE: ${{ inputs.mode }}
+          FORCE: ${{ inputs.force }}
         # Source ids are passed through an environment variable and expanded by
         # the shell, never interpolated into the script body. Retrieved content
         # is data and is never placed on a command line.
@@ -117,14 +133,19 @@ jobs:
           set -euo pipefail
           args=""
           for s in ${SOURCES:-}; do args="$args --source $s"; done
-          # shellcheck disable=SC2086
-          npm run refresh:check -- $args | tee refresh-report.txt
-          if grep -qE "^checked .* changed [1-9]" refresh-report.txt; then
-            echo "changed=true" >> "$GITHUB_OUTPUT"
+          if [ "${EVENT}" = "workflow_dispatch" ]; then
+            args="$args --event workflow_dispatch --mode ${MODE:-check}"
+            if [ "${FORCE}" = "true" ]; then args="$args --force"; fi
           else
-            echo "changed=false" >> "$GITHUB_OUTPUT"
+            args="$args --event schedule"
           fi
-          echo "report_path=data-pipeline/refresh-report.txt" >> "$GITHUB_OUTPUT"
+          # The decision is made by the pipeline and written to GITHUB_OUTPUT
+          # there. This step no longer parses a human-readable report: the old
+          # `grep -E "^checked .* changed [1-9]"` coupled ingestion to the
+          # wording of a log line, could not be tested, and ignored
+          # refresh-due entirely.
+          # shellcheck disable=SC2086
+          npm run refresh:decide -- $args | tee refresh-report.txt
         timeout-minutes: 12
 
       - name: Publish run summary
@@ -151,12 +172,12 @@ jobs:
   refresh:
     name: regenerate and open a review PR
     needs: check
-    # Only on an explicit refresh request. The daily scheduled run checks and
-    # reports; it does not open pull requests on its own.
-    if: >-
-      github.event_name == 'workflow_dispatch' &&
-      inputs.mode == 'refresh' &&
-      (needs.check.outputs.changed == 'true' || inputs.force)
+    # One condition, and it is not a policy: the policy lives in
+    # data-pipeline/src/refresh/decide.ts and is exhaustively tested as a truth
+    # table in data-pipeline/tests/decide.test.ts. Re-expressing it here in
+    # YAML is how the two drifted apart in the first place - the scheduled arm
+    # was excluded entirely and nothing could catch it.
+    if: needs.check.outputs.ingest == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 45
     permissions:
@@ -190,8 +211,14 @@ jobs:
           set -euo pipefail
           npm run ingest
           npm run export
+          npm run insurance:ingest
           npm run insurance:export
           npm run access:export
+          # The application's own snapshot shape. Without this the app rejects
+          # the pipeline's shape at load and the coverage flow reports
+          # "unable to verify" for every request - silently, with no failure
+          # anywhere in this workflow.
+          npm run app:snapshot
           npm run report
         timeout-minutes: 30
 
@@ -205,6 +232,50 @@ jobs:
           npm test
         timeout-minutes: 10
 
+      # A refresh that stops at data-pipeline/data has refreshed nothing a
+      # reader can see: the app imports the VENDORED copies under
+      # src/sources/content/, and those only change when this runs. This is the
+      # step whose absence let the pipeline and the deployed site drift apart
+      # while every job stayed green.
+      #
+      # content:sync copies the label exports, the plan directory and the
+      # app-shaped coverage snapshot, and derives each product's RxNorm concept
+      # identities from the normalized records the ingest just wrote - no
+      # second network call, so the labels and the identity map cannot come
+      # from different moments.
+      - name: Sync the vendored copies the app actually reads
+        run: node scripts/sync-label-exports.mjs
+        timeout-minutes: 5
+
+      # The app-side checks, against the newly synced content: typecheck, lint,
+      # tests AND the production build. A candidate that breaks the application
+      # is never proposed, however valid the pipeline considers its own exports.
+      # The tests include tests/coverage-snapshot.test.ts, which checks the
+      # app's answers against the pipeline's own coverage-examples.json from
+      # this same run, so the two cannot disagree about a plan's drug list.
+      - name: Validate the application against the refreshed content
+        run: |
+          set -euo pipefail
+          npm ci
+          npm run typecheck
+          npm run lint
+          npm test
+          npm run build
+        timeout-minutes: 20
+
+      # Only now, with everything regenerated and validated, record that the
+      # sources were retrieved. This is what clears `refreshDue`; nothing else
+      # sets it. It runs LAST so a failure anywhere above leaves the baseline
+      # untouched and the next scheduled run tries again. Without it every
+      # source stays "never retrieved" and the schedule would regenerate and
+      # re-push this PR every day forever.
+      - name: Record the retrieval baseline
+        working-directory: data-pipeline
+        env:
+          OPENFDA_API_KEY: ${{ secrets.OPENFDA_API_KEY }}
+        run: npm run refresh:mark-retrieved
+        timeout-minutes: 5
+
       - name: Refuse to proceed if anything outside the allowlist changed
         run: |
           set -euo pipefail
@@ -217,7 +288,8 @@ jobs:
             case "$f" in
               data-pipeline/data/exports/*|data-pipeline/data/normalized/*|\
               data-pipeline/data/reports/*|data-pipeline/data/manifests/*|\
-              data-pipeline/data/refresh-state.json) ;;
+              data-pipeline/data/refresh-state.json|\
+              src/sources/content/*) ;;
               *) echo "::error::refresh touched a path outside the allowlist: $f"; bad=1 ;;
             esac
           done
@@ -248,6 +320,19 @@ jobs:
       # peter-evans/create-pull-request v7.0.5
       #
       # Uses the GitHub-provided token. No personal access token is required.
+      #
+      # WHY THIS CANNOT PILE UP OR LOOP, now that the schedule can reach it:
+      #
+      #   duplicates  the branch name is fixed (`data-refresh/automated`), and
+      #               this action force-updates an existing branch and its open
+      #               PR instead of opening a second one. A daily run that finds
+      #               new changes revises yesterday's candidate in place.
+      #   loops       pushes made with GITHUB_TOKEN do not trigger workflow
+      #               runs, so the branch push here cannot start another
+      #               pipeline-refresh or pipeline-tests run. Swapping in a
+      #               personal access token WOULD remove that protection.
+      #   noise       the scheduled arm only reaches this job when the check
+      #               reported a real change, so a quiet month opens nothing.
       # NOTE for the repository owner: workflow-created pull requests need
       # Settings > Actions > General > "Allow GitHub Actions to create and
       # approve pull requests" to be enabled. If it is not, this step fails and
@@ -272,6 +357,7 @@ jobs:
             data-pipeline/data/reports/**
             data-pipeline/data/manifests/**
             data-pipeline/data/refresh-state.json
+            src/sources/content/**
 
       - name: Report PR outcome
         run: |

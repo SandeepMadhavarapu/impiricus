@@ -88,11 +88,11 @@ console.log(
 /*
  * CMS Part D formulary snapshot.
  *
- * The pipeline's normalized snapshot carries plan identities, the formulary
- * rows for our products' RXCUIs, and (for demo plans) cost-sharing rules. The
- * app reads a narrower shape, defined by FormularySnapshotSchema in
- * src/patient/lib/coverage/formulary.ts. Converting HERE, at the seam, keeps
- * the pipeline free to grow its record and the app free to stay strict.
+ * Produced by the pipeline's `npm run app:snapshot`, which is the ONE place
+ * the pipeline's record is transformed into the shape the app validates
+ * (data-pipeline/src/insurance/appSnapshot.ts, unit-tested there and
+ * exercised end to end by tests/refresh.harness.test.ts). This script copies
+ * it and refuses anything that does not look like that shape.
  *
  * This file used to be gitignored as "operator-generated", which meant it
  * simply did not exist on Vercel and every coverage check answered "not
@@ -100,73 +100,67 @@ console.log(
  * pipeline's committed output. It is committed now for the same reason
  * plans.json is: the app imports it, and the build container has no CMS
  * access and no pipeline checkout.
+ *
+ * A missing snapshot is a HARD failure, not a note. Shipping the app without
+ * it would silently restore the exact defect above, and the app's static
+ * import would fail the build anyway; better to say why here.
  */
 const COVERAGE_TO = path.join("src", "sources", "content", "coverage");
 await mkdir(COVERAGE_TO, { recursive: true });
 
-const pipelineSnapshot = JSON.parse(
-  await readFile(
-    path.join("data-pipeline", "data", "normalized", "insurance", "cms-part-d-snapshot.json"),
-    "utf8"
-  )
-);
-if (pipelineSnapshot.sourceId !== "cms-part-d-monthly-formulary") {
-  throw new Error(`Expected a CMS Part D snapshot, got "${pipelineSnapshot.sourceId}". Refusing to sync.`);
-}
-const contractYear = Number.parseInt(pipelineSnapshot.contractYear, 10);
-if (!Number.isInteger(contractYear)) {
-  throw new Error(`Snapshot contractYear is unusable: ${pipelineSnapshot.contractYear}`);
-}
-if (pipelineSnapshot.release !== plans.sourceRelease) {
-  // Plans and formulary rows must come from the same monthly release, or a
-  // formulary id in one may not mean the same document in the other.
-  throw new Error(
-    `Snapshot release ${pipelineSnapshot.release} != plan directory release ${plans.sourceRelease}. Re-run the pipeline ingest.`
-  );
-}
-
-const quantityLimitDescription = (row) => {
-  if (!row.quantityLimitYn) return null;
-  if (row.quantityLimitAmount && row.quantityLimitDays) {
-    return `${row.quantityLimitAmount} per ${row.quantityLimitDays} days`;
+const SNAPSHOT_FROM = path.join("data-pipeline", "data", "exports", "app", "cms-part-d-snapshot.json");
+let appSnapshot;
+try {
+  appSnapshot = JSON.parse(await readFile(SNAPSHOT_FROM, "utf8"));
+} catch (err) {
+  if (err && err.code === "ENOENT") {
+    throw new Error(
+      `${SNAPSHOT_FROM} does not exist, so the coverage snapshot cannot be synced.\n` +
+        `Run: cd data-pipeline && npm run insurance:ingest && npm run app:snapshot`
+    );
   }
-  // CMS flagged a limit but published no figures. Say that, rather than
-  // rendering "null per null days" or pretending there is no limit.
-  return "Limit applies; amount not published";
-};
+  throw err;
+}
 
-const appSnapshot = {
-  schemaVersion: 1,
-  cmsRelease: pipelineSnapshot.release,
-  contractYear,
-  sourceUrl: pipelineSnapshot.sourceUrl,
-  retrievedAt: pipelineSnapshot.retrievedAt,
-  rxcuis: [...pipelineSnapshot.rxcuisFiltered].sort(),
-  plans: pipelineSnapshot.plans.map((p) => ({
-    contractId: p.contractId,
-    planId: p.planId,
-    segmentId: p.segmentId ?? null,
-    formularyId: p.formularyId,
-    planName: p.planName,
-    organizationName: p.organizationName ?? null,
-  })),
-  formulary: pipelineSnapshot.formulary.map((r) => ({
-    formularyId: r.formularyId,
-    rxcui: r.rxcui,
-    tier: Number.isInteger(r.tierLevelValue) && r.tierLevelValue > 0 ? r.tierLevelValue : null,
-    priorAuthorization: Boolean(r.priorAuthorizationYn),
-    stepTherapy: Boolean(r.stepTherapyYn),
-    quantityLimit: Boolean(r.quantityLimitYn),
-    quantityLimitDescription: quantityLimitDescription(r),
-  })),
-};
+{
+  const problems = [];
+  if (appSnapshot.schemaVersion !== 1) problems.push(`schemaVersion is ${appSnapshot.schemaVersion}, expected 1`);
+  if (typeof appSnapshot.cmsRelease !== "string" || !appSnapshot.cmsRelease) problems.push("cmsRelease is missing");
+  if (!Number.isInteger(appSnapshot.contractYear)) problems.push("contractYear is missing or not an integer");
+  if (typeof appSnapshot.sourceUrl !== "string" || !appSnapshot.sourceUrl.startsWith("http")) problems.push("sourceUrl is missing");
+  if (!Array.isArray(appSnapshot.rxcuis) || appSnapshot.rxcuis.length === 0) problems.push("rxcuis is empty");
+  if (!Array.isArray(appSnapshot.plans) || appSnapshot.plans.length === 0) problems.push("plans has no rows");
+  if (!Array.isArray(appSnapshot.formulary) || appSnapshot.formulary.length === 0) {
+    problems.push("formulary has no rows - the app would report every drug as not listed");
+  }
+  const row = Array.isArray(appSnapshot.formulary) ? appSnapshot.formulary[0] : null;
+  if (row) {
+    for (const field of ["formularyId", "rxcui", "tier", "priorAuthorization", "stepTherapy", "quantityLimit", "quantityLimitDescription"]) {
+      if (!(field in row)) problems.push(`formulary rows are missing "${field}"`);
+    }
+    if ("tierLevelValue" in row || "priorAuthorizationYn" in row) {
+      problems.push("formulary rows are in the PIPELINE shape, not the app shape - run app:snapshot");
+    }
+  }
+  if (appSnapshot.cmsRelease !== plans.sourceRelease) {
+    // Plans and formulary rows must come from the same monthly release, or a
+    // formulary id in one may not mean the same document in the other.
+    problems.push(
+      `snapshot release ${appSnapshot.cmsRelease} != plan directory release ${plans.sourceRelease}; re-run the pipeline ingest and exports together`
+    );
+  }
+  if (problems.length > 0) {
+    throw new Error(`Refusing to sync the coverage snapshot:\n  - ${problems.join("\n  - ")}`);
+  }
+}
+
 await writeFile(
   path.join(COVERAGE_TO, "cms-part-d-snapshot.json"),
   JSON.stringify(appSnapshot, null, 2) + "\n",
   "utf8"
 );
 console.log(
-  `synced CMS Part D snapshot: ${appSnapshot.formulary.length} formulary rows across ${appSnapshot.plans.length} plans (release ${appSnapshot.cmsRelease})`
+  `synced CMS Part D snapshot: ${appSnapshot.formulary.length} formulary rows across ${appSnapshot.plans.length} plans (release ${appSnapshot.cmsRelease}, year ${appSnapshot.contractYear})`
 );
 
 /*

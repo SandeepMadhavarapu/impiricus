@@ -51,12 +51,12 @@ import {
 /** Where the last successful check/retrieval per source is remembered. */
 const STATE_FILE = path.join(PIPELINE_ROOT, "data", "refresh-state.json");
 
-interface PersistedSourceState {
+export interface PersistedSourceState {
   version: SourceVersion | null;
   lastSuccessfulCheck: string | null;
   lastSuccessfulRetrieval: string | null;
 }
-type PersistedState = Record<string, PersistedSourceState>;
+export type PersistedState = Record<string, PersistedSourceState>;
 
 export async function loadState(): Promise<PersistedState> {
   if (!existsSync(STATE_FILE)) return {};
@@ -175,6 +175,104 @@ export async function runChecks(opts: RunOptions): Promise<RefreshRun> {
     candidateManifestId: null,
     lastKnownGoodManifestId: good?.manifestId ?? null,
   };
+}
+
+/** One source's outcome from `markRetrieved`. */
+export interface RetrievalMark {
+  sourceId: string;
+  /** True when the baseline was advanced. */
+  marked: boolean;
+  /** Why it was not, when it was not. */
+  reason: "check-failed" | "not-checked" | null;
+  lastSuccessfulRetrieval: string | null;
+}
+
+/**
+ * Records that a full retrieval of each source just succeeded.
+ *
+ * ---------------------------------------------------------------------------
+ * WHY THIS EXISTS
+ * ---------------------------------------------------------------------------
+ * `refreshDue` is derived from `lastSuccessfulRetrieval`: a source is due when
+ * that is null ("never retrieved") or older than its maximum acceptable age.
+ * Nothing set it. `runChecks` carries it forward unchanged on every path, and
+ * the ingest, export and insurance commands never touch the state file at
+ * all. So every source was "never retrieved" forever, and a scheduled run that
+ * acts on `refreshDue` would regenerate and re-push its candidate every day
+ * until the end of time, whether or not anything had changed.
+ *
+ * ---------------------------------------------------------------------------
+ * WHEN TO CALL IT
+ * ---------------------------------------------------------------------------
+ * Only AFTER a regeneration has completed and been validated. It is a separate
+ * command rather than a side effect of `ingest`, so a run that fails halfway,
+ * or produces a bundle that fails its tests, never advances the baseline: the
+ * next run will still see the source as due and try again. The workflow calls
+ * it as the last step before opening the review PR.
+ *
+ * ---------------------------------------------------------------------------
+ * WHAT IT RECORDS
+ * ---------------------------------------------------------------------------
+ * It re-checks each source and records the version observed NOW as the one
+ * retrieved, with the retrieval and check timestamps set to now. A source
+ * whose check fails at this moment is left alone: a failed check must never
+ * advance a timestamp. The window between the regeneration and this check is
+ * seconds, against publishers that release monthly; a change landing inside
+ * that window is caught by the next daily check, which compares against the
+ * version recorded here.
+ */
+export interface MarkRetrievedDeps {
+  /** Runs the source checks. Tests supply canned results; production checks live. */
+  check: (opts: RunOptions) => Promise<RefreshRun>;
+  load: () => Promise<PersistedState>;
+  save: (state: PersistedState) => Promise<void>;
+  now: () => string;
+}
+
+export async function markRetrieved(
+  opts: { only?: string[]; dryRun?: boolean } = {},
+  deps: Partial<MarkRetrievedDeps> = {}
+): Promise<{ marks: RetrievalMark[]; run: RefreshRun }> {
+  const d: MarkRetrievedDeps = {
+    check: deps.check ?? runChecks,
+    load: deps.load ?? loadState,
+    save: deps.save ?? saveState,
+    now: deps.now ?? (() => new Date().toISOString()),
+  };
+  const run = await d.check({ mode: "check-only", only: opts.only, dryRun: true });
+  const state = await d.load();
+  const now = d.now();
+  const marks: RetrievalMark[] = [];
+
+  for (const r of run.sources) {
+    if (r.outcome === "failed-retryable" || r.outcome === "failed-permanent") {
+      marks.push({
+        sourceId: r.sourceId,
+        marked: false,
+        reason: "check-failed",
+        lastSuccessfulRetrieval: state[r.sourceId]?.lastSuccessfulRetrieval ?? null,
+      });
+      continue;
+    }
+    if (r.outcome === "not-implemented" || r.outcome === "skipped-not-due") {
+      marks.push({
+        sourceId: r.sourceId,
+        marked: false,
+        reason: "not-checked",
+        lastSuccessfulRetrieval: state[r.sourceId]?.lastSuccessfulRetrieval ?? null,
+      });
+      continue;
+    }
+    state[r.sourceId] = {
+      version: r.current ?? state[r.sourceId]?.version ?? null,
+      lastSuccessfulCheck: now,
+      lastSuccessfulRetrieval: now,
+    };
+    marks.push({ sourceId: r.sourceId, marked: true, reason: null, lastSuccessfulRetrieval: now });
+  }
+
+  if (!opts.dryRun) await d.save(state);
+  return { marks, run };
 }
 
 /**

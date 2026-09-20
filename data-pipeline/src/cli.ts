@@ -3,13 +3,14 @@
 // a config module could read it at import time, and then order would matter.
 import { loadPipelineEnv, describeSecret, PIPELINE_ROOT } from "./config/env.js";
 loadPipelineEnv();
-import { mkdir, writeFile, readFile, readdir, rename } from "node:fs/promises";
+import { mkdir, writeFile, readFile, readdir, rename, appendFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import path from "node:path";
 import { PRODUCTS, findProduct } from "./config/products.js";
 import { SOURCES } from "./config/sources.js";
 import { SUPPORTED_SCOPE } from "./config/scope.js";
 import { SECRET_ENV_NAMES } from "./config/env.js";
-import { runChecks, renderRunReport, renderCadenceTable, buildCandidateManifest } from "./refresh/run.js";
+import { runChecks, renderRunReport, renderCadenceTable, buildCandidateManifest, markRetrieved } from "./refresh/run.js";
 import {
   listManifests,
   lastKnownGood,
@@ -19,6 +20,8 @@ import {
   EXPORTS_DIR as PUBLISHED_EXPORTS_DIR,
 } from "./refresh/manifest.js";
 import { exportAccess } from "./access/exportAccess.js";
+import { adaptPipelineSnapshot } from "./insurance/appSnapshot.js";
+import { decideRefresh, triggerFactsFrom, type RefreshEvent, type RefreshMode } from "./refresh/decide.js";
 import { resolveProduct } from "./identity/resolve.js";
 import { buildRecord, summarize } from "./normalize/record.js";
 import { toExport, exportStats } from "./export/appExport.js";
@@ -425,6 +428,82 @@ async function main(): Promise<void> {
       return;
     }
 
+    case "refresh:decide": {
+      /*
+       * Runs the checks, then applies the single definition of "should this
+       * run ingest" from src/refresh/decide.ts, and writes the answer to
+       * GITHUB_OUTPUT when CI supplies one.
+       *
+       * The workflow used to decide by grepping the human-readable report for
+       * "changed [1-9]", which coupled ingestion to the wording of a log line
+       * and could not be tested. It also dropped `refreshDue` entirely, so a
+       * source that was provably unchanged but had aged out never triggered
+       * anything.
+       */
+      const event = (argValue(rest, "--event") ?? "schedule") as RefreshEvent;
+      const modeArg = argValue(rest, "--mode");
+      const mode = (modeArg ?? null) as RefreshMode | null;
+      const force = rest.includes("--force") ? true : modeArg ? false : null;
+
+      const run = await runChecks({
+        mode: "check-only",
+        only: argValues(rest, "--source"),
+        dryRun: rest.includes("--dry-run"),
+      });
+      log(renderRunReport(run));
+
+      const facts = triggerFactsFrom(run.sources);
+      const decision = decideRefresh({ event, mode, force, ...facts });
+
+      log("");
+      log(`trigger   event=${event} mode=${mode ?? "(none)"} force=${force ?? "(none)"}`);
+      log(`facts     changed=${facts.anyChanged} refreshDue=${facts.anyRefreshDue} permanentFailure=${facts.anyPermanentFailure}`);
+      log(`decision  ingest=${decision.ingest} reason=${decision.reason}`);
+      log(decision.explanation);
+
+      const outFile = process.env.GITHUB_OUTPUT;
+      if (outFile) {
+        await appendFile(
+          outFile,
+          `ingest=${decision.ingest}\nreason=${decision.reason}\n` +
+            `changed=${facts.anyChanged}\nrefresh_due=${facts.anyRefreshDue}\n`,
+          "utf8"
+        );
+      }
+
+      // A permanent failure is a configuration problem and should fail the job,
+      // exactly as refresh:check does. The decision above already refuses to
+      // ingest; this makes it visible rather than a quiet no-op.
+      if (facts.anyPermanentFailure) process.exitCode = 2;
+      return;
+    }
+
+    case "refresh:mark-retrieved": {
+      /*
+       * Records that a regeneration just completed, so `refreshDue` clears
+       * until a source changes or ages out. Run ONLY after the regenerated
+       * bundle has passed validation; see markRetrieved() for why nothing
+       * else sets this and what happens if nothing ever does.
+       */
+      const { marks } = await markRetrieved({
+        only: argValues(rest, "--source"),
+        dryRun: rest.includes("--dry-run"),
+      });
+      for (const m of marks) {
+        log(
+          `${m.sourceId.padEnd(20)} ${m.marked ? "retrieved" : `NOT marked (${m.reason})`}` +
+            `  baseline ${m.lastSuccessfulRetrieval ?? "none"}`
+        );
+      }
+      const failed = marks.filter((m) => m.reason === "check-failed");
+      if (failed.length > 0) {
+        log("");
+        log(`${failed.length} source(s) could not be re-checked and keep their previous baseline.`);
+        process.exitCode = 2;
+      }
+      return;
+    }
+
     case "refresh:cadence": {
       log(renderCadenceTable());
       return;
@@ -524,6 +603,48 @@ async function main(): Promise<void> {
         log("");
         log("openFDA works without a key at a lower rate limit.");
         log('To add one:  cp .env.example .env.local   then paste the key after "=".');
+      }
+      return;
+    }
+
+    case "app:snapshot": {
+      /*
+       * Emits the web application's coverage snapshot.
+       *
+       * The app validates what it loads, so a snapshot in the pipeline's own
+       * shape is rejected at load time and the coverage flow reports "unable
+       * to verify" - which is how a system holding 979 real formulary rows
+       * came to tell every user it had no formulary database. The transform
+       * lives in one place and this command is the only producer.
+       */
+      const src = path.join(process.cwd(), "data", "normalized", "insurance", "cms-part-d-snapshot.json");
+      if (!existsSync(src)) {
+        log(`No pipeline snapshot at ${path.relative(process.cwd(), src)}.`);
+        log("Run `npm run insurance:ingest` first.");
+        process.exitCode = 1;
+        return;
+      }
+
+      const { snapshot, stats } = adaptPipelineSnapshot(
+        JSON.parse(await readFile(src, "utf8"))
+      );
+
+      const outDir = path.join(process.cwd(), "data", "exports", "app");
+      await mkdir(outDir, { recursive: true });
+      const target = path.join(outDir, "cms-part-d-snapshot.json");
+      await atomicWrite(target, JSON.stringify(snapshot, null, 2) + "\n");
+
+      log(`wrote ${path.relative(process.cwd(), target)}`);
+      log(`  release        ${snapshot.cmsRelease}   retrieved ${snapshot.retrievedAt}`);
+      log(`  plans          ${stats.plansOut} of ${stats.plansIn}` +
+          (stats.plansDroppedNoName > 0 ? `  (${stats.plansDroppedNoName} dropped: no plan name)` : ""));
+      log(`  formulary rows ${stats.formularyOut} of ${stats.formularyIn}`);
+      log(`  rxcuis         ${snapshot.rxcuis.join(", ")}`);
+      if (stats.tiersNulled > 0) {
+        log(`  ${stats.tiersNulled} row(s) had no published tier -> null (never 0)`);
+      }
+      if (stats.quantityLimitsWithoutDetail > 0) {
+        log(`  ${stats.quantityLimitsWithoutDetail} row(s) flag a quantity limit with no amount/days -> flag kept, description null`);
       }
       return;
     }
