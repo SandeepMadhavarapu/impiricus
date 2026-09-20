@@ -1,3 +1,4 @@
+import { publicGuideCode, publicGuideSlug } from "./public-guides";
 import "server-only";
 import { createCipheriv, createDecipheriv, createHash, randomBytes } from "node:crypto";
 import { getGuide, listGuideSlugs, guideProductName } from "@/sources/lib/content/catalogue";
@@ -49,4 +50,16 @@ export function resolveSession(token: string, now = Date.now()) {
   if (matches.length !== 1) throw new SessionError(400, "We couldn't verify this medication guide.");
   const slug = matches[0]!;
   return { medicationSlug: slug, label: guideProductName(getGuide(slug)!), path: medicationPath(slug) };
+}
+
+/** Public guide lookup only: no authentication, expiry or personal information. */
+export function createGuideSound(slug: string) {
+  const code = publicGuideCode(slug);
+  if (!code || !getGuide(slug)) throw new SessionError(400, "Unsupported medication.");
+  return { code, receiveUrl: `${getPublicOrigin().origin}/receive` };
+}
+export function resolveGuideSound(code: string) {
+  const slug = publicGuideSlug(code), guide = slug ? getGuide(slug) : null;
+  if (!slug || !guide) throw new SessionError(400, "Unknown medication guide code.");
+  return { medicationSlug: slug, label: guideProductName(guide), path: medicationPath(slug) };
 }

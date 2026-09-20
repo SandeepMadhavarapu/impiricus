@@ -414,16 +414,17 @@ See [NFC setup, firmware, and demo steps](hardware/nfc-tap/README.md).
 
 ### Nearby Sound Sharing — Experimental
 
-Doctors press **Send Nearby** to prepare a temporary code, then **Play sound**
-to transmit it. Direct media playback supports iPhone Safari without relying on
+Doctors press **Send Nearby** to prepare a public guide code, then **Play sound**
+to transmit it in **1.95 seconds**. Direct media playback supports iPhone Safari without relying on
 Web Audio’s silent-mode behavior.
 Patients can choose **Receive guide with sound** on any medication page or in
 the provider chooser. **My own doctor or prescriber** also includes the listener
 directly, below the disabled account controls; receiving does not require sign-in.
 The standalone `/receive` page remains available. The patient explicitly presses **Listen for guide** before
 microphone permission is requested. Audio is processed locally and is never recorded
-or uploaded. Only the decoded token is submitted to the server. Native share,
+or uploaded. Only the decoded guide code is submitted to the server. The code is replayable,
+identifies a public medication guide, and is not authentication. Native share,
 AirDrop, Messages, Copy Link, and the existing QR code remain available.
 
-See [the nearby sharing demo guide](docs/NEARBY-SHARING.md) for setup, manual token
+See [the nearby sharing demo guide](docs/NEARBY-SHARING.md) for setup, code
 testing, physical-device steps, protocol details, and known limitations.
