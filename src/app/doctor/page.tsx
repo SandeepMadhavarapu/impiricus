@@ -12,6 +12,7 @@ import { INFORMATION_PENDING } from "@/shared/lib/content-status";
 import { ShareSection } from "@/doctor/components/ShareSection";
 import { DoctorBar, TabBar } from "@/doctor/components/AppChrome";
 import { listGuides, guideProductName, type Guide } from "@/sources/lib/content/catalogue";
+import { DrugSearch } from "@/doctor/components/DrugSearch";
 
 /**
  * Rendered per request so the deployment gate reads the live APP_MODE rather
@@ -70,6 +71,13 @@ export default async function DoctorPage({ searchParams }: {
             </Link>
           ))}
           <p className="tiny">Source-backed education. No clinical review has been performed.</p>
+
+          {/*
+            The library above is what has a patient guide. This searches every
+            FDA label, so a medication that is not in it gets a real answer -
+            its identity and its official label - instead of silence.
+          */}
+          <DrugSearch />
         </section>
 
         <section className="doctor-preview stack" aria-labelledby="preview-heading">
