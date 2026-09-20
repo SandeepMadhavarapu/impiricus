@@ -25,7 +25,21 @@ export const DOSAGE_FORMS = [
 ] as const;
 
 export const CoverageRequestSchema = z.object({
-  slug: z.string().min(1).max(120).regex(/^[a-z0-9-]+$/),
+  /**
+   * A product key. Underscores are allowed because the pipeline encodes a
+   * decimal point as one: "ozempic-semaglutide-1_34mg-per-ml-injection". The
+   * stricter pattern rejected that slug outright, so the coverage form on the
+   * Ozempic page failed validation before any lookup was attempted and the
+   * reader saw a generic "Invalid" error.
+   *
+   * Still deliberately narrow: lowercase, digits, hyphen, underscore. No dots,
+   * no slashes, nothing that could traverse a path or reach a filesystem.
+   */
+  slug: z
+    .string()
+    .min(1)
+    .max(120)
+    .regex(/^[a-z0-9_-]+$/, "That is not a medication this site publishes"),
   insurer: z.string().min(2, "Enter your insurer").max(120),
   planName: z.string().min(2, "Enter your exact plan name").max(160),
   planYear: z

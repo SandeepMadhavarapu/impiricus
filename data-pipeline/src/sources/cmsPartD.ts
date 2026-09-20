@@ -130,10 +130,58 @@ export function parseFormularyFile(
   const iPa = idx("PRIOR_AUTHORIZATION_YN");
   const iSt = idx("STEP_THERAPY_YN");
 
-  const yn = (v: string | undefined) => String(v ?? "").toUpperCase() === "Y";
+  /*
+   * The restriction columns are required, not optional.
+   *
+   * `idx` returns -1 for a column CMS has renamed or dropped, and `r[-1]` is
+   * undefined, which the old `yn` mapped to false. A single upstream rename of
+   * PRIOR_AUTHORIZATION_YN would therefore have published "no prior
+   * authorisation" for every row in the release, with nothing failing. A
+   * schema change upstream has to stop the build, not quietly become a
+   * favourable claim about someone's coverage.
+   */
+  const missing = (
+    [
+      ["TIER_LEVEL_VALUE", iTier],
+      ["QUANTITY_LIMIT_YN", iQlYn],
+      ["PRIOR_AUTHORIZATION_YN", iPa],
+      ["STEP_THERAPY_YN", iSt],
+    ] as const
+  )
+    .filter(([, i]) => i < 0)
+    .map(([name]) => name);
+  if (missing.length > 0) {
+    throw new Error(
+      `Formulary file header is missing required column(s): ${missing.join(", ")}. ` +
+        `Refusing to parse: absent restriction columns would be read as "no restriction". ` +
+        `Header was: ${header.slice(0, 16).join(", ")}`
+    );
+  }
+
+  /**
+   * Y or N only.
+   *
+   * Anything else - blank, "U", a new code - is UNKNOWN, and unknown is not
+   * "no". The previous `=== "Y"` test silently turned every unrecognised value
+   * into an assertion that the plan imposes no prior authorisation, no step
+   * therapy and no quantity limit. There is no unknown value in the 2026-08
+   * release, so failing closed costs nothing today and prevents a false
+   * coverage claim the day CMS introduces one.
+   */
+  const yn = (v: string | undefined, column: string, rowNo: number): boolean => {
+    const raw = String(v ?? "").trim().toUpperCase();
+    if (raw === "Y") return true;
+    if (raw === "N") return false;
+    throw new Error(
+      `${column} on formulary row ${rowNo} is ${JSON.stringify(v ?? null)}, which is neither Y nor N. ` +
+        `Refusing to guess: treating an unknown restriction as absent would overstate coverage.`
+    );
+  };
   const out: PartDFormularyRow[] = [];
 
+  let rowNo = 0;
   for (const r of rows) {
+    rowNo++;
     if (counters) counters.read++;
     const rxcui = r[iRxcui] ?? "";
     if (!wantedRxcuis.has(rxcui)) {
@@ -147,11 +195,11 @@ export function parseFormularyFile(
       contractYear: iYear >= 0 ? (r[iYear] ?? null) : null,
       rxcui,
       tierLevelValue: Number.isFinite(tierRaw) && tierRaw > 0 ? tierRaw : null,
-      quantityLimitYn: yn(r[iQlYn]),
+      quantityLimitYn: yn(r[iQlYn], "QUANTITY_LIMIT_YN", rowNo),
       quantityLimitAmount: iQlAmt >= 0 ? (r[iQlAmt] || null) : null,
       quantityLimitDays: iQlDays >= 0 ? (r[iQlDays] || null) : null,
-      priorAuthorizationYn: yn(r[iPa]),
-      stepTherapyYn: yn(r[iSt]),
+      priorAuthorizationYn: yn(r[iPa], "PRIOR_AUTHORIZATION_YN", rowNo),
+      stepTherapyYn: yn(r[iSt], "STEP_THERAPY_YN", rowNo),
     });
   }
   return out;

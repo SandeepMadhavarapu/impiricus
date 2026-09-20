@@ -270,7 +270,66 @@ function withholdReason(s: LabelSectionView): WithheldReason | null {
  * rewrite, and the UI says so.
  */
 export function patientSections(record: MedicationExport): LabelSectionView[] {
-  return record.patientLabeling.filter((s) => withholdReason(s) === null);
+  return record.patientLabeling.flatMap((s) => {
+    if (withholdReason(s) !== null) return [];
+    return [pruneSubsections(s)];
+  });
+}
+
+/**
+ * Applies the same rule to every descendant, not just the top level.
+ *
+ * The filter used to inspect only the outermost section, while the renderer
+ * walks `subsections` all the way down. A section the document ties to THIS
+ * product can contain a child it ties to a different one - in the Singulair
+ * SPL, "2.5 Instructions for Administration of Oral Granules" is
+ * `not-applicable` and sits inside "2 DOSAGE AND ADMINISTRATION". Under the
+ * old filter, showing the parent showed the child: granule instructions on a
+ * 10 mg tablet page. That is the same failure as the device-instructions leak,
+ * one level down.
+ *
+ * Today's patient labeling happens to be flat, so nothing was leaking. That is
+ * luck, not a property. This makes it a property.
+ *
+ * Pruning here removes it from what a PATIENT is shown. It does not remove it
+ * from the record: the export keeps the full document, the count is surfaced
+ * by `nestedWithheldCount`, and the whole label stays one link away.
+ */
+function pruneSubsections(section: LabelSectionView): LabelSectionView {
+  const kept = section.subsections
+    .filter((sub) => withholdReason(sub) === null)
+    .map(pruneSubsections);
+  // Identity when nothing changed, so React sees the same object.
+  if (kept.length === section.subsections.length && kept.every((k, i) => k === section.subsections[i])) {
+    return section;
+  }
+  return { ...section, subsections: kept };
+}
+
+/**
+ * How many nested sections the prune removed, so it is never silent.
+ *
+ * `withheldPatientSections` reports top-level withholds. A nested one has no
+ * standalone heading a reader would recognise, so it is reported as a count
+ * rather than by name; the alternative, saying nothing, leaves a reader unable
+ * to tell a pruned subsection from a label that is genuinely silent.
+ */
+export function nestedWithheldCount(record: MedicationExport): number {
+  let n = 0;
+  const walk = (sections: LabelSectionView[], insideShown: boolean) => {
+    for (const s of sections) {
+      const withheld = withholdReason(s) !== null;
+      // Only count what a reader would otherwise have seen: a child of a
+      // section that is itself shown.
+      if (insideShown && withheld && withholdReason(s) !== "no-extractable-text") n++;
+      walk(s.subsections, insideShown && !withheld);
+    }
+  };
+  for (const top of record.patientLabeling) {
+    if (withholdReason(top) !== null) continue;
+    walk(top.subsections, true);
+  }
+  return n;
 }
 
 /**
@@ -324,16 +383,44 @@ export function labelScopeNote(record: MedicationExport): string {
 export function labelProductName(record: MedicationExport): string {
   const brand = record.display.brandName?.trim();
   const generic = record.display.genericName.toLowerCase();
-  const head = brand ? `${titleCase(brand)} (${generic})` : titleCase(generic);
+  const head = brand ? `${displayCase(brand)} (${generic})` : displayCase(generic);
   return `${head} ${record.display.strengthDisplay} ${record.display.dosageForm.toLowerCase()}`;
 }
 
-function titleCase(s: string): string {
+/**
+ * Re-cases a name for display WITHOUT destroying meaningful capitals.
+ *
+ * The defect this fixes: lowercasing then capitalising each word turned
+ * "TOPROL XL" into "Toprol Xl". The "XL" is not a word - it is the
+ * extended-release designation, and a patient matching the page against their
+ * pack sees a name that does not match.
+ *
+ * Two rules, both generic - no brand is named here:
+ *
+ *   1. If the source already contains lowercase, it was cased deliberately
+ *      ("Ozempic"). Return it untouched. Re-casing human-authored text is how
+ *      the information gets worse, not better.
+ *
+ *   2. Only ALL-CAPS input is re-cased, and only tokens of 4+ characters. A
+ *      short all-caps token in a drug name is almost always an initialism or a
+ *      release designation - XL, ER, XR, SR, HCT, DS - and title-casing it
+ *      corrupts it. Leaving it errs toward preserving the source.
+ *
+ * "SINGULAIR" -> "Singulair"; "TOPROL XL" -> "Toprol XL"; "Ozempic" -> "Ozempic".
+ */
+export function displayCase(s: string): string {
+  // Rule 1: the source already made a casing decision.
+  if (/[a-z]/.test(s)) return s;
+
   return s
-    .toLowerCase()
-    .split(" ")
-    .map((w) => (w.length > 0 ? w[0]!.toUpperCase() + w.slice(1) : w))
-    .join(" ");
+    .split(/(\s+)/)
+    .map((tok) => {
+      if (/^\s+$/.test(tok) || tok.length === 0) return tok;
+      // Rule 2: short tokens are initialisms, not words.
+      if (tok.length <= 3) return tok;
+      return tok[0]! + tok.slice(1).toLowerCase();
+    })
+    .join("");
 }
 
 /**

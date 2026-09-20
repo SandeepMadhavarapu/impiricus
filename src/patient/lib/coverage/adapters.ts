@@ -1,9 +1,11 @@
 import "server-only";
 import { getCoverageConfig } from "@/shared/lib/config";
+import { productConcepts } from "@/sources/lib/content/catalogue";
 import {
   lookupFormulary,
   describeQuantityLimit,
   type FormularySnapshot,
+  type PlanIdentity,
 } from "./formulary";
 import { loadFormularySnapshot } from "./snapshot";
 import {
@@ -75,11 +77,19 @@ const baseScope = (req: CoverageRequest, productLabel: string) => ({
 /* ------------------------------------------------------------ unconfigured */
 
 /**
- * The default. No payer or formulary integration is available to this
- * prototype, so the honest answer is that nothing could be verified.
+ * The fallback when no usable coverage source is available.
  *
- * The full input flow still runs, so the shape of a real integration — and the
- * exact inputs it needs — is demonstrated end to end.
+ * This used to be the normal state and the copy said so ("not connected to any
+ * ... formulary database"). It is not the normal state any more: the CMS Part D
+ * snapshot is committed and loaded, so this adapter is now reached only when
+ * that snapshot fails schema validation at startup. The wording below therefore
+ * describes what is actually true - a source exists and could not be read -
+ * rather than claiming there is no source at all.
+ *
+ * What has NOT changed: no payer or pharmacy benefit manager is connected, and
+ * no adapter here adjudicates a member benefit. The full input flow still runs,
+ * so the shape of a real integration and the exact inputs it needs are
+ * demonstrated end to end.
  */
 export const unconfiguredAdapter: CoverageAdapter = {
   id: "unconfigured",
@@ -89,7 +99,8 @@ export const unconfiguredAdapter: CoverageAdapter = {
       state: "unable-to-verify",
       headline: "Unable to verify with the available connection",
       caveats: [
-        "This prototype is not connected to any insurer, pharmacy benefit manager, or formulary database, so no part of your coverage could be checked.",
+        "No usable drug-list data was available, so no part of your coverage could be checked.",
+        "This prototype is not connected to any insurer or pharmacy benefit manager. It cannot see your personal benefit under any circumstances.",
         "This is not a statement that the medication is uncovered. It means nothing was checked.",
       ],
       scope: baseScope(req, productLabel),
@@ -241,7 +252,120 @@ export function cmsFormularyAdapter(snapshot: FormularySnapshot): CoverageAdapte
       const scope = baseScope(req, productLabel);
       const steps = universalNextSteps(req);
       const stamp = `CMS Part D public formulary file, release ${snapshot.cmsRelease}, retrieved ${snapshot.retrievedAt}`;
-      const result = lookupFormulary(snapshot, req.insurer, req.planName, snapshot.rxcuis);
+      /*
+       * The RXCUIs of THIS medication - never every RXCUI in the snapshot.
+       *
+       * This previously passed `snapshot.rxcuis`, the union across every drug
+       * the snapshot was built for. `lookupFormulary` takes the first row
+       * matching the plan's formulary and ANY wanted RXCUI, so Singulair's
+       * page reported Ozempic's tier, prior authorisation and quantity limit
+       * ("Tier 3", "3 per 28 days") because that row happened to come first.
+       *
+       * It stayed invisible while the snapshot failed to load and every answer
+       * was "unable to verify". Shipping the data turned a silent failure into
+       * a confident wrong answer about a different medicine, which is worse.
+       */
+      /*
+       * The concepts for THIS product, kept apart.
+       *
+       * Two earlier versions of this line were wrong in the same way, at
+       * different scales. It first passed `snapshot.rxcuis` - every RXCUI in
+       * the snapshot - so the Singulair page reported OZEMPIC's tier and
+       * "3 per 28 days". Narrowing that to the product's own identifiers fixed
+       * the cross-DRUG error but left a cross-PRESENTATION one: the authored
+       * record's `product.rxcui` array holds eight concepts spanning 10 mg
+       * tablets, 5 mg and 4 mg chewables and 4 mg granules, and it mixes the
+       * branded concept with the generic one. The "Tier 1, no prior
+       * authorisation, 30 per 30 days" a reader saw was rxcui 200224, the
+       * GENERIC montelukast tablet. Brand Singulair is not on that plan's list
+       * at all.
+       *
+       * So the brand is searched for FIRST and on its own. The generic is a
+       * separate, clearly-labelled secondary answer, never merged into the
+       * brand's fields.
+       */
+      const concepts = productConcepts(req.slug);
+      const exact = concepts?.exact ?? null;
+      const generic = concepts?.genericEquivalent ?? null;
+
+      if (!exact) {
+        // No identifiers for this product means the formulary cannot be
+        // searched for it. Saying so is correct; searching for every drug and
+        // returning whatever matched first is not.
+        return {
+          state: "unable-to-verify",
+          headline: "This medication has no identifier to look up",
+          caveats: [
+            "This medication has no RxNorm identifier recorded, so its formulary status could not be searched for.",
+            "This is not a statement that the medication is uncovered. Nothing was checked.",
+          ],
+          scope,
+          formularyListing: unknownField(),
+          tier: unknownField(),
+          priorAuthorization: unknownField(),
+          stepTherapy: unknownField(),
+          quantityLimits: unknownField(),
+          pharmacyRestrictions: unknownField(),
+          effectiveDates: unknownField(),
+          costEstimate: null,
+          sourceTimestamp: stamp,
+          nextSteps: steps,
+          isSample: false,
+          adapter: "cms-part-d-formulary",
+        };
+      }
+
+      // Stage 1: the product the page is actually about.
+      const result = lookupFormulary(
+        snapshot,
+        req.insurer,
+        req.planName,
+        [exact.rxcui],
+        // The plan year is now checked against the release, rather than being
+        // accepted, echoed back and ignored.
+        req.planYear
+      );
+
+      /**
+       * Says out loud when the plan was not uniquely identified.
+       *
+       * The lookup answers from a set of plans that share one drug list,
+       * because the answer about the DRUG is then the same whichever is meant.
+       * That is not the same as knowing which plan somebody is enrolled in: 39
+       * plans carry the name "AARP Medicare Rx Preferred from UHC (PDP)" under
+       * different contract and segment ids. Without this the headline reads as
+       * a resolved enrolment, which the data does not support.
+       */
+      const identityCaveats = (identity: PlanIdentity): string[] =>
+        identity.evidenceBasis === "exact-plan"
+          ? []
+          : [
+              `Your plan was NOT individually identified. ${identity.matchedPlanCount} Medicare Part D ` +
+                `plans in this release carry that name, across ${identity.contractIds.length} ` +
+                `contract${identity.contractIds.length === 1 ? "" : "s"} ` +
+                `(${identity.contractIds.slice(0, 4).join(", ")}${identity.contractIds.length > 4 ? ", and others" : ""}). ` +
+                `Every one of them publishes the same thing about this product, so the drug-list ` +
+                `answer below holds for all of them - but it is evidence about a group of plans, ` +
+                `not a check of your enrolment, your benefit or your cost.`,
+            ];
+
+      /*
+       * Wording that does not overclaim identity.
+       *
+       * "Not listed on the CMS formulary for X" and "This plan's list" both
+       * read as a statement about ONE plan. When the answer rests on several
+       * plans that agree, it is a statement about all of them, and the phrasing
+       * has to say so - otherwise the caveat explaining that enrolment was not
+       * determined contradicts the headline above it.
+       */
+      const planPhrase = (identity: PlanIdentity, name: string) =>
+        identity.evidenceBasis === "exact-plan"
+          ? `the CMS formulary for ${name}`
+          : `the CMS formularies of the ${identity.matchedPlanCount} plans named "${name}"`;
+      const theirList = (identity: PlanIdentity) =>
+        identity.evidenceBasis === "exact-plan" ? "This plan's list" : "Those plans' lists";
+      const theirListVerb = (identity: PlanIdentity) =>
+        identity.evidenceBasis === "exact-plan" ? "DOES include" : "DO all include";
 
       const sharedCaveats = [
         "This is Medicare Part D formulary data published by CMS. It describes the plan's drug list, not your personal benefit.",
@@ -251,19 +375,62 @@ export function cmsFormularyAdapter(snapshot: FormularySnapshot): CoverageAdapte
 
       // "no-snapshot" is unreachable — this adapter is only constructed with a
       // snapshot — but both cases mean the same thing: nothing was checked.
+      if (result.kind === "year-not-covered") {
+        return {
+          state: "unable-to-verify",
+          headline: `This drug list is for ${result.coveredYear}, not ${result.requestedYear}`,
+          caveats: [
+            `You asked about a ${result.requestedYear} plan. The CMS release loaded here describes ` +
+              `contract year ${result.coveredYear}, so nothing was checked. A drug list from a ` +
+              `different year does not describe your plan.`,
+            "This is not a statement that the medication is uncovered.",
+          ],
+          scope,
+          formularyListing: unknownField(),
+          tier: unknownField(),
+          priorAuthorization: unknownField(),
+          stepTherapy: unknownField(),
+          quantityLimits: unknownField(),
+          pharmacyRestrictions: unknownField(),
+          effectiveDates: unknownField(),
+          costEstimate: null,
+          sourceTimestamp: stamp,
+          nextSteps: steps,
+          isSample: false,
+          adapter: "cms-part-d-formulary",
+        };
+      }
+
       if (result.kind === "plan-not-matched" || result.kind === "no-snapshot") {
         return {
           state: "unable-to-verify",
           headline:
             result.kind === "no-snapshot"
               ? "No formulary data has been ingested"
-              : "Could not match that plan in the CMS dataset",
+              : result.reason === "ambiguous-evidence"
+                ? "That name matches several plans that say different things"
+                : result.reason === "missing-formulary-mapping"
+                  ? "That name matches a plan whose drug list is not in this release"
+                  : "Could not match that plan in the CMS dataset",
           caveats: [
             result.kind === "no-snapshot"
-              ? "No CMS formulary snapshot is present, so nothing was checked. Run: npm run coverage:ingest"
-              : "The plan name you entered did not confidently match any plan in the CMS Part D formulary file, so nothing was checked.",
+              ? "No CMS formulary snapshot could be read, so nothing was checked."
+              : result.reason === "ambiguous-evidence"
+                ? /*
+                   * Answering here would mean picking one of several equally
+                   * good matches and presenting it as theirs. They publish
+                   * different tiers or restrictions for this product, so that
+                   * is a coin toss dressed up as an answer.
+                   */
+                  "Several Medicare Part D plans match that name equally well and they publish different information about this product, so nothing was checked. Use the exact plan name on your card, including the contract number if it has one."
+                : result.reason === "missing-formulary-mapping"
+                  ? "At least one plan matching that name has no drug list in this CMS release, so there is nothing to check it against. Borrowing another plan's list would invent an answer."
+                  : "The plan name you entered did not confidently match any plan in the CMS Part D formulary file, so nothing was checked.",
             "This is not a statement that the medication is uncovered. It means we could not identify your plan.",
             "This dataset covers Medicare Part D plans only. Commercial and Medicaid plans are not in it.",
+            ...(result.kind !== "no-snapshot" && result.candidates.length > 0
+              ? [`Plans with similar names: ${result.candidates.join("; ")}.`]
+              : []),
           ],
           scope,
           formularyListing: unknownField(),
@@ -282,11 +449,63 @@ export function cmsFormularyAdapter(snapshot: FormularySnapshot): CoverageAdapte
       }
 
       if (result.kind === "drug-not-listed") {
+        /*
+         * Stage 2: the same-strength, same-form GENERIC, as a separate product.
+         *
+         * A branded product missing from a Part D drug list while its generic
+         * sits on tier 1 is the ordinary case, not an edge case. Saying only
+         * "not listed" is a false negative that could stop someone filling a
+         * prescription they can afford.
+         *
+         * But the generic's tier, prior authorisation and quantity limit are
+         * the GENERIC's. They are reported in words, attributed to the named
+         * RxNorm concept, and deliberately NOT written into this result's
+         * tier/priorAuthorization/quantityLimits fields - those describe the
+         * product the reader asked about, and for that product they are
+         * genuinely unknown. Filling them in is exactly the brand/generic
+         * collapse this whole path was rewritten to remove.
+         *
+         * INTEGRATION GAP: the existing coverage UI renders one product's
+         * fields. It has no place to show a second product's structured
+         * status, so this is carried as prose. See docs/LIMITATIONS.md.
+         */
+        const genericHit = generic
+          ? lookupFormulary(snapshot, req.insurer, req.planName, [generic.rxcui])
+          : null;
+        const genericRow = genericHit?.kind === "listed" ? genericHit.row : null;
+
+        const genericCaveats: string[] = [];
+        if (generic && genericRow) {
+          const bits: string[] = [];
+          if (genericRow.tier !== null) bits.push(`tier ${genericRow.tier}`);
+          bits.push(
+            genericRow.priorAuthorization
+              ? "prior authorisation required"
+              : "no prior authorisation"
+          );
+          if (genericRow.stepTherapy) bits.push("step therapy required");
+          const ql = describeQuantityLimit(genericRow);
+          if (ql) bits.push(`quantity limit ${ql}`);
+          genericCaveats.push(
+            `${theirList(result.identity)} ${theirListVerb(result.identity)} the generic equivalent, "${generic.name}" ` +
+              `(RxNorm ${generic.rxcui}): ${bits.join(", ")}. That is a different product ` +
+              `from the one on this page, and those details describe the generic, not the brand.`,
+            "Whether the generic can be substituted for your prescription is a decision for your prescriber and pharmacist."
+          );
+        } else if (generic) {
+          genericCaveats.push(
+            `The generic equivalent, "${generic.name}" (RxNorm ${generic.rxcui}), is not on this plan's list either.`
+          );
+        }
+
         return {
           state: "not-listed-on-checked-formulary",
-          headline: `Not listed on the CMS formulary for ${result.plan.planName}`,
+          headline: `Not listed on ${planPhrase(result.identity, result.plan.planName)}`,
           caveats: [
-            `We matched your plan to "${result.plan.planName}" and checked its published CMS drug list. This product's RXCUIs were not on it.`,
+            `We matched the name you gave to "${result.plan.planName}" and checked the published CMS drug list${result.identity.evidenceBasis === "exact-plan" ? "" : "s"}. ` +
+              `"${exact.name}" (RxNorm ${exact.rxcui}), the product this page is about, was not on it.`,
+            ...identityCaveats(result.identity),
+            ...genericCaveats,
             "Not being listed does not mean the medication is definitively not covered. A different strength or form may be listed, the plan may have updated its list, or an exception process may apply.",
             "Your prescriber can request a formulary exception, and member services can confirm.",
             ...sharedCaveats.slice(1),
@@ -307,21 +526,32 @@ export function cmsFormularyAdapter(snapshot: FormularySnapshot): CoverageAdapte
         };
       }
 
-      // result.kind === "listed"
+      /*
+       * result.kind === "listed" - and it is the EXACT product, because stage 1
+       * searched only `exact.rxcui`. Nothing here can be the generic's row.
+       */
       const { row, plan } = result;
       const restricted = row.priorAuthorization || row.stepTherapy || row.quantityLimit;
 
       return {
         state: restricted ? "restrictions-indicated" : "formulary-listed",
         headline: restricted
-          ? `Listed on ${plan.planName}, with restrictions`
-          : `Listed on the CMS formulary for ${plan.planName}`,
-        caveats: restricted
-          ? [
-              "Restrictions mean your prescriber may need to submit additional information, or try another medicine first, before the plan will pay.",
-              ...sharedCaveats,
-            ]
-          : sharedCaveats,
+          ? result.identity.evidenceBasis === "exact-plan"
+            ? `Listed on ${plan.planName}, with restrictions`
+            : `Listed with restrictions on all ${result.identity.matchedPlanCount} plans named "${plan.planName}"`
+          : `Listed on ${planPhrase(result.identity, plan.planName)}`,
+        caveats: [
+          // Name the concept that matched, so "listed" is checkable rather
+          // than something the reader has to take on trust.
+          `Matched on "${exact.name}" (RxNorm ${exact.rxcui}), the exact product this page describes.`,
+          ...identityCaveats(result.identity),
+          ...(restricted
+            ? [
+                "Restrictions mean your prescriber may need to submit additional information, or try another medicine first, before the plan will pay.",
+              ]
+            : []),
+          ...sharedCaveats,
+        ],
         scope,
         formularyListing: { value: "yes", source: stamp },
         tier: { value: row.tier !== null ? `Tier ${row.tier}` : null, source: row.tier !== null ? stamp : null },

@@ -22,9 +22,19 @@ next-env.d.ts
 .DS_Store
 Thumbs.db
 
-# Ingested CMS formulary snapshot (regenerate with npm run coverage:ingest).
-# ~2.2 GB source; the extracted subset is operator-generated, not committed.
-/src/sources/content/coverage/
+# The CMS Part D formulary snapshot under src/sources/content/coverage/ IS
+# committed, for the same reason as the plan directory below: the app reads it
+# at runtime and the Vercel build has no network access to CMS and no pipeline
+# checkout, so an ignored file is simply absent in production.
+#
+# It used to be ignored here as "operator-generated". That was the last link in
+# a four-part chain that left the coverage flow telling every user it was "not
+# connected to any formulary database" while 979 real rows sat on disk: the
+# pipeline emitted its own shape, content:sync never copied it, this rule kept
+# it out of the repository, and the lookup passed every drug's RXCUI at once.
+#
+# Regenerate it with `npm run content:sync` (which requires
+# `cd data-pipeline && npm run app:snapshot` first). Never edit it by hand.
 
 # Vercel CLI project link metadata (local to this machine's deployments).
 .vercel

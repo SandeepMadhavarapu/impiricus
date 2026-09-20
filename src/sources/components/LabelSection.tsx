@@ -60,7 +60,26 @@ export function LabelSection({
       ))}
 
       {section.tables.map((t, i) => (
-        <div className="label-table-wrap" key={i}>
+        /*
+         * A horizontally scrolling region has to be reachable by keyboard.
+         *
+         * On a phone these label tables are wider than the screen and the wrap
+         * scrolls sideways - by touch only. Without tabindex nobody using a
+         * keyboard or a switch could scroll it, so the columns past the right
+         * edge were simply unreadable to them. These are dosing and strength
+         * tables off an FDA label, so "unreadable" is not cosmetic.
+         *
+         * role="region" plus a name is what makes a focus stop announce itself
+         * as something scrollable rather than as an unexplained empty stop. The
+         * name prefers the table's own caption, which is the label's wording.
+         */
+        <div
+          className="label-table-wrap"
+          key={i}
+          tabIndex={0}
+          role="region"
+          aria-label={t.caption?.trim() ? `Table: ${t.caption.trim()}` : "Table from the FDA label, scrolls sideways"}
+        >
           <table className="label-table">
             {t.caption ? <caption>{t.caption}</caption> : null}
             {t.headers.length > 0 ? (

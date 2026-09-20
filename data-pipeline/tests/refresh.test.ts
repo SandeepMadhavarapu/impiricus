@@ -278,8 +278,19 @@ describe("manifest integrity", () => {
 });
 
 describe("workflow safety", () => {
-  const wf = (name: string) =>
-    readFile(path.join(process.cwd(), "..", ".github", "workflows", name), "utf8");
+  /*
+   * Line endings are normalised before matching.
+   *
+   * These assertions are written against LF and the repository stores LF, but
+   * git's core.autocrlf checks the files out as CRLF on Windows - so every
+   * multi-line assertion below failed on a Windows clone while the workflows
+   * themselves were correct. The security properties asserted are unchanged;
+   * only the platform dependence is removed.
+   */
+  const wf = async (name: string) =>
+    (
+      await readFile(path.join(process.cwd(), "..", ".github", "workflows", name), "utf8")
+    ).replace(/\r\n/g, "\n");
 
   /**
    * The test workflow runs pull-request code. If it ever gains a secret or
@@ -333,12 +344,105 @@ describe("workflow safety", () => {
   });
 
   /**
-   * Scheduled workflows only run from the default branch. The file must say so
-   * rather than letting a reader assume the cron is already firing.
+   * The scheduled run must be able to REFRESH, not only check.
+   *
+   * It used to require `github.event_name == workflow_dispatch`, so the daily
+   * cron checked for changes, reported them, and stopped. "Automatic source
+   * updates" therefore depended on somebody noticing a green run and clicking
+   * a button, which nobody did. A detector whose only output is a log nobody
+   * reads is not a detector.
    */
-  it("documents that the schedule is inactive until merged to the default branch", async () => {
+  it("delegates the trigger decision to the tested policy instead of restating it", async () => {
+    const y = await wf("pipeline-refresh.yml");
+    const refreshJob = y.slice(y.indexOf("  refresh:"));
+    const refreshIf = refreshJob.match(/^ {4}if: (.+)$/m);
+    expect(refreshIf, "the refresh job has no if: condition").not.toBeNull();
+    const cond = refreshIf![1]!.trim();
+
+    // It consumes the decision the pipeline computed.
+    expect(cond).toBe("needs.check.outputs.ingest == 'true'");
+
+    /*
+     * And it does NOT re-express the policy. Restating it in YAML is how the
+     * two drifted apart: the scheduled arm was excluded entirely and nothing
+     * could catch it, because a YAML expression is not reachable by any test.
+     * decideRefresh() is the one definition; see tests/decide.test.ts, which
+     * covers all 96 combinations including the scheduled ones.
+     */
+    expect(cond).not.toMatch(/event_name|inputs\.|changed|refresh_due/);
+
+    // The check job must actually produce that output, by running the policy.
+    expect(y).toMatch(/ingest: \$\{\{ steps\.check\.outputs\.ingest \}\}/);
+    expect(y).toMatch(/npm run refresh:decide/);
+    // The fragile report-grep that used to decide this must be gone.
+    expect(y).not.toMatch(/grep -qE "\^checked/);
+  });
+
+  /**
+   * A refresh that stops at the pipeline's own exports has refreshed nothing a
+   * reader can see: the app reads the vendored copies under src/sources/content.
+   */
+  it("regenerates the application snapshot and the vendored content", async () => {
+    const y = await wf("pipeline-refresh.yml");
+    expect(y).toMatch(/npm run app:snapshot/);
+    expect(y).toMatch(/node scripts\/sync-label-exports\.mjs/);
+    expect(y).toMatch(/add-paths:[\s\S]*src\/sources\/content/);
+  });
+
+  /**
+   * RxNorm identity is a hard runtime dependency of the application and was
+   * produced by a script nothing called. Without this step a refresh ships new
+   * labels joined to an old identity map.
+   */
+  it("refreshes RxNorm identity, and does it before the app is validated", async () => {
+    const y = await wf("pipeline-refresh.yml");
+    expect(y).toMatch(/node scripts\/fetch-rxnorm-concepts\.mjs/);
+
+    const identityAt = y.indexOf("fetch-rxnorm-concepts.mjs");
+    const syncAt = y.indexOf("sync-label-exports.mjs");
+    const validateAt = y.indexOf("Validate the application against the refreshed content");
+    expect(syncAt).toBeGreaterThan(-1);
+    expect(validateAt).toBeGreaterThan(-1);
+    // Identity is refreshed after the labels land and before anything checks
+    // the pair, or the integrity test would run against the wrong combination.
+    expect(identityAt).toBeGreaterThan(syncAt);
+    expect(identityAt).toBeLessThan(validateAt);
+  });
+
+  /**
+   * Opening a PR from a schedule must not compound. The branch name is fixed,
+   * so the action revises the open PR instead of stacking new ones, and the
+   * push is made with GITHUB_TOKEN, which does not trigger further runs.
+   */
+  it("cannot stack duplicate PRs or trigger itself", async () => {
+    const y = await wf("pipeline-refresh.yml");
+    expect(y).toMatch(/branch: data-refresh\/automated/);
+    expect(y).toMatch(/token: \$\{\{ secrets\.GITHUB_TOKEN \}\}/);
+    // A personal access token here WOULD let the push start another run.
+    expect(y).not.toMatch(/secrets\.(PAT|GH_PAT|PERSONAL_ACCESS_TOKEN)/);
+  });
+
+  /** Still never merges on its own, whatever opened the PR. */
+  it("still requires a human to merge a scheduled refresh", async () => {
+    const y = await wf("pipeline-refresh.yml");
+    expect(y).not.toMatch(/gh pr merge|auto-merge|--auto/);
+    expect(y).toMatch(/labels: data-refresh, needs-review/);
+  });
+
+  /**
+   * Scheduled workflows only run from the default branch, and the file must
+   * say so, so nobody reads an edit on a feature branch as a live change.
+   *
+   * This used to additionally require the words "NOT running on a schedule
+   * yet". That was true while the workflow lived only on feat/data-pipeline
+   * and became false the moment it was merged to main - so the test was
+   * pinning a claim the repository had already outgrown, and would have kept
+   * pinning it forever. The durable property is the branch rule, not a
+   * snapshot of where the file happened to be.
+   */
+  it("documents that the schedule only runs from the default branch", async () => {
     const y = await wf("pipeline-refresh.yml");
     expect(y).toMatch(/ONLY from the DEFAULT\n#                      branch/);
-    expect(y).toMatch(/NOT running on a schedule yet/);
+    expect(y).toMatch(/feature branch does not run on\n#                      a schedule/);
   });
 });

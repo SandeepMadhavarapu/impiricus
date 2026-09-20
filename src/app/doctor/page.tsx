@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { isStale } from "@/sources/lib/content/registry";
-import { getPublicOrigin } from "@/shared/lib/config";
+import { notFound } from "next/navigation";
+import { getPublicOrigin, servesClinicianWorkspace } from "@/shared/lib/config";
 import { buildShareUrl, medicationPath } from "@/doctor/lib/share";
 import { ProvenancePanel } from "@/sources/components/ProvenancePanel";
 import { LabelSection } from "@/sources/components/LabelSection";
@@ -13,9 +14,25 @@ export const metadata: Metadata = {
   title: "Patient Medication Guide | DocUpdate Integration Preview",
 };
 
+/**
+ * Rendered per request so the F-06 deployment gate reads the live APP_MODE.
+ *
+ * Next prerendered this page at build time, which froze the gate into the
+ * build output. Both deployments build from the same commit, so whether the
+ * clinician workspace existed would then depend on APP_MODE being present
+ * during the BUILD rather than at runtime - and a clinician deployment whose
+ * variable is only set at runtime would ship a 404 as its home page.
+ */
+export const dynamic = "force-dynamic";
+
 export default async function DoctorPage({ searchParams }: {
   searchParams: Promise<{ medication?: string | string[] }>;
 }) {
+  // F-06: the clinician workspace is not served on the patient deployment.
+  // A patient following a shared link must not be able to walk into a screen
+  // built for a prescriber. See servesClinicianWorkspace().
+  if (!servesClinicianWorkspace()) notFound();
+
   const { medication } = await searchParams;
   const guides = listGuides();
   // Only a registered product can be selected, and only by exact slug. No
@@ -136,6 +153,21 @@ export default async function DoctorPage({ searchParams }: {
                       </details>
                     ) : null}
 
+                    {/*
+                      F-11: the same dosing limitation the patient sees.
+
+                      The preview previously omitted it, so a clinician
+                      reviewing before sharing saw a different framing from the
+                      one the patient receives - in exactly the sentence that
+                      constrains how the rest is read. Phrased for a clinician
+                      rather than copying the patient card wholesale.
+                    */}
+                    <p className="tiny" style={{ marginBottom: 10 }}>
+                      <strong>No dosing is shown to the patient.</strong> One SPL
+                      commonly covers several products at different strengths, and
+                      most sections are not bound to any one of them, so the guide
+                      points the reader at their own prescription instead.
+                    </p>
                     {selected.patientSections.map((section, i) => (
                       <details key={i} className="doctor-section">
                         <summary>

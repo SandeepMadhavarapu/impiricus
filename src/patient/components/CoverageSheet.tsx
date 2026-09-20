@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Sheet } from "./Sheet";
 import { track } from "@/shared/lib/analytics/client";
 import {
@@ -11,7 +11,15 @@ import {
   type TriState,
 } from "@/patient/lib/coverage/types";
 
-interface DirectoryPayer { id: string; name: string; planCount: number }
+interface DirectoryPayer {
+  id: string;
+  name: string;
+  planCount: number;
+  /** "plan-name" when the query matched a plan, not the company. */
+  matchedVia?: "organization" | "plan-name";
+  /** The plan that caused a "plan-name" match. An example, never their plan. */
+  matchedPlanExample?: string;
+}
 interface DirectoryPlan {
   id: string;
   name: string;
@@ -155,6 +163,42 @@ export function CoverageSheet({
   const [busy, setBusy] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [failure, setFailure] = useState<string | null>(null);
+  /**
+   * F-03: announcing and reaching a validation failure.
+   *
+   * Errors were rendered per field with correct aria-invalid and
+   * aria-describedby, but nothing told a screen-reader user that submission
+   * had failed and focus stayed on the submit button. On a phone the errors
+   * are also usually scrolled off the top of the sheet by then.
+   *
+   * `errorSummary` is an assertive live region, and focus moves to the first
+   * invalid input - which scrolls it into view natively and puts the caret
+   * where the correction has to happen, above the on-screen keyboard.
+   */
+  const [errorSummary, setErrorSummary] = useState<string | null>(null);
+  /** Field to focus after the next commit, or null. */
+  const [focusTarget, setFocusTarget] = useState<string | null>(null);
+  const fieldRefs = useRef<Record<string, HTMLInputElement | HTMLSelectElement | null>>({});
+  /** Submit order, so "first invalid" means first on screen, not first in an object. */
+  const FIELD_ORDER = ["insurer", "planName", "planYear", "quantity", "daysSupply"] as const;
+
+  /**
+   * Moves focus to the first invalid field after a failed submit.
+   *
+   * Runs post-commit, so the ref is attached. `preventScroll` then an explicit
+   * centred scroll, because on a phone the browser's default focus scroll
+   * often parks the field directly under the on-screen keyboard - the reader
+   * hears the error, tabs to fix it, and cannot see what they are typing.
+   */
+  useEffect(() => {
+    if (!focusTarget) return;
+    const el = fieldRefs.current[focusTarget];
+    if (el) {
+      el.focus({ preventScroll: true });
+      el.scrollIntoView({ block: "center", behavior: "smooth" });
+    }
+    setFocusTarget(null);
+  }, [focusTarget]);
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
@@ -174,7 +218,21 @@ export function CoverageSheet({
       nextErrors.daysSupply = "Enter the days' supply.";
     }
     setErrors(nextErrors);
-    if (Object.keys(nextErrors).length > 0) return;
+    const invalidKeys = FIELD_ORDER.filter((k) => nextErrors[k]);
+    if (invalidKeys.length > 0) {
+      const count = invalidKeys.length;
+      setErrorSummary(
+        `${count} ${count === 1 ? "field needs" : "fields need"} attention before this can be checked.`
+      );
+      // Which field to focus is decided here; MOVING focus happens in an
+      // effect, after React has committed. A requestAnimationFrame callback
+      // can run before the commit, and the inline ref callbacks are re-invoked
+      // with null on every render, so the map is briefly empty at that point.
+      setFocusTarget(invalidKeys[0]!);
+      return;
+    }
+    setErrorSummary(null);
+    setFocusTarget(null);
 
     setBusy(true);
     setFailure(null);
@@ -245,6 +303,20 @@ export function CoverageSheet({
             </div>
 
             <form onSubmit={submit} noValidate>
+              {/*
+                Assertive so the failure interrupts; it is the direct result of
+                the user's own submit, which is exactly when interruption is
+                wanted. Rendered above the fields so that following it leads
+                down into the form rather than back up past it.
+              */}
+              <p className="visually-hidden" role="alert" aria-live="assertive">
+                {errorSummary ?? ""}
+              </p>
+              {errorSummary ? (
+                <p className="form-error-summary" role="note">
+                  {errorSummary}
+                </p>
+              ) : null}
               <div className="card">
                 <p className="card-label" style={{ color: "var(--text-muted)" }}>
                   Your plan
@@ -262,6 +334,7 @@ export function CoverageSheet({
                   <label htmlFor="cov-insurer">Insurance company</label>
                   <input
                     id="cov-insurer"
+                      ref={(el) => { fieldRefs.current["insurer"] = el; }}
                     list={directory.payers.length > 0 ? "cov-payer-options" : undefined}
                     value={insurer}
                     onChange={(e) => setInsurer(e.target.value)}
@@ -273,7 +346,11 @@ export function CoverageSheet({
                   {directory.payers.length > 0 ? (
                     <datalist id="cov-payer-options">
                       {directory.payers.map((p) => (
-                        <option key={p.id} value={p.name} />
+                        <option key={p.id} value={p.name}>
+                          {p.matchedVia === "plan-name" && p.matchedPlanExample
+                            ? `offers ${p.matchedPlanExample}`
+                            : undefined}
+                        </option>
                       ))}
                     </datalist>
                   ) : null}
@@ -288,6 +365,19 @@ export function CoverageSheet({
                       {directory.payers.length} insurer
                       {directory.payers.length === 1 ? "" : "s"} match that. Pick the exact one from
                       the list to choose your plan.
+                      {/*
+                        The name on a Part D card is usually the plan, not the
+                        company that files it. "AARP" appears in 496 plan names
+                        and no company name, so without this the most
+                        recognisable brand in Part D looked like a typo.
+                      */}
+                      {directory.payers.some((p) => p.matchedVia === "plan-name") ? (
+                        <>
+                          {" "}
+                          Some of these matched a plan name rather than the company name &mdash; the
+                          name on your card is often the plan.
+                        </>
+                      ) : null}
                     </p>
                   ) : null}
                   {errors.insurer ? (
@@ -344,6 +434,7 @@ export function CoverageSheet({
                     </p>
                     <input
                       id="cov-plan"
+                      ref={(el) => { fieldRefs.current["planName"] = el; }}
                       value={planName}
                       onChange={(e) => setPlanName(e.target.value)}
                       autoComplete="off"
@@ -364,6 +455,7 @@ export function CoverageSheet({
                     <label htmlFor="cov-year">Plan year</label>
                     <input
                       id="cov-year"
+                      ref={(el) => { fieldRefs.current["planYear"] = el; }}
                       inputMode="numeric"
                       value={planYear}
                       onChange={(e) => setPlanYear(e.target.value)}
@@ -401,6 +493,7 @@ export function CoverageSheet({
                     <label htmlFor="cov-qty">Quantity</label>
                     <input
                       id="cov-qty"
+                      ref={(el) => { fieldRefs.current["quantity"] = el; }}
                       inputMode="numeric"
                       value={quantity}
                       onChange={(e) => setQuantity(e.target.value)}
@@ -412,6 +505,7 @@ export function CoverageSheet({
                     <label htmlFor="cov-days">Days&rsquo; supply</label>
                     <input
                       id="cov-days"
+                      ref={(el) => { fieldRefs.current["daysSupply"] = el; }}
                       inputMode="numeric"
                       value={daysSupply}
                       onChange={(e) => setDaysSupply(e.target.value)}

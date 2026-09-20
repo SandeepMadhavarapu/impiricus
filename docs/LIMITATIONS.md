@@ -101,10 +101,11 @@ requires physical-device testing.
 
 ## Added during the repair pass
 
-- **CMS formulary data is not ingested.** The integration is complete and
-  tested, but `src/sources/content/coverage/cms-part-d-snapshot.json` does not exist in
-  this environment, so coverage still reports "unable to verify". The source
-  archive is ~2.2 GB. Run `npm run coverage:ingest`.
+- **CMS formulary data is ingested and committed.** (Was: "not ingested".)
+  `src/sources/content/coverage/cms-part-d-snapshot.json` holds 979 formulary
+  rows and 5,517 plan identities from the 2026-08 release. Regenerate with
+  `cd data-pipeline && npm run insurance:ingest && npm run app:snapshot`, then
+  `npm run content:sync`.
 - **CMS data is Medicare Part D only.** Commercial and Medicaid plans are not in
   the dataset. Those plans return `unable-to-verify`, never "not covered".
 - **Plan matching is token-overlap, not authoritative.** A conservative
@@ -119,3 +120,32 @@ requires physical-device testing.
 - **The carried handoff question is not persisted.** Closing the sheet discards
   it. That is intentional (nothing is stored), but it means the question is lost
   if the user navigates away.
+
+## Added during the backend/data integration pass (2026-09-20)
+
+- **Brand and generic are reported separately.** A coverage answer is looked up
+  on the RxNorm concept the page IS (the SBD). When that concept is not on a
+  plan's list but its same-strength generic (the SCD) is, the result says "not
+  listed" for the brand and describes the generic in prose, attributed to its
+  RxNorm concept. The structured tier/PA/quantity-limit fields stay empty,
+  because they describe the branded product and for it they are unknown.
+  Previously the Singulair page reported the generic's "Tier 1, no prior
+  authorisation, 30 per 30 days" as though it were the brand's.
+
+- **A plan name still does not identify a plan.** When several plans match
+  equally well and share one drug list, the drug answer is given with a caveat
+  naming how many plans and which contract ids, and stating that enrolment was
+  not determined. When they do NOT share a drug list, nothing is answered.
+
+- **Commercial and exchange plans are not in the dataset**, and a commercial
+  plan name now fails to match rather than resolving to a Medicare plan that
+  shares some words with it. There is no commercial formulary source connected.
+
+- **Rate limiting is per warm serverless instance, not global.** See
+  docs/SOURCE-CONSUMPTION.md.
+
+- **No authentication exists.** No login, sessions, accounts or private
+  records. Every page is public; `APP_MODE` is routing, not authorization.
+
+See docs/SOURCE-CONSUMPTION.md for the full per-source matrix and the
+integration gaps recorded rather than worked around.

@@ -2,6 +2,21 @@
 /**
  * Ingests real CMS Medicare Part D formulary data for the configured product.
  *
+ * SUPERSEDED. The maintained path is the data pipeline:
+ *
+ *   cd data-pipeline && npm run insurance:ingest && npm run app:snapshot
+ *   npm run content:sync
+ *
+ * That path covers every product in the catalogue and validates the result
+ * against the application's own schema. This script reads RXCUIs from a single
+ * hardcoded source record, so running it writes a ONE-DRUG snapshot over the
+ * pipeline's, and the other products silently become "not listed on the CMS
+ * formulary" - a false negative about medication access.
+ *
+ * It is kept because it is a working standalone ingester with no pipeline
+ * checkout required, but it now refuses to overwrite an existing snapshot
+ * unless you pass --force.
+ *
  * Source: "Monthly Prescription Drug Plan Formulary and Pharmacy Network
  * Information", published by the Centers for Medicare & Medicaid Services as
  * public domain data. The release is located at run time from the CMS open
@@ -39,6 +54,8 @@ const SOURCE_RECORD = "src/sources/content/sources/singulair-montelukast-10mg-ta
 const OUT_PATH = path.join("src", "sources", "content", "coverage", "cms-part-d-snapshot.json");
 
 const keepZip = process.argv.includes("--keep");
+/** Required to overwrite a snapshot produced by the maintained pipeline path. */
+const force = process.argv.includes("--force");
 /** Resolves the live CMS release and reports it, without downloading. */
 const dryRun = process.argv.includes("--dry-run");
 
@@ -207,6 +224,30 @@ Dry run. Release resolved and reachable:`);
   };
 
   await mkdir(path.dirname(OUT_PATH), { recursive: true });
+
+  // Refuse to silently narrow a multi-product snapshot to this one product.
+  if (!force) {
+    let existing = null;
+    try {
+      existing = JSON.parse(await readFile(OUT_PATH, "utf8"));
+    } catch {
+      // No readable snapshot: nothing to protect, carry on.
+    }
+    if (existing && Array.isArray(existing.rxcuis) && existing.rxcuis.length > rxcuis.length) {
+      console.error(
+        `\nRefusing to overwrite ${OUT_PATH}.\n` +
+          `  It covers ${existing.rxcuis.length} RXCUIs; this script would leave ${rxcuis.length}.\n` +
+          `  The products that dropped out would be reported as NOT LISTED on every plan.\n\n` +
+          `  Maintained path:\n` +
+          `    cd data-pipeline && npm run insurance:ingest && npm run app:snapshot\n` +
+          `    npm run content:sync\n\n` +
+          `  Pass --force only if you intend the narrower snapshot.`
+      );
+      process.exitCode = 1;
+      return;
+    }
+  }
+
   await writeFile(OUT_PATH, JSON.stringify(snapshot, null, 2) + "\n", "utf8");
 
   const written = await stat(OUT_PATH);

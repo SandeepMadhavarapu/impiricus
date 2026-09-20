@@ -144,7 +144,9 @@ describe("mapping an organisation", () => {
 
   it("reads the organisation name", () => {
     expect(o.isIndividual).toBe(false);
-    expect(o.name).toBe("Example Community Pharmacy Llc");
+    // Short all-caps tokens are initialisms, not words. Lowercasing then
+    // recapitalising produced "Llc".
+    expect(o.name).toBe("Example Community Pharmacy LLC");
   });
 
   /**
@@ -158,6 +160,16 @@ describe("mapping an organisation", () => {
     expect(serialised).not.toContain("DOE");
     expect(serialised).not.toContain("5551234567");
     expect(serialised).not.toMatch(/authorized_official/i);
+  });
+
+  /** Generic, not name-specific: several shapes of source casing. */
+  it("preserves deliberate capitals across different name shapes", () => {
+    const named = (n: string) =>
+      mapNppesResult({ ...ORGANISATION, basic: { ...ORGANISATION.basic, organization_name: n } }).name;
+    expect(named("ACME HEALTH INC")).toBe("Acme Health INC");
+    expect(named("RIVERSIDE PHARMACY PC")).toBe("Riverside Pharmacy PC");
+    // Already cased by the source: left exactly alone.
+    expect(named("CVS Pharmacy #1234")).toBe("CVS Pharmacy #1234");
   });
 
   it("handles an organisation with no licence on file", () => {

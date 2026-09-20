@@ -1,7 +1,9 @@
 import type { LabelGuide } from "@/sources/lib/content/catalogue";
+import { displayCase } from "@/sources/lib/content/label";
 import type { IntegrationState } from "@/shared/lib/config";
 import { LabelSection } from "@/sources/components/LabelSection";
 import { ShareSection } from "@/doctor/components/ShareSection";
+import { ActionBar } from "@/patient/components/ActionBar";
 import { PageOpenBeacon } from "@/patient/components/PageOpenBeacon";
 import { AppBar } from "@/shared/components/AppBar";
 
@@ -41,9 +43,68 @@ export function LabelGuideView({
   integrations: IntegrationState[];
 }) {
   const { label } = guide;
-  const brand = (label.display.brandName ?? label.display.genericName)
-    .toLowerCase()
-    .replace(/^./, (c) => c.toUpperCase());
+  // One casing rule for the whole app. A local lowercase-then-capitalise here
+  // rendered "TOPROL XL" as "Toprol xl" even after the shared helper was fixed,
+  // because it was a third, separate implementation.
+  const brand = displayCase(label.display.brandName ?? label.display.genericName);
+
+  /**
+   * The same hero format as an authored guide, built only from facts this page
+   * already establishes elsewhere.
+   *
+   * An authored guide's key points are written by a person. There is no such
+   * layer here, and generating plain-language medical prose from a label is
+   * precisely what this codebase exists not to do - a generated bullet would be
+   * indistinguishable, to a reader, from one a clinician wrote.
+   *
+   * So every bullet below is either a structural fact about the document (it
+   * carries a boxed warning; it covers N products) or a statement about what
+   * this page does (it shows no doses). Each already appears further down the
+   * page; surfacing it here changes the layout, not the claims. Where the label
+   * has a boxed warning, its OWN heading is quoted rather than summarised.
+   */
+  const otherProducts = label.document.productsInDocument.length - 1;
+  const boxedTitle = guide.boxedWarning?.title?.trim();
+
+  const keyPoints: Array<{
+    text: string;
+    emphasis: "normal" | "warning" | "critical";
+    href?: string;
+  }> = [];
+
+  if (guide.boxedWarning) {
+    keyPoints.push({
+      text: boxedTitle
+        ? `This medication has an FDA boxed warning, the FDA\u2019s most serious warning. The label titles it \u201c${boxedTitle}\u201d.`
+        : "This medication has an FDA boxed warning, the FDA\u2019s most serious warning.",
+      emphasis: "critical",
+      href: "#boxed-warning",
+    });
+  }
+
+  if (otherProducts > 0) {
+    keyPoints.push({
+      text: `The same FDA label also covers ${otherProducts} other product${
+        otherProducts === 1 ? "" : "s"
+      } at different strengths or in different forms. Those are taken differently.`,
+      emphasis: "warning",
+    });
+  }
+
+  keyPoints.push({
+    text: "This page does not show doses. Follow the directions on your own prescription.",
+    emphasis: "normal",
+  });
+
+  if (guide.withheldSections.length > 0) {
+    keyPoints.push({
+      text: `${guide.withheldSections.length} section${
+        guide.withheldSections.length === 1 ? "" : "s"
+      } of this label are not shown here, because the document ties them to a different product.`,
+      emphasis: "normal",
+      href: "#not-shown",
+    });
+  }
 
   return (
     <>
@@ -51,7 +112,7 @@ export function LabelGuideView({
       <main className="page" id="main">
         <AppBar subtitle="Your medication guide" />
 
-        <header className="med-header">
+        <div className="med-header">
           <p className="eyebrow">From the FDA-approved label</p>
           <h1 className="med-title">{brand}</h1>
           <p className="med-generic">
@@ -63,7 +124,22 @@ export function LabelGuideView({
             This page shows what the official FDA label says about this medicine, in the label&rsquo;s
             own words. Nobody has rewritten it into simpler language yet.
           </p>
-        </header>
+
+          {/*
+            Same markup and same class as an authored guide's key points, so the
+            two kinds of page present identically. Only the source of the
+            bullets differs, and that difference is stated in the headline above.
+          */}
+          {keyPoints.length > 0 ? (
+            <ul className="key-points">
+              {keyPoints.map((point, i) => (
+                <li key={i} data-emphasis={point.emphasis}>
+                  {point.href ? <a href={point.href}>{point.text}</a> : point.text}
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
 
         <dl className="identity-grid">
           <div className="identity-cell">
@@ -106,11 +182,12 @@ export function LabelGuideView({
         */}
         {guide.boxedWarning ? (
           <section
+            id="boxed-warning"
             className="card card--critical"
             style={{ marginTop: 14 }}
             aria-labelledby="boxed-warning-heading"
           >
-            <p className="card-label">FDA boxed warning</p>
+            <h2 className="card-label">FDA boxed warning</h2>
             <p className="tiny" style={{ marginBottom: 10 }}>
               The FDA&rsquo;s most serious type of warning, shown here word for word.
             </p>
@@ -155,7 +232,7 @@ export function LabelGuideView({
           the full label is linked below.
         */}
         {guide.withheldSections.length > 0 ? (
-          <section className="card" style={{ marginTop: 14 }} aria-label="Not shown here">
+          <section id="not-shown" className="card" style={{ marginTop: 14 }} aria-label="Not shown here">
             <p className="card-label" style={{ color: "var(--text-muted)" }}>
               Not shown on this page
             </p>
@@ -215,6 +292,19 @@ export function LabelGuideView({
             </a>
           </div>
         </section>
+
+        {/*
+          Coverage and the provider step work for any product: they need the
+          slug, name, strength and form, all of which a label-sourced guide has.
+          Only the assistant needs an authored layer, so only it is withheld.
+        */}
+        <ActionBar
+          slug={guide.slug}
+          productName={guide.productName}
+          strength={label.display.strengthDisplay}
+          dosageForm={label.display.dosageForm}
+          assistant="no-authored-layer"
+        />
 
         <ShareSection
           slug={slug}
@@ -278,11 +368,40 @@ export function LabelGuideView({
             qualified healthcare professional who knows your history. Never start, stop or change a
             medication based on a web page.
           </p>
-          <p style={{ marginTop: 10 }}>
-            In a medical emergency in the US, call 911. For a suspected overdose, call Poison Help
-            at <a href="tel:18002221222">1-800-222-1222</a>. For mental-health crisis support, call
-            or text <a href="tel:988">988</a>.
-          </p>
+          <p style={{ marginTop: 10 }}>In a medical emergency in the US:</p>
+          {/*
+           * F-05: all three numbers are dialable, equally sized targets.
+           *
+           * Previously 911 was plain text, Poison Help was a 38px target that
+           * collapsed to 17px on a phone, and 988 - the crisis line, on a page
+           * whose boxed warning concerns neuropsychiatric events - was a 21x17
+           * target at 13px. That is precision tapping for the reader least able
+           * to do it.
+           *
+           * Rendered as a list of tel: links so each has a >=44px hit area at
+           * every width, with the purpose beside the number rather than hidden
+           * behind it.
+           */}
+          <ul className="emergency-list">
+            <li>
+              <a className="emergency-tel" href="tel:911">
+                <span className="emergency-tel__number">911</span>
+                <span className="emergency-tel__what">Emergency services</span>
+              </a>
+            </li>
+            <li>
+              <a className="emergency-tel" href="tel:18002221222">
+                <span className="emergency-tel__number">1-800-222-1222</span>
+                <span className="emergency-tel__what">Poison Help &mdash; suspected overdose</span>
+              </a>
+            </li>
+            <li>
+              <a className="emergency-tel" href="tel:988">
+                <span className="emergency-tel__number">988</span>
+                <span className="emergency-tel__what">Mental-health crisis support (call or text)</span>
+              </a>
+            </li>
+          </ul>
         </footer>
       </main>
     </>

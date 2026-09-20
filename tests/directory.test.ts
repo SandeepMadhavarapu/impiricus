@@ -5,6 +5,7 @@ import {
   getPlan,
   planCandidatesByName,
   searchPayers,
+  searchPlans,
   findPharmacies,
   isValidZip,
   isDirectoryConnected,
@@ -127,5 +128,102 @@ describe("pharmacy search", () => {
   it("does not run a lookup for a malformed ZIP", () => {
     expect(findPharmacies("abc")).toEqual([]);
     expect(findPharmacies("")).toEqual([]);
+  });
+});
+
+/**
+ * Searching for what is printed on the card.
+ *
+ * A Part D card usually shows the PRODUCT name, not the legal entity that
+ * files it with CMS. Searching organizations alone, "AARP" - which appears in
+ * 496 plan names in the 2026-08 release and in no organization name - returned
+ * nothing, and the coverage form dead-ended for everyone holding one.
+ */
+describe("insurer search reaches plans, not just companies", () => {
+  it("finds insurers by a brand that only appears in plan names", () => {
+    const results = searchPayers("AARP");
+    expect(results.length).toBeGreaterThan(0);
+    // Every one of them got there via a plan, because no company is named AARP.
+    expect(results.every((p) => p.matchedVia === "plan-name")).toBe(true);
+    for (const p of results) {
+      expect(p.matchedPlanExample?.toLowerCase()).toContain("aarp");
+    }
+  });
+
+  it("still finds insurers by their own name, and ranks those first", () => {
+    const results = searchPayers("United");
+    expect(results.length).toBeGreaterThan(0);
+    expect(results[0]?.matchedVia).toBe("organization");
+    // Organization matches must not be interleaved with plan-name ones.
+    const firstPlanMatch = results.findIndex((p) => p.matchedVia === "plan-name");
+    if (firstPlanMatch >= 0) {
+      expect(results.slice(firstPlanMatch).every((p) => p.matchedVia === "plan-name")).toBe(true);
+    }
+  });
+
+  it("matches a full plan name someone copied off their card", () => {
+    const results = searchPayers("AARP Medicare Rx Preferred");
+    expect(results.length).toBeGreaterThan(0);
+  });
+
+  it("never reports the same insurer twice", () => {
+    for (const q of ["Wellcare", "Humana", "AARP", "United"]) {
+      const ids = searchPayers(q).map((p) => p.id);
+      expect(new Set(ids).size, `duplicate insurer for query "${q}"`).toBe(ids.length);
+    }
+  });
+
+  it("returns everything for an empty query, unannotated", () => {
+    const all = searchPayers("");
+    expect(all.length).toBeGreaterThan(0);
+    expect(all.every((p) => p.matchedVia === undefined)).toBe(true);
+  });
+
+  it("caps plan search so a one-letter query cannot ship thousands of rows", () => {
+    expect(searchPlans("e").length).toBeLessThanOrEqual(50);
+    expect(searchPlans("e", 10).length).toBeLessThanOrEqual(10);
+    expect(searchPlans("").length).toBe(0);
+  });
+
+  it("plan search returns plans carrying their own identifiers", () => {
+    const plans = searchPlans("AARP Medicare Rx Preferred", 5);
+    expect(plans.length).toBeGreaterThan(0);
+    for (const plan of plans) {
+      // A name cannot identify a plan, so every result must carry the ids.
+      expect(plan.contractId.length).toBeGreaterThan(0);
+      expect(plan.planId.length).toBeGreaterThan(0);
+      expect(plan.label).toContain(plan.contractId);
+    }
+  });
+});
+
+/**
+ * A query that contains characters must never be treated as an empty box.
+ *
+ * `normalise` strips everything that is not a letter or digit, so "%%%" and
+ * "---" collapsed to "" and hit the same branch as no input at all: the
+ * function returned every payer, and the route capped that at 50. Someone who
+ * typed something specific was shown an unfiltered list as though it matched.
+ */
+describe("queries that normalise away", () => {
+  it("returns nothing for a punctuation-only query", () => {
+    for (const q of ["%%%", "---", "!!!", "   &&&   ", "+/+"]) {
+      expect(searchPayers(q), `"${q}" should match nothing`).toEqual([]);
+    }
+  });
+
+  it("still returns the whole list for a genuinely empty box", () => {
+    expect(searchPayers("").length).toBeGreaterThan(0);
+    expect(searchPayers("   ").length).toBeGreaterThan(0);
+  });
+
+  it("is unaffected for a query with any searchable character", () => {
+    expect(searchPayers("!AARP!").length).toBeGreaterThan(0);
+    expect(searchPayers("aetna...").length).toBeGreaterThan(0);
+  });
+
+  it("plan search agrees", () => {
+    expect(searchPlans("%%%")).toEqual([]);
+    expect(searchPlans("")).toEqual([]);
   });
 });

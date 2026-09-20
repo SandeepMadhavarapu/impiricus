@@ -35,6 +35,21 @@ export interface Payer {
   name: string;
   /** How many plans this organization offers in the loaded release. */
   planCount: number;
+  /**
+   * How the search reached this payer.
+   *
+   * "organization" means the query matched the legal entity's name.
+   * "plan-name" means it did not, and the payer was reached because one of its
+   * PLANS matched - which is what happens when somebody types the brand
+   * printed on their card. Undefined when no query was given.
+   */
+  matchedVia?: "organization" | "plan-name";
+  /**
+   * One plan name that caused a "plan-name" match, so the picker can explain
+   * why an unfamiliar legal entity is being offered. Never shown as the
+   * person's plan: it is an example, and the plan picker still asks.
+   */
+  matchedPlanExample?: string;
 }
 
 export interface Plan {
@@ -206,11 +221,93 @@ export function isValidZip(zip: string): boolean {
   return /^\d{5}$/.test(zip.trim());
 }
 
-/** Case- and punctuation-insensitive match for the insurer type-ahead. */
+/**
+ * Insurer type-ahead, matching on the organization name AND on plan names.
+ *
+ * WHY PLAN NAMES ARE SEARCHED TOO
+ * -------------------------------
+ * The name on a Part D card is usually the PRODUCT, not the legal entity that
+ * files it with CMS. In the 2026-08 release "AARP" appears in 496 plan names
+ * and in zero organization names: searching organizations alone, the single
+ * most recognisable brand in Medicare Part D returned nothing at all, and the
+ * form silently dead-ended for anyone holding one of those cards.
+ *
+ * Organization matches rank first, because a person who types their insurer's
+ * actual name means that insurer. Plan-name matches follow, each labelled with
+ * the plan that caused it so an unfamiliar entity like "PHYSICIANS HEALTH
+ * CHOICE OF TEXAS, LLC" is explained rather than merely appearing.
+ *
+ * This still resolves to a SET of candidates. It never picks one.
+ */
 export function searchPayers(query: string, source: Payer[] = payers): Payer[] {
+  const raw = query.trim();
   const q = normalise(query);
-  if (q.length === 0) return source;
-  return source.filter((p) => normalise(p.name).includes(q));
+
+  /*
+   * An empty box means "show me the list". A box with characters in it means
+   * "find these" - even when none of those characters survive normalisation.
+   *
+   * These were the same branch, so "%%%" or "---" normalised to "" and
+   * returned every payer, capped at 50. Someone who typed something specific
+   * got an unfiltered list presented as matches, which is a worse answer than
+   * an honest none.
+   */
+  if (raw.length === 0) return source;
+  if (q.length === 0) return [];
+
+  const byOrg: Payer[] = [];
+  const orgIds = new Set<string>();
+  for (const p of source) {
+    if (normalise(p.name).includes(q)) {
+      byOrg.push({ ...p, matchedVia: "organization" });
+      orgIds.add(p.id);
+    }
+  }
+
+  // Walk plans once, recording the first matching plan name per organization.
+  const viaPlan = new Map<string, string>();
+  for (const [payerId, list] of plansByPayer) {
+    if (orgIds.has(payerId)) continue;
+    for (const plan of list) {
+      if (normalise(plan.name).includes(q)) {
+        viaPlan.set(payerId, plan.name);
+        break;
+      }
+    }
+  }
+
+  const byPlan: Payer[] = [];
+  for (const p of source) {
+    const example = viaPlan.get(p.id);
+    if (example !== undefined) {
+      byPlan.push({ ...p, matchedVia: "plan-name", matchedPlanExample: example });
+    }
+  }
+
+  return [...byOrg, ...byPlan];
+}
+
+/**
+ * Plans whose name CONTAINS the query, as candidates.
+ *
+ * Distinct from `planCandidatesByName`, which requires an exact normalised
+ * match and exists to resolve a name somebody already committed to. This one
+ * backs searching, so it is deliberately loose - and deliberately capped,
+ * because "e" matches thousands of plans and a picker cannot show them.
+ */
+export function searchPlans(query: string, limit = 50): Plan[] {
+  const q = normalise(query);
+  if (q.length === 0) return [];
+  const out: Plan[] = [];
+  for (const list of plansByPayer.values()) {
+    for (const plan of list) {
+      if (normalise(plan.name).includes(q)) {
+        out.push(plan);
+        if (out.length >= limit) return out;
+      }
+    }
+  }
+  return out;
 }
 
 function normalise(s: string): string {

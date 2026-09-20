@@ -14,6 +14,7 @@ const RXCUI = "153892"; // montelukast 10 MG Oral Tablet [Singulair]
 const snapshot: FormularySnapshot = {
   schemaVersion: 1,
   cmsRelease: "2026-08",
+  contractYear: 2026,
   sourceUrl: "https://data.cms.gov/sites/default/files/2026-08/example/2026_20260819.zip",
   retrievedAt: "2026-09-19T00:00:00.000Z",
   rxcuis: [RXCUI],
@@ -95,16 +96,65 @@ describe("plan matching is conservative", () => {
   });
 
   it("distinguishes 'plan not matched' from 'drug not listed'", () => {
-    const notListed = lookupFormulary(
+    // A formulary that EXISTS but does not carry this drug is a real "not
+    // listed": there is a list, and the drug is not on it.
+    const notListed = lookupFormulary(snapshot, "Example Health", "Example Rx Value Plan", [
+      "999999",
+    ]);
+    expect(notListed.kind).toBe("drug-not-listed");
+
+    const noPlan = lookupFormulary(snapshot, "Nobody", "Nothing At All Here", [RXCUI]);
+    expect(noPlan.kind).toBe("plan-not-matched");
+  });
+
+  /**
+   * An empty formulary table is not evidence of anything.
+   *
+   * This used to return "drug not listed", which states that the plan checked
+   * its list and the drug was absent. With no list there is nothing to check,
+   * and reporting absence of data as absence of coverage is the false negative
+   * this codebase refuses everywhere else.
+   */
+  it("refuses rather than reporting 'not listed' when the plan has no drug list", () => {
+    const result = lookupFormulary(
       { ...snapshot, formulary: [] },
       "Example Health",
       "Example Rx Value Plan",
       [RXCUI]
     );
-    expect(notListed.kind).toBe("drug-not-listed");
+    expect(result.kind).toBe("plan-not-matched");
+    if (result.kind === "plan-not-matched") {
+      expect(result.reason).toBe("missing-formulary-mapping");
+    }
+  });
 
-    const noPlan = lookupFormulary(snapshot, "Nobody", "Nothing At All Here", [RXCUI]);
-    expect(noPlan.kind).toBe("plan-not-matched");
+  /**
+   * A drug list only describes one contract year.
+   *
+   * `planYear` was accepted (2020-2100), echoed back into the result and never
+   * compared with the release it was answered from.
+   */
+  it("refuses a plan year the loaded release does not describe", () => {
+    const wrong = lookupFormulary(
+      snapshot,
+      "Example Health",
+      "Example Rx Value Plan",
+      [RXCUI],
+      2024
+    );
+    expect(wrong.kind).toBe("year-not-covered");
+    if (wrong.kind === "year-not-covered") {
+      expect(wrong.requestedYear).toBe(2024);
+      expect(wrong.coveredYear).toBe(2026);
+    }
+
+    const right = lookupFormulary(snapshot, "Example Health", "Example Rx Value Plan", [RXCUI], 2026);
+    expect(right.kind).toBe("listed");
+
+    // Omitting the year keeps the previous behaviour for callers that have none.
+    expect(lookupFormulary(snapshot, "Example Health", "Example Rx Value Plan", [RXCUI]).kind).toBe(
+      "listed"
+    );
   });
 
   it("reports no-snapshot when no data has been ingested", () => {
@@ -169,10 +219,30 @@ describe("CMS adapter evidence states", () => {
   });
 
   it("a matched plan without the drug says not-listed, and says why that is not final", async () => {
-    const empty = cmsFormularyAdapter({ ...snapshot, formulary: [] });
-    const r = await empty.check(baseReq, PRODUCT);
+    // A real list that does not carry this product. The snapshot's own drug is
+    // swapped out so the formulary exists but has no row for what is asked.
+    const otherDrug = cmsFormularyAdapter({
+      ...snapshot,
+      formulary: snapshot.formulary.map((f) => ({ ...f, rxcui: "999999" })),
+    });
+    const r = await otherDrug.check(baseReq, PRODUCT);
     expect(r.state).toBe("not-listed-on-checked-formulary");
     expect(r.caveats.join(" ")).toMatch(/does not mean the medication is definitively not covered/i);
+  });
+
+  /**
+   * ...whereas no list at all is not "not listed".
+   *
+   * With an empty formulary table the adapter used to report the drug as
+   * absent from the plan's list. There is no list, so nothing was checked, and
+   * saying otherwise is a false claim about access.
+   */
+  it("refuses instead of reporting not-listed when there is no drug list", async () => {
+    const empty = cmsFormularyAdapter({ ...snapshot, formulary: [] });
+    const r = await empty.check(baseReq, PRODUCT);
+    expect(r.state).toBe("unable-to-verify");
+    expect(r.formularyListing.value).toBeNull();
+    expect(r.caveats.join(" ")).toMatch(/no drug list|nothing to check/i);
   });
 
   it("carries CMS provenance on every result", async () => {

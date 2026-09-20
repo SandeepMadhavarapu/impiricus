@@ -214,12 +214,22 @@ function yearsSince(iso: string | null): number | null {
   return Math.floor((Date.now() - then) / (365.25 * 24 * 3600 * 1000));
 }
 
+/**
+ * Same rule as the label display casing: preserve deliberate capitals.
+ *
+ * NPPES stores names in upper case, and organisation names routinely end in
+ * LLC, INC or PC. Lowercasing then capitalising produced "Llc".
+ */
 function titleCase(s: string): string {
+  if (/[a-z]/.test(s)) return s;
   return s
-    .toLowerCase()
-    .split(/\s+/)
-    .map((w) => (w.length > 0 ? w[0]!.toUpperCase() + w.slice(1) : w))
-    .join(" ");
+    .split(/(\s+)/)
+    .map((tok) => {
+      if (/^\s+$/.test(tok) || tok.length === 0) return tok;
+      if (tok.length <= 3) return tok;
+      return tok[0]! + tok.slice(1).toLowerCase();
+    })
+    .join("");
 }
 
 export function mapNppesResult(raw: RawResult): NppesLookup {

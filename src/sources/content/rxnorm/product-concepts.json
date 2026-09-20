@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "name": "RxNorm, via the RxNav REST API",
+    "owner": "U.S. National Library of Medicine",
+    "url": "https://rxnav.nlm.nih.gov/REST/",
+    "retrievedAt": "2026-09-20T02:52:46.333Z"
+  },
+  "note": "The concept each published product IS, and the same-strength same-form generic RxNorm relates it to. Nothing here is inferred from a name. A coverage answer about the branded product must use `exact`; `genericEquivalent` is a DIFFERENT product and its formulary status must never be presented as the brand's.",
+  "products": {
+    "ozempic-semaglutide-1_34mg-per-ml-injection": {
+      "exact": {
+        "rxcui": "2398842",
+        "tty": "SBD",
+        "name": "3 ML semaglutide 1.34 MG/ML Pen Injector [Ozempic]"
+      },
+      "genericEquivalent": {
+        "rxcui": "2398841",
+        "tty": "SCD",
+        "name": "3 ML semaglutide 1.34 MG/ML Pen Injector"
+      }
+    },
+    "singulair-montelukast-10mg-tablet": {
+      "exact": {
+        "rxcui": "153892",
+        "tty": "SBD",
+        "name": "montelukast 10 MG Oral Tablet [Singulair]"
+      },
+      "genericEquivalent": {
+        "rxcui": "200224",
+        "tty": "SCD",
+        "name": "montelukast 10 MG Oral Tablet"
+      }
+    },
+    "toprol-xl-metoprolol-succinate-50mg-er-tablet": {
+      "exact": {
+        "rxcui": "866438",
+        "tty": "SBD",
+        "name": "24 HR metoprolol succinate 50 MG Extended Release Oral Tablet [Toprol]"
+      },
+      "genericEquivalent": {
+        "rxcui": "866436",
+        "tty": "SCD",
+        "name": "24 HR metoprolol succinate 50 MG Extended Release Oral Tablet"
+      }
+    }
+  }
+}

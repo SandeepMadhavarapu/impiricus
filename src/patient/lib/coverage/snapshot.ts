@@ -1,61 +1,53 @@
 import "server-only";
-import { readFileSync, existsSync } from "node:fs";
-import path from "node:path";
+import snapshotData from "@/sources/content/coverage/cms-part-d-snapshot.json";
 import { FormularySnapshotSchema, type FormularySnapshot } from "./formulary";
 
 /**
- * Loads the ingested CMS formulary snapshot, if an operator has produced one.
+ * Loads the vendored CMS Part D formulary snapshot.
  *
- * The snapshot is NOT committed: the CMS source release is ~2.2 GB compressed,
- * and the extracted subset is regenerated with `npm run coverage:ingest`.
+ * WHY THIS IS A STATIC IMPORT AND NOT readFileSync
+ * ------------------------------------------------
+ * This module used to read the file from `process.cwd()` at request time. That
+ * works locally and fails silently in production: Next.js traces the files a
+ * serverless function needs by following its imports, so a path assembled at
+ * runtime is never traced, never bundled, and `existsSync` returns false on the
+ * deployed function. The coverage flow then reports "unable to verify" for
+ * every request while the file sits happily in the repository.
  *
- * Absence is a normal, expected state and means exactly one thing — no real
- * formulary data is available, so the coverage flow reports "unable to verify".
- * It must never be interpreted as "not covered", and a malformed snapshot is
- * treated as absent rather than partially trusted.
+ * The plan directory next door (`@/sources/content/insurance/plans.json`) has
+ * always been imported for exactly this reason. This now matches it: the
+ * snapshot is committed, it is imported, and a missing file breaks the build
+ * loudly instead of quietly disabling the feature in production.
+ *
+ * Regenerate with `npm run content:sync` (after `npm run app:snapshot` in
+ * data-pipeline). Never edit it by hand.
+ *
+ * WHAT ABSENCE AND INVALIDITY STILL MEAN
+ * --------------------------------------
+ * A snapshot that does not validate is treated as absent rather than partially
+ * trusted, and absence means exactly one thing: no formulary data was
+ * consulted, so the flow reports "unable to verify". It must NEVER be read as
+ * "not covered". Half-read coverage data is worse than none.
  */
-
-const SNAPSHOT_PATH = path.join(
-  process.cwd(),
-  "src",
-  "sources",
-  "content",
-  "coverage",
-  "cms-part-d-snapshot.json"
-);
 
 let cached: FormularySnapshot | null | undefined;
 
 export function loadFormularySnapshot(): FormularySnapshot | null {
   if (cached !== undefined) return cached;
 
-  try {
-    if (!existsSync(SNAPSHOT_PATH)) {
-      cached = null;
-      return cached;
-    }
-    const raw: unknown = JSON.parse(readFileSync(SNAPSHOT_PATH, "utf8"));
-    const parsed = FormularySnapshotSchema.safeParse(raw);
-    if (!parsed.success) {
-      // A snapshot we cannot fully validate is not partially trusted. Half-read
-      // coverage data is worse than none.
-      console.warn(
-        "[coverage] formulary snapshot failed schema validation; ignoring it and reporting unable-to-verify"
-      );
-      cached = null;
-      return cached;
-    }
-    cached = parsed.data;
-    return cached;
-  } catch {
+  const parsed = FormularySnapshotSchema.safeParse(snapshotData);
+  if (!parsed.success) {
+    console.warn(
+      "[coverage] formulary snapshot failed schema validation; ignoring it and reporting unable-to-verify"
+    );
     cached = null;
     return cached;
   }
+  cached = parsed.data;
+  return cached;
 }
 
 /** Test seam. */
 export function resetFormularySnapshotCache(): void {
   cached = undefined;
 }
-
-export { SNAPSHOT_PATH };

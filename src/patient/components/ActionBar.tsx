@@ -18,6 +18,7 @@ export function ActionBar({
   productName,
   strength,
   dosageForm,
+  assistant = "available",
 }: {
   slug: string;
   productName: string;
@@ -25,6 +26,18 @@ export function ActionBar({
   strength: string;
   /** Dosage form exactly as the label states it, e.g. "TABLET, FILM COATED". */
   dosageForm: string;
+  /**
+   * Whether the assistant can answer for THIS product.
+   *
+   * It grounds every answer in an authored plain-language layer with cited
+   * quotes. A product without that layer has nothing to ground on - the
+   * orchestrator returns null for the slug - so the button is not offered.
+   *
+   * Coverage and the provider step do not depend on that layer and ARE
+   * offered, which is why this is a per-action gate rather than hiding the
+   * whole bar.
+   */
+  assistant?: "available" | "no-authored-layer";
 }) {
   const [openSheet, setOpenSheet] = useState<null | "chat" | "coverage" | "provider">(null);
   /**
@@ -37,16 +50,32 @@ export function ActionBar({
   return (
     <>
       <div className="actions-primary">
-        <button
-          type="button"
-          className="btn btn--primary btn--block"
-          onClick={() => {
-            track("learn_more_opened");
-            setOpenSheet("chat");
-          }}
-        >
-          Learn more: ask about this medication
-        </button>
+        {assistant === "available" ? (
+          <button
+            type="button"
+            className="btn btn--primary btn--block"
+            onClick={() => {
+              track("learn_more_opened");
+              setOpenSheet("chat");
+            }}
+          >
+            Learn more: ask about this medication
+          </button>
+        ) : (
+          /*
+           * Stated, not silently absent. Two of three medications previously
+           * rendered a page with three fewer actions and no explanation, so a
+           * shared link's usefulness depended on which template it happened to
+           * use - invisible to sender and recipient alike.
+           */
+          <p className="tiny actions-unavailable" role="note">
+            The question-and-answer assistant is not available for this
+            medication. It only answers from a plain-language summary written and
+            checked by a person, and one has not been written for this product
+            yet. The official label text is on this page, and the two actions
+            below work normally.
+          </p>
+        )}
         <div className="btn-row">
           <button
             type="button"

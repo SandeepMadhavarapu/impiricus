@@ -116,7 +116,7 @@ function AuthoredView({ guide, slug }: { guide: AuthoredGuide; slug: string }) {
       <PageOpenBeacon />
       <main className="page" id="main">
         <AppBar subtitle="Your medication guide" />
-        <header className="med-header">
+        <div className="med-header">
           <p className="eyebrow">From the FDA-approved label</p>
           <h1 className="med-title">{brand}</h1>
           <p className="med-generic">
@@ -143,7 +143,7 @@ function AuthoredView({ guide, slug }: { guide: AuthoredGuide; slug: string }) {
               ))}
             </ul>
           ) : null}
-        </header>
+        </div>
 
         <dl className="identity-grid">
           <div className="identity-cell">
@@ -236,11 +236,40 @@ function AuthoredView({ guide, slug }: { guide: AuthoredGuide; slug: string }) {
               Medication Guide
             </a>
           </p>
-          <p style={{ marginTop: 10 }}>
-            In a medical emergency in the US, call 911. For a suspected overdose, call Poison Help at{" "}
-            <a href="tel:18002221222">1-800-222-1222</a>. For mental-health crisis support, call or
-            text <a href="tel:988">988</a>.
-          </p>
+          <p style={{ marginTop: 10 }}>In a medical emergency in the US:</p>
+          {/*
+           * F-05: all three numbers are dialable, equally sized targets.
+           *
+           * Previously 911 was plain text, Poison Help was a 38px target that
+           * collapsed to 17px on a phone, and 988 - the crisis line, on a page
+           * whose boxed warning concerns neuropsychiatric events - was a 21x17
+           * target at 13px. That is precision tapping for the reader least able
+           * to do it.
+           *
+           * Rendered as a list of tel: links so each has a >=44px hit area at
+           * every width, with the purpose beside the number rather than hidden
+           * behind it.
+           */}
+          <ul className="emergency-list">
+            <li>
+              <a className="emergency-tel" href="tel:911">
+                <span className="emergency-tel__number">911</span>
+                <span className="emergency-tel__what">Emergency services</span>
+              </a>
+            </li>
+            <li>
+              <a className="emergency-tel" href="tel:18002221222">
+                <span className="emergency-tel__number">1-800-222-1222</span>
+                <span className="emergency-tel__what">Poison Help &mdash; suspected overdose</span>
+              </a>
+            </li>
+            <li>
+              <a className="emergency-tel" href="tel:988">
+                <span className="emergency-tel__number">988</span>
+                <span className="emergency-tel__what">Mental-health crisis support (call or text)</span>
+              </a>
+            </li>
+          </ul>
         </footer>
       </main>
     </>
