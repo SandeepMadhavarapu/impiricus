@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { requestSession, type ShareSession } from "@/shared/lib/nearby-share/client";
+import { SOUND_SECONDS } from "@/shared/lib/nearby-share/protocol";
 import { prepareTransmitter } from "@/shared/lib/nearby-share/transmitter";
 
 export function NearbyShare({ slug }: { slug: string }) {
@@ -32,7 +33,7 @@ export function NearbyShare({ slug }: { slug: string }) {
   }
   async function play() {
     if (!audio.current || !session) return;
-    if (Date.parse(session.expiresAt) <= Date.now() + 20000) {
+    if (Date.parse(session.expiresAt) <= Date.now() + (SOUND_SECONDS + 10) * 1000) {
       audio.current.close(); audio.current = null; setPrepared(false);
       setMessage("This sound expired. Press Send Nearby to prepare a new one."); return;
     }
@@ -51,8 +52,8 @@ export function NearbyShare({ slug }: { slug: string }) {
   }
   return <div className="card stack" style={{ marginTop: 16 }}>
     <p className="eyebrow">Send Nearby · Experimental</p><h3>Send with sound</h3>
-    <p>On the patient’s phone, open <a href="/receive" target="_blank" rel="noreferrer">MediZ Receive</a> and press Listen for guide. Here, press Send Nearby to prepare, then Play sound.</p>
-    <p className="tiny">Use two devices. Turn up media volume and disconnect headphones or Bluetooth speakers. Keep both screens open. The sound lasts about 11 seconds and contains a temporary code, not medical information.</p>
+    <p>On the patient’s phone, open <a href="/receive" target="_blank" rel="noreferrer">MediZ Receive</a> and press Listen for guide. Wait until their screen says “Microphone ready.” Here, press Send Nearby to prepare, then Play sound.</p>
+    <p className="tiny">Use two devices. Turn up media volume and disconnect headphones or Bluetooth speakers. Keep both screens open. The sound repeats automatically for about 35 seconds to recover from interference. It contains a temporary code, not medical information. Stop once the patient receives the guide.</p>
     <button type="button" className="btn btn--primary" disabled={busy} onClick={() => { if (prepared) void play(); else void prepare(); }}>{busy ? "Sending…" : prepared ? "Play sound" : "Send Nearby"}</button>
     {busy ? <button className="btn" type="button" onClick={cancel}>Cancel</button> : null}
     <p role="status" aria-live="polite">{message}</p>

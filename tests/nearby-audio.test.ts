@@ -30,8 +30,8 @@ it("resolves clocked audio and stops microphone before callback", async () => {
   expect(received).toHaveBeenCalledWith(token); expect(error).not.toHaveBeenCalled(); expect(close).toHaveBeenCalled();
 });
 it("stops after timeout", async () => {
-  const error = vi.fn(); listenForToken(vi.fn(), error); await vi.advanceTimersByTimeAsync(30001);
-  expect(error).toHaveBeenCalledWith("We couldn't hear a MediZ signal."); expect(trackStop).toHaveBeenCalled();
+  const error = vi.fn(); listenForToken(vi.fn(), error); await vi.advanceTimersByTimeAsync(60001);
+  expect(error).toHaveBeenCalledWith(expect.stringContaining("We couldn't hear a MediZ signal.")); expect(trackStop).toHaveBeenCalled();
 });
 it("stops on cancellation and late microphone permission", async () => {
   let grant!: (value: unknown) => void;
@@ -51,8 +51,8 @@ it("handles denied permission and unsupported browsers", async () => {
 it("distinguishes an incomplete signal", async () => {
   const error = vi.fn(); listenForToken(vi.fn(), error); await vi.advanceTimersByTimeAsync(1);
   symbol = PREAMBLE; await vi.advanceTimersByTimeAsync(350);
-  symbol = undefined; await vi.advanceTimersByTimeAsync(30000);
-  expect(error).toHaveBeenCalledWith("We heard a signal, but couldn't verify it."); expect(trackStop).toHaveBeenCalled();
+  symbol = undefined; await vi.advanceTimersByTimeAsync(60000);
+  expect(error).toHaveBeenCalledWith(expect.stringContaining("We heard a signal, but couldn't verify it.")); expect(trackStop).toHaveBeenCalled();
 });
 it("detects tones with frequency tolerance at phone sample rates, rejects noise", () => {
   for (const rate of [44100, 48000]) for (let s = 0; s < 18; s++) {
@@ -63,7 +63,7 @@ it("detects tones with frequency tolerance at phone sample rates, rejects noise"
   expect(detectSymbol(new Float32Array(1024).fill(-40), 48000, 2048)).toBeUndefined();
 });
 
-it("stops tracks on a complete packet with a bad checksum", async () => {
+it("recovers from a corrupt first frame when the sender repeats the packet", async () => {
   const received = vi.fn(), error = vi.fn();
   listenForToken(received, error); await vi.advanceTimersByTimeAsync(1);
   symbol = PREAMBLE; await vi.advanceTimersByTimeAsync(350);
@@ -73,6 +73,27 @@ it("stops tracks on a complete packet with a bad checksum", async () => {
     symbol = nibble; await vi.advanceTimersByTimeAsync(80);
   }
   expect(received).not.toHaveBeenCalled();
-  expect(error).toHaveBeenCalledWith("We heard a signal, but couldn't verify it.");
+  expect(error).not.toHaveBeenCalled();
+  expect(trackStop).not.toHaveBeenCalled();
+  symbol = PREAMBLE; await vi.advanceTimersByTimeAsync(600);
+  for (const nibble of encodePacket("ab".repeat(36))) {
+    symbol = CLOCK; await vi.advanceTimersByTimeAsync(80);
+    symbol = nibble; await vi.advanceTimersByTimeAsync(120);
+  }
+  expect(received).toHaveBeenCalledWith("ab".repeat(36));
   expect(trackStop).toHaveBeenCalled(); expect(close).toHaveBeenCalled();
+});
+
+
+it("starts the listening window only after microphone permission is granted", async () => {
+  let grant!: (value: unknown) => void;
+  vi.stubGlobal("navigator", { mediaDevices: { getUserMedia: () => new Promise(resolve => { grant = resolve; }) } });
+  const error = vi.fn(), status = vi.fn();
+  const stop = listenForToken(vi.fn(), error, status);
+  await vi.advanceTimersByTimeAsync(45000);
+  expect(status).not.toHaveBeenCalled(); expect(error).not.toHaveBeenCalled();
+  grant(media); await vi.advanceTimersByTimeAsync(1);
+  expect(status).toHaveBeenCalledWith(expect.stringContaining("Microphone ready"));
+  await vi.advanceTimersByTimeAsync(30000); expect(error).not.toHaveBeenCalled();
+  stop();
 });

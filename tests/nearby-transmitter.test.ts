@@ -20,7 +20,7 @@ it("produces an audible mono PCM WAV with the complete packet duration", () => {
   expect(new TextDecoder().decode(bytes.slice(0, 4))).toBe("RIFF");
   expect(view.getUint32(24, true)).toBe(48000);
   expect(view.getUint16(22, true)).toBe(1);
-  expect(view.getUint32(40, true) / 2 / 48000).toBeCloseTo(11.01, 3);
+  expect(view.getUint32(40, true) / 2 / 48000).toBeCloseTo(34.5, 3);
   let peak = 0;
   for (let i = 44; i < bytes.byteLength; i += 2) peak = Math.max(peak, Math.abs(view.getInt16(i, true)));
   expect(peak).toBeGreaterThan(7000);

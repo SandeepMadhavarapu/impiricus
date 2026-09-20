@@ -1,12 +1,15 @@
-import { CLOCK, PREAMBLE, frequency, encodePacket, DATA_SECONDS, CLOCK_SECONDS } from "./protocol";
+import { CLOCK, PREAMBLE, frequency, encodePacket, DATA_SECONDS, CLOCK_SECONDS, PREAMBLE_SECONDS, TRANSMISSION_REPEATS, REPEAT_GAP_SECONDS, SOUND_SECONDS } from "./protocol";
 export const UNSUPPORTED = "Nearby sound sharing isn't available on this browser.";
 
 /** PCM WAV uses Safari's media playback channel, rather than silent-mode Web Audio. */
 export function encodeSound(token: string): ArrayBuffer {
   const rate = 48000;
-  const tones = [{ symbol: PREAMBLE, duration: 0.35 }, ...encodePacket(token).flatMap(symbol => [
+  const packet = [{ symbol: PREAMBLE, duration: PREAMBLE_SECONDS }, ...encodePacket(token).flatMap(symbol => [
     { symbol: CLOCK, duration: CLOCK_SECONDS }, { symbol, duration: DATA_SECONDS },
   ])];
+  const tones = Array.from({ length: TRANSMISSION_REPEATS }, (_, index) => [
+    ...(index ? [{ symbol: -1, duration: REPEAT_GAP_SECONDS }] : []), ...packet,
+  ]).flat();
   const lengths = tones.map(t => Math.round(t.duration * rate));
   const frames = lengths.reduce((a, b) => a + b, 0);
   const buffer = new ArrayBuffer(44 + frames * 2), view = new DataView(buffer);
@@ -20,7 +23,7 @@ export function encodeSound(token: string): ArrayBuffer {
     const length = lengths[index]!;
     for (let i = 0; i < length; i++) {
       const envelope = Math.min(1, i / (rate * 0.004), (length - i) / (rate * 0.004));
-      const sample = 0.22 * envelope * Math.sin(2 * Math.PI * frequency(tone.symbol) * i / rate);
+      const sample = tone.symbol < 0 ? 0 : 0.22 * envelope * Math.sin(2 * Math.PI * frequency(tone.symbol) * i / rate);
       view.setInt16(44 + frame++ * 2, Math.round(sample * 32767), true);
     }
   });
@@ -60,7 +63,7 @@ export function prepareTransmitter(token: string) {
         };
         pending = finish;
         const startTimeout = setTimeout(() => finish(new Error("Playback did not start. Tap Play sound again and check your media volume.")), 8000);
-        const endTimeout = setTimeout(() => finish(new Error("Playback was interrupted. Keep this page open and try again.")), 25000);
+        const endTimeout = setTimeout(() => finish(new Error("Playback was interrupted. Keep this page open and try again.")), (SOUND_SECONDS + 12) * 1000);
         audio.onplaying = () => { clearTimeout(startTimeout); onPlaying(); };
         audio.onended = () => finish();
         audio.onerror = () => finish(new Error("This browser could not play the sound. Try Safari or Chrome, or use the QR code."));

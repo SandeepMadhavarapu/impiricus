@@ -19,8 +19,8 @@ export function ReceiveGuide({ embedded = false }: { embedded?: boolean }) {
     return () => { stop.current?.(); request.current?.abort(); document.removeEventListener("visibilitychange", hidden); };
   }, []);
   function listen() {
-    stop.current?.(); request.current?.abort(); setGuide(null); setListening(true); setMessage("Listening for your guide… Keep this phone near your provider’s device.");
-    stop.current = listenForToken(value => { setListening(false); void resolve(value); }, error => { setListening(false); setMessage(error); });
+    stop.current?.(); request.current?.abort(); setGuide(null); setListening(true); setMessage("Waiting for microphone permission… Allow access before your provider plays the sound.");
+    stop.current = listenForToken(value => { setListening(false); void resolve(value); }, error => { setListening(false); setMessage(error); }, setMessage);
   }
   async function resolve(value: string) {
     stop.current?.(); setListening(false);
@@ -33,7 +33,7 @@ export function ReceiveGuide({ embedded = false }: { embedded?: boolean }) {
   return <section className="card stack">
     <Heading>Receive medication guide</Heading>
     <p>Your provider can send a medication guide to this device using nearby sound.</p>
-    <p>Press Listen for guide and allow microphone access, then ask your provider to press Send Nearby followed by Play sound. Keep both screens open and the devices close together.</p>
+    <p>Press Listen for guide and allow microphone access, wait for “Microphone ready,” then ask your provider to press Send Nearby followed by Play sound. Keep both screens open and the devices close together.</p>
     <p className="tiny">You do not need to sign in to receive a guide.</p>
     {listening ? <button className="btn" onClick={() => { stop.current?.(); setListening(false); setMessage("Listening cancelled."); }}>Cancel</button> : <button className="btn btn--primary" onClick={listen}>{message && !guide ? "Try again — Listen for guide" : "Listen for guide"}</button>}
     <p className="tiny">Audio is processed on this device and is not recorded or uploaded. Microphone access is used only while listening.</p>
