@@ -400,3 +400,14 @@ success requires a matching firmware write/read-back response. **Read NFC Memory
 independently retrieves the stored URI. Existing sharing options remain available.
 The external 13.56 MHz antenna is unavailable, so iPhone tapping is not demonstrated.
 See [NFC setup, firmware, and demo steps](hardware/nfc-tap/README.md).
+
+### Nearby Sound Sharing — Experimental
+
+Doctors can send a temporary opaque code using **Send Nearby / Send with sound**.
+The patient opens `/receive` and explicitly presses **Listen for guide** before
+microphone permission is requested. Audio is processed locally and is never recorded
+or uploaded. Only the decoded token is submitted to the server. Native share,
+AirDrop, Messages, Copy Link, and the existing QR code remain available.
+
+See [the nearby sharing demo guide](docs/NEARBY-SHARING.md) for setup, manual token
+testing, physical-device steps, protocol details, and known limitations.

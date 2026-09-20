@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
+import { NearbyShare } from "./NearbyShare";
 import { track } from "@/shared/lib/analytics/client";
 
 /**
@@ -105,6 +106,8 @@ export function ShareSection({
       <p className="muted">
         {doctor ? "Share the public medication guide using your device’s sharing options, or copy the link. No patient or prescription details are included." : "Shares the public page only. Your conversation, coverage details and anything you typed stay on this device and are never included."}
       </p>
+
+      {doctor ? <><NearbyShare key={slug} slug={slug} /><h3 style={{ marginTop: 20 }}>Share normally</h3></> : null}
 
       {/*
         One primary action, then the fallbacks.

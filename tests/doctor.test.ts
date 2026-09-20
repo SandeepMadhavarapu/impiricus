@@ -69,6 +69,7 @@ describe("doctor workflow", () => {
       const html = await render(selection);
       expect(html).toContain("Medication unavailable");
       expect(html).not.toContain("Send to patient");
+      expect(html).not.toContain(">Send Nearby</button>");
       expect(html).toMatch(/disabled="">Share with Patient/);
     }
   );
@@ -92,4 +93,14 @@ describe("doctor workflow", () => {
       expect(html).toMatch(/disabled="">Share with Patient/);
     }
   );
+});
+
+it.each(["", "http://localhost:3000", "http://unsafe.example", "https://preview.example"])("enables nearby sharing for a selected medication in production regardless of public origin %j", async (origin) => {
+  vi.stubEnv("NODE_ENV", "production");
+  vi.stubEnv("PUBLIC_ORIGIN", origin);
+  vi.stubEnv("NEXT_PUBLIC_SITE_ORIGIN", "");
+  const html = await render(slug);
+  const button = html.match(/<button[^>]*>Send Nearby<\/button>/)?.[0];
+  expect(button).toBeDefined();
+  expect(button).not.toContain("disabled");
 });

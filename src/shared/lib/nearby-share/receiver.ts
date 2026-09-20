@@ -1,0 +1,62 @@
+import { frequency, PacketCollector } from "./protocol";
+import { UNSUPPORTED } from "./transmitter";
+
+/** Match the strongest tone within +/- 35Hz; require separation from other tones. */
+export function detectSymbol(spectrum: Float32Array, sampleRate: number, fftSize: number): number | undefined {
+  const scores = Array.from({ length: 18 }, (_, symbol) => {
+    const bin = Math.round(frequency(symbol) * fftSize / sampleRate);
+    let score = -Infinity;
+    for (let i = bin - 1; i <= bin + 1; i++) if (Math.abs(i * sampleRate / fftSize - frequency(symbol)) <= 35) score = Math.max(score, spectrum[i] ?? -Infinity);
+    return { symbol, score };
+  }).sort((a, b) => b.score - a.score);
+  return scores[0]!.score > -65 && scores[0]!.score - scores[1]!.score > 7 ? scores[0]!.symbol : undefined;
+}
+
+/** No recording or network calls. All samples remain in the local audio graph. */
+export function listenForToken(onToken: (token: string) => void, onError: (message: string) => void) {
+  if (typeof window === "undefined" || !window.isSecureContext || !window.AudioContext || !navigator.mediaDevices?.getUserMedia) {
+    onError(UNSUPPORTED); return () => {};
+  }
+  let context: AudioContext;
+  try { context = new AudioContext(); } catch { onError(UNSUPPORTED); return () => {}; }
+  let stopped = false;
+  let stream: MediaStream | undefined;
+  let interval: ReturnType<typeof setInterval> | undefined;
+  const collector = new PacketCollector();
+  const stop = () => {
+    stopped = true; clearInterval(interval); clearTimeout(timeout);
+    stream?.getTracks().forEach(track => track.stop());
+    if (context.state !== "closed") void context.close().catch(() => {});
+  };
+  const fail = (message: string) => { if (stopped) return; stop(); onError(message); };
+  const timeout = setTimeout(() => fail(collector.heardPreamble ? "We heard a signal, but couldn't verify it." : "We couldn't hear a MedBridge signal."), 30000);
+  // Both permission and resume originate directly from the explicit Listen gesture.
+  const ready = context.resume();
+  void ready.catch(() => fail("Audio paused. Press Listen for guide again."));
+  void navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false } }).then(async media => {
+    stream = media;
+    // Permission can resolve AFTER cancel/unmount/timeout.
+    if (stopped) { media.getTracks().forEach(track => track.stop()); return; }
+    await ready;
+    if (stopped) return;
+    const source = context.createMediaStreamSource(media), analyser = context.createAnalyser();
+    analyser.fftSize = 2048; analyser.smoothingTimeConstant = 0;
+    source.connect(analyser); // Deliberately no connection to speakers.
+    const spectrum = new Float32Array(analyser.frequencyBinCount);
+    let previous: number | undefined, consecutive = 0, emitted: number | undefined;
+    interval = setInterval(() => {
+      if (context.state !== "running") { fail("Audio paused. Keep this page open and try again."); return; }
+      analyser.getFloatFrequencyData(spectrum);
+      const symbol = detectSymbol(spectrum, context.sampleRate, analyser.fftSize);
+      if (symbol === undefined) { previous = undefined; consecutive = 0; return; }
+      consecutive = symbol === previous ? consecutive + 1 : 1; previous = symbol;
+      if (consecutive < 2 || symbol === emitted) return;
+      emitted = symbol;
+      try { const token = collector.accept(symbol); if (token) { stop(); onToken(token); } }
+      catch { fail("We heard a signal, but couldn't verify it."); }
+    }, 10);
+  }).catch(error => fail(error instanceof Error && error.name === "NotAllowedError"
+    ? "Microphone access is needed to receive a nearby guide. Allow microphone access in your browser settings, then try again."
+    : "Couldn't start the microphone. Check that it is available, then try again."));
+  return stop;
+}
