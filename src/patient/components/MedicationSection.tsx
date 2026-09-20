@@ -1,4 +1,6 @@
-import type { PlainSection, SourceRecord } from "@/sources/lib/content/types";
+import type { PatientGuideSection } from "@/sources/lib/content/patient-guide";
+import { INFORMATION_PENDING } from "@/shared/lib/content-status";
+import type { SourceRecord } from "@/sources/lib/content/types";
 
 /**
  * Renders one plain-language section with its supporting citations.
@@ -12,7 +14,7 @@ export function MedicationSection({
   section,
   source,
 }: {
-  section: PlainSection;
+  section: PatientGuideSection;
   source: SourceRecord;
 }) {
   const cardClass =
@@ -40,6 +42,13 @@ export function MedicationSection({
         </p>
       ))}
 
+      {section.pending ? (
+        <details className="disclosure">
+          <summary>More detail</summary>
+          <div className="disclosure-body"><p>{INFORMATION_PENDING}</p></div>
+        </details>
+      ) : null}
+
       {section.detail && section.detail.length > 0 ? (
         <details className="disclosure">
           <summary>More detail</summary>
@@ -55,9 +64,10 @@ export function MedicationSection({
 
       <details className="disclosure">
         <summary>
-          Sources ({section.citations.length})
+          Sources{section.citations.length > 0 ? ` (${section.citations.length})` : ""}
         </summary>
         <div className="disclosure-body">
+          {section.citations.length === 0 ? <p>{INFORMATION_PENDING}</p> : null}
           <ul className="cite-list">
             {section.citations.map((citation, i) => {
               const sourceSection = source.sections.find((s) => s.id === citation.sectionId);

@@ -12,19 +12,20 @@
  *   - openFDA drug/ndc     (NDC directory - product identity, packaging)
  *   - DailyMed v2 spls     (NLM - independent corroboration of SPL version)
  *
- * Usage: npm run content:fetch
+ * Usage: npm run content:fetch -- <medication-slug>
  */
-import { writeFile, mkdir } from "node:fs/promises";
+import { readFile, writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 
+const slug = process.argv[2] ?? "singulair-montelukast-10mg-tablet";
+const supported = ["singulair-montelukast-10mg-tablet", "toprol-xl-metoprolol-succinate-50mg-er-tablet", "ozempic-semaglutide-1_34mg-per-ml-injection"];
+if (!supported.includes(slug)) throw new Error("Unknown medication slug");
+const exported = JSON.parse(await readFile(new URL(`../src/sources/content/label-exports/${slug}.json`, import.meta.url), "utf8"));
 const TARGET = {
-  recordId: "singulair-montelukast-10mg-tablet",
-  splSetId: "482dcc92-b47f-4ea6-854a-f5ac2aea7842",
-  brandName: "SINGULAIR",
-  // The SPL covers three dosage forms under three NDAs. This record is scoped
-  // to ONE of them. Merging them would produce unsupported answers.
-  productNdc: "78206-172",
-  applicationNumber: "NDA020829",
+  recordId: slug,
+  splSetId: exported.identifiers.splSetId,
+  productNdc: exported.identifiers.productNdc,
+  applicationNumber: exported.identifiers.applicationNumber,
 };
 
 const UA = "medbridge-hackathon-prototype/0.1 (content fetch script)";
@@ -102,6 +103,13 @@ async function main() {
         ndc.application_number
     );
   }
+  const xmlUrl = `https://dailymed.nlm.nih.gov/dailymed/services/v2/spls/${TARGET.splSetId}.xml`;
+  const xmlResponse = await fetch(xmlUrl, { signal: AbortSignal.timeout(30000) });
+  if (!xmlResponse.ok) throw new Error("Unable to verify SPL product identity");
+  const xml = await xmlResponse.text();
+  if (label.set_id !== TARGET.splSetId || !xml.includes(`code="${TARGET.productNdc}"`)) {
+    throw new Error("Label does not identify the selected product NDC");
+  }
   // Guard: openFDA and DailyMed must agree on the SPL version, otherwise one
   // source is stale and we must not silently pick a winner.
   if (String(label.version) !== String(dm.spl_version)) {
@@ -154,13 +162,9 @@ async function main() {
       effectiveDate,
       dailyMedPublishedDate: dm.published_date,
       dailyMedTitle: dm.title,
-      // The SPL covers three dosage forms. Recorded so downstream code can warn
+      // Record the products covered by this SPL so downstream code can warn
       // rather than silently generalise across forms.
-      coversDosageForms: [
-        "TABLET, FILM COATED (10 mg)",
-        "TABLET, CHEWABLE (4 mg, 5 mg)",
-        "GRANULE (4 mg)",
-      ],
+      coversDosageForms: exported.document.productsInDocument,
     },
     provenance: {
       retrievedAt,
@@ -198,7 +202,7 @@ async function main() {
     sections,
   };
 
-  const outDir = path.join(process.cwd(), "src", "content", "sources");
+  const outDir = path.join(process.cwd(), "src", "sources", "content", "sources");
   await mkdir(outDir, { recursive: true });
   const outFile = path.join(outDir, TARGET.recordId + ".json");
   await writeFile(outFile, JSON.stringify(record, null, 2) + "\n", "utf8");

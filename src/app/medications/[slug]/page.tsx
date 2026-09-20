@@ -1,21 +1,16 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import {
-  productLabel,
-  displayStrength,
-  displayDosageForm,
   isStale,
   evidenceAgeDays,
 } from "@/sources/lib/content/registry";
-import { patientScopeNote } from "@/sources/lib/content/types";
+import { patientGuide } from "@/sources/lib/content/patient-guide";
 import {
   getGuide,
   listGuideSlugs,
   guideProductName,
-  type AuthoredGuide,
-  type LabelGuide,
+  type Guide,
 } from "@/sources/lib/content/catalogue";
-import { LabelGuideView } from "@/patient/components/LabelGuideView";
 import { getPublicOrigin, getIntegrationStates } from "@/shared/lib/config";
 import { buildShareUrl } from "@/doctor/lib/share";
 import { MedicationSection } from "@/patient/components/MedicationSection";
@@ -72,44 +67,18 @@ export default async function MedicationPage({ params }: Params) {
   // An unknown slug is a real 404. Never fall back to a different medication.
   if (!guide) notFound();
 
-  return guide.mode === "authored" ? (
-    <AuthoredView guide={guide} slug={slug} />
-  ) : (
-    <LabelView guide={guide} slug={slug} />
-  );
+  return <PatientGuideView guide={guide} slug={slug} />;
 }
 
-/**
- * A product with no authored plain-language layer.
- *
- * Shows the label's own words and says so. See src/sources/lib/content/label.ts
- * for what this view may and may not present.
- */
-function LabelView({ guide, slug }: { guide: LabelGuide; slug: string }) {
-  const { origin, source: originSource } = getPublicOrigin();
-  return (
-    <LabelGuideView
-      guide={guide}
-      slug={slug}
-      shareUrl={buildShareUrl(origin, slug)}
-      originIsConfigured={originSource === "configured"}
-      integrations={getIntegrationStates()}
-    />
-  );
-}
-
-function AuthoredView({ guide, slug }: { guide: AuthoredGuide; slug: string }) {
-  const { record, source } = guide.authored;
+/** All products share the authored guide's layout and interactive tools. */
+function PatientGuideView({ guide, slug }: { guide: Guide; slug: string }) {
+  const view = patientGuide(guide);
+  const { source, name, strength, brand } = view;
   const { origin, source: originSource } = getPublicOrigin();
   const shareUrl = buildShareUrl(origin, slug);
-  const name = productLabel(source);
   const stale = isStale(source);
   const ageDays = evidenceAgeDays(source);
   const integrations = getIntegrationStates();
-
-  const brand = source.product.brandName
-    .toLowerCase()
-    .replace(/^./, (c) => c.toUpperCase());
 
   return (
     <>
@@ -120,19 +89,19 @@ function AuthoredView({ guide, slug }: { guide: AuthoredGuide; slug: string }) {
           <p className="eyebrow">From the FDA-approved label</p>
           <h1 className="med-title">{brand}</h1>
           <p className="med-generic">
-            {source.product.genericName.toLowerCase()} · {displayStrength(source)}{" "}
-            {displayDosageForm(source)} · {source.product.route.join(", ").toLowerCase()}
+            {source.product.genericName.toLowerCase()} · {strength}{" "}
+            {source.product.dosageForm.toLowerCase()} · {source.product.route.join(", ").toLowerCase()}
           </p>
-          <p className="med-headline">{record.headline}</p>
+          <p className="med-headline">{view.headline}</p>
 
           {/*
             Fair balance. The headline states what the product is for; these
             carry what must travel with it. Critical points are listed first
             by the content schema and are never rendered smaller than the rest.
           */}
-          {record.keyPoints.length > 0 ? (
+          {view.keyPoints.length > 0 ? (
             <ul className="key-points">
-              {record.keyPoints.map((point, i) => (
+              {view.keyPoints.map((point, i) => (
                 <li key={i} data-emphasis={point.emphasis}>
                   {point.seeSectionId ? (
                     <a href={`#sec-${point.seeSectionId}`}>{point.text}</a>
@@ -148,11 +117,11 @@ function AuthoredView({ guide, slug }: { guide: AuthoredGuide; slug: string }) {
         <dl className="identity-grid">
           <div className="identity-cell">
             <dt>Strength</dt>
-            <dd>{displayStrength(source)}</dd>
+            <dd>{strength}</dd>
           </div>
           <div className="identity-cell">
             <dt>Form</dt>
-            <dd style={{ textTransform: "capitalize" }}>{displayDosageForm(source)}</dd>
+            <dd style={{ textTransform: "capitalize" }}>{source.product.dosageForm.toLowerCase()}</dd>
           </div>
           <div className="identity-cell">
             <dt>Route</dt>
@@ -175,7 +144,11 @@ function AuthoredView({ guide, slug }: { guide: AuthoredGuide; slug: string }) {
           <p className="card-label" style={{ color: "var(--info-text)" }}>
             What this page covers
           </p>
-          <p style={{ fontSize: 15 }}>{patientScopeNote(record)}</p>
+          <p style={{ fontSize: 15 }}>{view.scopeNote}</p>
+          {!view.authored ? <p className="tiny" style={{ marginTop: 10 }}>
+            Patient summaries are still being prepared. Available source text is in the label’s own words.
+            This page does not show doses. Follow your prescription and ask your pharmacist or prescriber about dosing.
+          </p> : null}
         </section>
 
         {stale ? (
@@ -191,12 +164,12 @@ function AuthoredView({ guide, slug }: { guide: AuthoredGuide; slug: string }) {
         <ActionBar
           slug={slug}
           productName={name}
-          strength={displayStrength(source)}
+          strength={strength}
           dosageForm={source.product.dosageForm}
         />
 
         <div className="stack" style={{ ["--gap" as string]: "14px" }}>
-          {record.sections.map((section) => (
+          {view.sections.map((section) => (
             <MedicationSection key={section.id} section={section} source={source} />
           ))}
         </div>
@@ -205,6 +178,7 @@ function AuthoredView({ guide, slug }: { guide: AuthoredGuide; slug: string }) {
           slug={slug}
           shareUrl={shareUrl}
           productName={name}
+          contentMode={guide.mode}
           originIsConfigured={originSource === "configured"}
         />
 
@@ -217,7 +191,7 @@ function AuthoredView({ guide, slug }: { guide: AuthoredGuide; slug: string }) {
             insurer. Nothing here has been reviewed by a clinician.
           </p>
           <p style={{ marginTop: 10 }}>
-            This page summarises the FDA-approved label. It does not include every possible risk or
+            This page provides information from the FDA-approved label. It does not include every possible risk or
             answer every medical question, and it is not a substitute for advice from a qualified
             healthcare professional who knows your history. Never start, stop or change a medication
             based on a web page.

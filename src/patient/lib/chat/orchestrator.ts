@@ -1,5 +1,7 @@
 import "server-only";
-import { getMedication, productLabel } from "@/sources/lib/content/registry";
+import { getGuide } from "@/sources/lib/content/catalogue";
+import { chatGuide } from "@/sources/lib/content/patient-guide";
+import { INFORMATION_PENDING } from "@/shared/lib/content-status";
 import { searchPassages, type ScoredPassage } from "@/sources/lib/retrieval";
 import { buildContextualQuery, priorUserMessages } from "@/sources/lib/retrieval/context";
 import { getAssistantConfig } from "@/shared/lib/config";
@@ -39,7 +41,7 @@ export async function answerQuestion(
   req: ChatRequest,
   deps: AnswerDeps = {}
 ): Promise<ChatAnswer> {
-  const resolved = getMedication(req.slug);
+  const resolved = getGuide(req.slug);
   if (!resolved) {
     return {
       mode: "not-covered",
@@ -51,7 +53,7 @@ export async function answerQuestion(
       provenanceNote: "No medication record matched this request.",
     };
   }
-  const { record, source } = resolved;
+  const { scopeNote, source, name } = chatGuide(resolved);
 
   /* 1. Urgency first, before anything else. */
   const urgency = assessUrgency(req.message);
@@ -79,27 +81,38 @@ export async function answerQuestion(
       mode: "needs-clarification",
       paragraphs: [
         "I am not sure what that refers to. Could you say which part you mean?",
-        `For example: "are the side effects permanent?" or "is it safe during pregnancy?" I can only answer from the FDA label for ${productLabel(source)}, so naming the topic helps me find the right section.`,
+        `For example: "are the side effects permanent?" or "is it safe during pregnancy?" I can only answer from the FDA label for ${name}, so naming the topic helps me find the right section.`,
       ],
       citations: [],
-      crisisFooter: shouldOfferCrisisFooter(req.message) ? crisisFooterBlock() : undefined,
+      crisisFooter: shouldOfferCrisisFooter(req.message) ? crisisFooterBlock(resolved.mode === "authored") : undefined,
       offerProviderConnection: false,
-      scopeNote: record.scopeNote,
+      scopeNote: scopeNote,
       provenanceNote: "No answer attempted. The question depends on context I do not have.",
+    };
+  }
+
+  // Multi-presentation labels do not establish instructions for this exact
+  // product. Keep the conversation available without guessing at dosing.
+  if (resolved.mode === "official-label" && /\b(dos(e|es|age|ing)|inject|injection instructions|pen|syringe|missed|how (do|should|can) i (take|use)|how (much|often)|when (do|should) i take)\b/i.test(contextual.text)) {
+    return {
+      mode: "not-covered",
+      paragraphs: [INFORMATION_PENDING, "Product-specific dosing and device instructions are not available in this chat. Follow your prescription and ask your pharmacist or prescriber."],
+      citations: [], offerProviderConnection: true, scopeNote,
+      provenanceNote: "No product-specific instructions inferred from the shared label.",
     };
   }
 
   const passages = searchPassages(source, contextual.text, { limit: MAX_CONTEXT_PASSAGES });
 
-  const crisisFooter = shouldOfferCrisisFooter(req.message) ? crisisFooterBlock() : undefined;
-  const scopeNote = record.scopeNote;
+  const crisisFooter = shouldOfferCrisisFooter(req.message) ? crisisFooterBlock(resolved.mode === "authored") : undefined;
 
   /* 3. Nothing relevant retrieved — say so rather than answering anyway. */
   if (passages.length === 0) {
     return {
       mode: "not-covered",
       paragraphs: [
-        `I can only answer from the FDA-approved label for ${productLabel(source)}, and I could not find anything in it that addresses your question.`,
+        `I can only answer from the FDA-approved label for ${name}, and I could not find anything in it that addresses your question.`,
+        INFORMATION_PENDING,
         "A pharmacist can answer questions the label does not cover, usually for free and without an appointment.",
       ],
       citations: [],
@@ -116,7 +129,7 @@ export async function answerQuestion(
 
   if (adapter) {
     const result = await adapter.complete({
-      system: buildSystemPrompt(record.scopeNote, passages, sourceDescriptor(source)),
+      system: buildSystemPrompt(scopeNote, passages, sourceDescriptor(source)),
       messages: buildMessages(req),
       maxOutputTokens: config.maxOutputTokens || 1024,
       timeoutMs: config.timeoutMs || 25_000,
@@ -134,7 +147,7 @@ export async function answerQuestion(
       // An answer that makes substantive claims with zero valid citations is
       // not trustworthy. Fall back to the excerpt mode rather than shipping it.
       if (paragraphs.length > 0 && citations.length === 0 && rejected.length > 0) {
-        return labelExcerptAnswer(record.scopeNote, source, passages, {
+        return labelExcerptAnswer(scopeNote, source, passages, {
           crisisFooter,
           validationNote:
             "The assistant produced citations that could not be matched to the retrieved label text, so its answer was withheld. Showing the label text directly instead.",
@@ -159,7 +172,7 @@ export async function answerQuestion(
     }
 
     /* Model failed — be honest, and still show the retrieved evidence. */
-    return labelExcerptAnswer(record.scopeNote, source, passages, {
+    return labelExcerptAnswer(scopeNote, source, passages, {
       crisisFooter,
       validationNote:
         result.ok === false
@@ -170,7 +183,7 @@ export async function answerQuestion(
   }
 
   /* 6. No model configured. Deterministic excerpts, clearly not AI. */
-  return labelExcerptAnswer(record.scopeNote, source, passages, { crisisFooter });
+  return labelExcerptAnswer(scopeNote, source, passages, { crisisFooter });
 }
 
 /* ------------------------------------------------------------------ helpers */
@@ -269,11 +282,13 @@ function toUrgentBlock(g: ReturnType<typeof urgentGuidance>): UrgentBlock {
   };
 }
 
-function crisisFooterBlock(): UrgentBlock {
+function crisisFooterBlock(hasMoodWarning: boolean): UrgentBlock {
   return {
     heading: "If you are struggling right now",
     body: [
-      "This medication carries a boxed warning about mood and behaviour changes. If you are having thoughts of harming yourself, support is available 24/7.",
+      hasMoodWarning
+        ? "This medication carries a boxed warning about mood and behaviour changes. If you are having thoughts of harming yourself, support is available 24/7."
+        : "If you are having thoughts of harming yourself, support is available 24/7.",
     ],
     resources: [US_RESOURCES.crisisCall, US_RESOURCES.crisisText].map((r) => ({
       label: r.label,

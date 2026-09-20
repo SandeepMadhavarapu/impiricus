@@ -6,7 +6,8 @@ import { isStale } from "@/sources/lib/content/registry";
 import { getPublicOrigin } from "@/shared/lib/config";
 import { buildShareUrl, medicationPath } from "@/doctor/lib/share";
 import { ProvenancePanel } from "@/sources/components/ProvenancePanel";
-import { LabelSection } from "@/sources/components/LabelSection";
+import { patientGuide, guideSource } from "@/sources/lib/content/patient-guide";
+import { INFORMATION_PENDING } from "@/shared/lib/content-status";
 import { ShareSection } from "@/doctor/components/ShareSection";
 import { DoctorBar, TabBar } from "@/doctor/components/AppChrome";
 import { listGuides, guideProductName, type Guide } from "@/sources/lib/content/catalogue";
@@ -69,14 +70,7 @@ export default async function DoctorPage({ searchParams }: {
             <>
               <div className="card stack">
                 <h3>{guideProductName(selected)}</h3>
-                {selected.mode === "authored" ? (
-                  <p className="muted">{selected.authored.record.headline}</p>
-                ) : (
-                  <p className="muted">
-                    No plain-language guide has been written for this product. The patient sees the
-                    label&rsquo;s own words, and the page says so.
-                  </p>
-                )}
+                <p className="muted">{patientGuide(selected).headline}</p>
               </div>
 
               {staleFor(selected) ? (
@@ -96,90 +90,26 @@ export default async function DoctorPage({ searchParams }: {
                 <p className="card-label" style={{ color: "var(--text-muted)" }}>
                   What the patient will see
                 </p>
-                {selected.mode === "authored" ? (
-                  selected.authored.record.sections.map((section) => (
-                    <details key={section.id} className="doctor-section" data-emphasis={section.emphasis}>
-                      <summary>
-                        <span>{section.title}</span>
-                        {section.emphasis !== "normal" ? (
-                          <span className="doctor-section-flag" data-emphasis={section.emphasis}>
-                            {section.emphasis === "critical" ? "Boxed warning" : "Safety"}
-                          </span>
-                        ) : null}
-                      </summary>
-                      <div className="doctor-section-body">
-                        {section.plain.map((p, i) => (
-                          <p key={i}>{p}</p>
-                        ))}
-                        <p className="tiny">
-                          {section.citations.length} citation{section.citations.length === 1 ? "" : "s"} from the FDA label.
-                        </p>
-                      </div>
-                    </details>
-                  ))
-                ) : (
-                  <>
-                    {/*
-                      Boxed warning first when the document has one. Its absence
-                      is never stated: a section missing from a document is a
-                      fact about the document, not about the drug.
-                    */}
-                    {selected.boxedWarning ? (
-                      <details className="doctor-section" data-emphasis="critical" open>
-                        <summary>
-                          <span>{selected.boxedWarning.title ?? "FDA boxed warning"}</span>
-                          <span className="doctor-section-flag" data-emphasis="critical">
-                            Boxed warning
-                          </span>
-                        </summary>
-                        <div className="doctor-section-body">
-                          <LabelSection section={selected.boxedWarning} />
-                        </div>
-                      </details>
-                    ) : null}
-
-                    {selected.patientSections.map((section, i) => (
-                      <details key={i} className="doctor-section">
-                        <summary>
-                          <span>{section.title ?? "From the label"}</span>
-                        </summary>
-                        <div className="doctor-section-body">
-                          <LabelSection section={section} />
-                        </div>
-                      </details>
-                    ))}
-
-                    <p className="tiny">
-                      Label text, word for word. The patient page shows no doses for this product:
-                      this one label covers {selected.label.document.productsInDocument.length}{" "}
-                      products at different strengths, so a dose shown could belong to another one.
-                    </p>
-                  </>
-                )}
+                {patientGuide(selected).sections.map((section) => (
+                  <details key={section.id} className="doctor-section" data-emphasis={section.emphasis}>
+                    <summary>
+                      <span>{section.title}</span>
+                      {section.emphasis !== "normal" ? <span className="doctor-section-flag" data-emphasis={section.emphasis}>
+                        {section.emphasis === "critical" ? "Boxed warning" : "Safety"}
+                      </span> : null}
+                    </summary>
+                    <div className="doctor-section-body">
+                      {section.pending ? <p>{INFORMATION_PENDING}</p> : section.plain.map((p, i) => <p key={i}>{p}</p>)}
+                      <p className="tiny">{section.citations.length} citation{section.citations.length === 1 ? "" : "s"} from the FDA label.</p>
+                    </div>
+                  </details>
+                ))}
               </div>
 
-              {selected.mode === "authored" ? (
-                <ProvenancePanel source={selected.authored.source} integrations={[{
-                  id: "docupdate", name: "DocUpdate", status: "unconfigured",
-                  capability: "Integration preview only. No DocUpdate or Impiricus connection exists.", requires: [],
-                }]} />
-              ) : (
-                <div className="card card--flat stack">
-                  <p className="card-label" style={{ color: "var(--text-muted)" }}>
-                    Where this came from
-                  </p>
-                  <p className="tiny">
-                    {selected.label.document.title}
-                  </p>
-                  <p className="tiny">
-                    SPL v{selected.label.identifiers.splVersion ?? "?"}, effective{" "}
-                    {selected.label.freshness.sourceEffectiveDate}. Retrieved{" "}
-                    {selected.label.freshness.ingestedAt.slice(0, 10)}. Identity{" "}
-                    {selected.label.verification.resolutionState}. No clinical review has been
-                    performed.
-                  </p>
-                </div>
-              )}
+              <ProvenancePanel source={guideSource(selected)} integrations={[{
+                id: "docupdate", name: "DocUpdate", status: "unconfigured",
+                capability: "Integration preview only. No DocUpdate or Impiricus connection exists.", requires: [],
+              }]} />
             </>
           ) : (
             <div className="card doctor-empty">
@@ -194,7 +124,7 @@ export default async function DoctorPage({ searchParams }: {
           <p className="step-label">Step 3</p>
           {selected ? <ShareSection key={selected.slug} slug={selected.slug}
             shareUrl={buildShareUrl(origin, selected.slug)} productName={guideProductName(selected)}
-            originIsConfigured={publicReady} audience="doctor" /> : <>
+            originIsConfigured={publicReady} audience="doctor" contentMode={selected.mode} /> : <>
             <h2 className="section-title">Ready when you are</h2>
             <p className="muted">Select a medication to preview and share its patient guide.</p>
             <button className="btn btn--primary btn--block" disabled>Share with Patient</button>

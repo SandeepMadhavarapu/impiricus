@@ -11,6 +11,7 @@ import {
   labelScopeNote,
   parseLabelExport,
 } from "@/sources/lib/content/label";
+import { guideSource } from "@/sources/lib/content/patient-guide";
 import MedicationPage from "@/app/medications/[slug]/page";
 
 const AUTHORED = "singulair-montelukast-10mg-tablet";
@@ -94,9 +95,9 @@ describe("boxed warnings", () => {
     const g = getGuide(OZEMPIC);
     if (g?.mode !== "official-label") throw new Error("expected label guide");
     const html = await render(OZEMPIC);
-    for (const p of g.boxedWarning!.paragraphs.filter((x) => x.trim().length > 0)) {
-      expect(html).toContain(renderToStaticMarkup(p));
-    }
+    const warning = guideSource(g).sections.find(section => section.id === "boxed_warning")!;
+    expect(warning.text.length).toBeGreaterThan(0);
+    expect(html).toContain(renderToStaticMarkup(warning.text));
   });
 });
 
@@ -137,10 +138,9 @@ describe("what a label-sourced page refuses to do", () => {
     expect(g.label.clinicalReview.reviewed).toBe(false);
 
     const html = await render(slug);
-    // States it outright in the provenance block, as a value, not as prose
-    // that could be skimmed past.
+    // The shared provenance block explicitly states the lack of review.
     expect(html).toContain("Clinically reviewed");
-    expect(html).toContain("<dd>No</dd>");
+    expect(html).toContain("<strong>No clinical review has been performed.</strong>");
     // And never the opposite. The footer's honest negative ("Nothing here has
     // been reviewed by a clinician") must not be what satisfies this.
     expect(html).not.toMatch(/has been reviewed by a clinician(?!\.)/i);

@@ -44,7 +44,7 @@ insurer. No clinician has reviewed its content.
 | Insurance coverage against a member-specific payer API | **Not implemented**, no credential exists |
 | Insurer and plan pickers | **Working**, on 5,517 verified CMS Part D plan identities. A plan name is never treated as an identity |
 | Pharmacy-by-ZIP search | **Not implemented**, no pharmacy dataset is licensed. Falls back to a pharmacy type and says so |
-| Medications available | **3**: one with an authored plain-language guide, two shown as verbatim FDA label text |
+| Medications available | **3**: all share the same patient layout, question/chat panel, coverage and provider actions; missing patient summaries use explicit placeholders |
 | Automatic source refresh (openFDA, DailyMed, RxNorm, CMS Part D, VA Medicaid) | **Working**: `pipeline-refresh` runs daily at 07:15 UTC, regenerates when a source changed or aged out, validates pipeline + app + build, and opens a review PR. Never merges on its own. `OPENFDA_API_KEY` is set as a repo secret; the run works without it at a lower rate limit |
 | Application checks in CI | **Working**: `app-tests` runs typecheck, lint, tests and the production build on every push and PR that touches the app |
 | Fair balance enforced in CI | **Working**, see below |
@@ -52,17 +52,20 @@ insurer. No clinician has reviewed its content.
 Nothing in this app fabricates a medical answer, a coverage result, or a
 provider connection. Where something cannot be verified, it says so.
 
-### Two kinds of guide
+### One patient interface, two content sources
 
-A medication reaches the patient page one of two ways, and the page says
-which:
+All three medications use the Singulair patient layout, including the full
+conversation panel, follow-up questions, expandable sources, coverage, provider
+handoff and sharing. The doctor preview uses the same section model. Missing
+patient summaries retain their cards and dropdowns with “Will be updated when
+more information is available.” Content differs by what is actually available:
 
 | | `authored` | `official-label` |
 |---|---|---|
-| Who wrote it | A person, in plain language | The FDA label, verbatim |
+| Who wrote it | A person, in plain language | Available warning text from the FDA label, verbatim; other summaries pending |
 | Every claim cited | Yes, to an exact quote | It IS the source |
 | Dosing shown | Yes, authored and cited | **No**, see below |
-| Key points, headline | Yes | No, nobody wrote them |
+| Key points, headline | Authored | Safety cue and placeholder |
 | Today | Singulair | Toprol XL, Ozempic |
 
 There is deliberately **no third path** where the app generates plain language
@@ -70,6 +73,13 @@ from a label. Writing patient-facing medical prose from a source document is
 the one thing this codebase exists to not do, and a model doing it quietly
 would be indistinguishable, to a reader, from a clinician having written it.
 Authoring a layer later upgrades a product automatically.
+
+Chat retrieves from each medication’s own verified source record. Without a
+model credential it shows label excerpts, explicitly marked as not AI; the first
+excerpt is expanded. Toprol XL and Ozempic dosing/device questions use the
+pending-information message until exact-product instructions are available.
+Refresh a source with `npm run content:fetch -- <medication-slug>`; fetched
+text is validated against product NDC, SPL set ID and DailyMed version.
 
 An `official-label` page refuses three things, each covered by a test:
 

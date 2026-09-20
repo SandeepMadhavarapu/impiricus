@@ -24,7 +24,6 @@ const AARP = { planKey: "medicare-partd-2026-S5820-034-000", insurer: "UnitedHea
 const HAMASPIK = { planKey: "medicare-partd-2026-H0034-001-000", insurer: "Hamaspik", planName: "Hamaspik Medicare Select (HMO D-SNP)" };
 
 const SINGULAIR = "singulair-montelukast-10mg-tablet";
-const TOPROL = "toprol-xl-metoprolol-succinate-50mg-er-tablet";
 const OZEMPIC = "ozempic-semaglutide-1_34mg-per-ml-injection";
 
 /**

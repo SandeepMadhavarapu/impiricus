@@ -284,9 +284,9 @@ function AnswerBlock({
 
       {answer.citations.length > 0 ? (
         <ul className="cite-list">
-          {answer.citations.map((c) => (
+          {answer.citations.map((c, i) => (
             <li key={c.passageId}>
-              <details className="cite">
+              <details className="cite" open={i === 0 && (answer.mode === "label-excerpts" || answer.mode === "unavailable")}>
                 <summary>
                   <span className="cite-ref">{c.labelSectionRef}</span>
                   <span>{c.sectionTitle}</span>

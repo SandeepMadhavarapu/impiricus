@@ -27,12 +27,14 @@ export function ShareSection({
   productName,
   originIsConfigured,
   audience = "patient",
+  contentMode = "authored",
 }: {
   slug: string;
   shareUrl: string;
   productName: string;
   originIsConfigured: boolean;
   audience?: "patient" | "doctor";
+  contentMode?: "authored" | "official-label";
 }) {
   const [status, setStatus] = useState<string | null>(null);
   const [tone, setTone] = useState<"ok" | "neutral">("neutral");
@@ -54,7 +56,7 @@ export function ShareSection({
     if (blocked) return;
     const payload = {
       title: `${productName}: what it is, benefits and risks`,
-      text: `Plain-language information about ${productName}, sourced from the FDA-approved label.`,
+      text: contentMode === "authored" ? `Plain-language information about ${productName}, sourced from the FDA-approved label.` : `Medication information and official label sources for ${productName}.`,
       url: shareUrl,
     };
 
@@ -81,7 +83,7 @@ export function ShareSection({
       await copyLink("web-share");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [blocked, doctor, productName, shareUrl]);
+  }, [blocked, doctor, productName, shareUrl, contentMode]);
 
   const copyLink = useCallback(
     async (_from: string) => {
