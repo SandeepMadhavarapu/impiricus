@@ -391,3 +391,12 @@ change a medication.
 In a medical emergency in the United States, call **911**. For a suspected
 overdose, call Poison Help at **1-800-222-1222**. For mental-health crisis
 support, call or text **988**.
+
+### NFC Tap Point — hardware proof of concept
+
+The doctor handoff area can program the selected guide's public HTTPS URL through
+Web Serial → Arduino UNO R4 WiFi → I2C → Seeed Grove ST25DV64 NDEF memory. Verified
+success requires a matching firmware write/read-back response. **Read NFC Memory**
+independently retrieves the stored URI. Existing sharing options remain available.
+The external 13.56 MHz antenna is unavailable, so iPhone tapping is not demonstrated.
+See [NFC setup, firmware, and demo steps](hardware/nfc-tap/README.md).

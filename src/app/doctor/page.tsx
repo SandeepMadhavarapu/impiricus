@@ -1,3 +1,5 @@
+import { NfcTapPoint } from "@/doctor/components/NfcTapPoint";
+import { createNfcTarget } from "@/doctor/lib/nfc/target";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { isStale } from "@/sources/lib/content/registry";
@@ -197,6 +199,7 @@ export default async function DoctorPage({ searchParams }: {
             <p className="muted">Select a medication to preview and share its patient guide.</p>
             <button className="btn btn--primary btn--block" disabled>Share with Patient</button>
           </>}
+          <NfcTapPoint target={selected && publicReady ? createNfcTarget(selected.slug, origin) : null} />
         </section>
       </div>
 
