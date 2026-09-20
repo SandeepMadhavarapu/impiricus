@@ -42,15 +42,66 @@ insurer. No clinician has reviewed its content.
 | Insurance coverage input + result states | **Working** |
 | Insurance coverage: real CMS Part D formulary evidence | **Working**, on the committed 2026-08 CMS snapshot: 979 formulary rows for the three products across 5,517 plans. Resolves the exact plan by key, searches the product's own brand and generic concepts, and says which one it found |
 | Insurance coverage against a member-specific payer API | **Not implemented**, no credential exists |
-| Insurer and plan pickers | **Working**, on 5,517 verified CMS Part D plan identities. A plan name is never treated as an identity |
-| Pharmacy-by-ZIP search | **Not implemented**, no pharmacy dataset is licensed. Falls back to a pharmacy type and says so |
-| Medications available | **3**: all share the same patient layout, question/chat panel, coverage and provider actions; missing patient summaries use explicit placeholders |
+| Insurer and plan pickers | **Working**, on 5,517 verified plan identities from 525 insurers. A plan name is never treated as an identity: a name matching several plans equally is refused, not guessed |
+| Coverage answers are about the product asked for | **Working**: strength and dosage form are compared structurally against the product before any lookup runs, so a mismatched request is refused rather than answered with the real product's tier |
+| Pharmacy-by-ZIP search | **Working**, live against the CMS NPPES registry. Filtered to practice addresses actually in the searched ZIP |
+| Find a clinician near a ZIP | **Working**, live against CMS NPPES: name, credential, specialty, practice address and a phone number that dials. A register, never a recommendation or a referral |
+| Medication search | **Working**, live across all **262,883** FDA drug labels, with boxed-warning status per label |
+| Medications with a full patient guide | **3**: all share the same patient layout, question/chat panel, coverage and provider actions; missing patient summaries use explicit placeholders |
+| Read the summary aloud | **Working**, in English, Spanish and French. Translations are machine-produced, unreviewed, labelled as such, and shown as well as spoken |
 | Automatic source refresh (openFDA, DailyMed, RxNorm, CMS Part D, VA Medicaid) | **Working**: `pipeline-refresh` runs daily at 07:15 UTC, regenerates when a source changed or aged out, validates pipeline + app + build, and opens a review PR. Never merges on its own. `OPENFDA_API_KEY` is set as a repo secret; the run works without it at a lower rate limit |
 | Application checks in CI | **Working**: `app-tests` runs typecheck, lint, tests and the production build on every push and PR that touches the app |
 | Fair balance enforced in CI | **Working**, see below |
 
 Nothing in this app fabricates a medical answer, a coverage result, or a
 provider connection. Where something cannot be verified, it says so.
+
+### Where the data comes from
+
+Every source is public, federal, and free. No key, no licence, no scraping, and
+no vendor. Nothing below is seeded, sampled or hand-written.
+
+| Source | Publisher | What it gives | How much |
+|---|---|---|---|
+| openFDA drug labels | FDA | Label text, identity, boxed-warning status | 262,883 labels |
+| DailyMed | NLM | The authoritative full label | per product |
+| RxNorm / RxNav | NLM | Concept identity — brand (SBD) vs generic (SCD) | per product |
+| CMS Part D formulary | CMS | Tier, prior authorisation, step therapy, quantity limits | 5,517 plans, 525 insurers |
+| CMS NPPES NPI Registry | CMS | Registered pharmacies and clinicians, with addresses and phone numbers | national |
+
+Three of these are queried **live, per request** (label search, pharmacies,
+clinicians). The rest are ingested by [data-pipeline/](data-pipeline/) into a
+committed, verified snapshot, because coverage answers must be reproducible and
+must not depend on a third party being up.
+
+**The registries have sharp edges, and each one is handled rather than passed
+through.** These are measured, not assumed:
+
+- NPPES matches a ZIP against the **mailing** address as well as the practice
+  location. One in seven pharmacy rows, and **one in three physician rows**,
+  come back with a practice somewhere else — a Blacksburg search returned a
+  practice two hours away. Everything is filtered on the practice address.
+- openFDA answers "nothing matched" with **HTTP 404**, not an empty list. Read
+  as an error, every search for a drug that does not exist would say the search
+  is broken instead of "check the spelling".
+- One SPL can cover **several products**. The semaglutide label lists both
+  OZEMPIC and RYBELSUS — an injection and a tablet — so every brand a label
+  covers is shown rather than the first one.
+- A bad NPPES query returns **HTTP 200 with an `Errors` array**. Treated as an
+  empty result, it would tell someone there is nobody near them when nothing
+  was ever searched.
+
+In every one of these, "we could not check" and "there is nothing there" are
+kept as different answers, because to the person reading they mean opposite
+things.
+
+### What is deliberately not here
+
+No commercial or Medicaid formulary data. CMS publishes only an index of issuer
+URLs for Marketplace plans; the formularies themselves are insurer-hosted and
+inconsistent, Transparency-in-Coverage files are terabyte-scale, and Medicaid
+has no unified public API. The coverage answer names the dataset it checked and
+says what it does not cover, rather than implying a completeness it lacks.
 
 ### One patient interface, two content sources
 
@@ -180,10 +231,23 @@ another device. The page shows an operator warning when this is unset.
 
 ---
 
-## The medication
+## The medications
 
-The vertical slice covers **SINGULAIR (montelukast sodium) 10 mg film-coated
-tablet**, NDC `78206-172`, NDA `020829`, labeled by Organon LLC.
+Three products carry a full patient guide. Every other FDA-labelled drug is
+reachable through search, which returns identity and boxed-warning status and
+links to the official label — and says plainly that no patient guide exists for
+it. The two are never presented as the same thing.
+
+| Product | Guide | Why it is here |
+|---|---|---|
+| **Singulair** (montelukast sodium) 10 mg film-coated tablet | authored, plain language, cited | the worked example below |
+| **Toprol XL** (metoprolol succinate) 50 mg extended-release tablet | label text, verbatim | a product whose SPL carries **no** boxed warning, proving the app never claims an absent one |
+| **Ozempic** (semaglutide) 1.34 mg/mL injection | label text, verbatim | a concentration rather than a dose, which is what the strength comparison exists to keep separate |
+
+### The worked example
+
+**SINGULAIR (montelukast sodium) 10 mg film-coated tablet**, NDC `78206-172`,
+NDA `020829`, labeled by Organon LLC.
 
 It was chosen for a public-awareness brief because it carries an FDA **boxed
 warning about serious neuropsychiatric events**, including suicidal thoughts
@@ -216,22 +280,27 @@ src/
     api/coverage/                 coverage lookup (rate-limited, no-store)
     api/qr/[slug]/                QR code for the public URL
     api/analytics/                sanitising analytics sink
-    api/directory/                insurer / plan / pharmacy-by-ZIP lookups
+    api/directory/                insurer / plan / pharmacy / clinician lookups
+    api/drug-search/              FDA label search (rate-limited, no-store)
+    api/share-sessions/           encrypted nearby-share tokens
+    api/guide-sounds/             stateless guide codes for sound transfer
 
   patient/                         the patient-facing page and its dashboard
     components/                   MedicationSection, ChatSheet, CoverageSheet,
-                                   ActionBar, PageOpenBeacon, the shared Sheet dialog
+                                   ActionBar, ReadAloud, PageOpenBeacon,
+                                   the shared Sheet dialog
     lib/
-      chat/                       orchestrator, grounding, model provider adapters
-      coverage/                   evidence states, CMS formulary adapters,
-                                   and the payer/plan/pharmacy directory
+      chat/                       orchestrator, passage selection, provider adapters
+      coverage/                   evidence states, CMS formulary adapters, the
+                                   payer/plan directory, NPPES pharmacy lookup
       safety/                     crisis + urgent-situation routing
 
   doctor/                         the clinician side and the handoff/sending mechanism
-    components/                   ProviderSheet, ShareSection, AppChrome (tab bar)
+    components/                   ProviderSheet, ShareSection, AppChrome (tab bar),
+                                   NearbyClinicians, DrugSearch
     lib/
       handoff/                    carries the patient's unresolved question into the provider step
-      providers/                  verified provider destinations
+      providers/                  verified destinations + NPPES clinician lookup
       share/                      share URL construction
 
   sources/                        everything the app's claims are sourced from
@@ -239,9 +308,12 @@ src/
     content/
       sources/*.json              fetched FDA label + provenance (generated)
       medications/*.ts            authored plain-language layer w/ citations
+    content/
+      translations/               spoken-summary translations, with provenance
     lib/
       content/                    schemas, registry, citation verification,
-                                   fair-balance checks
+                                   fair-balance checks, structured strength
+                                   comparison, locales, FDA label search
       retrieval/                  BM25 passage search over label sections
 
   shared/                         cross-cutting infrastructure used by more than one area above
@@ -249,6 +321,8 @@ src/
     lib/
       analytics/                 allow-listed event sanitisation
       security/                  rate limiting
+      nppes/                     shared CMS registry client (pharmacies + clinicians)
+      nearby-share/              encrypted tokens and stateless guide codes
       config.ts                  integration-state flags (what's actually connected)
 ```
 
@@ -258,20 +332,38 @@ than being forced into one of the three domain folders.
 
 ### The evidence model
 
-Retrieval is the truth layer. The model, when configured, is an *optional
-explainer* over retrieved passages, never the source of facts.
+Retrieval is the truth layer. **The model does not write medical text at all.**
+It selects passages; the server supplies the words.
 
 1. Label text is fetched from openFDA and DailyMed and stored with the SPL set
    id, version, effective date and retrieval timestamp.
 2. The authored plain-language layer cites that text by exact quote. A test
    asserts every quote is a literal substring of the retrieved source, so a
    drifting quote fails the build.
-3. At query time, BM25 retrieves passages with stable ids
-   (`adverse_reactions#0`).
-4. The model may cite only those ids. Any id it invents, or any real id that
-   was not supplied for *this* question, is rejected.
-5. An answer whose every citation was fabricated is **withheld**, and the label
-   text is shown instead.
+3. At query time, BM25 retrieves passages carrying composite ids
+   (`recordId@vVersion#passageId`), which cannot collide across products or
+   label versions.
+4. The model returns **identifiers only**, validated by a `.strict()` schema, so
+   an adapter that starts volunteering an `answer` field fails validation rather
+   than having it quietly rendered.
+5. The server resolves those ids against the passages it built and renders **its
+   own stored text**. There is nothing to verify after the fact, because nothing
+   was authored: the words a reader sees came from the label.
+
+An id the model invents invalidates the whole selection rather than being
+dropped, because a model that fabricated one of six has shown it is guessing and
+the other five carry no more warrant. `insufficient-evidence` stays reachable and
+is not a failure state.
+
+This replaced an earlier design that let the model write prose and checked the
+citations afterwards. That had a hole no amount of tightening could close: prose
+carrying **no** citation markers produced empty `citations` *and* empty
+`rejected`, satisfying neither branch of the withholding rule, so unsourced model
+text about a medicine shipped as an answer.
+
+When the model is unavailable or returns something unusable, retrieval still
+works and the page **says which mode produced the answer** — degradation is
+disclosed to the reader, not silent.
 
 ---
 
@@ -281,26 +373,46 @@ explainer* over retrieved passages, never the source of facts.
 npm test
 ```
 
-264 tests across 16 files, all passing:
+**637 tests across 33 files** in the app, plus **327 across 14 files** in the
+data pipeline. All passing.
+
+The table below is not exhaustive; it names what each file is *for*, since the
+point of most of them is a property rather than a function.
 
 | File | Tests | Covers |
 |---|---:|---|
 | `content.test.ts` | 16 | citation quotes exist verbatim in source; product identity pinned; no fabricated clinical review |
 | `retrieval.test.ts` | 20 | query→section routing; empty results for out-of-scope questions; bounded chunks |
-| `chat.test.ts` | 23 | fabricated citations withheld; model failures honest; prompt injection; urgent precedence |
+| `chat.test.ts` | 23 | model failures honest; prompt injection; urgent precedence |
+| `evidence-selection.test.ts` | 35 | the model returns ids only; an invented id voids the whole selection; refusal wording is server-owned |
 | `safety.test.ts` | 27 | crisis vs. informational distinction; overdose; anaphylaxis |
 | `coverage.test.ts` | 23 | timeout/error never becomes positive; no fabricated copay; "not listed" ≠ "not covered" |
+| `coverage-request-identity.test.ts` | 37 | strength parsed structurally, never string-matched; a dose is never equal to a concentration; a typed plan name matching several plans is refused |
+| `formulary.test.ts` | 40 | CMS formulary never becomes member coverage or a cost estimate; unmatched plan ≠ not covered |
+| `coverage-snapshot.test.ts` | 14 | the committed snapshot agrees with the pipeline on every demo scenario |
+| `directory.test.ts` | 13 | a plan name yields candidates not an identity; plan keys unique where names are not |
+| `pharmacy-lookup.test.ts` | 29 | rows outside the searched ZIP dropped; a failed lookup never reads as "none near you" |
+| `clinician-lookup.test.ts` | 38 | practice-address filtering; deactivated NPIs dropped; specialty allow-list; people's names cased without mangling |
+| `drug-search.test.ts` | 31 | HTTP 404 means "no such drug", not a broken search; every brand on a multi-brand label kept; catalogued products never lost |
+| `read-aloud.test.ts` | 22 | long text split so a boxed warning at the end is still spoken; a cancel is not an error |
+| `read-aloud-locales.test.ts` | 20 | a translation cannot outlive the English it came from; nothing claims a clinical review that did not happen |
+| `locale-sharing.test.ts` | 34 | the page locales are not widened by a translated paragraph; share links carry no locale or personal data |
 | `privacy.test.ts` | 18 | analytics allow-listing; rate limiting; verified provider destinations |
-| `share.test.ts` | 8 | no private data in share URLs; slug rejection |
-| `handoff.test.ts` | 14 | the unresolved question survives the handoff verbatim; crisis turns never do; stays local |
+| `share.test.ts` / `share-component.test.ts` | 9 / 8 | no private data in share URLs; native share, cancellation, clipboard fallback |
+| `handoff.test.ts` | 14 | the unresolved question survives the handoff verbatim; crisis turns never do |
 | `followup.test.ts` | 23 | elliptical follow-ups resolved from context; pronouns with no antecedent ask instead of guessing |
-| `formulary.test.ts` | 18 | CMS formulary never becomes member coverage or a cost estimate; unmatched plan ≠ not covered |
-| `doctor.test.ts` | 14 | step order; preview is complete and verbatim; boxed warning first and flagged; invalid products; public HTTPS sharing configuration |
-| `share-component.test.ts` | 8 | direct native-share invocation, cancellation, clipboard/manual fallback, public-only payload, patient behavior |
-| `config.test.ts` | 4 | `APP_MODE` defaults to patient; only an explicit, case-insensitive "doctor" switches it |
-| `fair-balance.test.ts` | 6 | no promotional or comparative wording; headline carries no risk claim; boxed warning named in a key point, ordered before benefits; patient scope note stays readable |
-| `label-guide.test.ts` | 28 | label-sourced pages show no dosing, never claim an absent boxed warning, never claim plain language or clinical review; the authored page is unchanged |
-| `directory.test.ts` | 13 | a plan name yields candidates not an identity; plan keys are unique where names are not; pharmacies stay empty rather than invented |
+| `doctor.test.ts` | 18 | step order; preview complete and verbatim; boxed warning first and flagged |
+| `label-guide.test.ts` | 28 | label-sourced pages show no dosing and never claim an absent boxed warning |
+| `fair-balance.test.ts` | 6 | no promotional wording; boxed warning named in a key point, ordered before benefits |
+| `deployment-mode.test.ts` | 10 | the clinician workspace is not served on the patient deployment |
+| `nfc.test.ts` | 31 | NDEF encoding; firmware read-back required before success is claimed |
+| `nearby-*.test.ts` | 35 | sound protocol, encrypted tokens, replay properties |
+| `medication-parity.test.ts` | 11 | every catalogued product gets the same interface |
+| `config.test.ts` | 4 | `APP_MODE` defaults to patient |
+
+A recurring shape across these files: the thing being asserted is usually that
+the app **refuses** to say something. "We could not check" and "there is nothing
+there" are tested as distinct outcomes in every lookup that has both.
 
 ---
 
