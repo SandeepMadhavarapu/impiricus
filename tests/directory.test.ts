@@ -227,3 +227,34 @@ describe("queries that normalise away", () => {
     expect(searchPlans("")).toEqual([]);
   });
 });
+
+/**
+ * An empty picker must not present an alphabetical slice as the insurer list.
+ *
+ * `searchPayers("")` means "no filter" and returns all 525 organizations. The
+ * route truncated that to 50, which alphabetically is ALL of the A's -
+ * ABSOLUTE TOTAL CARE through AMERICAN HEALTH PLAN OF UT. Someone insured by
+ * Humana opened the picker, saw a confident list of insurers, and theirs was
+ * not on it. That is worse than showing nothing, because it reads as complete.
+ *
+ * The library function keeps its "no filter" meaning; the decision about what
+ * a picker should be shown belongs at the route.
+ */
+describe("what an empty insurer box offers", () => {
+  it("still means 'no filter' at the library level", () => {
+    expect(searchPayers("").length).toBe(listPayers().length);
+  });
+
+  it("would be all A's if truncated, which is why the route does not", () => {
+    // Documents the shape of the defect so the reason for the rule survives.
+    const firstFifty = searchPayers("").slice(0, 50);
+    const initials = new Set(firstFifty.map((p) => p.name[0]));
+    expect(initials.size).toBe(1);
+    expect(listPayers().length).toBeGreaterThan(200);
+  });
+
+  it("returns real matches once anything is typed", () => {
+    expect(searchPayers("humana").length).toBeGreaterThan(0);
+    expect(searchPayers("AARP").length).toBeGreaterThan(0);
+  });
+});

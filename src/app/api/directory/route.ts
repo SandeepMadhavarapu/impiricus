@@ -42,13 +42,30 @@ export async function GET(req: Request) {
 
   if (kind === "payers") {
     const q = url.searchParams.get("q") ?? "";
-    // Capped: 525 organizations is more than a picker should ship at once,
-    // and the client narrows as the person types.
+
+    /*
+     * An empty box gets no suggestions.
+     *
+     * `searchPayers("")` means "no filter" and returns all 525 organizations,
+     * which this route then truncated to 50. Alphabetically, those 50 are ALL
+     * of the A's - ABSOLUTE TOTAL CARE through AMERICAN HEALTH PLAN OF UT.
+     * Someone insured by Humana or UnitedHealthcare opened the picker, saw a
+     * confident list of insurers, and did not see theirs. A truncated
+     * alphabetical slice presented as suggestions is worse than no
+     * suggestions: it reads as the whole list.
+     *
+     * The field's placeholder already tells someone what to type, and typing
+     * two characters returns real matches, including on plan names.
+     */
+    const suggestions = q.trim().length === 0 ? [] : searchPayers(q).slice(0, 50);
+
     return NextResponse.json(
       {
         connected: isDirectoryConnected(),
         release: directoryRelease(),
-        payers: searchPayers(q).slice(0, 50),
+        payers: suggestions,
+        /** How many organizations exist, so a caller never mistakes 50 for all. */
+        totalPayers: listPayers().length,
       },
       { headers: NO_STORE }
     );
