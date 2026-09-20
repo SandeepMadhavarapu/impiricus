@@ -7,4 +7,7 @@ async function post<T>(path: string, body: unknown, signal?: AbortSignal): Promi
   return data;
 }
 export const requestSession = (medicationSlug: string, signal?: AbortSignal) => post<ShareSession>("/api/share-sessions", { medicationSlug }, signal);
-export const resolveToken = (token: string, signal?: AbortSignal) => post<ReceivedGuide>("/api/share-sessions/resolve", { token }, signal);
+export const resolveToken = (token: string, signal?: AbortSignal) => post<ReceivedGuide>("/api/share-sessions/resolve", token.startsWith("g:") ? { guideCode: token } : { token }, signal);
+
+export interface GuideSound { code: string; receiveUrl: string }
+export const requestGuideSound = (medicationSlug: string, signal?: AbortSignal) => post<GuideSound>("/api/guide-sounds", { medicationSlug }, signal);

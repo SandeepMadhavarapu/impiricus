@@ -16,18 +16,18 @@ beforeEach(() => {
 });
 afterEach(() => { vi.useRealTimers(); vi.unstubAllGlobals(); vi.restoreAllMocks(); });
 it("produces an audible mono PCM WAV with the complete packet duration", () => {
-  const bytes = encodeSound("ab".repeat(36)), view = new DataView(bytes);
+  const bytes = encodeSound("g:01"), view = new DataView(bytes);
   expect(new TextDecoder().decode(bytes.slice(0, 4))).toBe("RIFF");
   expect(view.getUint32(24, true)).toBe(48000);
   expect(view.getUint16(22, true)).toBe(1);
-  expect(view.getUint32(40, true) / 2 / 48000).toBeCloseTo(34.5, 3);
+  expect(view.getUint32(40, true) / 2 / 48000).toBeCloseTo(1.95, 3);
   let peak = 0;
   for (let i = 44; i < bytes.byteLength; i += 2) peak = Math.max(peak, Math.abs(view.getInt16(i, true)));
   expect(peak).toBeGreaterThan(7000);
   expect(() => encodeSound("invalid")).toThrow();
 });
 it("starts media synchronously on play, and waits for actual playback events", async () => {
-  const sender = prepareTransmitter("ab".repeat(36)), started = vi.fn();
+  const sender = prepareTransmitter("g:01"), started = vi.fn();
   expect(holder.media.play).not.toHaveBeenCalled();
   const done = sender.play(started);
   expect(holder.media.play).toHaveBeenCalledOnce();
@@ -38,13 +38,13 @@ it("starts media synchronously on play, and waits for actual playback events", a
   sender.close(); expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:signal");
 });
 it("reports rejected playback instead of claiming the signal was sent", async () => {
-  const sender = prepareTransmitter("ab".repeat(36));
+  const sender = prepareTransmitter("g:01");
   holder.media.play.mockRejectedValue(new DOMException("Blocked", "NotAllowedError"));
   await expect(sender.play(vi.fn())).rejects.toThrow("blocked playback");
   sender.close();
 });
 it("bounds stalled startup and cancels pending playback", async () => {
-  const sender = prepareTransmitter("ab".repeat(36));
+  const sender = prepareTransmitter("g:01");
   holder.media.play.mockReturnValue(new Promise(() => {}));
   const result = expect(sender.play(vi.fn())).rejects.toThrow("did not start");
   await vi.advanceTimersByTimeAsync(8001); await result;

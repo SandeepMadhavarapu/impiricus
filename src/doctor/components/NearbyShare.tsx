@@ -1,11 +1,10 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { requestSession, type ShareSession } from "@/shared/lib/nearby-share/client";
-import { SOUND_SECONDS } from "@/shared/lib/nearby-share/protocol";
+import { requestGuideSound, type GuideSound } from "@/shared/lib/nearby-share/client";
 import { prepareTransmitter } from "@/shared/lib/nearby-share/transmitter";
 
 export function NearbyShare({ slug }: { slug: string }) {
-  const [session, setSession] = useState<ShareSession | null>(null);
+  const [session, setSession] = useState<GuideSound | null>(null);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
   const [prepared, setPrepared] = useState(false);
@@ -20,11 +19,11 @@ export function NearbyShare({ slug }: { slug: string }) {
     const controller = new AbortController(); request.current = controller;
     setBusy(true); setPrepared(false); setMessage("Preparing sound…");
     try {
-      const current = await requestSession(slug, controller.signal);
+      const current = await requestGuideSound(slug, controller.signal);
       if (controller.signal.aborted) return;
       setSession(current);
-      if (manual) { setMessage("Temporary token ready for development testing."); return; }
-      audio.current = prepareTransmitter(current.token);
+      if (manual) { setMessage("Public guide code ready for development testing."); return; }
+      audio.current = prepareTransmitter(current.code);
       setPrepared(true);
       setMessage("Sound ready. When the patient is listening, tap Play sound.");
     } catch (error) {
@@ -33,10 +32,6 @@ export function NearbyShare({ slug }: { slug: string }) {
   }
   async function play() {
     if (!audio.current || !session) return;
-    if (Date.parse(session.expiresAt) <= Date.now() + (SOUND_SECONDS + 10) * 1000) {
-      audio.current.close(); audio.current = null; setPrepared(false);
-      setMessage("This sound expired. Press Send Nearby to prepare a new one."); return;
-    }
     const run = ++generation.current;
     setBusy(true); setMessage("Starting playback…");
     try {
@@ -53,10 +48,10 @@ export function NearbyShare({ slug }: { slug: string }) {
   return <div className="card stack" style={{ marginTop: 16 }}>
     <p className="eyebrow">Send Nearby · Experimental</p><h3>Send with sound</h3>
     <p>On the patient’s phone, open <a href="/receive" target="_blank" rel="noreferrer">MediZ Receive</a> and press Listen for guide. Wait until their screen says “Microphone ready.” Here, press Send Nearby to prepare, then Play sound.</p>
-    <p className="tiny">Use two devices. Turn up media volume and disconnect headphones or Bluetooth speakers. Keep both screens open. The sound repeats automatically for about 35 seconds to recover from interference. It contains a temporary code, not medical information. Stop once the patient receives the guide.</p>
+    <p className="tiny">Use two devices. Turn up media volume and disconnect headphones or Bluetooth speakers. Keep both screens open. The sound lasts about two seconds. It identifies the public medication guide and contains no patient details. If it is missed, tap Play sound again.</p>
     <button type="button" className="btn btn--primary" disabled={busy} onClick={() => { if (prepared) void play(); else void prepare(); }}>{busy ? "Sending…" : prepared ? "Play sound" : "Send Nearby"}</button>
     {busy ? <button className="btn" type="button" onClick={cancel}>Cancel</button> : null}
     <p role="status" aria-live="polite">{message}</p>
-    {process.env.NODE_ENV === "development" ? <details><summary>Demo / developer tools</summary><button type="button" className="btn" disabled={busy} onClick={() => void prepare(true)}>Create token without sound</button>{session ? <><p>Expires {session.expiresAt}</p><label>Copy temporary token<input readOnly value={session.token} onFocus={e => e.target.select()} /></label><p><a href={session.receiveUrl}>Open Receive page</a></p></> : null}</details> : null}
+    {process.env.NODE_ENV === "development" ? <details><summary>Demo / developer tools</summary><button type="button" className="btn" disabled={busy} onClick={() => void prepare(true)}>Prepare code without sound</button>{session ? <><label>Public guide code<input readOnly value={session.code} onFocus={e => e.target.select()} /></label><p><a href={session.receiveUrl}>Open Receive page</a></p></> : null}</details> : null}
   </div>;
 }

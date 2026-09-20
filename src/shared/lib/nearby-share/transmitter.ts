@@ -1,15 +1,14 @@
-import { CLOCK, PREAMBLE, frequency, encodePacket, DATA_SECONDS, CLOCK_SECONDS, PREAMBLE_SECONDS, TRANSMISSION_REPEATS, REPEAT_GAP_SECONDS, SOUND_SECONDS } from "./protocol";
+import { publicGuideSlug } from "./public-guides";
+import { CLOCK, PREAMBLE, frequency, encodePacket, DATA_SECONDS, CLOCK_SECONDS, PREAMBLE_SECONDS, SOUND_SECONDS } from "./protocol";
 export const UNSUPPORTED = "Nearby sound sharing isn't available on this browser.";
 
 /** PCM WAV uses Safari's media playback channel, rather than silent-mode Web Audio. */
-export function encodeSound(token: string): ArrayBuffer {
+export function encodeSound(code: string): ArrayBuffer {
+  if (!publicGuideSlug(code)) throw new Error("Unknown public guide code");
   const rate = 48000;
-  const packet = [{ symbol: PREAMBLE, duration: PREAMBLE_SECONDS }, ...encodePacket(token).flatMap(symbol => [
+  const tones = [{ symbol: PREAMBLE, duration: PREAMBLE_SECONDS }, ...encodePacket(code).flatMap(symbol => [
     { symbol: CLOCK, duration: CLOCK_SECONDS }, { symbol, duration: DATA_SECONDS },
   ])];
-  const tones = Array.from({ length: TRANSMISSION_REPEATS }, (_, index) => [
-    ...(index ? [{ symbol: -1, duration: REPEAT_GAP_SECONDS }] : []), ...packet,
-  ]).flat();
   const lengths = tones.map(t => Math.round(t.duration * rate));
   const frames = lengths.reduce((a, b) => a + b, 0);
   const buffer = new ArrayBuffer(44 + frames * 2), view = new DataView(buffer);
@@ -23,7 +22,7 @@ export function encodeSound(token: string): ArrayBuffer {
     const length = lengths[index]!;
     for (let i = 0; i < length; i++) {
       const envelope = Math.min(1, i / (rate * 0.004), (length - i) / (rate * 0.004));
-      const sample = tone.symbol < 0 ? 0 : 0.22 * envelope * Math.sin(2 * Math.PI * frequency(tone.symbol) * i / rate);
+      const sample = 0.22 * envelope * Math.sin(2 * Math.PI * frequency(tone.symbol) * i / rate);
       view.setInt16(44 + frame++ * 2, Math.round(sample * 32767), true);
     }
   });
@@ -31,9 +30,9 @@ export function encodeSound(token: string): ArrayBuffer {
 }
 
 /** Prepare after fetching the token; call play directly from a fresh user click. */
-export function prepareTransmitter(token: string) {
+export function prepareTransmitter(code: string) {
   if (typeof window === "undefined" || typeof Audio === "undefined") throw new Error(UNSUPPORTED);
-  const url = URL.createObjectURL(new Blob([encodeSound(token)], { type: "audio/wav" }));
+  const url = URL.createObjectURL(new Blob([encodeSound(code)], { type: "audio/wav" }));
   const audio = new Audio(url);
   audio.preload = "auto";
   audio.volume = 1;

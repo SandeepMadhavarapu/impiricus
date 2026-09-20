@@ -61,9 +61,9 @@ export function listenForToken(onToken: (token: string) => void, onError: (messa
         if (collector.heardPreamble && !heardSignal) { heardSignal = true; onStatus("Sound detected. Receiving your guide…"); }
         if (token) { stop(); onToken(token); }
       } catch {
-        // A damaged frame is not the end of the attempt: the sender repeats it.
+        // Keep listening so the sender can retry without restarting the microphone.
         collector = new PacketCollector();
-        onStatus("Signal interrupted. Still listening for the repeated signal…");
+        onStatus("Signal interrupted. Ask your provider to tap Play sound again; still listening…");
       }
     }, 10);
   }).catch(error => fail(error instanceof Error && error.name === "NotAllowedError"
