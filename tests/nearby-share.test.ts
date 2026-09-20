@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createSession, resolveSession } from "@/shared/lib/nearby-share/sessions";
+import { listGuideSlugs } from "@/sources/lib/content/catalogue";
 import { encodePacket, decodePacket, crc16, PacketCollector, PREAMBLE, CLOCK } from "@/shared/lib/nearby-share/protocol";
 import { POST as create } from "@/app/api/share-sessions/route";
 import { POST as resolve } from "@/app/api/share-sessions/resolve/route";
@@ -12,6 +13,15 @@ describe("temporary sessions", () => {
     expect(a.token).toMatch(/^[a-f0-9]{72}$/); expect(a.token).not.toBe(b.token);
     expect(a.token).not.toContain(slug); expect(a.receiveUrl).toMatch(/\/receive$/);
     expect(resolveSession(a.token).path).toBe(`/medications/${slug}`);
+  });
+  // Sessions resolve through the catalogue, not the authored-only registry.
+  // Every guide the doctor can select, label-sourced ones included, must be
+  // shareable; resolving through the registry made this Singulair-only.
+  it.each(listGuideSlugs())("creates and resolves a session for every catalogued guide: %s", (slug) => {
+    const resolved = resolveSession(createSession(slug).token);
+    expect(resolved.medicationSlug).toBe(slug);
+    expect(resolved.path).toBe(`/medications/${slug}`);
+    expect(resolved.label.length).toBeGreaterThan(0);
   });
   it("rejects unknown slugs, arbitrary URLs, malformed and tampered tokens", () => {
     expect(() => createSession("https://evil.test")).toThrow("Unsupported");

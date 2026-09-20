@@ -1,6 +1,6 @@
 import "server-only";
 import { createCipheriv, createDecipheriv, createHash, randomBytes } from "node:crypto";
-import { getMedication, listMedicationSlugs, productLabel } from "@/sources/lib/content/registry";
+import { getGuide, listGuideSlugs, guideProductName } from "@/sources/lib/content/catalogue";
 import { getPublicOrigin } from "@/shared/lib/config";
 import { medicationPath } from "@/doctor/lib/share";
 
@@ -19,7 +19,9 @@ function key() {
 function id(slug: string) { return createHash("sha256").update(slug).digest().subarray(0, 4); }
 const aad = Buffer.from("MedBridge nearby v1");
 export function createSession(slug: string, now = Date.now()) {
-  if (!getMedication(slug)) throw new SessionError(400, "Unsupported medication.");
+  // The catalogue, not the authored-only registry: every guide the doctor can
+  // select must be shareable, including the label-sourced ones.
+  if (!getGuide(slug)) throw new SessionError(400, "Unsupported medication.");
   const expires = Math.floor(now / 1000) + TTL_SECONDS;
   const payload = Buffer.alloc(8);
   payload.writeUInt32BE(expires); id(slug).copy(payload, 4);
@@ -43,8 +45,8 @@ export function resolveSession(token: string, now = Date.now()) {
   const expires = payload.readUInt32BE(0);
   if (expires <= Math.floor(now / 1000)) throw new SessionError(410, "This share has expired. Ask your provider to send it again.");
   if (expires > Math.floor(now / 1000) + TTL_SECONDS) throw new SessionError(400, "We couldn't verify this medication guide.");
-  const matches = listMedicationSlugs().filter(slug => id(slug).equals(payload.subarray(4)));
+  const matches = listGuideSlugs().filter(slug => id(slug).equals(payload.subarray(4)));
   if (matches.length !== 1) throw new SessionError(400, "We couldn't verify this medication guide.");
   const slug = matches[0]!;
-  return { medicationSlug: slug, label: productLabel(getMedication(slug)!.source), path: medicationPath(slug) };
+  return { medicationSlug: slug, label: guideProductName(getGuide(slug)!), path: medicationPath(slug) };
 }
