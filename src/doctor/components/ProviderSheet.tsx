@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { Sheet } from "@/patient/components/Sheet";
+import { ReceiveGuide } from "@/patient/components/ReceiveGuide";
+import Link from "next/link";
 import { track } from "@/shared/lib/analytics/client";
 import {
   PROVIDER_ROUTES,
@@ -80,8 +82,6 @@ export function ProviderSheet({
               today, for free.
             </p>
 
-            <AccountBlock />
-
             <div className="route-list">
               {PROVIDER_ROUTES.map((r) => (
                 <button
@@ -100,6 +100,7 @@ export function ProviderSheet({
             </div>
 
             <ReportingBlock />
+            <Link className="btn btn--block" href="/receive">Receive guide with sound</Link>
           </>
         ) : (
           <RouteView
@@ -127,11 +128,11 @@ function AccountBlock() {
       <p className="card-label" style={{ color: "var(--text-muted)" }}>
         Your account
       </p>
-      <p className="tiny" style={{ marginBottom: 12 }}>
-        Signing in will let you message your own care team from here. Not available yet.
+      <p id="account-status" className="tiny" style={{ marginBottom: 12 }}>
+        Sign in to connect with your own doctor or prescriber. Account access is coming soon.
       </p>
       <div className="btn-row">
-        <button type="button" className="btn btn--small" disabled>
+        <button type="button" className="btn btn--primary btn--small" disabled aria-describedby="account-status">
           Sign in
         </button>
         <button type="button" className="btn btn--small" disabled>
@@ -186,6 +187,8 @@ function RouteView({
         </h3>
         <p className="body-text">{route.description}</p>
       </div>
+
+      {route.intent === "existing-clinician" ? <><AccountBlock /><ReceiveGuide embedded /></> : null}
 
       <div className="stack" style={{ ["--gap" as string]: "10px" }}>
         {route.actions.map((action) =>

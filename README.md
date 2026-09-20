@@ -1,4 +1,4 @@
-# MedBridge
+# MediZ
 
 A mobile-first, link-based medication education experience. A clinician builds
 a patient guide from the FDA-approved label and shares it; the patient opens
@@ -414,8 +414,13 @@ See [NFC setup, firmware, and demo steps](hardware/nfc-tap/README.md).
 
 ### Nearby Sound Sharing — Experimental
 
-Doctors can send a temporary opaque code using **Send Nearby / Send with sound**.
-The patient opens `/receive` and explicitly presses **Listen for guide** before
+Doctors press **Send Nearby** to prepare a temporary code, then **Play sound**
+to transmit it. Direct media playback supports iPhone Safari without relying on
+Web Audio’s silent-mode behavior.
+Patients can choose **Receive guide with sound** on any medication page or in
+the provider chooser. **My own doctor or prescriber** also includes the listener
+directly, below the disabled account controls; receiving does not require sign-in.
+The standalone `/receive` page remains available. The patient explicitly presses **Listen for guide** before
 microphone permission is requested. Audio is processed locally and is never recorded
 or uploaded. Only the decoded token is submitted to the server. Native share,
 AirDrop, Messages, Copy Link, and the existing QR code remain available.

@@ -59,15 +59,18 @@ DEVICE A — HCP
 1. Open deployed `/doctor`.
 2. Select Singulair.
 3. Locate the **Share with Patient** share area and its **Send Nearby** option.
-4. Wait until Device B is listening, then press **Send Nearby**.
+4. Press **Send Nearby** to prepare the sound. Wait until Device B shows **Microphone ready**,
+   then tap **Play sound**. Use media volume and the built-in speaker, not headphones.
 
 DEVICE B — PATIENT
 
-1. Open deployed `/receive`.
+1. On any patient medication page, choose **Receive guide with sound**, or open
+   **Connect with a provider → My own doctor or prescriber** to use the embedded
+   listener. The standalone deployed `/receive` page also works. No sign-in is needed.
 2. Press **Listen for guide**.
 3. Allow microphone access.
 4. Hold the phone near Device A (start with 10–30 cm in a quiet room).
-5. Device A sends its approximately 11-second audible signal.
+5. Device A sends the signal twice over about 35 seconds. It may be stopped once the patient receives the guide.
 6. Verify Device B shows **Medication guide received** with the correct product.
 7. Press **Open medication guide** and confirm the existing patient guide opens.
 
@@ -81,8 +84,9 @@ Messages, or Copy Link as the fallback. “Signal sent” does not confirm recei
 Pure codec: `shared/lib/nearby-share/protocol.ts`. Fixed packet: `MB`, version 1,
 36 opaque token bytes, CRC16-CCITT-FALSE. Each byte becomes two four-bit symbols.
 The sender uses 16-FSK at 900–2400 Hz, 100 Hz apart; 2700 Hz is a clock delimiter
-and 3000 Hz is a 350 ms preamble. Each nibble has a 50 ms clock and an 80 ms data
-tone, with 4 ms amplitude ramps. Total signal is about 11 seconds. Audible midrange
+and 3000 Hz is a 600 ms preamble. Each nibble has an 80 ms clock and a 120 ms data
+tone, with 4 ms amplitude ramps. The packet repeats twice, with a 500 ms gap,
+for 34.5 seconds total. Audible midrange
 frequencies avoid ultrasound and phone hardware extremes. The slower per-symbol
 clock handles repeated symbols and avoids cumulative timing drift.
 
@@ -92,10 +96,17 @@ CRC detects corruption; server authentication is separate. No correction or auto
 retransmission exists. Listening times out after 30 seconds. Microphone tracks and
 AudioContext are stopped on success, error, timeout, cancel, page hiding, and unmount;
 late permission results after cancellation are immediately stopped. Microphone
-Permissions-Policy is enabled only for same-origin `/receive`.
+Permissions-Policy permits same-origin microphone access on `/receive` and
+`/medications/:slug`, where the embedded patient listener lives. Other routes
+keep microphone access disabled. No listener starts until the patient presses Listen.
 
-Browser microphone access requires explicit permission. AudioContext is resumed
-within the user gesture before asynchronous network work. See
+Browser microphone access requires explicit permission. The receiver resumes its
+AudioContext within the Listen gesture. The sender generates a PCM WAV and uses
+HTML media playback rather than Web Audio oscillators, because iPhone silent mode
+can mute Web Audio. Token preparation and playback are separate steps so
+`audio.play()` runs directly inside the Play sound gesture, without a network wait.
+The page permits local blob media through CSP and cleans up the audio and blob URL
+on cancellation or unmount. Startup and completion timeouts report stalled playback. See
 [Web Audio](https://developer.mozilla.org/en-US/docs/Web/API/AudioContext) and
 [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia).
 Safari cannot automatically listen while closed or locked. Background timer throttling,
@@ -111,10 +122,15 @@ frequency bins, and microphone lifecycle with mocked browser APIs. Existing nati
 sharing tests remain intact. Synthetic tests are NOT proof of acoustic reliability.
 Real iPhone Safari and Android Chrome testing is still required. No physical transfer
 success is claimed. Start with one quiet-room laptop-to-phone packet, then two iPhones;
-if clock delimiters are missed, the smallest next experiment is increasing clock/data
-slots to 80/120 ms and repeating the same test. Also test denial/retry, cancel during
+the wider 80/120 ms slots and repeated packet improve recovery but still need
+real-device validation in each target environment. Also test denial/retry, cancel during
 permission prompt, timeout, switching tabs, locked screen, expired tokens, two
 simultaneous senders, and fallback AirDrop.
 
 The root app TypeScript config excludes the separately configured `data-pipeline`
 package; its own typecheck/test scripts remain responsible for that package.
+
+The receiver announces readiness only after microphone permission and audio startup.
+Its 60-second listening window starts at that point, with a separate 60-second setup
+timeout. Corrupt packets are discarded while listening continues for a repeated packet;
+no unverified token is opened. Tests cover corruption recovery and delayed permission.

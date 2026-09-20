@@ -338,7 +338,7 @@ async function cmdNppes(args: string[]): Promise<void> {
 /* ----------------------------------------------------------------- main -- */
 
 function usage(): void {
-  log(`medbridge data-pipeline
+  log(`mediz data-pipeline
 
 Commands:
   sources                          List configured sources and probe the RxNav interaction API

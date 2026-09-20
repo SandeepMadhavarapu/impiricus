@@ -273,4 +273,4 @@ export const RETRY = {
 export const MAX_PAGES = 20;
 
 export const USER_AGENT =
-  "medbridge-data-pipeline/0.1 (hackathon prototype; contact: repository maintainer)";
+  "mediz-data-pipeline/0.1 (hackathon prototype; contact: repository maintainer)";

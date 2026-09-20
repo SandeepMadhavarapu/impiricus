@@ -1,5 +1,5 @@
 /**
- * MedBridge insurance contract — v1.0.0
+ * MediZ insurance contract — v1.0.0
  *
  * Dependency-free types for `data-pipeline/data/exports/insurance/*.json`.
  * No runtime code, no imports. Copy it or import it directly.

@@ -70,7 +70,7 @@ export function resetRateLimits(): void {
  * The IP is hashed rather than stored, so the limiter does not accumulate a log
  * of who visited. A salt makes the hashes non-reversible across deployments.
  */
-export async function clientKey(headers: Headers, salt = "medbridge"): Promise<string> {
+export async function clientKey(headers: Headers, salt = "mediz"): Promise<string> {
   const forwarded = headers.get("x-forwarded-for");
   const ip = forwarded?.split(",")[0]?.trim() || headers.get("x-real-ip") || "unknown";
   const data = new TextEncoder().encode(`${salt}:${ip}`);

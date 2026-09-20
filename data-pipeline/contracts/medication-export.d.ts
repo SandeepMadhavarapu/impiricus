@@ -1,5 +1,5 @@
 /**
- * MedBridge medication export contract — v1.0.0
+ * MediZ medication export contract — v1.0.0
  *
  * Dependency-free TypeScript types for the JSON written to
  * `data-pipeline/data/exports/<productKey>.json`.

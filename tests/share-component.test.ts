@@ -12,7 +12,7 @@ vi.mock("react", async (original) => ({
   useEffect: () => {},
 }));
 vi.mock("@/shared/lib/analytics/client", () => ({ track: vi.fn() }));
-const url = "https://medbridge.example/medications/singulair-montelukast-10mg-tablet";
+const url = "https://mediz.example/medications/singulair-montelukast-10mg-tablet";
 function buttons(node: ReactNode): ReactElement<{ onClick: () => Promise<void>; children: ReactNode; disabled?: boolean }>[] {
   if (Array.isArray(node)) return node.flatMap(buttons);
   if (!node || typeof node !== "object" || !("props" in node)) return [];

@@ -2,7 +2,7 @@
 
 ## Scope and current evidence
 
-MedBridge doctor UI → Web Serial/USB → Arduino UNO R4 WiFi → standard `Wire`
+MediZ doctor UI → Web Serial/USB → Arduino UNO R4 WiFi → standard `Wire`
 I2C through the Grove Base Shield → Seeed Grove ST25DV64 user EEPROM/NDEF memory.
 
 The browser and firmware are implemented. The sketch **compiles** for the official
@@ -60,15 +60,15 @@ Primary references:
    this sketch does not infer or change voltage settings.
 2. Install **Arduino UNO R4 Boards 1.6.0** in Boards Manager and
    **STM32duino ST25DV 2.2.0** in Library Manager.
-3. Open `medbridge_nfc_tap/medbridge_nfc_tap.ino`; keep `NdefUri.h` in that same folder.
+3. Open `mediz_nfc_tap/mediz_nfc_tap.ino`; keep `NdefUri.h` in that same folder.
 4. Select **Arduino UNO R4 WiFi** under Tools → Board. Select its actual USB port
    using Arduino IDE's detected board/port list. Do not copy a guessed device path.
 5. Click **Verify**. The library architecture warning described above is expected.
 6. Click **Upload**. This replaces the board's current sketch. Programming through
    the demo later overwrites the first 256 bytes of NFC user memory.
 7. Open Serial Monitor at **115200 baud**, newline or both NL & CR. On reset,
-   expect `READY MEDBRIDGE_NFC` or `ERROR 00000000 INIT_FAILED`.
-8. Send `HELLO 00000001`. Expect `READY 00000001 MEDBRIDGE_NFC`. If initialization
+   expect `READY MEDIZ_NFC` or `ERROR 00000000 INIT_FAILED`.
+8. Send `HELLO 00000001`. Expect `READY 00000001 MEDIZ_NFC`. If initialization
    fails, check the board selection, USB data cable, I2C connection and module power.
 9. Close Serial Monitor before connecting from the browser; only one application
    can own the serial port. Also close any other serial terminal.
@@ -119,10 +119,10 @@ not authentication. No local echo is treated as verification. Firmware is truste
 this prototype does not cryptographically attest the chip or firmware.
 
 ```text
-READY MEDBRIDGE_NFC
+READY MEDIZ_NFC
 
 > HELLO a1b2c3d4
-READY a1b2c3d4 MEDBRIDGE_NFC
+READY a1b2c3d4 MEDIZ_NFC
 
 > PROGRAM_NDEF_URI a1b2c3d5 https://your-public-host.example/medications/<current-catalogue-slug>
 STATUS a1b2c3d5 WRITING
@@ -180,7 +180,7 @@ Firmware compile (no upload):
 ```sh
 arduino-cli core install arduino:renesas_uno@1.6.0
 arduino-cli lib install 'STM32duino ST25DV@2.2.0'
-arduino-cli compile --fqbn arduino:renesas_uno:unor4wifi hardware/nfc-tap/medbridge_nfc_tap
+arduino-cli compile --fqbn arduino:renesas_uno:unor4wifi hardware/nfc-tap/mediz_nfc_tap
 ```
 
 Actual compile result: 60,712 bytes flash / 262,144; 10,068 bytes global RAM / 32,768.
@@ -188,8 +188,8 @@ Actual compile result: 60,712 bytes flash / 262,144; 10,068 bytes global RAM / 3
 Pure C++ NDEF checks (not a hardware test):
 
 ```sh
-c++ -std=c++11 -Wall -Wextra -Werror hardware/nfc-tap/tests/ndef-uri.test.cpp -o /tmp/medbridge-ndef-test
-/tmp/medbridge-ndef-test
+c++ -std=c++11 -Wall -Wextra -Werror hardware/nfc-tap/tests/ndef-uri.test.cpp -o /tmp/mediz-ndef-test
+/tmp/mediz-ndef-test
 ```
 
 Automated tests cover current catalogue targets, unsafe URLs, protocol framing,

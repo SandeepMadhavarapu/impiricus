@@ -17,7 +17,7 @@ function key() {
   return local.nearbyDevelopmentKey ??= randomBytes(32);
 }
 function id(slug: string) { return createHash("sha256").update(slug).digest().subarray(0, 4); }
-const aad = Buffer.from("MedBridge nearby v1");
+const aad = Buffer.from("MediZ nearby v1");
 export function createSession(slug: string, now = Date.now()) {
   // The catalogue, not the authored-only registry: every guide the doctor can
   // select must be shareable, including the label-sourced ones.

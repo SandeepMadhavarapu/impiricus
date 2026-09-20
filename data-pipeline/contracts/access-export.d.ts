@@ -1,5 +1,5 @@
 /**
- * MedBridge access contract - v1.0.0 (access-1.0.0)
+ * MediZ access contract - v1.0.0 (access-1.0.0)
  *
  * Dependency-free types for `data-pipeline/data/exports/access/*.json`.
  *

@@ -1,10 +1,10 @@
-#ifndef MEDBRIDGE_NDEF_URI_H
-#define MEDBRIDGE_NDEF_URI_H
+#ifndef MEDIZ_NDEF_URI_H
+#define MEDIZ_NDEF_URI_H
 #include <stdint.h>
 #include <stddef.h>
 #include <string.h>
 
-namespace MedBridgeNdef {
+namespace MediZNdef {
 const size_t MAX_URL = 240;
 const size_t IMAGE_SIZE = 256;
 // NFC Forum Type 5 CC: 8 KiB ST25DV64, two-byte block addressing, 8184-byte data area.

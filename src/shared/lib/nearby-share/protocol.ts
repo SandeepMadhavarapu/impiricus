@@ -3,8 +3,13 @@ export const PACKET_SYMBOLS = 82;
 export const PREAMBLE = 17;
 export const CLOCK = 16;
 export const frequency = (symbol: number) => symbol < 16 ? 900 + symbol * 100 : symbol === CLOCK ? 2700 : 3000;
-export const DATA_SECONDS = 0.08;
-export const CLOCK_SECONDS = 0.05;
+// Wider slots leave room for microphone buffering and mobile scheduling jitter.
+export const DATA_SECONDS = 0.12;
+export const CLOCK_SECONDS = 0.08;
+export const PREAMBLE_SECONDS = 0.6;
+export const TRANSMISSION_REPEATS = 2;
+export const REPEAT_GAP_SECONDS = 0.5;
+export const SOUND_SECONDS = TRANSMISSION_REPEATS * (PREAMBLE_SECONDS + PACKET_SYMBOLS * (DATA_SECONDS + CLOCK_SECONDS)) + REPEAT_GAP_SECONDS;
 export function crc16(bytes: Uint8Array): number {
   let crc = 0xffff;
   for (const byte of bytes) {

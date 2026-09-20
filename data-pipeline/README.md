@@ -1,4 +1,4 @@
-# MedBridge data pipeline
+# MediZ data pipeline
 
 A self-contained medication ingestion and verification pipeline. It resolves an
 **exact product**, retrieves its full official labeling, keeps every fact

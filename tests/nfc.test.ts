@@ -7,7 +7,7 @@ import { createNfcTarget } from "@/doctor/lib/nfc/target";
 import { completion, formatCommand, parseReply, UNSUPPORTED_SERIAL, validateNfcUrl } from "@/doctor/lib/nfc/protocol";
 import { browserSerial, NfcSerialConnection, requestNfcPort, type NfcSerialPort } from "@/doctor/lib/nfc/serial";
 
-const origin = "https://medbridge.example";
+const origin = "https://mediz.example";
 const guides = listGuides();
 const url = buildShareUrl(origin, guides[0]!.slug);
 afterEach(() => { vi.unstubAllEnvs(); vi.unstubAllGlobals(); vi.useRealTimers(); });
@@ -63,7 +63,7 @@ class TestPort extends EventTarget implements NfcSerialPort {
   writable = new WritableStream<Uint8Array>({ write: bytes => {
     const line = new TextDecoder().decode(bytes); this.commands.push(line);
     const [command, id] = line.trim().split(" ");
-    if (command === "HELLO") this.emit(`READY ${id} MEDBRIDGE_NFC\n`);
+    if (command === "HELLO") this.emit(`READY ${id} MEDIZ_NFC\n`);
   } });
   open = vi.fn().mockResolvedValue(undefined);
   close = vi.fn().mockResolvedValue(undefined);

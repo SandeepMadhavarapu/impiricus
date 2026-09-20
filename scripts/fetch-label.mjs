@@ -28,7 +28,7 @@ const TARGET = {
   applicationNumber: exported.identifiers.applicationNumber,
 };
 
-const UA = "medbridge-hackathon-prototype/0.1 (content fetch script)";
+const UA = "mediz-hackathon-prototype/0.1 (content fetch script)";
 
 async function getJson(url) {
   const res = await fetch(url, {
