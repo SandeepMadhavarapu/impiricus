@@ -4,6 +4,8 @@ import {
   labelProductName,
   boxedWarning,
   patientSections,
+  withheldPatientSections,
+  type WithheldSection,
   labelScopeNote,
   type MedicationExport,
   type LabelSectionView,
@@ -71,6 +73,8 @@ export interface LabelGuide {
   boxedWarning: LabelSectionView | null;
   /** Official patient-directed text, verbatim. May be empty. */
   patientSections: LabelSectionView[];
+  /** Patient sections deliberately not shown, with the reason. */
+  withheldSections: WithheldSection[];
 }
 
 export type Guide = AuthoredGuide | LabelGuide;
@@ -125,6 +129,7 @@ function toLabelGuide(label: MedicationExport): LabelGuide {
     scopeNote: labelScopeNote(label),
     boxedWarning: boxedWarning(label),
     patientSections: patientSections(label),
+    withheldSections: withheldPatientSections(label),
   };
 }
 

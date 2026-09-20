@@ -20,6 +20,7 @@ export const ANALYTICS_EVENTS = [
   "qr_shown",
   "provider_cta_clicked",
   "provider_route_selected",
+  "npi_lookup_submitted",
   "coverage_flow_started",
   "coverage_flow_completed",
 ] as const;
@@ -40,6 +41,9 @@ const ALLOWED_PROPERTIES: Record<AnalyticsEvent, readonly string[]> = {
   qr_shown: [],
   provider_cta_clicked: [],
   provider_route_selected: ["intent"],
+  // Deliberately empty. The NPI identifies a specific prescriber, and pairing
+  // that with a session would identify whose prescriber they are.
+  npi_lookup_submitted: [],
   coverage_flow_started: [],
   coverage_flow_completed: ["evidence_state"],
 };

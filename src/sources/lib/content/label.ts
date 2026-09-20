@@ -43,6 +43,45 @@ import { z } from "zod";
  *     rather than render them with a caveat nobody reads.
  *   - Any claim that a risk is absent. A missing section is a fact about the
  *     document, never evidence about the drug.
+ *
+ * ---------------------------------------------------------------------------
+ * WHY patientSections() FILTERS ON APPLICABILITY
+ * ---------------------------------------------------------------------------
+ * An earlier version returned every patient section that had text. That was a
+ * real defect, and it is worth recording precisely, because the shape of it
+ * recurs:
+ *
+ *   Ozempic's SPL covers eight products. Its patient labeling carries four
+ *   separate Instructions for Use, one per pen device. Three were marked
+ *   `not-applicable` by the pipeline - the document itself ties them to other
+ *   NDCs - and one was `document-level-unresolved`. All four rendered.
+ *
+ *   The page therefore showed a complete injection procedure for the 1 mg pen
+ *   (NDC 0169-1310) on the page for a 1.34 mg/mL product, directly beneath a
+ *   card reading "This page does not show doses... a dose shown here might
+ *   belong to a different one."
+ *
+ * Pens differ in what they can dial: the 1 mg pen "delivers doses in 1 mg
+ * increments only". Wrong-device instructions for an injectable are not a
+ * cosmetic error.
+ *
+ * Two rules now apply, and both are enforced here rather than in the view, so
+ * that every caller - patient page, clinician page, share preview - inherits
+ * them:
+ *
+ *   1. `not-applicable` is never rendered. The document assigned that section
+ *      to a different product; there is no reading under which it belongs on
+ *      this one.
+ *
+ *   2. Instructions for Use are withheld unless the document binds them to
+ *      THIS product (`exact-product`). IFU content is device administration,
+ *      which is exactly what an official-label page promises not to show. An
+ *      unresolved IFU is not evidence that it applies; it is evidence that the
+ *      document did not say.
+ *
+ * What is withheld is COUNTED, not silently dropped - see
+ * `withheldPatientSections`. A reader is told that sections exist and why they
+ * are not shown, and pointed at the full label.
  */
 
 /* ------------------------------------------------------------------ schema */
@@ -186,10 +225,44 @@ export function boxedWarning(record: MedicationExport): LabelSectionView | null 
   return found ?? null;
 }
 
+/** LOINC for Instructions for Use: patient-facing device administration. */
+const INSTRUCTIONS_FOR_USE_LOINC = "59845-8";
+
+/** Why a patient section was withheld from the page. */
+export type WithheldReason =
+  /** The document ties this section to a different product. */
+  | "belongs-to-another-product"
+  /** Device administration steps the document did not bind to this product. */
+  | "unbound-instructions-for-use"
+  /** Nothing renderable survived parsing (usually an image-only figure). */
+  | "no-extractable-text";
+
+export interface WithheldSection {
+  title: string | null;
+  loincCode: string | null;
+  applicability: LabelApplicability;
+  reason: WithheldReason;
+  /** Products the document DOES tie it to, when it says. */
+  appliesToProducts: string[];
+}
+
+/** The rule, in one place, used by both the keep and the explain paths. */
+function withholdReason(s: LabelSectionView): WithheldReason | null {
+  if (!hasText(s)) return "no-extractable-text";
+  if (s.applicability === "not-applicable") return "belongs-to-another-product";
+  if (s.loincCode === INSTRUCTIONS_FOR_USE_LOINC && s.applicability !== "exact-product") {
+    return "unbound-instructions-for-use";
+  }
+  return null;
+}
+
 /**
  * Official patient-directed sections worth showing, verbatim.
  *
- * Empty sections are dropped: several Instructions for Use carry only an
+ * See the note at the top of this file for why applicability is filtered here
+ * and not in the view.
+ *
+ * Empty sections are dropped too: several Instructions for Use carry only an
  * image the parser could not turn into text, and an empty accordion reads as
  * missing information rather than as an unparseable figure.
  *
@@ -197,7 +270,33 @@ export function boxedWarning(record: MedicationExport): LabelSectionView | null 
  * rewrite, and the UI says so.
  */
 export function patientSections(record: MedicationExport): LabelSectionView[] {
-  return record.patientLabeling.filter(hasText);
+  return record.patientLabeling.filter((s) => withholdReason(s) === null);
+}
+
+/**
+ * The sections that were NOT shown, and why.
+ *
+ * Withholding content silently is its own failure: a reader cannot tell the
+ * difference between "this label says nothing about using the device" and
+ * "we decided not to show you what it says". The count and the reason are
+ * surfaced, and the full label is one link away.
+ */
+export function withheldPatientSections(record: MedicationExport): WithheldSection[] {
+  const out: WithheldSection[] = [];
+  for (const s of record.patientLabeling) {
+    const reason = withholdReason(s);
+    // An unparseable empty section is not worth reporting to a reader; there
+    // was nothing to show and nothing was decided.
+    if (reason === null || reason === "no-extractable-text") continue;
+    out.push({
+      title: s.title,
+      loincCode: s.loincCode,
+      applicability: s.applicability,
+      reason,
+      appliesToProducts: s.appliesToProducts,
+    });
+  }
+  return out;
 }
 
 /**

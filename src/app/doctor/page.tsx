@@ -147,6 +147,32 @@ export default async function DoctorPage({ searchParams }: {
                       </details>
                     ))}
 
+                    {/*
+                      What this label carries that the page does not show.
+                      A clinician in particular needs to know a section exists
+                      and was withheld, rather than infer the label is silent.
+                    */}
+                    {selected.withheldSections.length > 0 ? (
+                      <div className="tiny" style={{ marginTop: 10, opacity: 0.85 }}>
+                        <strong>{selected.withheldSections.length}</strong> patient section
+                        {selected.withheldSections.length === 1 ? "" : "s"} withheld:{" "}
+                        {selected.withheldSections
+                          .map(
+                            (w) =>
+                              `${w.title?.trim() ? w.title : "untitled"} (${
+                                w.reason === "belongs-to-another-product"
+                                  ? `assigned to ${
+                                      w.appliesToProducts.length > 0
+                                        ? w.appliesToProducts.join("; ")
+                                        : "another product"
+                                    }`
+                                  : "product not specified by the document"
+                              })`
+                          )
+                          .join(" \u00b7 ")}
+                      </div>
+                    ) : null}
+
                     <p className="tiny">
                       Label text, word for word. The patient page shows no doses for this product:
                       this one label covers {selected.label.document.productsInDocument.length}{" "}

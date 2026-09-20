@@ -146,6 +146,48 @@ export function LabelGuideView({
           </section>
         ) : null}
 
+        {/*
+          Sections this label carries that are NOT shown here.
+
+          Withholding silently is its own failure: a reader cannot tell "the
+          label says nothing about using the device" apart from "we decided not
+          to show you what it says". The count and the reason are stated, and
+          the full label is linked below.
+        */}
+        {guide.withheldSections.length > 0 ? (
+          <section className="card" style={{ marginTop: 14 }} aria-label="Not shown here">
+            <p className="card-label" style={{ color: "var(--text-muted)" }}>
+              Not shown on this page
+            </p>
+            <p style={{ fontSize: 15 }}>
+              This FDA label also contains {guide.withheldSections.length} patient
+              section{guide.withheldSections.length === 1 ? "" : "s"} that{" "}
+              {guide.withheldSections.length === 1 ? "is" : "are"} not shown here, because the
+              document ties {guide.withheldSections.length === 1 ? "it" : "them"} to a different
+              product or does not say which product {guide.withheldSections.length === 1 ? "it" : "they"}{" "}
+              apply to.
+            </p>
+            <ul className="tiny" style={{ marginTop: 10, paddingLeft: 18 }}>
+              {guide.withheldSections.map((w, i) => (
+                <li key={i} style={{ marginBottom: 6 }}>
+                  {w.title?.trim() ? w.title : "Untitled section"} &mdash;{" "}
+                  {w.reason === "belongs-to-another-product"
+                    ? `the label assigns this to ${
+                        w.appliesToProducts.length > 0
+                          ? w.appliesToProducts.join(", ")
+                          : "another product"
+                      }`
+                    : "the label does not say which product this applies to"}
+                </li>
+              ))}
+            </ul>
+            <p className="tiny" style={{ marginTop: 10 }}>
+              If you have one of those products, read its own instructions. Device instructions
+              differ between pens and strengths.
+            </p>
+          </section>
+        ) : null}
+
         <section className="card" style={{ marginTop: 18 }}>
           <p className="card-label" style={{ color: "var(--text-muted)" }}>
             Read the full label
