@@ -8,6 +8,7 @@ import {
   searchPayers,
   directoryRelease,
 } from "@/patient/lib/coverage/directory";
+import { findClinicians, isOfferedSpecialty } from "@/doctor/lib/providers/clinicians";
 import { rateLimit, clientKey } from "@/shared/lib/security/ratelimit";
 
 /**
@@ -92,6 +93,48 @@ export async function GET(req: Request) {
       );
     }
     return NextResponse.json({ pharmacies: lookup.pharmacies }, { headers: NO_STORE });
+  }
+
+  /*
+   * Clinicians registered near a ZIP, for the "find a provider" route.
+   *
+   * Served from here rather than a route of its own so it inherits this
+   * endpoint's rate limit and no-store handling, and so the ZIP never travels
+   * anywhere the existing lookups do not already go.
+   */
+  if (kind === "clinicians") {
+    const zip = url.searchParams.get("zip") ?? "";
+    const specialty = url.searchParams.get("specialty") ?? "";
+
+    if (!isValidZip(zip)) {
+      return NextResponse.json(
+        { error: "Enter a 5-digit ZIP code.", clinicians: [], totalInZip: 0 },
+        { status: 400, headers: NO_STORE }
+      );
+    }
+    if (!isOfferedSpecialty(specialty)) {
+      return NextResponse.json(
+        { error: "Choose a specialty from the list.", clinicians: [], totalInZip: 0 },
+        { status: 400, headers: NO_STORE }
+      );
+    }
+
+    const lookup = await findClinicians(zip, specialty);
+    if (lookup.status === "unavailable") {
+      // "We could not check" is not "there is nobody near you".
+      return NextResponse.json(
+        {
+          clinicians: [],
+          totalInZip: 0,
+          error: "The provider registry could not be reached just now. The directories below still work.",
+        },
+        { status: 200, headers: NO_STORE }
+      );
+    }
+    return NextResponse.json(
+      { clinicians: lookup.clinicians, totalInZip: lookup.totalInZip },
+      { headers: NO_STORE }
+    );
   }
 
   return NextResponse.json(

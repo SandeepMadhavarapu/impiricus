@@ -11,6 +11,8 @@ import {
   type ProviderIntent,
   type ProviderRoute,
 } from "@/doctor/lib/providers/routes";
+import { NearbyClinicians } from "@/doctor/components/NearbyClinicians";
+import { PATIENT_SPECIALTIES, LISTING_MEANS } from "@/doctor/lib/providers/specialties";
 import {
   handoffReasonLabel,
   normaliseQuestion,
@@ -189,6 +191,17 @@ function RouteView({
       </div>
 
       {route.intent === "existing-clinician" ? <><AccountBlock /><ReceiveGuide embedded /></> : null}
+
+      {/*
+        Real clinicians, above the national directories rather than instead of
+        them: those cover the whole country and answer sliding-scale and
+        Medicare questions this cannot. This goes first because a phone number
+        for a practice a few streets away is a stronger first step than another
+        search box on another site.
+      */}
+      {route.intent === "new-provider" ? (
+        <NearbyClinicians specialties={PATIENT_SPECIALTIES} listingMeans={LISTING_MEANS} />
+      ) : null}
 
       <div className="stack" style={{ ["--gap" as string]: "10px" }}>
         {route.actions.map((action) =>

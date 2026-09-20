@@ -1699,3 +1699,76 @@ a[href^="tel:"] {
   min-height: var(--tap);
   padding: 2px 0;
 }
+
+/* ------------------------------------------------- clinician lookup ------
+
+   Sits inside the provider sheet, which is already a dense column on a phone.
+   Everything here is sized to add a search and a short list without pushing
+   the national directories below it off the screen. */
+
+/* Specialty and ZIP side by side where there is room, stacked where there is
+   not. The ZIP is narrower because five digits never need more. */
+.clinician-search {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+@media (min-width: 420px) {
+  .clinician-search {
+    grid-template-columns: 1fr 120px;
+  }
+}
+
+.clinician-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* A hairline between entries rather than a card each: six cards inside a card
+   reads as clutter, and these are register rows, not offers. */
+.clinician-list li {
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+
+.clinician-list li:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.clinician-name {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 2px;
+}
+
+/* The credential is part of the identity, not emphasis - "D.O." should not
+   read louder than the name it follows. */
+.clinician-cred {
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-left: 6px;
+}
+
+/* The one action on the row, and the only thing here that answers the
+   questions the register cannot. Full 44px tap target. */
+.clinician-call {
+  margin-top: 8px;
+  min-height: var(--tap);
+  display: inline-flex;
+  align-items: center;
+}
+
+/* The search button is the entry point to the whole lookup, so it meets the
+   44px floor the rest of the app holds rather than inheriting btn--small. */
+.clinician-search-btn {
+  min-height: var(--tap);
+  display: inline-flex;
+  align-items: center;
+}
